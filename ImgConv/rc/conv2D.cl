@@ -1,5 +1,5 @@
-__kernel void conv2D(__global uchar *I,
-                     __global uchar *O,
+__kernel void conv2D(__global uchar *In,
+                     __global uchar *Out,
                      __global float *k,
                      uint w, uint h,
                      uint kw, uint kh) {
@@ -37,9 +37,9 @@ __kernel void conv2D(__global uchar *I,
 
             int ii = w * py + px;
 
-            sumR += kv * (float)I[ii * 3];
-            sumG += kv * (float)I[ii * 3 + 1];
-            sumB += kv * (float)I[ii * 3 + 2];
+            sumR += kv * (float)In[ii * 3];
+            sumG += kv * (float)In[ii * 3 + 1];
+            sumB += kv * (float)In[ii * 3 + 2];
         }
     }
 
@@ -55,7 +55,7 @@ __kernel void conv2D(__global uchar *I,
         sumB = 255;
     }
 
-    O[i * 3] = sumR;
-    O[i * 3 + 1] = sumG;
-    O[i * 3 + 2] = sumB;
+    Out[i * 3] = sumR;
+    Out[i * 3 + 1] = sumG;
+    Out[i * 3 + 2] = sumB;
 }

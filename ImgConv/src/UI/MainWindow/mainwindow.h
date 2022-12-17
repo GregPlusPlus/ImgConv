@@ -37,25 +37,24 @@ private:
     void initOpenCL();
     void buildMenus();
     void buildView();
-    bool processImg(const QVector<QVector<float>> &k);
 
 private:
     QHBoxLayout *m_layout;
-    QWidget *m_centralWidget;
-    ImageViewer *m_origImgView;
-    ImageViewer *m_prcdImgView;
-    QLabel *m_labelDevice;
-    QLabel *m_labelImgInfo;
-    QLabel *m_labelElapsedTime;
-    QMenu *m_fileMenu;
-    QMenu *m_processMenu;
+    QWidget *mw_centralWidget;
+    ImageViewer *mw_origImgView;
+    ImageViewer *mw_prcdImgView;
+    QLabel *mw_labelDevice;
+    QLabel *mw_labelImgInfo;
+    QLabel *mw_labelElapsedTime;
+    QMenu *mw_fileMenu;
+    QMenu *mw_processMenu;
     QAction *m_openFileAction;
     QAction *m_exportAction;
     QAction *m_exitAction;
     QAction *m_runAction;
 
 private:
-    OCLWrapper *m_wrapper;
+    OCLWrapper *m_ocl;
     QString m_deviceName;
     QImage m_original;
     QImage m_processed;

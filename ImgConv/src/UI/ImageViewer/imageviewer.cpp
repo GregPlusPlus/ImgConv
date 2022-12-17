@@ -28,6 +28,8 @@ void ImageViewer::paintEvent(QPaintEvent *event) {
 
     QPainter p(this);
 
-    p.drawPixmap(QPoint(0, 0),
-                 m_pixmap.scaled(size(), Qt::KeepAspectRatio));
+    if(!m_pixmap.isNull()) {
+        p.drawPixmap(QPoint(0, 0),
+                     m_pixmap.scaled(size(), Qt::KeepAspectRatio));
+    }
 }
