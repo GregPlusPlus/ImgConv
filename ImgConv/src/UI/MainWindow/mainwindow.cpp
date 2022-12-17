@@ -188,6 +188,8 @@ void MainWindow::buildView() {
 }
 
 bool MainWindow::processImg(const QVector<QVector<float>> &k) {
+    QElapsedTimer tm;
+
     int imgW = m_original.width();
     int imgH = m_original.height();
     int kW = k[0].size();
@@ -197,7 +199,9 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
     ConvKernel1DArray kernel1DArray(k);
 
     // Input RGB buffers
+    tm.start();
     RGB1DArray inputRGB1DArray(m_original);
+    qDebug() << "Converting to 1D buffers : " << tm.elapsed() << " ms";
     // Output RGB buffers
     RGB1DArray outputRGB1DArray;
 
@@ -221,6 +225,7 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
     }
 
     // Write INPUT buffers
+    tm.start();
     if(!m_wrapper->writeBuffer(0, inputRGB1DArray.getR(), inputRGB1DArray.size())) {
         return false;
     }
@@ -230,6 +235,7 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
     if(!m_wrapper->writeBuffer(2, inputRGB1DArray.getB(), inputRGB1DArray.size())) {
         return false;
     }
+    qDebug() << "Writing 1D buffers : " << tm.elapsed() << " ms";
 
     // Write convolution kernel buffer
     if(!m_wrapper->writeBuffer(6, (uint8_t*)kernel1DArray.getKArray(), kernel1DArray.buffSize())) {
@@ -253,15 +259,15 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
     m_wrapper->setKernelArg(10, sizeof(cl_uint), (const uint8_t*)&kH);
 
     // Run kernel
-    QElapsedTimer tm;
     tm.start();
     m_wrapper->runKernel(imgW, imgH);
-    qDebug() << tm.elapsed();
+    qDebug() << "Kernel : " << tm.elapsed() << " ms";
     if(m_wrapper->ret() != CL_SUCCESS) {
         return false;
     }
 
     // Read OUTPUT buffers
+    tm.start();
     if(!m_wrapper->readBuffer(3, &outputRGB1DArray.m_R, &outputRGB1DArray.m_s)) {
         return false;
     }
@@ -271,8 +277,10 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
     if(!m_wrapper->readBuffer(5, &outputRGB1DArray.m_B, &outputRGB1DArray.m_s)) {
         return false;
     }
+    qDebug() << "Reading output buffers : " << tm.elapsed() << " ms";
 
     // Convert back image
+    tm.start();
     m_processed = QImage(imgW, imgH, QImage::Format_RGB32);
 
     for(int y = 0; y < imgH; y ++) {
@@ -284,6 +292,7 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
                                  outputRGB1DArray.getB()[i]).rgb());
         }
     }
+    qDebug() << "Converting back image : " << tm.elapsed() << " ms";
 
     m_wrapper->releaseAll();
 
