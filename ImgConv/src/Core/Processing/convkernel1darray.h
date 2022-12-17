@@ -14,8 +14,9 @@ public:
     virtual ~ConvKernel1DArray();
 
     size_t size() const;
+    size_t buffSize() const;
 
-    float *getK() const;
+    float *getKArray() const;
 
 signals:
 

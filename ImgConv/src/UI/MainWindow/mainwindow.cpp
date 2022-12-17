@@ -21,9 +21,11 @@ void MainWindow::openFile() {
         return;
     }
 
-    m_pixmap = QPixmap(fn);
+    QPixmap pix = QPixmap(fn);
+    m_original = pix.toImage();
+    m_original = m_original.convertToFormat(QImage::Format_RGB32);
 
-    m_origImg->setPixmap(m_pixmap);
+    m_origImgLabel->setPixmap(pix);
 }
 
 void MainWindow::startProcess() {
@@ -97,6 +99,8 @@ void MainWindow::startProcess() {
     }
 
     m_labelElapsedTime->setText(tr("Done in %1 ms.").arg(tm.elapsed()));
+
+    m_prcdImgLabel->setPixmap(QPixmap::fromImage(m_processed));
 }
 
 void MainWindow::initOpenCL() {
@@ -159,30 +163,27 @@ void MainWindow::buildView() {
 
     m_centralWidget = new QWidget(this);
 
-    m_origImg = new QLabel(tr("Original image"), this);
-    m_prcdImg = new QLabel(tr("Processed image"), this);
+    m_origImgLabel = new QLabel(tr("Original image"), this);
+    m_prcdImgLabel = new QLabel(tr("Processed image"), this);
 
-    m_layout->addWidget(m_origImg, 0, Qt::AlignLeft);
-    m_layout->addWidget(m_prcdImg, 0, Qt::AlignRight);
+    m_layout->addWidget(m_origImgLabel, 0, Qt::AlignLeft);
+    m_layout->addWidget(m_prcdImgLabel, 0, Qt::AlignRight);
 
     m_centralWidget->setLayout(m_layout);
     setCentralWidget(m_centralWidget);
 }
 
 bool MainWindow::processImg(const QVector<QVector<float>> &k) {
-    QImage img = m_pixmap.toImage();
-    img = img.convertToFormat(QImage::Format_RGB32);
-
-    int imgW = img.width();
-    int imgH = img.height();
+    int imgW = m_original.width();
+    int imgH = m_original.height();
     int kW = k[0].size();
     int kH = k.size();
 
     // Convolution kernel buffer
-    ConvKernel1DArray k1d(k);
+    ConvKernel1DArray kernel1DArray(k);
 
     // Input RGB buffers
-    RGB1DArray inputRGB1DArray(img);
+    RGB1DArray inputRGB1DArray(m_original);
     // Output RGB buffers
     RGB1DArray outputRGB1DArray;
 
@@ -201,7 +202,7 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
     }
 
     // Create convolution kernel buffer
-    if(m_wrapper->addBuffer(k1d.size() * sizeof(float), CL_MEM_READ_ONLY) < 0) {
+    if(m_wrapper->addBuffer(kernel1DArray.buffSize(), CL_MEM_READ_ONLY) < 0) {
         return false;
     }
 
@@ -217,7 +218,7 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
     }
 
     // Write convolution kernel buffer
-    if(!m_wrapper->writeBuffer(6, (uint8_t*)k1d.getK(), k1d.size() * sizeof(float))) {
+    if(!m_wrapper->writeBuffer(6, (uint8_t*)kernel1DArray.getKArray(), kernel1DArray.buffSize())) {
         return false;
     }
 
@@ -234,8 +235,8 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
     m_wrapper->setKernelArg(7, sizeof(cl_uint), (const uint8_t*)&imgW);
     m_wrapper->setKernelArg(8, sizeof(cl_uint), (const uint8_t*)&imgH);
     //   Set convolution kernel size
-    m_wrapper->setKernelArg(9, sizeof(cl_float), (const uint8_t*)&kW);
-    m_wrapper->setKernelArg(10, sizeof(cl_float), (const uint8_t*)&kH);
+    m_wrapper->setKernelArg(9, sizeof(cl_uint), (const uint8_t*)&kW);
+    m_wrapper->setKernelArg(10, sizeof(cl_uint), (const uint8_t*)&kH);
 
     // Run kernel
     QElapsedTimer tm;
@@ -257,20 +258,18 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
         return false;
     }
 
-    // Display new image
-    QImage outImg(imgW, imgH, QImage::Format_RGB32);
+    // Convert back image
+    m_processed = QImage(imgW, imgH, QImage::Format_RGB32);
 
     for(int y = 0; y < imgH; y ++) {
         for (int x = 0; x < imgW; x ++) {
             size_t i = (y * imgW) + x;
 
-            outImg.setPixel(x, y, QColor(outputRGB1DArray.getR()[i],
-                                         outputRGB1DArray.getG()[i],
-                                         outputRGB1DArray.getB()[i]).rgb());
+            m_processed.setPixel(x, y, QColor(outputRGB1DArray.getR()[i],
+                                 outputRGB1DArray.getG()[i],
+                                 outputRGB1DArray.getB()[i]).rgb());
         }
     }
-
-    m_prcdImg->setPixmap(QPixmap::fromImage(outImg));
 
     m_wrapper->releaseAll();
 

@@ -23,6 +23,10 @@ size_t ConvKernel1DArray::size() const {
     return m_s;
 }
 
-float *ConvKernel1DArray::getK() const {
+size_t ConvKernel1DArray::buffSize() const {
+    return size() * sizeof(float);
+}
+
+float *ConvKernel1DArray::getKArray() const {
     return m_k;
 }

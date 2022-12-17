@@ -41,8 +41,8 @@ private:
 private:
     QHBoxLayout *m_layout;
     QWidget *m_centralWidget;
-    QLabel *m_origImg;
-    QLabel *m_prcdImg;
+    QLabel *m_origImgLabel;
+    QLabel *m_prcdImgLabel;
     QLabel *m_labelDevice;
     QLabel *m_labelElapsedTime;
     QMenu *m_fileMenu;
@@ -54,6 +54,7 @@ private:
 private:
     OCLWrapper *m_wrapper;
     QString m_deviceName;
-    QPixmap m_pixmap;
+    QImage m_original;
+    QImage m_processed;
 };
 #endif // MAINWINDOW_H
