@@ -18,7 +18,6 @@
 
 #include "UI/ImageViewer/imageviewer.h"
 #include "Core/OCLWrapper/oclwrapper.h"
-#include "Core/Processing/rgb1darray.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Utils/utils.h"
 
@@ -46,6 +45,7 @@ private:
     ImageViewer *m_origImgView;
     ImageViewer *m_prcdImgView;
     QLabel *m_labelDevice;
+    QLabel *m_labelImgInfo;
     QLabel *m_labelElapsedTime;
     QMenu *m_fileMenu;
     QMenu *m_processMenu;

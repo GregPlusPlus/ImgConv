@@ -11,7 +11,6 @@ CONFIG += c++17
 SOURCES += \
     src/Core/OCLWrapper/oclwrapper.cpp \
     src/Core/Processing/convkernel1darray.cpp \
-    src/Core/Processing/rgb1darray.cpp \
     src/Core/Utils/utils.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
     src/UI/MainWindow/mainwindow.cpp \
@@ -19,7 +18,6 @@ SOURCES += \
 HEADERS += \
     src/Core/OCLWrapper/oclwrapper.h \
     src/Core/Processing/convkernel1darray.h \
-    src/Core/Processing/rgb1darray.h \
     src/Core/Utils/utils.h \
     src/UI/ImageViewer/imageviewer.h \
     src/UI/MainWindow/mainwindow.h

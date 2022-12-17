@@ -24,9 +24,11 @@ void MainWindow::openFile() {
 
     QPixmap pix = QPixmap(fn);
     m_original = pix.toImage();
-    m_original = m_original.convertToFormat(QImage::Format_RGB32);
+    m_original = m_original.convertToFormat(QImage::Format_RGB888);
 
     m_origImgView->setPixmap(pix);
+
+    m_labelImgInfo->setText(tr("%1x%2 (%3 bytes)").arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
 }
 
 void MainWindow::exportFile() {
@@ -43,12 +45,12 @@ void MainWindow::exportFile() {
 
 void MainWindow::startProcess() {
     // Ridge
-    QVector<QVector<float>> k = {
+    /*QVector<QVector<float>> k = {
         {-1, -1, -1},
         {-1,  8, -1},
         {-1, -1, -1}
     };
-    float c = 1;
+    float c = 1;*/
 
     // Sobel V
     /*QVector<QVector<float>> k = {
@@ -67,12 +69,12 @@ void MainWindow::startProcess() {
     float c = 1;*/
 
     // Emboss
-    /*QVector<QVector<float>> k = {
+    QVector<QVector<float>> k = {
         {-2, -1, 0},
         {-1,  1, 1},
         {0,   1, 2}
     };
-    float c = 1;*/
+    float c = 1;
 
     // 5x5 Gaussian blur
     /*QVector<QVector<float>> k = {
@@ -166,9 +168,11 @@ void MainWindow::buildMenus() {
     m_runAction = m_processMenu->addAction(tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startProcess);
 
     m_labelDevice = new QLabel(m_wrapper->getDeviceName(), this);
+    m_labelImgInfo = new QLabel(this);
     m_labelElapsedTime = new QLabel(this);
 
     statusBar()->addWidget(m_labelDevice);
+    statusBar()->addWidget(m_labelImgInfo);
     statusBar()->addWidget(m_labelElapsedTime);
 }
 
@@ -188,35 +192,27 @@ void MainWindow::buildView() {
 }
 
 bool MainWindow::processImg(const QVector<QVector<float>> &k) {
-    QElapsedTimer tm;
-
     int imgW = m_original.width();
     int imgH = m_original.height();
+    size_t inSize = m_original.sizeInBytes();
     int kW = k[0].size();
     int kH = k.size();
 
     // Convolution kernel buffer
     ConvKernel1DArray kernel1DArray(k);
 
-    // Input RGB buffers
-    tm.start();
-    RGB1DArray inputRGB1DArray(m_original);
-    qDebug() << "Converting to 1D buffers : " << tm.elapsed() << " ms";
-    // Output RGB buffers
-    RGB1DArray outputRGB1DArray;
+    // Output buffer
+    uint8_t *outImg = nullptr;
+    size_t outSize = 0;
 
-    // Create INPUT RGB buffers
-    for(int i = 0; i < 3; i ++) {
-        if(m_wrapper->addBuffer(inputRGB1DArray.size(), CL_MEM_READ_ONLY) < 0) {
-            return false;
-        }
+    // Create INPUT RGB buffer
+    if(m_wrapper->addBuffer(inSize, CL_MEM_READ_ONLY) < 0) {
+        return false;
     }
 
-    // Create OUTPUT RGB buffers
-    for(int i = 0; i < 3; i ++) {
-        if(m_wrapper->addBuffer(inputRGB1DArray.size(), CL_MEM_READ_ONLY) < 0) {
-            return false;
-        }
+    // Create OUTPUT RGB buffer
+    if(m_wrapper->addBuffer(inSize, CL_MEM_READ_WRITE) < 0) {
+        return false;
     }
 
     // Create convolution kernel buffer
@@ -224,26 +220,18 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
         return false;
     }
 
-    // Write INPUT buffers
-    tm.start();
-    if(!m_wrapper->writeBuffer(0, inputRGB1DArray.getR(), inputRGB1DArray.size())) {
+    // Write INPUT buffer
+    if(!m_wrapper->writeBuffer(0, m_original.bits(), inSize)) {
         return false;
     }
-    if(!m_wrapper->writeBuffer(1, inputRGB1DArray.getG(), inputRGB1DArray.size())) {
-        return false;
-    }
-    if(!m_wrapper->writeBuffer(2, inputRGB1DArray.getB(), inputRGB1DArray.size())) {
-        return false;
-    }
-    qDebug() << "Writing 1D buffers : " << tm.elapsed() << " ms";
 
     // Write convolution kernel buffer
-    if(!m_wrapper->writeBuffer(6, (uint8_t*)kernel1DArray.getKArray(), kernel1DArray.buffSize())) {
+    if(!m_wrapper->writeBuffer(2, (uint8_t*)kernel1DArray.getKArray(), kernel1DArray.buffSize())) {
         return false;
     }
 
     // Create Kernel parameters
-    //   First 6 R,G,B arrays then the Convolution kernel
+    //   First set all the buffers
     for(size_t i = 0; i < m_wrapper->getNumberOfBuffers(); i ++) {
         m_wrapper->setKernelArg(i, i);
 
@@ -251,48 +239,26 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
             return false;
         }
     }
-    //   Image size
-    m_wrapper->setKernelArg(7, sizeof(cl_uint), (const uint8_t*)&imgW);
-    m_wrapper->setKernelArg(8, sizeof(cl_uint), (const uint8_t*)&imgH);
+    //   Set image size
+    m_wrapper->setKernelArg(3, sizeof(cl_uint), (const uint8_t*)&imgW);
+    m_wrapper->setKernelArg(4, sizeof(cl_uint), (const uint8_t*)&imgH);
     //   Set convolution kernel size
-    m_wrapper->setKernelArg(9, sizeof(cl_uint), (const uint8_t*)&kW);
-    m_wrapper->setKernelArg(10, sizeof(cl_uint), (const uint8_t*)&kH);
+    m_wrapper->setKernelArg(5, sizeof(cl_uint), (const uint8_t*)&kW);
+    m_wrapper->setKernelArg(6, sizeof(cl_uint), (const uint8_t*)&kH);
 
     // Run kernel
-    tm.start();
     m_wrapper->runKernel(imgW, imgH);
-    qDebug() << "Kernel : " << tm.elapsed() << " ms";
     if(m_wrapper->ret() != CL_SUCCESS) {
         return false;
     }
 
-    // Read OUTPUT buffers
-    tm.start();
-    if(!m_wrapper->readBuffer(3, &outputRGB1DArray.m_R, &outputRGB1DArray.m_s)) {
+    // Read OUTPUT buffer
+    if(!m_wrapper->readBuffer(1, &outImg, &outSize)) {
         return false;
     }
-    if(!m_wrapper->readBuffer(4, &outputRGB1DArray.m_G, &outputRGB1DArray.m_s)) {
-        return false;
-    }
-    if(!m_wrapper->readBuffer(5, &outputRGB1DArray.m_B, &outputRGB1DArray.m_s)) {
-        return false;
-    }
-    qDebug() << "Reading output buffers : " << tm.elapsed() << " ms";
 
-    // Convert back image
-    tm.start();
-    m_processed = QImage(imgW, imgH, QImage::Format_RGB32);
-
-    for(int y = 0; y < imgH; y ++) {
-        for (int x = 0; x < imgW; x ++) {
-            size_t i = (y * imgW) + x;
-
-            m_processed.setPixel(x, y, QColor(outputRGB1DArray.getR()[i],
-                                 outputRGB1DArray.getG()[i],
-                                 outputRGB1DArray.getB()[i]).rgb());
-        }
-    }
-    qDebug() << "Converting back image : " << tm.elapsed() << " ms";
+    // Convert back buffer to image
+    m_processed = QImage((const uchar *)outImg, imgW, imgH, QImage::Format_RGB888);
 
     m_wrapper->releaseAll();
 
