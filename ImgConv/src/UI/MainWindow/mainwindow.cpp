@@ -23,11 +23,16 @@ void MainWindow::openFile() {
         return;
     }
 
-    QPixmap pix = QPixmap(fn);
-    m_original = pix.toImage();
-    m_original = m_original.convertToFormat(QImage::Format_RGB888);
+    QElapsedTimer tm;
+    tm.start();
 
-    mw_origImgView->setPixmap(pix);
+    QImageReader r;
+    r.setAllocationLimit(0);
+    r.setFileName(fn);
+    m_original = r.read().convertToFormat(QImage::Format_RGB888);
+    mw_origImgView->setPixmap(QPixmap::fromImage(m_original));
+
+    mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(tm.elapsed()));
 
     mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)").arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
 }
@@ -114,7 +119,7 @@ void MainWindow::startProcess() {
         QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
     }
 
-    mw_labelElapsedTime->setText(tr("Done in %1 ms.").arg(tm.elapsed()));
+    mw_labelElapsedTime->setText(tr("Processing done in %1 ms.").arg(tm.elapsed()));
 
     mw_prcdImgView->setPixmap(QPixmap::fromImage(m_processed));
 }

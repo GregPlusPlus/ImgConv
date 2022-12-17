@@ -15,6 +15,7 @@
 #include <QHBoxLayout>
 #include <QVector>
 #include <QElapsedTimer>
+#include <QImageReader>
 
 #include "UI/ImageViewer/imageviewer.h"
 #include "Core/OCLWrapper/oclwrapper.h"
