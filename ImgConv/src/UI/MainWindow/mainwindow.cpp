@@ -28,10 +28,34 @@ void MainWindow::openFile() {
 
 void MainWindow::startProcess() {
     // Ridge
-    QVector<QVector<float>> k = {
+    /*QVector<QVector<float>> k = {
         {-1, -1, -1},
         {-1,  8, -1},
         {-1, -1, -1}
+    };
+    float c = 1;*/
+
+    // Sobel V
+    /*QVector<QVector<float>> k = {
+        {1, 0, -1},
+        {2, 0, -2},
+        {1, 0, -1}
+    };
+    float c = 1;*/
+
+    // Sobel H
+    /*QVector<QVector<float>> k = {
+        {1,   2,  1},
+        {0,   0,  0},
+        {-1, -2, -1}
+    };
+    float c = 1;*/
+
+    // Emboss
+    QVector<QVector<float>> k = {
+        {-2, -1, 0},
+        {-1,  1, 1},
+        {0,   1, 2}
     };
     float c = 1;
 
