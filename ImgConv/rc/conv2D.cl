@@ -19,14 +19,40 @@ __kernel void conv2D(__global uchar *rI, __global uchar *gI, __global uchar *bI,
             int px = (int)x - (int)(kw / 2) + (int)xK;
             int py = (int)y - (int)(kh / 2) + (int)yK;
 
-            if(px >= 0 && py >= 0) {
-                int ii = w * py + px;
-
-                sumR += kv * (float)rI[ii];
-                sumG += kv * (float)gI[ii];
-                sumB += kv * (float)bI[ii];
+            if(px < 0) {
+                px = 0;
             }
+
+            if(px >= w) {
+                px = w - 1;
+            }
+
+            if(py < 0) {
+                py = 0;
+            }
+
+            if(py >= h) {
+                py = h - 1;
+            }
+
+            int ii = w * py + px;
+
+            sumR += kv * (float)rI[ii];
+            sumG += kv * (float)gI[ii];
+            sumB += kv * (float)bI[ii];
         }
+    }
+
+    if(sumR > 255) {
+        sumR = 255;
+    }
+
+    if(sumG > 255) {
+        sumG = 255;
+    }
+
+    if(sumB > 255) {
+        sumB = 255;
     }
 
     rO[i] = sumR;

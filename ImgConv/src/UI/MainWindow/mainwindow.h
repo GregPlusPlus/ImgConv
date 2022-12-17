@@ -14,10 +14,12 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QVector>
+#include <QElapsedTimer>
 
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/rgb1darray.h"
 #include "Core/Processing/convkernel1darray.h"
+#include "Core/Utils/utils.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -42,6 +44,7 @@ private:
     QLabel *m_origImg;
     QLabel *m_prcdImg;
     QLabel *m_labelDevice;
+    QLabel *m_labelElapsedTime;
     QMenu *m_fileMenu;
     QMenu *m_processMenu;
     QAction *m_openFileAction;

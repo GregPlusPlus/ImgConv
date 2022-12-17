@@ -17,21 +17,62 @@ void MainWindow::openFile() {
     QString fn = QFileDialog::getOpenFileName(this, tr("Open image file"), QString(),
                                               tr("Image files (*.png *.jpg *.bmp)"));
 
+    if(fn.isEmpty()) {
+        return;
+    }
+
     m_pixmap = QPixmap(fn);
 
     m_origImg->setPixmap(m_pixmap);
 }
 
 void MainWindow::startProcess() {
+    // Ridge
     QVector<QVector<float>> k = {
         {-1, -1, -1},
-        {-1,  4, -1},
+        {-1,  8, -1},
         {-1, -1, -1}
     };
+    float c = 1;
+
+    // 5x5 Gaussian blur
+    /*QVector<QVector<float>> k = {
+        {1,  4,  6,  4, 1},
+        {4, 16, 24, 16, 4},
+        {6, 24, 36, 24, 6},
+        {4, 16, 24, 16, 4},
+        {1,  4,  6,  4, 1}
+    };
+    float c = 1.f/256.f;*/
+
+    // Unsharp masking
+    /*QVector<QVector<float>> k = {
+        {1,  4,    6,  4, 1},
+        {4, 16,   24, 16, 4},
+        {6, 24, -476, 24, 6},
+        {4, 16,   24, 16, 4},
+        {1,  4,    6,  4, 1}
+    };
+    float c = -1.f/256.f;*/
+
+    // Sharpen
+    /*QVector<QVector<float>> k = {
+        {0, -1,  0},
+        {-1, 5, -1},
+        {0, -1,  0}
+    };
+    float c = 1;*/
+
+    Utils::scaleMatrix(k, c);
+
+    QElapsedTimer tm;
+    tm.start();
 
     if(!processImg(k)) {
         QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(m_wrapper->ret()));
     }
+
+    m_labelElapsedTime->setText(tr("Done in %1 ms.").arg(tm.elapsed()));
 }
 
 void MainWindow::initOpenCL() {
@@ -83,7 +124,10 @@ void MainWindow::buildMenus() {
     m_runAction = m_processMenu->addAction(tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startProcess);
 
     m_labelDevice = new QLabel(m_wrapper->getDeviceName(), this);
+    m_labelElapsedTime = new QLabel(this);
+
     statusBar()->addWidget(m_labelDevice);
+    statusBar()->addWidget(m_labelElapsedTime);
 }
 
 void MainWindow::buildView() {
@@ -165,13 +209,15 @@ bool MainWindow::processImg(const QVector<QVector<float>> &k) {
     //   Image size
     m_wrapper->setKernelArg(7, sizeof(cl_uint), (const uint8_t*)&imgW);
     m_wrapper->setKernelArg(8, sizeof(cl_uint), (const uint8_t*)&imgH);
-
-    // Set convolution kernel size
+    //   Set convolution kernel size
     m_wrapper->setKernelArg(9, sizeof(cl_float), (const uint8_t*)&kW);
     m_wrapper->setKernelArg(10, sizeof(cl_float), (const uint8_t*)&kH);
 
     // Run kernel
+    QElapsedTimer tm;
+    tm.start();
     m_wrapper->runKernel(imgW, imgH);
+    qDebug() << tm.elapsed();
     if(m_wrapper->ret() != CL_SUCCESS) {
         return false;
     }
