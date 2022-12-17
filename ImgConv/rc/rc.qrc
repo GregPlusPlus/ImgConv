@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/ocl">
+        <file>conv2D.cl</file>
+    </qresource>
+</RCC>
