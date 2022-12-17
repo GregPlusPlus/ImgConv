@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) {
     setWindowIcon(QIcon(":/icons/icon.png"));
-    setWindowTitle(tr("Accelerated Image Convolution Filering"));
+    setWindowTitle(tr("Accelerated Image Convolution Filtering"));
 
     initOpenCL();
     registerConvKernels();
