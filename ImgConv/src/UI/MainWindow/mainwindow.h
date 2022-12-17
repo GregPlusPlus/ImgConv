@@ -5,6 +5,7 @@
 
 #include <QMainWindow>
 #include <QMenuBar>
+#include <QToolBar>
 #include <QStatusBar>
 #include <QMenu>
 #include <QAction>
@@ -12,6 +13,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QLabel>
+#include <QTabWidget>
 #include <QHBoxLayout>
 #include <QVector>
 #include <QElapsedTimer>
@@ -38,10 +40,10 @@ private:
     void initOpenCL();
     void buildMenus();
     void buildView();
+    void loadImage(const QImage &img);
 
 private:
-    QHBoxLayout *m_layout;
-    QWidget *mw_centralWidget;
+    QTabWidget *mw_tabWidget;
     ImageViewer *mw_origImgView;
     ImageViewer *mw_prcdImgView;
     QLabel *mw_labelDevice;
@@ -49,10 +51,12 @@ private:
     QLabel *mw_labelElapsedTime;
     QMenu *mw_fileMenu;
     QMenu *mw_processMenu;
+    QToolBar *mw_toolBar;
     QAction *m_openFileAction;
     QAction *m_exportAction;
     QAction *m_exitAction;
     QAction *m_runAction;
+    QAction *m_backfeedAction;
 
 private:
     OCLWrapper *m_ocl;

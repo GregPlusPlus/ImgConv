@@ -5,6 +5,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) {
     initOpenCL();
 
+    setWindowIcon(QIcon(":/icons/icon.png"));
+
     buildMenus();
     buildView();
 
@@ -29,12 +31,22 @@ void MainWindow::openFile() {
     QImageReader r;
     r.setAllocationLimit(0);
     r.setFileName(fn);
-    m_original = r.read().convertToFormat(QImage::Format_RGB888);
-    mw_origImgView->setPixmap(QPixmap::fromImage(m_original));
+    QImage img = r.read().convertToFormat(QImage::Format_RGB888);
 
     mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(tm.elapsed()));
 
-    mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)").arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
+    loadImage(img);
+}
+
+void MainWindow::loadImage(const QImage &img) {
+    m_original = img;
+
+    mw_origImgView->setPixmap(QPixmap::fromImage(m_original));
+    mw_prcdImgView->setPixmap(QPixmap());
+
+    mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
+                             .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
+    mw_tabWidget->setCurrentWidget(mw_origImgView);
 }
 
 void MainWindow::exportFile() {
@@ -75,12 +87,12 @@ void MainWindow::startProcess() {
     float c = 1;*/
 
     // Emboss
-    QVector<QVector<float>> k = {
+    /*QVector<QVector<float>> k = {
         {-2, -1, 0},
         {-1,  1, 1},
         {0,   1, 2}
     };
-    float c = 1;
+    float c = 1;*/
 
     // 5x5 Gaussian blur
     /*QVector<QVector<float>> k = {
@@ -91,6 +103,16 @@ void MainWindow::startProcess() {
         {1,  4,  6,  4, 1}
     };
     float c = 1.f/256.f;*/
+
+    // Motion blur
+    QVector<QVector<float>> k = {
+        {1, 0, 0, 0, 0},
+        {0, 1, 0, 0, 0},
+        {0, 0, 1, 0, 0},
+        {0, 0, 0, 1, 0},
+        {0, 0, 0, 0, 1},
+    };
+    float c = 0.2;
 
     // Unsharp masking
     /*QVector<QVector<float>> k = {
@@ -110,6 +132,10 @@ void MainWindow::startProcess() {
     };
     float c = 1;*/
 
+    if(m_original.isNull()) {
+        return;
+    }
+
     Utils::scaleMatrix(k, c);
 
     QElapsedTimer tm;
@@ -122,6 +148,8 @@ void MainWindow::startProcess() {
     mw_labelElapsedTime->setText(tr("Processing done in %1 ms.").arg(tm.elapsed()));
 
     mw_prcdImgView->setPixmap(QPixmap::fromImage(m_processed));
+
+    mw_tabWidget->setCurrentWidget(mw_prcdImgView);
 }
 
 void MainWindow::initOpenCL() {
@@ -165,13 +193,26 @@ void MainWindow::initOpenCL() {
 void MainWindow::buildMenus() {
     mw_fileMenu = menuBar()->addMenu(tr("&File"));
 
-    m_openFileAction = mw_fileMenu->addAction(tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
-    m_exportAction = mw_fileMenu->addAction(tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportFile);
+    m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
+    m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportFile);
     mw_fileMenu->addSeparator();
-    m_exitAction = mw_fileMenu->addAction(tr("&Exit"), tr("Ctrl+W"), this, [](){qApp->exit();});
+    m_exitAction = mw_fileMenu->addAction(QIcon(":/icons/door-open-in.png"), tr("&Exit"), tr("Ctrl+W"), this, [](){qApp->exit();});
 
     mw_processMenu = menuBar()->addMenu(tr("&Process"));
-    m_runAction = mw_processMenu->addAction(tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startProcess);
+    m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startProcess);
+    m_backfeedAction = mw_processMenu->addAction(QIcon(":/icons/arrow-transition-180.png"), tr("&Backfeed"), tr("Ctrl+B"), this, [this](){
+        if(!m_processed.isNull()) {
+            loadImage(m_processed);
+        }
+    });
+
+    mw_toolBar = new QToolBar(tr("Tools"), this);
+    mw_toolBar->addAction(m_openFileAction);
+    mw_toolBar->addAction(m_exportAction);
+    mw_toolBar->addSeparator();
+    mw_toolBar->addAction(m_runAction);
+    mw_toolBar->addAction(m_backfeedAction);
+    addToolBar(mw_toolBar);
 
     mw_labelDevice = new QLabel(m_ocl->getDeviceName(), this);
     mw_labelImgInfo = new QLabel(this);
@@ -183,16 +224,13 @@ void MainWindow::buildMenus() {
 }
 
 void MainWindow::buildView() {
-    m_layout = new QHBoxLayout();
+    mw_tabWidget = new QTabWidget(this);
 
-    mw_centralWidget = new QWidget(this);
+    mw_origImgView = new ImageViewer(tr("Original image"));
+    mw_prcdImgView = new ImageViewer(tr("Processed image"));
 
-    mw_origImgView = new ImageViewer(tr("Original image"), this);
-    mw_prcdImgView = new ImageViewer(tr("Processed image"), this);
+    mw_tabWidget->addTab(mw_origImgView, tr("Original"));
+    mw_tabWidget->addTab(mw_prcdImgView, tr("Processed"));
 
-    m_layout->addWidget(mw_origImgView, 10);
-    m_layout->addWidget(mw_prcdImgView, 10);
-
-    mw_centralWidget->setLayout(m_layout);
-    setCentralWidget(mw_centralWidget);
+    setCentralWidget(mw_tabWidget);
 }

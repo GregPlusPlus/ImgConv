@@ -1,5 +1,11 @@
 <RCC>
-    <qresource prefix="/ocl">
-        <file>conv2D.cl</file>
+    <qresource prefix="/">
+        <file>ocl/conv2D.cl</file>
+        <file>icons/arrow-transition-180.png</file>
+        <file>icons/control.png</file>
+        <file>icons/folder-horizontal-open.png</file>
+        <file>icons/disk.png</file>
+        <file>icons/door-open-in.png</file>
+        <file>icons/icon.png</file>
     </qresource>
 </RCC>
