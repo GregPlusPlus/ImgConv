@@ -81,7 +81,10 @@ void MainWindow::startProcess() {
         QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
     }
 
-    mw_labelElapsedTime->setText(tr("Processing done in %1 ms.").arg(tm.elapsed()));
+    qint64 elapsed = tm.elapsed();
+
+    mw_labelElapsedTime->setText(tr("Processing done in %1 ms. - Approx %2 px/sec.")
+                                 .arg(elapsed).arg(1000.f*(m_processed.size().width()*m_processed.size().height())/elapsed));
 
     mw_prcdImgView->setPixmap(QPixmap::fromImage(m_processed));
 
