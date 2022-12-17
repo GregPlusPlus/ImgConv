@@ -2,7 +2,6 @@
 
 ImageViewer::ImageViewer(const QString &title, QWidget *parent)
     : QWidget{parent}, m_title{title} {
-    setMinimumSize(200, 200);
 }
 
 QPixmap ImageViewer::pixmap() const {
@@ -27,9 +26,15 @@ void ImageViewer::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event)
 
     QPainter p(this);
+    p.setPen(Qt::black);
 
     if(!m_pixmap.isNull()) {
-        p.drawPixmap(QPoint(0, 0),
-                     m_pixmap.scaled(size(), Qt::KeepAspectRatio));
+        QPixmap pix = m_pixmap.scaled(size(), Qt::KeepAspectRatio);
+
+        p.drawPixmap(QPoint(width() / 2 - pix.width() / 2,
+                            height() / 2 - pix.height() / 2),
+                     pix);
     }
+
+    p.drawRect(0, 0, width() - 1, height() - 1);
 }
