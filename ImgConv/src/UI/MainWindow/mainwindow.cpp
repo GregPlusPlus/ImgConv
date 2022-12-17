@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
+    delete m_wrapper;
 }
 
 void MainWindow::openFile() {
@@ -25,17 +26,29 @@ void MainWindow::openFile() {
     m_original = pix.toImage();
     m_original = m_original.convertToFormat(QImage::Format_RGB32);
 
-    m_origImgLabel->setPixmap(pix);
+    m_origImgView->setPixmap(pix);
+}
+
+void MainWindow::exportFile() {
+    QString fn = QFileDialog::getSaveFileName(this, tr("Save image file"), QString(),
+                                              tr("Image files (*.png)"));
+
+    if(fn.isEmpty()) {
+        return;
+    }
+
+    QPixmap pix = QPixmap::fromImage(m_processed);
+    pix.save(fn);
 }
 
 void MainWindow::startProcess() {
     // Ridge
-    /*QVector<QVector<float>> k = {
+    QVector<QVector<float>> k = {
         {-1, -1, -1},
         {-1,  8, -1},
         {-1, -1, -1}
     };
-    float c = 1;*/
+    float c = 1;
 
     // Sobel V
     /*QVector<QVector<float>> k = {
@@ -54,12 +67,12 @@ void MainWindow::startProcess() {
     float c = 1;*/
 
     // Emboss
-    QVector<QVector<float>> k = {
+    /*QVector<QVector<float>> k = {
         {-2, -1, 0},
         {-1,  1, 1},
         {0,   1, 2}
     };
-    float c = 1;
+    float c = 1;*/
 
     // 5x5 Gaussian blur
     /*QVector<QVector<float>> k = {
@@ -100,7 +113,7 @@ void MainWindow::startProcess() {
 
     m_labelElapsedTime->setText(tr("Done in %1 ms.").arg(tm.elapsed()));
 
-    m_prcdImgLabel->setPixmap(QPixmap::fromImage(m_processed));
+    m_prcdImgView->setPixmap(QPixmap::fromImage(m_processed));
 }
 
 void MainWindow::initOpenCL() {
@@ -145,6 +158,7 @@ void MainWindow::buildMenus() {
     m_fileMenu = menuBar()->addMenu(tr("&File"));
 
     m_openFileAction = m_fileMenu->addAction(tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
+    m_exportAction = m_fileMenu->addAction(tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportFile);
     m_fileMenu->addSeparator();
     m_exitAction = m_fileMenu->addAction(tr("&Exit"), tr("Ctrl+W"), this, [](){qApp->exit();});
 
@@ -163,11 +177,11 @@ void MainWindow::buildView() {
 
     m_centralWidget = new QWidget(this);
 
-    m_origImgLabel = new QLabel(tr("Original image"), this);
-    m_prcdImgLabel = new QLabel(tr("Processed image"), this);
+    m_origImgView = new ImageViewer(tr("Original image"), this);
+    m_prcdImgView = new ImageViewer(tr("Processed image"), this);
 
-    m_layout->addWidget(m_origImgLabel, 0, Qt::AlignLeft);
-    m_layout->addWidget(m_prcdImgLabel, 0, Qt::AlignRight);
+    m_layout->addWidget(m_origImgView, 10);
+    m_layout->addWidget(m_prcdImgView, 10);
 
     m_centralWidget->setLayout(m_layout);
     setCentralWidget(m_centralWidget);

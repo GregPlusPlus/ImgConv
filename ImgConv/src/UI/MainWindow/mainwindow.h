@@ -16,6 +16,7 @@
 #include <QVector>
 #include <QElapsedTimer>
 
+#include "UI/ImageViewer/imageviewer.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/rgb1darray.h"
 #include "Core/Processing/convkernel1darray.h"
@@ -30,6 +31,7 @@ public:
 
 private slots:
     void openFile();
+    void exportFile();
     void startProcess();
 
 private:
@@ -41,13 +43,14 @@ private:
 private:
     QHBoxLayout *m_layout;
     QWidget *m_centralWidget;
-    QLabel *m_origImgLabel;
-    QLabel *m_prcdImgLabel;
+    ImageViewer *m_origImgView;
+    ImageViewer *m_prcdImgView;
     QLabel *m_labelDevice;
     QLabel *m_labelElapsedTime;
     QMenu *m_fileMenu;
     QMenu *m_processMenu;
     QAction *m_openFileAction;
+    QAction *m_exportAction;
     QAction *m_exitAction;
     QAction *m_runAction;
 
