@@ -53,3 +53,5 @@ dkms.conf
 debug/
 release/
 profile/
+
+.qtc_clangd
