@@ -10,6 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     src/Core/OCLWrapper/oclwrapper.cpp \
+    src/Core/Processing/Kernels/emboss.cpp \
+    src/Core/Processing/Kernels/gaussianblur.cpp \
+    src/Core/Processing/Kernels/motionblur.cpp \
+    src/Core/Processing/Kernels/ridge.cpp \
+    src/Core/Processing/Kernels/sharpen.cpp \
+    src/Core/Processing/Kernels/unsharpmasking.cpp \
+    src/Core/Processing/convkernel.cpp \
     src/Core/Processing/convkernel1darray.cpp \
     src/Core/Processing/processing.cpp \
     src/Core/Utils/utils.cpp \
@@ -18,6 +25,14 @@ SOURCES += \
     src/main.cpp
 HEADERS += \
     src/Core/OCLWrapper/oclwrapper.h \
+    src/Core/Processing/Kernels/emboss.h \
+    src/Core/Processing/Kernels/gaussianblur.h \
+    src/Core/Processing/Kernels/kernels.h \
+    src/Core/Processing/Kernels/motionblur.h \
+    src/Core/Processing/Kernels/ridge.h \
+    src/Core/Processing/Kernels/sharpen.h \
+    src/Core/Processing/Kernels/unsharpmasking.h \
+    src/Core/Processing/convkernel.h \
     src/Core/Processing/convkernel1darray.h \
     src/Core/Processing/processing.h \
     src/Core/Utils/utils.h \

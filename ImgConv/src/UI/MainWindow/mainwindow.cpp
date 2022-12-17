@@ -3,10 +3,13 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) {
-    initOpenCL();
-
     setWindowIcon(QIcon(":/icons/icon.png"));
+    setWindowTitle(tr("Accelerated Image Convolution Filering"));
 
+    initOpenCL();
+    registerConvKernels();
+
+    buildKernelComboBox();
     buildMenus();
     buildView();
 
@@ -62,86 +65,19 @@ void MainWindow::exportFile() {
 }
 
 void MainWindow::startProcess() {
-    // Ridge
-    /*QVector<QVector<float>> k = {
-        {-1, -1, -1},
-        {-1,  8, -1},
-        {-1, -1, -1}
-    };
-    float c = 1;*/
-
-    // Sobel V
-    /*QVector<QVector<float>> k = {
-        {1, 0, -1},
-        {2, 0, -2},
-        {1, 0, -1}
-    };
-    float c = 1;*/
-
-    // Sobel H
-    /*QVector<QVector<float>> k = {
-        {1,   2,  1},
-        {0,   0,  0},
-        {-1, -2, -1}
-    };
-    float c = 1;*/
-
-    // Emboss
-    /*QVector<QVector<float>> k = {
-        {-2, -1, 0},
-        {-1,  1, 1},
-        {0,   1, 2}
-    };
-    float c = 1;*/
-
-    // 5x5 Gaussian blur
-    /*QVector<QVector<float>> k = {
-        {1,  4,  6,  4, 1},
-        {4, 16, 24, 16, 4},
-        {6, 24, 36, 24, 6},
-        {4, 16, 24, 16, 4},
-        {1,  4,  6,  4, 1}
-    };
-    float c = 1.f/256.f;*/
-
-    // Motion blur
-    QVector<QVector<float>> k = {
-        {1, 0, 0, 0, 0},
-        {0, 1, 0, 0, 0},
-        {0, 0, 1, 0, 0},
-        {0, 0, 0, 1, 0},
-        {0, 0, 0, 0, 1},
-    };
-    float c = 0.2;
-
-    // Unsharp masking
-    /*QVector<QVector<float>> k = {
-        {1,  4,    6,  4, 1},
-        {4, 16,   24, 16, 4},
-        {6, 24, -476, 24, 6},
-        {4, 16,   24, 16, 4},
-        {1,  4,    6,  4, 1}
-    };
-    float c = -1.f/256.f;*/
-
-    // Sharpen
-    /*QVector<QVector<float>> k = {
-        {0, -1,  0},
-        {-1, 5, -1},
-        {0, -1,  0}
-    };
-    float c = 1;*/
-
     if(m_original.isNull()) {
         return;
     }
 
-    Utils::scaleMatrix(k, c);
+    ConvKernels::ConvKernel *k = m_convKernels.at(mw_convKernelComboBox->currentIndex());
+    QVector<QVector<float>> mat = k->getMat();
+
+    Utils::scaleMatrix(mat, k->getScalar());
 
     QElapsedTimer tm;
     tm.start();
 
-    if(!Processing::processImg(m_ocl, m_original, m_processed, k)) {
+    if(!Processing::processImg(m_ocl, m_original, m_processed, mat)) {
         QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
     }
 
@@ -190,6 +126,23 @@ void MainWindow::initOpenCL() {
     }
 }
 
+void MainWindow::registerConvKernels() {
+    m_convKernels.append(new ConvKernels::GaussianBlur(this));
+    m_convKernels.append(new ConvKernels::Emboss(this));
+    m_convKernels.append(new ConvKernels::Ridge(this));
+    m_convKernels.append(new ConvKernels::Sharpen(this));
+    m_convKernels.append(new ConvKernels::UnsharpMasking(this));
+    m_convKernels.append(new ConvKernels::MotionBlur(this));
+}
+
+void MainWindow::buildKernelComboBox() {
+    mw_convKernelComboBox = new QComboBox(this);
+
+    for(ConvKernels::ConvKernel *k : m_convKernels) {
+        mw_convKernelComboBox->addItem(k->getName());
+    }
+}
+
 void MainWindow::buildMenus() {
     mw_fileMenu = menuBar()->addMenu(tr("&File"));
 
@@ -210,6 +163,7 @@ void MainWindow::buildMenus() {
     mw_toolBar->addAction(m_openFileAction);
     mw_toolBar->addAction(m_exportAction);
     mw_toolBar->addSeparator();
+    mw_toolBar->addWidget(mw_convKernelComboBox);
     mw_toolBar->addAction(m_runAction);
     mw_toolBar->addAction(m_backfeedAction);
     addToolBar(mw_toolBar);

@@ -14,8 +14,10 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QTabWidget>
+#include <QComboBox>
 #include <QHBoxLayout>
 #include <QVector>
+#include <QList>
 #include <QElapsedTimer>
 #include <QImageReader>
 
@@ -23,6 +25,8 @@
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Utils/utils.h"
+
+#include "Core/Processing/Kernels/kernels.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -38,14 +42,17 @@ private slots:
 
 private:
     void initOpenCL();
+    void registerConvKernels();
     void buildMenus();
     void buildView();
+    void buildKernelComboBox();
     void loadImage(const QImage &img);
 
 private:
     QTabWidget *mw_tabWidget;
     ImageViewer *mw_origImgView;
     ImageViewer *mw_prcdImgView;
+    QComboBox *mw_convKernelComboBox;
     QLabel *mw_labelDevice;
     QLabel *mw_labelImgInfo;
     QLabel *mw_labelElapsedTime;
@@ -57,6 +64,7 @@ private:
     QAction *m_exitAction;
     QAction *m_runAction;
     QAction *m_backfeedAction;
+    QList<ConvKernels::ConvKernel*> m_convKernels;
 
 private:
     OCLWrapper *m_ocl;
