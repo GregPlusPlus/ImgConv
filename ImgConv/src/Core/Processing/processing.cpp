@@ -73,3 +73,12 @@ bool Processing::processImg(OCLWrapper *ocl, const QImage &in, QImage &out, cons
 
     return true;
 }
+
+void Processing::registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent) {
+    l->append(new ConvKernels::GaussianBlur(parent));
+    l->append(new ConvKernels::Emboss(parent));
+    l->append(new ConvKernels::Ridge(parent));
+    l->append(new ConvKernels::Sharpen(parent));
+    l->append(new ConvKernels::UnsharpMasking(parent));
+    l->append(new ConvKernels::MotionBlur(parent));
+}

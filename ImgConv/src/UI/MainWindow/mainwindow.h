@@ -15,18 +15,20 @@
 #include <QLabel>
 #include <QTabWidget>
 #include <QComboBox>
+#include <QDockWidget>
 #include <QHBoxLayout>
 #include <QVector>
 #include <QList>
 #include <QElapsedTimer>
 #include <QImageReader>
 
+#include "UI/FilterSettingsWidget/filtersettingswidget.h"
 #include "UI/ImageViewer/imageviewer.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
+#include "Core/Processing/Kernels/kernels.h"
 #include "Core/Utils/utils.h"
 
-#include "Core/Processing/Kernels/kernels.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -39,12 +41,14 @@ private slots:
     void openFile();
     void exportFile();
     void startProcess();
+    void filterSelected(int index);
 
 private:
+    void initCore();
     void initOpenCL();
-    void registerConvKernels();
     void buildMenus();
     void buildView();
+    void buildFilterSettingsView();
     void buildKernelComboBox();
     void loadImage(const QImage &img);
 
@@ -59,17 +63,21 @@ private:
     QMenu *mw_fileMenu;
     QMenu *mw_processMenu;
     QToolBar *mw_toolBar;
+    QDockWidget *mw_dockFilterSettings;
+    QWidget *mw_dockFilterSettingsContainer;
+    QVBoxLayout *m_dockFilterSettingsLayout;
     QAction *m_openFileAction;
     QAction *m_exportAction;
     QAction *m_exitAction;
     QAction *m_runAction;
     QAction *m_backfeedAction;
-    QList<ConvKernels::ConvKernel*> m_convKernels;
 
 private:
     OCLWrapper *m_ocl;
     QString m_deviceName;
     QImage m_original;
     QImage m_processed;
+    QList<ConvKernels::ConvKernel*> m_convKernels;
+    QList<FilterSettingsWidget*> m_FilterSettingsWidgets;
 };
 #endif // MAINWINDOW_H

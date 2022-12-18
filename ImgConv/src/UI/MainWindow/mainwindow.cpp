@@ -6,8 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon(":/icons/icon.png"));
     setWindowTitle(tr("Accelerated Image Convolution Filtering"));
 
-    initOpenCL();
-    registerConvKernels();
+    buildFilterSettingsView();
+    initCore();
 
     buildKernelComboBox();
     buildMenus();
@@ -91,6 +91,30 @@ void MainWindow::startProcess() {
     mw_tabWidget->setCurrentWidget(mw_prcdImgView);
 }
 
+void MainWindow::filterSelected(int index) {
+    ConvKernels::ConvKernel *k = m_convKernels.at(index);
+
+    for(FilterSettingsWidget *w : m_FilterSettingsWidgets) {
+        if(w) {
+            delete w;
+        }
+    }
+
+    m_FilterSettingsWidgets.clear();
+
+    for(ConvKernels::ConvKenrelSetting *s : k->settings()) {
+        FilterSettingsWidget *w = new FilterSettingsWidget(s, mw_dockFilterSettingsContainer);
+        w->show();
+        m_FilterSettingsWidgets.append(w);
+        m_dockFilterSettingsLayout->addWidget(w);
+    }
+}
+
+void MainWindow::initCore() {
+    initOpenCL();
+    Processing::registerConvKernels(&m_convKernels, this);
+}
+
 void MainWindow::initOpenCL() {
     m_ocl = new OCLWrapper();
 
@@ -129,17 +153,9 @@ void MainWindow::initOpenCL() {
     }
 }
 
-void MainWindow::registerConvKernels() {
-    m_convKernels.append(new ConvKernels::GaussianBlur(this));
-    m_convKernels.append(new ConvKernels::Emboss(this));
-    m_convKernels.append(new ConvKernels::Ridge(this));
-    m_convKernels.append(new ConvKernels::Sharpen(this));
-    m_convKernels.append(new ConvKernels::UnsharpMasking(this));
-    m_convKernels.append(new ConvKernels::MotionBlur(this));
-}
-
 void MainWindow::buildKernelComboBox() {
     mw_convKernelComboBox = new QComboBox(this);
+    connect(mw_convKernelComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::filterSelected);
 
     for(ConvKernels::ConvKernel *k : m_convKernels) {
         mw_convKernelComboBox->addItem(k->getName());
@@ -191,3 +207,18 @@ void MainWindow::buildView() {
 
     setCentralWidget(mw_tabWidget);
 }
+
+void MainWindow::buildFilterSettingsView() {
+    mw_dockFilterSettings = new QDockWidget(tr("Filter settings"), this);
+    mw_dockFilterSettings->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+
+    mw_dockFilterSettingsContainer = new QWidget(mw_dockFilterSettings);
+
+    m_dockFilterSettingsLayout = new QVBoxLayout;
+    mw_dockFilterSettingsContainer->setLayout(m_dockFilterSettingsLayout);
+
+    mw_dockFilterSettings->setWidget(mw_dockFilterSettingsContainer);
+
+    addDockWidget(Qt::LeftDockWidgetArea, mw_dockFilterSettings);
+}
+
