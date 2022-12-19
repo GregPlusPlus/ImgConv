@@ -22,8 +22,8 @@
 #include <QElapsedTimer>
 #include <QImageReader>
 
-#include "UI/FilterSettingsWidget/filtersettingswidget.h"
 #include "UI/ImageViewer/imageviewer.h"
+#include "UI/FilterSettingsWidget/filtersettingsdock.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
@@ -57,15 +57,13 @@ private:
     ImageViewer *mw_origImgView;
     ImageViewer *mw_prcdImgView;
     QComboBox *mw_convKernelComboBox;
+    FilterSettingsDock *mw_dockFilterSettings;
     QLabel *mw_labelDevice;
     QLabel *mw_labelImgInfo;
     QLabel *mw_labelElapsedTime;
     QMenu *mw_fileMenu;
     QMenu *mw_processMenu;
     QToolBar *mw_toolBar;
-    QDockWidget *mw_dockFilterSettings;
-    QWidget *mw_dockFilterSettingsContainer;
-    QVBoxLayout *m_dockFilterSettingsLayout;
     QAction *m_openFileAction;
     QAction *m_exportAction;
     QAction *m_exitAction;
@@ -78,6 +76,5 @@ private:
     QImage m_original;
     QImage m_processed;
     QList<ConvKernels::ConvKernel*> m_convKernels;
-    QList<FilterSettingsWidget*> m_FilterSettingsWidgets;
 };
 #endif // MAINWINDOW_H

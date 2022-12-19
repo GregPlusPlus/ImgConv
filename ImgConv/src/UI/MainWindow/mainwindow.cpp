@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     buildMenus();
     buildView();
 
-    setMinimumSize(QSize(500, 500));
+    setMinimumSize(QSize(700, 500));
 }
 
 MainWindow::~MainWindow() {
@@ -94,20 +94,7 @@ void MainWindow::startProcess() {
 void MainWindow::filterSelected(int index) {
     ConvKernels::ConvKernel *k = m_convKernels.at(index);
 
-    for(FilterSettingsWidget *w : m_FilterSettingsWidgets) {
-        if(w) {
-            delete w;
-        }
-    }
-
-    m_FilterSettingsWidgets.clear();
-
-    for(ConvKernels::ConvKenrelSetting *s : k->settings()) {
-        FilterSettingsWidget *w = new FilterSettingsWidget(s, mw_dockFilterSettingsContainer);
-        w->show();
-        m_FilterSettingsWidgets.append(w);
-        m_dockFilterSettingsLayout->addWidget(w);
-    }
+    mw_dockFilterSettings->setConvKernel(k);
 }
 
 void MainWindow::initCore() {
@@ -182,6 +169,7 @@ void MainWindow::buildMenus() {
     mw_toolBar->addAction(m_openFileAction);
     mw_toolBar->addAction(m_exportAction);
     mw_toolBar->addSeparator();
+    mw_toolBar->addWidget(new QLabel(tr("Filter : "), this));
     mw_toolBar->addWidget(mw_convKernelComboBox);
     mw_toolBar->addAction(m_runAction);
     mw_toolBar->addAction(m_backfeedAction);
@@ -209,15 +197,7 @@ void MainWindow::buildView() {
 }
 
 void MainWindow::buildFilterSettingsView() {
-    mw_dockFilterSettings = new QDockWidget(tr("Filter settings"), this);
-    mw_dockFilterSettings->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-
-    mw_dockFilterSettingsContainer = new QWidget(mw_dockFilterSettings);
-
-    m_dockFilterSettingsLayout = new QVBoxLayout;
-    mw_dockFilterSettingsContainer->setLayout(m_dockFilterSettingsLayout);
-
-    mw_dockFilterSettings->setWidget(mw_dockFilterSettingsContainer);
+    mw_dockFilterSettings = new FilterSettingsDock(this);
 
     addDockWidget(Qt::LeftDockWidgetArea, mw_dockFilterSettings);
 }

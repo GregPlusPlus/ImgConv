@@ -48,6 +48,7 @@ public slots:
     void setMin(float min);
     void setMax(uint32_t max);
     void setMax(float max);
+    virtual void settingChanged() {}
 
 signals:
     void valueChanged(const ConvKernels::ConvKenrelSetting *s);
