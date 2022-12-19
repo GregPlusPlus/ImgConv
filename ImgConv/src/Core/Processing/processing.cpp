@@ -5,6 +5,8 @@ bool Processing::processImg(OCLWrapper *ocl, const QImage &in, QImage &out, cons
     int imgH = in.height();
     size_t inSize = in.sizeInBytes();
 
+    ocl->releaseAll();
+
     // Convolution kernel buffer
     ConvKernel1DArray kernel1DArray(k);
 
