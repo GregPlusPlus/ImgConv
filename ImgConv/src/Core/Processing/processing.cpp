@@ -50,7 +50,7 @@ bool Processing::processImg(OCLWrapper *ocl, const QImage &in, QImage &out, cons
     }
 
     // Run kernel
-    ocl->runKernel(imgW, imgH);
+    ocl->runKernel(in.size());
     if(ocl->ret() != CL_SUCCESS) {
         return false;
     }

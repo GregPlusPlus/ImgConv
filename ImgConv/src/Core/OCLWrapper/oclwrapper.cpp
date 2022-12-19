@@ -199,11 +199,12 @@ void OCLWrapper::setKernelArg(size_t i, size_t bs, const uint8_t *b) {
     m_ret = clSetKernelArg(m_kernel, i, bs, b);
 }
 
-void OCLWrapper::runKernel(size_t w, size_t h) {
-    size_t global_item_size[2] = {w, h};
+void OCLWrapper::runKernel(QSize s) {
+    size_t global_item_size[2] = {(size_t)s.width(), (size_t)s.height()};
+    //size_t local_item_size[2] = {1, 1};
 
     m_ret = clEnqueueNDRangeKernel(m_command_queue, m_kernel, 2, NULL,
-            global_item_size, NULL, 0, NULL, NULL);
+            global_item_size, /*local_item_size*/NULL, 0, NULL, NULL);
 
     if(m_ret != CL_SUCCESS) {
         return;

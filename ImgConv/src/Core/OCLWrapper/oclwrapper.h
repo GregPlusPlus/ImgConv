@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QList>
 #include <QByteArray>
+#include <QSize>
 
 #include <QDebug>
 
@@ -33,7 +34,7 @@ public slots:
     void releaseAll();
     void setKernelArg(size_t i, size_t bi);
     void setKernelArg(size_t i, size_t bs, const uint8_t *b);
-    void runKernel(size_t w, size_t h);
+    void runKernel(QSize s);
 
 signals:
 
