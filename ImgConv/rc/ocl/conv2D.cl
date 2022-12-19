@@ -47,19 +47,7 @@ __kernel void conv2D(const __global uchar *In,
         }
     }
 
-    if(sumR > 255) {
-        sumR = 255;
-    }
-
-    if(sumG > 255) {
-        sumG = 255;
-    }
-
-    if(sumB > 255) {
-        sumB = 255;
-    }
-
-    Out[i + 0] = sumR;
-    Out[i + 1] = sumG;
-    Out[i + 2] = sumB;
+    Out[i + 0] = (sumR > 255)? 255: sumR;
+    Out[i + 1] = (sumG > 255)? 255: sumG;
+    Out[i + 2] = (sumB > 255)? 255: sumB;
 }
