@@ -53,8 +53,10 @@ void ConvKernels::GaussianBlur::settingChanged() {
     for(uint32_t y = 0; y < kSize; y ++) {
         k[y].resize(kSize);
         for(uint32_t x = 0; x < kSize; x ++) {
+            int kx = (kSize / 2) - x;
+            int ky = (kSize / 2) - y;
             k[y][x] = 1.f/(2*M_PI*(float)pow(m_stddevSetting->valF(), 2))
-                    *exp(-(float)(x*x+y*y)/(float)(2.f*pow(m_stddevSetting->valF(),2)));
+                    *exp(-(float)(kx*kx+ky*ky)/(float)(2.f*pow(m_stddevSetting->valF(),2)));
             s += k[y][x];
         }
     }
