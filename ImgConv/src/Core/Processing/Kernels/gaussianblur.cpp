@@ -5,17 +5,15 @@
 ConvKernels::GaussianBlur::GaussianBlur(QObject *parent)
     : ConvKernels::ConvKernel{parent}{
     m_sizeSetting = new ConvKenrelSetting(tr("Size"),
-                        ConvKenrelSetting::SettingType_Int,
-                        true, (uint32_t)1,
-                        true, (uint32_t)256,
+                        true, 1,
+                        true, 128,
                         1,
                         this);
 
     m_stddevSetting = new ConvKenrelSetting(tr("Std Dev"),
-                          ConvKenrelSetting::SettingType_Float,
-                          true, (float)1,
-                          false, (float)0,
-                          (float)10,
+                          true, 1.f,
+                          false, 0.f,
+                          10.f,
                           this);
 
     connect(m_sizeSetting, &ConvKenrelSetting::valueChanged, this, &GaussianBlur::settingChanged);
@@ -40,7 +38,7 @@ QString ConvKernels::GaussianBlur::getName() const {
 }
 
 void ConvKernels::GaussianBlur::settingChanged() {
-    size_t kSize = m_sizeSetting->val() * 3;
+    size_t kSize = m_sizeSetting->val() * 2;
 
     if((kSize % 2) == 0) {
         kSize += 1;

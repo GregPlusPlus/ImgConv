@@ -12,6 +12,16 @@ public:
     QVector<QVector<float>> getMat() const;
     float getScalar() const;
     QString getName() const;
+
+private slots:
+    void settingChanged();
+
+private:
+    QVector<QVector<float>> m_k;
+    float m_s;
+
+private:
+    ConvKenrelSetting *m_sizeSetting;
 };
 }
 

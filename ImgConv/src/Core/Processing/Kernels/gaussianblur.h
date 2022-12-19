@@ -13,8 +13,6 @@ public:
     float getScalar() const;
     QString getName() const;
 
-public slots:
-
 private slots:
     void settingChanged();
 
