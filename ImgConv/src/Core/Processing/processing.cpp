@@ -4,8 +4,6 @@ bool Processing::processImg(OCLWrapper *ocl, const QImage &in, QImage &out, cons
     int imgW = in.width();
     int imgH = in.height();
     size_t inSize = in.sizeInBytes();
-    int kW = k[0].size();
-    int kH = k.size();
 
     // Convolution kernel buffer
     ConvKernel1DArray kernel1DArray(k);
@@ -48,12 +46,6 @@ bool Processing::processImg(OCLWrapper *ocl, const QImage &in, QImage &out, cons
             return false;
         }
     }
-    //   Set image size
-    ocl->setKernelArg(3, sizeof(cl_uint), (const uint8_t*)&imgW);
-    ocl->setKernelArg(4, sizeof(cl_uint), (const uint8_t*)&imgH);
-    //   Set convolution kernel size
-    ocl->setKernelArg(5, sizeof(cl_uint), (const uint8_t*)&kW);
-    ocl->setKernelArg(6, sizeof(cl_uint), (const uint8_t*)&kH);
 
     // Run kernel
     ocl->runKernel(imgW, imgH);

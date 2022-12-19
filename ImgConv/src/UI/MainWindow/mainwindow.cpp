@@ -71,6 +71,13 @@ void MainWindow::startProcess() {
 
     ConvKernels::ConvKernel *k = m_convKernels.at(mw_convKernelComboBox->currentIndex());
     QVector<QVector<float>> mat = k->getMat();
+    QSize matSize = k->getMatSize();
+
+    createOCLProgram(QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4")
+                     .arg(m_original.width())
+                     .arg(m_original.height())
+                     .arg(matSize.width())
+                     .arg(matSize.height()));
 
     Utils::scaleMatrix(mat, k->getScalar());
 
@@ -110,8 +117,10 @@ void MainWindow::initOpenCL() {
 
         return;
     }
+}
 
-    QFileDevice::FileError e = m_ocl->createProgramFromFile(":/ocl/conv2D.cl", "conv2D");
+void MainWindow::createOCLProgram(const QString &options) {
+    QFileDevice::FileError e = m_ocl->createProgramFromFile(":/ocl/conv2D.cl", "conv2D", options);
 
     if(e != QFileDevice::NoError) {
         QMessageBox::critical(this, tr("Filesystem error"), tr("File error (%1)").arg(e));

@@ -80,7 +80,7 @@ size_t OCLWrapper::getNumberOfBuffers() const {
     return m_buffers.size();
 }
 
-void OCLWrapper::createProgramFromSource(const QString &s, const QString &kname) {
+void OCLWrapper::createProgramFromSource(const QString &s, const QString &kname, const QString &options) {
     m_ret = CL_SUCCESS;
 
     if(m_kernel) {
@@ -109,7 +109,7 @@ void OCLWrapper::createProgramFromSource(const QString &s, const QString &kname)
         return;
     }
 
-    m_ret = clBuildProgram(m_program, 1, &m_device_id, NULL, NULL, NULL);
+    m_ret = clBuildProgram(m_program, 1, &m_device_id, options.toStdString().c_str(), NULL, NULL);
     if(m_ret != CL_SUCCESS) {
         return;
     }
@@ -120,14 +120,14 @@ void OCLWrapper::createProgramFromSource(const QString &s, const QString &kname)
     }
 }
 
-QFileDevice::FileError OCLWrapper::createProgramFromFile(const QString &fn, const QString &kname) {
+QFileDevice::FileError OCLWrapper::createProgramFromFile(const QString &fn, const QString &kname, const QString &options) {
     QFile f(fn);
 
     if(!f.open(QFile::ReadOnly)) {
         return f.error();
     }
 
-    createProgramFromSource(QString::fromUtf8(f.readAll()), kname);
+    createProgramFromSource(QString::fromUtf8(f.readAll()), kname, options);
 
     return QFileDevice::NoError;
 }

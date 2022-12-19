@@ -46,6 +46,7 @@ private slots:
 private:
     void initCore();
     void initOpenCL();
+    void createOCLProgram(const QString &options);
     void buildMenus();
     void buildView();
     void buildFilterSettingsView();

@@ -1,45 +1,49 @@
-__kernel void conv2D(__global uchar *In,
+__kernel void conv2D(const __global uchar *In,
                      __global uchar *Out,
-                     __global float *k,
-                     uint w, uint h,
-                     uint kw, uint kh) {
+                     __constant float *k) {
 
     size_t x = get_global_id(0);
     size_t y = get_global_id(1);
-    size_t i = w * y + x;
+    size_t i = (W * y + x) * 3;
 
     float sumR = 0;
     float sumG = 0;
     float sumB = 0;
 
-    for(int yK = 0; yK < kh; yK ++) {
-        for(int xK = 0; xK < kw; xK ++) {
-            float kv = k[kh * yK + xK];
+    float kv = 0;
 
-            int px = (int)x - (int)(kw / 2) + (int)xK;
-            int py = (int)y - (int)(kh / 2) + (int)yK;
+    int kRow;
+    int px;
+    int py;
+    int refX = (int)x - (int)(KW / 2);
+    int refY = (int)y - (int)(KH / 2);
+
+    for(int yK = 0; yK < KH; yK ++) {
+        kRow = KH * yK;
+
+        for(int xK = 0; xK < KW; xK ++) {
+            kv = k[kRow + xK];
+
+            px = refX + xK;
+            py = refY + yK;
 
             if(px < 0) {
                 px = 0;
-            }
-
-            if(px >= w) {
-                px = w - 1;
+            } else if(px >= W) {
+                px = W - 1;
             }
 
             if(py < 0) {
                 py = 0;
+            } else if(py >= H) {
+                py = H - 1;
             }
 
-            if(py >= h) {
-                py = h - 1;
-            }
+            int ii = (W * py + px) * 3;
 
-            int ii = w * py + px;
-
-            sumR += kv * (float)In[ii * 3];
-            sumG += kv * (float)In[ii * 3 + 1];
-            sumB += kv * (float)In[ii * 3 + 2];
+            sumR += kv * In[ii + 0];
+            sumG += kv * In[ii + 1];
+            sumB += kv * In[ii + 2];
         }
     }
 
@@ -55,7 +59,7 @@ __kernel void conv2D(__global uchar *In,
         sumB = 255;
     }
 
-    Out[i * 3] = sumR;
-    Out[i * 3 + 1] = sumG;
-    Out[i * 3 + 2] = sumB;
+    Out[i + 0] = sumR;
+    Out[i + 1] = sumG;
+    Out[i + 2] = sumB;
 }

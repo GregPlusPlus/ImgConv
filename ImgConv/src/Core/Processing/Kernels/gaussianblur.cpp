@@ -7,7 +7,7 @@ ConvKernels::GaussianBlur::GaussianBlur(QObject *parent)
     m_sizeSetting = new ConvKenrelSetting(tr("Size"),
                         ConvKenrelSetting::SettingType_Int,
                         true, (uint32_t)1,
-                        false, (uint32_t)0,
+                        true, (uint32_t)256,
                         1,
                         this);
 

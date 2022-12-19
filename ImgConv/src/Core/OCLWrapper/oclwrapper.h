@@ -24,8 +24,8 @@ public:
     cl_int ret() const;
 
 public slots:
-    void createProgramFromSource(const QString &s, const QString &kname);
-    QFileDevice::FileError createProgramFromFile(const QString &fn, const QString &kname);
+    void createProgramFromSource(const QString &s, const QString &kname, const QString &options);
+    QFileDevice::FileError createProgramFromFile(const QString &fn, const QString &kname, const QString &options);
     qint64 addBuffer(size_t size, cl_mem_flags flags);
     bool writeBuffer(size_t i, const uint8_t *b, size_t s);
     bool readBuffer(size_t i, uint8_t **b, size_t *s);

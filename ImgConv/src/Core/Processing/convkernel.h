@@ -2,6 +2,7 @@
 #define CONVKERNEL_H
 
 #include <QObject>
+#include <QSize>
 #include <QVector>
 #include <QList>
 
@@ -73,6 +74,7 @@ public:
     virtual QVector<QVector<float>> getMat() const = 0;
     virtual float getScalar() const = 0;
     virtual QString getName() const = 0;
+    QSize getMatSize() const;
 
     const QList<ConvKenrelSetting *> &settings() const;
 
