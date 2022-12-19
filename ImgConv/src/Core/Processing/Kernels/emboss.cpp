@@ -8,9 +8,17 @@ ConvKernels::Emboss::Emboss(QObject *parent)
                         1,
                         this);
 
+    m_smoothSetting = new ConvKenrelSetting(tr("Smoothing"),
+                                            true, 1.f,
+                                            true, 100.f,
+                                            1.f,
+                                            this);
+
     connect(m_sizeSetting, &ConvKenrelSetting::valueChanged, this, &Emboss::settingChanged);
+    connect(m_smoothSetting, &ConvKenrelSetting::valueChanged, this, &Emboss::settingChanged);
 
     m_settings.append(m_sizeSetting);
+    m_settings.append(m_smoothSetting);
 
     settingChanged();
 }
@@ -52,12 +60,12 @@ void ConvKernels::Emboss::settingChanged() {
                 k[y][x] = -1.f;
             } else if((x == (kSize / 2)) && (y > (kSize / 2))) {
                 k[y][x] = 1.f;
-            } else if((x == (kSize / 2) && (y == (kSize / 2)))) {
-                k[y][x] = 1.f;
             }
         }
     }
 
+    k[(kSize / 2)][(kSize / 2)] = m_smoothSetting->valF();
+
     m_k = k;
-    m_s = 1.f;
+    m_s = 1.f/m_smoothSetting->valF();
 }

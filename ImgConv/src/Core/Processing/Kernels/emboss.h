@@ -22,6 +22,7 @@ private:
 
 private:
     ConvKenrelSetting *m_sizeSetting;
+    ConvKenrelSetting *m_smoothSetting;
 };
 }
 
