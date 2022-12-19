@@ -78,6 +78,9 @@ void MainWindow::startProcess() {
                      .arg(m_original.height())
                      .arg(matSize.width())
                      .arg(matSize.height()));
+    if(m_ocl->ret() != CL_SUCCESS) {
+        return;
+    }
 
     Utils::scaleMatrix(mat, k->getScalar());
 
