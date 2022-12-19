@@ -24,11 +24,13 @@ FilterSettingsWidget::FilterSettingsWidget(ConvKernels::ConvKenrelSetting *setti
         s->setValue(setting->val());
 
         connect(s, &QSpinBox::valueChanged, setting,
-                QOverload<uint32_t>::of(&ConvKernels::ConvKenrelSetting::setVal));
+                QOverload<int>::of(&ConvKernels::ConvKenrelSetting::setVal));
 
         spin = s;
     } else if(setting->type() == ConvKernels::ConvKenrelSetting::SettingType_Float) {
         QDoubleSpinBox *s = new QDoubleSpinBox(this);
+
+        s->setSingleStep(0.1f);
 
         if(setting->hasMax()) {
             s->setMaximum(setting->maxF());

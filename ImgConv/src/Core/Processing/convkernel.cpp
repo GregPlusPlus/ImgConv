@@ -17,15 +17,15 @@ const QList<ConvKenrelSetting *> &ConvKernel::settings() const {
 
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, SettingType type, QObject *parent)
     : QObject{parent}, m_name{name}, m_type{type} {
-    setVal((uint32_t)0);
+    setVal((int)0);
 }
 
-ConvKenrelSetting::ConvKenrelSetting(const QString &name, SettingType type, bool hasMin, uint32_t min, bool hasMax, uint32_t max, uint32_t val, QObject *parent)
-    : QObject{parent}, m_name{name}, m_hasMin{hasMin}, m_hasMax{hasMax}, m_type{type} {
+ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val, QObject *parent)
+    : QObject{parent}, m_name{name}, m_hasMin{hasMin}, m_hasMax{hasMax}, m_type{SettingType_Int} {
     if(hasMin) {
         setMin(min);
     } else {
-        setVal((uint32_t)0);
+        setVal((int)0);
     }
 
     if(hasMax) {
@@ -35,8 +35,8 @@ ConvKenrelSetting::ConvKenrelSetting(const QString &name, SettingType type, bool
     setVal(val);
 }
 
-ConvKenrelSetting::ConvKenrelSetting(const QString &name, SettingType type, bool hasMin, float min, bool hasMax, float max, float val, QObject *parent)
-    : QObject{parent}, m_name{name}, m_hasMin{hasMin}, m_hasMax{hasMax}, m_type{type} {
+ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val, QObject *parent)
+    : QObject{parent}, m_name{name}, m_hasMin{hasMin}, m_hasMax{hasMax}, m_type{SettingType_Float} {
     if(hasMin) {
         setMin(min);
     } else {
@@ -91,8 +91,16 @@ float ConvKenrelSetting::uint32ToFloat(uint32_t v) {
     return *(float*)((uint32_t*)&(v));
 }
 
-void ConvKenrelSetting::setVal(uint32_t val) {
-    m_val = val;
+uint32_t ConvKenrelSetting::intToUint32(int v) {
+    return *(uint32_t*)((int*)&(v));
+}
+
+float ConvKenrelSetting::uint32ToInt(uint32_t v) {
+    return *(int*)((uint32_t*)&(v));
+}
+
+void ConvKenrelSetting::setVal(int val) {
+    m_val = intToUint32(val);
 
     emit valueChanged(this);
 }
@@ -103,32 +111,32 @@ void ConvKenrelSetting::setVal(float val) {
     emit valueChanged(this);
 }
 
-uint32_t ConvKenrelSetting::max() const{
-    return m_max;
+int ConvKenrelSetting::max() const{
+    return uint32ToInt(m_max);
 }
 
-uint32_t ConvKenrelSetting::minF() const {
+int ConvKenrelSetting::min() const {
+    return uint32ToInt(m_min);
+}
+
+float ConvKenrelSetting::minF() const {
     return uint32ToFloat(m_min);
 }
 
-uint32_t ConvKenrelSetting::maxF() const {
+float ConvKenrelSetting::maxF() const {
     return uint32ToFloat(m_max);
 }
 
-void ConvKenrelSetting::setMax(uint32_t max) {
-    m_max = max;
+void ConvKenrelSetting::setMax(int max) {
+    m_max = intToUint32(max);
 }
 
 void ConvKenrelSetting::setMax(float max) {
     m_max = floatToUint32(max);
 }
 
-uint32_t ConvKenrelSetting::min() const {
-    return m_min;
-}
-
-void ConvKenrelSetting::setMin(uint32_t min) {
-    m_min = min;
+void ConvKenrelSetting::setMin(int min) {
+    m_min = intToUint32(min);
 }
 
 void ConvKenrelSetting::setMin(float min) {

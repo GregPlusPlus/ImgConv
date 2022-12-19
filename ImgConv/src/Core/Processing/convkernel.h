@@ -21,8 +21,8 @@ public:
 
 public:
     explicit ConvKenrelSetting(const QString &name, SettingType type, QObject *parent = nullptr);
-    explicit ConvKenrelSetting(const QString &name, SettingType type, bool hasMin, uint32_t min, bool hasMax, uint32_t max, uint32_t val = 0, QObject *parent = nullptr);
-    explicit ConvKenrelSetting(const QString &name, SettingType type, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
+    explicit ConvKenrelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
+    explicit ConvKenrelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
 
     QString name() const;
     void setName(const QString &name);
@@ -34,20 +34,22 @@ public:
     void setType(SettingType type);
     uint32_t val() const;
     float valF() const;
-    uint32_t min() const;
-    uint32_t max() const;
-    uint32_t minF() const;
-    uint32_t maxF() const;
+    int min() const;
+    int max() const;
+    float minF() const;
+    float maxF() const;
 
     static uint32_t floatToUint32(float v);
     static float uint32ToFloat(uint32_t v);
+    static uint32_t intToUint32(int v);
+    static float uint32ToInt(uint32_t v);
 
 public slots:
-    void setVal(uint32_t val);
+    void setVal(int val);
     void setVal(float val);
-    void setMin(uint32_t min);
+    void setMin(int min);
     void setMin(float min);
-    void setMax(uint32_t max);
+    void setMax(int max);
     void setMax(float max);
     virtual void settingChanged() {}
 
