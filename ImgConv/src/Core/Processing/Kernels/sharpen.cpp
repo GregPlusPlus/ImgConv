@@ -17,8 +17,8 @@ ConvKernels::Sharpen::Sharpen(QObject *parent)
     connect(m_strengthSetting, &ConvKenrelSetting::valueChanged, this, &Sharpen::settingChanged);
     connect(m_smoothSetting, &ConvKenrelSetting::valueChanged, this, &Sharpen::settingChanged);
 
-    m_settings.append(m_strengthSetting);
-    m_settings.append(m_smoothSetting);
+    addSetting(m_strengthSetting);
+    addSetting(m_smoothSetting);
 
     settingChanged();
 }

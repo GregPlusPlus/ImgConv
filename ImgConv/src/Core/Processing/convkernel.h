@@ -80,6 +80,8 @@ public:
 
     const QList<ConvKenrelSetting *> &settings() const;
 
+    void addSetting(ConvKenrelSetting *s);
+
 public slots:
     virtual void reset() {}
     virtual void setSettingValue(const ConvKernels::ConvKenrelSetting *s) {Q_UNUSED(s)};
@@ -87,8 +89,6 @@ public slots:
 signals:
 
 private:
-
-protected:
     QList<ConvKenrelSetting *> m_settings;
 
 };

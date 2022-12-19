@@ -15,6 +15,10 @@ const QList<ConvKenrelSetting *> &ConvKernel::settings() const {
     return m_settings;
 }
 
+void ConvKernel::addSetting(ConvKenrelSetting *s) {
+    m_settings.append(s);
+}
+
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, SettingType type, QObject *parent)
     : QObject{parent}, m_name{name}, m_type{type} {
     setVal((int)0);

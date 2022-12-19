@@ -17,8 +17,8 @@ ConvKernels::Emboss::Emboss(QObject *parent)
     connect(m_sizeSetting, &ConvKenrelSetting::valueChanged, this, &Emboss::settingChanged);
     connect(m_smoothSetting, &ConvKenrelSetting::valueChanged, this, &Emboss::settingChanged);
 
-    m_settings.append(m_sizeSetting);
-    m_settings.append(m_smoothSetting);
+    addSetting(m_sizeSetting);
+    addSetting(m_smoothSetting);
 
     settingChanged();
 }

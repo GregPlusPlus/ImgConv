@@ -19,8 +19,8 @@ ConvKernels::GaussianBlur::GaussianBlur(QObject *parent)
     connect(m_sizeSetting, &ConvKenrelSetting::valueChanged, this, &GaussianBlur::settingChanged);
     connect(m_stddevSetting, &ConvKenrelSetting::valueChanged, this, &GaussianBlur::settingChanged);
 
-    m_settings.append(m_sizeSetting);
-    m_settings.append(m_stddevSetting);
+    addSetting(m_sizeSetting);
+    addSetting(m_stddevSetting);
 
     settingChanged();
 }
