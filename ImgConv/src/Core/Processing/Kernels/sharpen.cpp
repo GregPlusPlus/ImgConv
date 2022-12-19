@@ -14,8 +14,6 @@ ConvKernels::Sharpen::Sharpen(QObject *parent)
                                             1.f,
                                             this);
 
-    qDebug() << m_smoothSetting->valF();
-
     connect(m_strengthSetting, &ConvKenrelSetting::valueChanged, this, &Sharpen::settingChanged);
     connect(m_smoothSetting, &ConvKenrelSetting::valueChanged, this, &Sharpen::settingChanged);
 
