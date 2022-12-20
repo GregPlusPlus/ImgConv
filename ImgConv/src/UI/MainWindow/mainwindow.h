@@ -68,6 +68,7 @@ private:
     QAction *m_openFileAction;
     QAction *m_exportAction;
     QAction *m_exitAction;
+    QAction *m_reloadKernelAction;
     QAction *m_runAction;
     QAction *m_backfeedAction;
 

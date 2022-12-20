@@ -175,6 +175,9 @@ void MainWindow::buildMenus() {
     m_exitAction = mw_fileMenu->addAction(QIcon(":/icons/door-open-in.png"), tr("&Exit"), tr("Ctrl+W"), this, [](){qApp->exit();});
 
     mw_processMenu = menuBar()->addMenu(tr("&Process"));
+    m_reloadKernelAction = mw_processMenu->addAction(QIcon(":/icons/arrow-circle-double.png"), tr("Reload current &kernel"), tr("F5"), this, [this]() {
+        filterSelected(mw_convKernelComboBox->currentIndex());
+    });
     m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startProcess);
     m_backfeedAction = mw_processMenu->addAction(QIcon(":/icons/arrow-transition-180.png"), tr("&Backfeed"), tr("Ctrl+B"), this, [this](){
         if(!m_processed.isNull()) {
@@ -188,6 +191,7 @@ void MainWindow::buildMenus() {
     mw_toolBar->addSeparator();
     mw_toolBar->addWidget(new QLabel(tr("Filter : "), this));
     mw_toolBar->addWidget(mw_convKernelComboBox);
+    mw_toolBar->addAction(m_reloadKernelAction);
     mw_toolBar->addAction(m_runAction);
     mw_toolBar->addAction(m_backfeedAction);
     addToolBar(mw_toolBar);
