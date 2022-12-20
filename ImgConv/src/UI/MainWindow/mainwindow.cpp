@@ -107,6 +107,7 @@ void MainWindow::startProcess() {
 
 void MainWindow::filterSelected(int index) {
     ConvKernels::ConvKernel *k = m_convKernels.at(index);
+    k->select();
 
     mw_dockFilterSettings->setConvKernel(k);
 }

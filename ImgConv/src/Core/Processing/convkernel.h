@@ -85,6 +85,7 @@ public:
 public slots:
     virtual void reset() {}
     virtual void setSettingValue(const ConvKernels::ConvKenrelSetting *s) {Q_UNUSED(s)};
+    virtual void select() {}
 
 signals:
 
