@@ -7,5 +7,6 @@
 #include "sharpen.h"
 #include "unsharpmasking.h"
 #include "motionblur.h"
+#include "custom.h"
 
 #endif // KERNELS_H

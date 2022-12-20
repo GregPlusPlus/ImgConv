@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     src/Core/OCLWrapper/oclwrapper.cpp \
+    src/Core/Processing/Kernels/custom.cpp \
     src/Core/Processing/Kernels/emboss.cpp \
     src/Core/Processing/Kernels/gaussianblur.cpp \
     src/Core/Processing/Kernels/motionblur.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
     src/main.cpp
 HEADERS += \
     src/Core/OCLWrapper/oclwrapper.h \
+    src/Core/Processing/Kernels/custom.h \
     src/Core/Processing/Kernels/emboss.h \
     src/Core/Processing/Kernels/gaussianblur.h \
     src/Core/Processing/Kernels/kernels.h \
