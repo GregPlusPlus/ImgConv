@@ -8,7 +8,15 @@ ConvKernel::ConvKernel(QObject *parent)
 }
 
 QSize ConvKernel::getMatSize() const {
-    return QSize(getMat()[0].size(), getMat().size());
+    QSize s(0, 0);
+
+    s.setHeight(getMat().size());
+
+    if(s.height()) {
+        s.setWidth(getMat()[0].size());
+    }
+
+    return s;
 }
 
 const QList<ConvKenrelSetting *> &ConvKernel::settings() const {
