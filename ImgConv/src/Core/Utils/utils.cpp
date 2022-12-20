@@ -14,7 +14,9 @@ void Utils::imageToMatrix(QVector<QVector<float>> &m, QImage &i) {
     for(int y = 0; y < i.height(); y ++) {
         m[y].resize(i.width());
         for(int x = 0; x < i.width(); x ++) {
-            m[y][x] = qRed(i.pixel(x, y)) / 255.f;
+            float v = (float)(qRed(i.pixel(x, y)) - 128.f) / 128.f;
+
+            m[y][x] = v;
         }
     }
 }
