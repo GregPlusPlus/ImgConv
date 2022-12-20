@@ -73,6 +73,10 @@ void MainWindow::startProcess() {
     QVector<QVector<float>> mat = k->getMat();
     QSize matSize = k->getMatSize();
 
+    if(!matSize.width() || !matSize.height()) {
+        return;
+    }
+
     createOCLProgram(QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4")
                      .arg(m_original.width())
                      .arg(m_original.height())
