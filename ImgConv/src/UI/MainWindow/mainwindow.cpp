@@ -88,21 +88,32 @@ void MainWindow::startProcess() {
 
     Utils::scaleMatrix(mat, k->getScalar());
 
-    QElapsedTimer tm;
-    tm.start();
+    Threads::Process *process = new Threads::Process(m_ocl, m_original, mat);
 
-    if(!Processing::processImg(m_ocl, m_original, m_processed, mat)) {
-        QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
-    }
+    connect(process, &Threads::Process::finished, this, [this](const QImage &img, qint64 et, bool res) {
+        if(!res) {
+            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(res));
 
-    qint64 elapsed = tm.elapsed();
+            m_runAction->setDisabled(false);
 
-    mw_labelElapsedTime->setText(tr("Processing done in %1 ms. - Approx %2 px/sec.")
-                                 .arg(elapsed).arg(1000.f*(m_processed.size().width()*m_processed.size().height())/elapsed));
+            return;
+        }
 
-    mw_prcdImgView->setPixmap(QPixmap::fromImage(m_processed));
+        m_processed = img;
 
-    mw_tabWidget->setCurrentWidget(mw_prcdImgView);
+        mw_labelElapsedTime->setText(tr("Processing done in %1 ms. - Approx %2 px/sec.")
+                                     .arg(et)
+                                     .arg(1000.f*(m_processed.size().width()*m_processed.size().height())/et));
+
+        mw_prcdImgView->setPixmap(QPixmap::fromImage(m_processed));
+
+        mw_tabWidget->setCurrentWidget(mw_prcdImgView);
+
+        m_runAction->setDisabled(false);
+    });
+
+    m_runAction->setDisabled(true);
+    QThreadPool::globalInstance()->start(process);
 }
 
 void MainWindow::filterSelected(int index) {

@@ -28,7 +28,7 @@
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
-#include "Core/Threads/imgloader.h"
+#include "Core/Threads/threads.h"
 #include "Core/Utils/utils.h"
 
 
