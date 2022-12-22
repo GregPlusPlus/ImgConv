@@ -2,7 +2,8 @@
 
 WaitDialog::WaitDialog(const QString &text) {
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |
-                   Qt::WindowTitleHint | Qt::Tool | Qt::CustomizeWindowHint);
+                   Qt::WindowTitleHint | Qt::Tool |
+                   Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
     setWindowTitle(tr("Work in progress"));
     setWindowIcon(QIcon(":/icons/hourglass.png"));
 
