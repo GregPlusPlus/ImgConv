@@ -242,6 +242,10 @@ void MainWindow::buildMenus() {
         QMessageBox::aboutQt(this);
     });
 
+    m_openCLDevices = mw_helpMenu->addAction(tr("Open&CL Devices"), this, [this]() {
+        QMessageBox::information(this, tr("OpenCL Devices"), OCLWrapper::getDevicesInfoStr());
+    });
+
     mw_toolBar = new QToolBar(tr("Tools"), this);
     mw_toolBar->addAction(m_openFileAction);
     mw_toolBar->addAction(m_exportAction);

@@ -97,6 +97,7 @@ private:
     QAction *m_backfeedAction;
     QAction *m_aboutAction;
     QAction *m_aboutQtAction;
+    QAction *m_openCLDevices;
 
 private:
     OCLWrapper *m_ocl;

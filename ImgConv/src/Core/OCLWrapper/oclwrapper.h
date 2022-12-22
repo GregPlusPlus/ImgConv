@@ -42,6 +42,8 @@ public:
 
     cl_int ret() const;
 
+    static QString getDevicesInfoStr();
+
 public slots:
     void createProgramFromSource(const QString &s, const QString &kname, const QString &options);
     QFileDevice::FileError createProgramFromFile(const QString &fn, const QString &kname, const QString &options);
