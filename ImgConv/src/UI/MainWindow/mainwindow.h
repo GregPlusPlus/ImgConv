@@ -25,6 +25,7 @@
 
 #include "UI/ImageViewer/imageviewer.h"
 #include "UI/FilterSettingsWidget/filtersettingsdock.h"
+#include "UI/WaitDialog/waitdialog.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"

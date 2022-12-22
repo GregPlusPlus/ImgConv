@@ -28,16 +28,20 @@ void MainWindow::openFile() {
         return;
     }
 
+    WaitDialog *dialog = new WaitDialog(tr("Opening image..."));
     Threads::ImgLoader *imgLoader = new Threads::ImgLoader(fn);
 
-    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this](QImage img, qint64 et) {
+    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog](QImage img, qint64 et) {
         mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
         showOriginalImage(img);
 
         m_openFileAction->setDisabled(false);
+        delete dialog;
     });
 
     m_openFileAction->setDisabled(true);
+    dialog->show();
+
     QThreadPool::globalInstance()->start(imgLoader);
 }
 
@@ -88,13 +92,15 @@ void MainWindow::startProcess() {
 
     Utils::scaleMatrix(mat, k->getScalar());
 
+    WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
     Threads::Process *process = new Threads::Process(m_ocl, m_original, mat);
 
-    connect(process, &Threads::Process::finished, this, [this](const QImage &img, qint64 et, bool res) {
+    connect(process, &Threads::Process::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
         if(!res) {
             QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(res));
 
             m_runAction->setDisabled(false);
+            delete dialog;
 
             return;
         }
@@ -110,9 +116,12 @@ void MainWindow::startProcess() {
         mw_tabWidget->setCurrentWidget(mw_prcdImgView);
 
         m_runAction->setDisabled(false);
+        delete dialog;
     });
 
     m_runAction->setDisabled(true);
+    dialog->show();
+
     QThreadPool::globalInstance()->start(process);
 }
 

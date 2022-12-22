@@ -27,6 +27,7 @@ SOURCES += \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
     src/UI/MainWindow/mainwindow.cpp \
+    src/UI/WaitDialog/waitdialog.cpp \
     src/main.cpp
 HEADERS += \
     src/Core/OCLWrapper/oclwrapper.h \
@@ -48,7 +49,8 @@ HEADERS += \
     src/UI/FilterSettingsWidget/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \
     src/UI/ImageViewer/imageviewer.h \
-    src/UI/MainWindow/mainwindow.h
+    src/UI/MainWindow/mainwindow.h \
+    src/UI/WaitDialog/waitdialog.h
 
 INCLUDEPATH += \
     libs/include/ \
