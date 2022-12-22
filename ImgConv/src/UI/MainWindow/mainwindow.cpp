@@ -1,10 +1,29 @@
+/**
+ ** This file is part of the ImgConv project.
+ ** Copyright 2022-2023 Grégoire BOST <bostgregoire@gmail.com>.
+ **
+ ** This program is free software: you can redistribute it and/or modify
+ ** it under the terms of the GNU Lesser General Public License as
+ ** published by the Free Software Foundation, either version 3 of the
+ ** License, or (at your option) any later version.
+ **
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU Lesser General Public License for more details.
+ **
+ ** You should have received a copy of the GNU Lesser General Public License
+ ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ **/
+
+
 #include "mainwindow.h"
 #include "Core/Processing/processing.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) {
     setWindowIcon(QIcon(":/icons/icon.png"));
-    setWindowTitle(tr("Accelerated Image Convolution Filtering"));
+    setWindowTitle(APP_NAME);
 
     buildFilterSettingsView();
     initCore();
@@ -203,6 +222,24 @@ void MainWindow::buildMenus() {
         if(!m_processed.isNull()) {
             showOriginalImage(m_processed);
         }
+    });
+
+    mw_helpMenu = menuBar()->addMenu(tr("&Help"));
+    m_aboutAction = mw_helpMenu->addAction(tr("&About this program"), this, [this]() {
+        QMessageBox::about(this, tr("About this program"),
+                           tr("%1 %2<br><br>\
+                              Some icons are provided under a \
+                              <a href='https://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 License</a> \
+                              by Yusuke Kamiyamane <a href='https://p.yusukekamiyamane.com/'>(Fugue Icons)</a>.<br><br>\
+                              %3\
+                              <hr>%4")
+                           .arg(APP_NAME)
+                           .arg(GIT_VERSION)
+                           .arg(COPYRIGHT)
+                           .arg(LGPL_STR));
+    });
+    m_aboutQtAction = mw_helpMenu->addAction(tr("About &Qt"), this, [this]() {
+        QMessageBox::aboutQt(this);
     });
 
     mw_toolBar = new QToolBar(tr("Tools"), this);
