@@ -20,6 +20,7 @@ SOURCES += \
     src/Core/Processing/convkernel.cpp \
     src/Core/Processing/convkernel1darray.cpp \
     src/Core/Processing/processing.cpp \
+    src/Core/Threads/imgloader.cpp \
     src/Core/Utils/utils.cpp \
     src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     src/Core/Processing/convkernel.h \
     src/Core/Processing/convkernel1darray.h \
     src/Core/Processing/processing.h \
+    src/Core/Threads/imgloader.h \
     src/Core/Utils/utils.h \
     src/UI/FilterSettingsWidget/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \

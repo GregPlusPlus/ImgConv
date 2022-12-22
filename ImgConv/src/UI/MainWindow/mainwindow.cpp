@@ -28,20 +28,20 @@ void MainWindow::openFile() {
         return;
     }
 
-    QElapsedTimer tm;
-    tm.start();
+    Threads::ImgLoader *imgLoader = new Threads::ImgLoader(fn);
 
-    QImageReader r;
-    r.setAllocationLimit(0);
-    r.setFileName(fn);
-    QImage img = r.read().convertToFormat(QImage::Format_RGB888);
+    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this](QImage img, qint64 et) {
+        mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
+        showOriginalImage(img);
 
-    mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(tm.elapsed()));
+        m_openFileAction->setDisabled(false);
+    });
 
-    loadImage(img);
+    m_openFileAction->setDisabled(true);
+    QThreadPool::globalInstance()->start(imgLoader);
 }
 
-void MainWindow::loadImage(const QImage &img) {
+void MainWindow::showOriginalImage(const QImage &img) {
     m_original = img;
 
     mw_origImgView->setPixmap(QPixmap::fromImage(m_original));
@@ -181,7 +181,7 @@ void MainWindow::buildMenus() {
     m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startProcess);
     m_backfeedAction = mw_processMenu->addAction(QIcon(":/icons/arrow-transition-180.png"), tr("&Backfeed"), tr("Ctrl+B"), this, [this](){
         if(!m_processed.isNull()) {
-            loadImage(m_processed);
+            showOriginalImage(m_processed);
         }
     });
 

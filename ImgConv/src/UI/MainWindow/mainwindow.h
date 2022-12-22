@@ -21,12 +21,14 @@
 #include <QList>
 #include <QElapsedTimer>
 #include <QImageReader>
+#include <QThreadPool>
 
 #include "UI/ImageViewer/imageviewer.h"
 #include "UI/FilterSettingsWidget/filtersettingsdock.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
+#include "Core/Threads/imgloader.h"
 #include "Core/Utils/utils.h"
 
 
@@ -51,7 +53,7 @@ private:
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
-    void loadImage(const QImage &img);
+    void showOriginalImage(const QImage &img);
 
 private:
     QTabWidget *mw_tabWidget;
