@@ -6,8 +6,6 @@
 #include <QImageReader>
 #include <QElapsedTimer>
 
-#include <QDebug>
-
 namespace Threads {
 class ImgLoader : public QObject, public QRunnable
 {
