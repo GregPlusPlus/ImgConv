@@ -228,7 +228,8 @@ void MainWindow::buildMenus() {
     mw_helpMenu = menuBar()->addMenu(tr("&Help"));
     m_aboutAction = mw_helpMenu->addAction(tr("&About this program"), this, [this]() {
         QMessageBox::about(this, tr("About this program"),
-                           tr("%1 %2<br><br>\
+                           tr("<h1>%1</h1> \
+                              [Rev. %2]<br><br> \
                               Some icons are provided under a \
                               <a href='https://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 License</a> \
                               by Yusuke Kamiyamane <a href='https://p.yusukekamiyamane.com/'>(Fugue Icons)</a>.<br><br>\
