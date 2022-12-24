@@ -18,27 +18,17 @@
 
 #include "oclwrapper.h"
 
-OCLWrapper::OCLWrapper(QObject *parent)
-    : QObject{parent} {
+OCLWrapper::OCLWrapper(const Device &d, QObject *parent)
+    : QObject{parent}, m_device{d} {
 
     m_ret = CL_SUCCESS;
 
-    m_ret = clGetPlatformIDs(1, &m_platform_id, &m_ret_num_platforms);
+    m_context = clCreateContext(NULL, 1, &m_device.device, NULL, NULL, &m_ret);
     if(m_ret != CL_SUCCESS) {
         return;
     }
 
-    m_ret = clGetDeviceIDs(m_platform_id, CL_DEVICE_TYPE_ALL, 1, &m_device_id, &m_ret_num_devices);
-    if(m_ret != CL_SUCCESS) {
-        return;
-    }
-
-    m_context = clCreateContext(NULL, 1, &m_device_id, NULL, NULL, &m_ret);
-    if(m_ret != CL_SUCCESS) {
-        return;
-    }
-
-    m_command_queue = clCreateCommandQueue(m_context, m_device_id, 0, &m_ret);
+    m_command_queue = clCreateCommandQueue(m_context, m_device.device, 0, &m_ret);
     if(m_ret != CL_SUCCESS) {
         return;
     }
@@ -72,7 +62,7 @@ OCLWrapper::~OCLWrapper() {
 QString OCLWrapper::getDeviceName() {
     char device_name_buffer[128] = {0};
 
-    m_ret = clGetDeviceInfo(m_device_id, CL_DEVICE_NAME,
+    m_ret = clGetDeviceInfo(m_device.device, CL_DEVICE_NAME,
                             sizeof(device_name_buffer), device_name_buffer, NULL);
     if(m_ret != CL_SUCCESS) {
         return QString();
@@ -84,7 +74,7 @@ QString OCLWrapper::getDeviceName() {
 QString OCLWrapper::getBuildLog() {
     char program_log_buffer[128] = {0};
 
-    m_ret = clGetProgramBuildInfo(m_program, m_device_id, CL_PROGRAM_BUILD_LOG,
+    m_ret = clGetProgramBuildInfo(m_program, m_device.device, CL_PROGRAM_BUILD_LOG,
                                   sizeof(program_log_buffer), program_log_buffer, NULL);
 
     if(m_ret != CL_SUCCESS) {
@@ -127,7 +117,7 @@ void OCLWrapper::createProgramFromSource(const QString &s, const QString &kname,
         return;
     }
 
-    m_ret = clBuildProgram(m_program, 1, &m_device_id, options.toStdString().c_str(), NULL, NULL);
+    m_ret = clBuildProgram(m_program, 1, &m_device.device, options.toStdString().c_str(), NULL, NULL);
     if(m_ret != CL_SUCCESS) {
         return;
     }
@@ -311,4 +301,51 @@ QString OCLWrapper::getDevicesInfoStr() {
     delete[] platforms;
 
     return str;
+}
+
+QList<OCLWrapper::Device> OCLWrapper::getDevices() {
+    QList<OCLWrapper::Device> list;
+
+    char* value;
+    size_t valueSize;
+    cl_uint platformCount;
+    cl_platform_id* platforms;
+    cl_uint deviceCount;
+    cl_device_id* devices;
+
+    // get all platforms
+    clGetPlatformIDs(0, NULL, &platformCount);
+    platforms = new cl_platform_id[platformCount];
+    clGetPlatformIDs(platformCount, platforms, NULL);
+
+    for(cl_uint i = 0; i < platformCount; i ++) {
+        // get all devices
+        clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 0, NULL, &deviceCount);
+        devices = new cl_device_id[deviceCount];
+        clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, deviceCount, devices, NULL);
+
+        // for each device print critical attributes
+        for(cl_uint j = 0; j < deviceCount; j ++) {
+
+            OCLWrapper::Device device;
+
+            device.device = devices[j];
+            device.platform = platforms[i];
+
+            // print device name
+            clGetDeviceInfo(devices[j], CL_DEVICE_NAME, 0, NULL, &valueSize);
+            value = new char[valueSize];
+            clGetDeviceInfo(devices[j], CL_DEVICE_NAME, valueSize, value, NULL);
+            device.name = value;
+            delete[] value;
+
+            list.append(device);
+        }
+
+        delete[] devices;
+    }
+
+    delete[] platforms;
+
+    return list;
 }

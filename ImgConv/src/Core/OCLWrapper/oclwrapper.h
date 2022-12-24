@@ -24,6 +24,7 @@
 #include <QFile>
 #include <QList>
 #include <QByteArray>
+#include <QList>
 #include <QSize>
 
 #include <QDebug>
@@ -32,8 +33,16 @@
 
 class OCLWrapper : public QObject {
     Q_OBJECT
+
 public:
-    explicit OCLWrapper(QObject *parent = nullptr);
+    struct Device {
+        cl_platform_id platform;
+        cl_device_id device;
+        QString name;
+    };
+
+public:
+    explicit OCLWrapper(const Device &d, QObject *parent = nullptr);
     virtual ~OCLWrapper();
 
     QString getDeviceName();
@@ -43,6 +52,7 @@ public:
     cl_int ret() const;
 
     static QString getDevicesInfoStr();
+    static QList<Device> getDevices();
 
 public slots:
     void createProgramFromSource(const QString &s, const QString &kname, const QString &options);
@@ -59,11 +69,8 @@ public slots:
 signals:
 
 private:
+    Device m_device;
     cl_int m_ret = CL_SUCCESS;
-    cl_platform_id m_platform_id = NULL;
-    cl_device_id m_device_id = NULL;
-    cl_uint m_ret_num_devices = 0;
-    cl_uint m_ret_num_platforms = 0;
     cl_context m_context = NULL;
     cl_command_queue m_command_queue = NULL;
     cl_program m_program = NULL;

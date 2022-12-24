@@ -101,7 +101,7 @@ private:
 
 private:
     OCLWrapper *m_ocl;
-    QString m_deviceName;
+    QList<OCLWrapper::Device> m_devices;
     QImage m_original;
     QImage m_processed;
     QList<ConvKernels::ConvKernel*> m_convKernels;

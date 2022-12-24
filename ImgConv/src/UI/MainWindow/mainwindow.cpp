@@ -36,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-    delete m_ocl;
 }
 
 void MainWindow::openFile() {
@@ -157,7 +156,9 @@ void MainWindow::initCore() {
 }
 
 void MainWindow::initOpenCL() {
-    m_ocl = new OCLWrapper();
+    m_devices = OCLWrapper::getDevices();
+
+    m_ocl = new OCLWrapper(m_devices[1], this);
 
     if(m_ocl->ret() != CL_SUCCESS) {
         QMessageBox::critical(this, tr("OCL init error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
