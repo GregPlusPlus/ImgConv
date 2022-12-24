@@ -66,6 +66,7 @@ private slots:
     void exportFile();
     void startProcess();
     void filterSelected(int index);
+    void showAboutDialog();
 
 private:
     void initCore();
