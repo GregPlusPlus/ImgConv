@@ -1,18 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QApplication>
-
-#include <QMainWindow>
-#include <QMenuBar>
-#include <QToolBar>
-#include <QStatusBar>
-#include <QMenu>
-#include <QAction>
-#include <QDialog>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QLabel>
 /**
  ** This file is part of the ImgConv project.
  ** Copyright 2022-2023 Grégoire BOST <bostgregoire@gmail.com>.
@@ -31,6 +19,18 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
+#include <QApplication>
+
+#include <QMainWindow>
+#include <QMenuBar>
+#include <QToolBar>
+#include <QStatusBar>
+#include <QMenu>
+#include <QAction>
+#include <QDialog>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QLabel>
 #include <QTabWidget>
 #include <QComboBox>
 #include <QDockWidget>
