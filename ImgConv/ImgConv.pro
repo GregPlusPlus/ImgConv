@@ -29,6 +29,7 @@ SOURCES += \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
     src/UI/MainWindow/mainwindow.cpp \
+    src/UI/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/WaitDialog/waitdialog.cpp \
     src/main.cpp
 HEADERS += \
@@ -53,6 +54,7 @@ HEADERS += \
     src/UI/ImageViewer/imageviewer.h \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \
+    src/UI/SelectDeviceDialog/selectdevicedialog.h \
     src/UI/WaitDialog/waitdialog.h
 
 INCLUDEPATH += \

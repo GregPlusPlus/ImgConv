@@ -46,6 +46,7 @@
 #include "UI/ImageViewer/imageviewer.h"
 #include "UI/FilterSettingsWidget/filtersettingsdock.h"
 #include "UI/WaitDialog/waitdialog.h"
+#include "UI/SelectDeviceDialog/selectdevicedialog.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
@@ -68,9 +69,10 @@ private slots:
 
 private:
     void initCore();
-    void initOpenCL();
+    void initOpenCL(const OCLWrapper::Device &device);
     void createOCLProgram(const QString &options);
     void buildMenus();
+    void updateDeviceNameStatusBar();
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
@@ -91,6 +93,7 @@ private:
     QToolBar *mw_toolBar;
     QAction *m_openFileAction;
     QAction *m_exportAction;
+    QAction *m_selectDeviceAction;
     QAction *m_exitAction;
     QAction *m_reloadKernelAction;
     QAction *m_runAction;
@@ -100,7 +103,7 @@ private:
     QAction *m_openCLDevices;
 
 private:
-    OCLWrapper *m_ocl;
+    OCLWrapper *m_ocl = nullptr;
     QList<OCLWrapper::Device> m_devices;
     QImage m_original;
     QImage m_processed;

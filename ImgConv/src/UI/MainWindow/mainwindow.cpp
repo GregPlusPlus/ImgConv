@@ -134,10 +134,12 @@ void MainWindow::startProcess() {
         mw_tabWidget->setCurrentWidget(mw_prcdImgView);
 
         m_runAction->setDisabled(false);
+        m_selectDeviceAction->setDisabled(false);
         delete dialog;
     });
 
     m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
     dialog->show();
 
     QThreadPool::globalInstance()->start(process);
@@ -151,14 +153,17 @@ void MainWindow::filterSelected(int index) {
 }
 
 void MainWindow::initCore() {
-    initOpenCL();
+    m_devices = OCLWrapper::getDevices();
+    initOpenCL(m_devices[0]);
     Processing::registerConvKernels(&m_convKernels, this);
 }
 
-void MainWindow::initOpenCL() {
-    m_devices = OCLWrapper::getDevices();
+void MainWindow::initOpenCL(const OCLWrapper::Device &device) {
+    if(m_ocl) {
+        delete m_ocl;
+    }
 
-    m_ocl = new OCLWrapper(m_devices[1], this);
+    m_ocl = new OCLWrapper(device, this);
 
     if(m_ocl->ret() != CL_SUCCESS) {
         QMessageBox::critical(this, tr("OCL init error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
@@ -212,6 +217,14 @@ void MainWindow::buildMenus() {
     m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
     m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportFile);
     mw_fileMenu->addSeparator();
+    m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
+        SelectDeviceDialog dialog(m_devices);
+        if(dialog.exec() == QDialog::Accepted) {
+            initOpenCL(dialog.getDevice());
+            updateDeviceNameStatusBar();
+        }
+    });
+    mw_fileMenu->addSeparator();
     m_exitAction = mw_fileMenu->addAction(QIcon(":/icons/door-open-in.png"), tr("&Exit"), tr("Ctrl+W"), this, [](){qApp->exit();});
 
     mw_processMenu = menuBar()->addMenu(tr("&Process"));
@@ -259,13 +272,19 @@ void MainWindow::buildMenus() {
     mw_toolBar->addAction(m_backfeedAction);
     addToolBar(mw_toolBar);
 
-    mw_labelDevice = new QLabel(m_ocl->getDeviceName(), this);
+    mw_labelDevice = new QLabel(this);
     mw_labelImgInfo = new QLabel(this);
     mw_labelElapsedTime = new QLabel(this);
+
+    updateDeviceNameStatusBar();
 
     statusBar()->addWidget(mw_labelDevice);
     statusBar()->addWidget(mw_labelImgInfo);
     statusBar()->addWidget(mw_labelElapsedTime);
+}
+
+void MainWindow::updateDeviceNameStatusBar() {
+    mw_labelDevice->setText(m_ocl->getDeviceName());
 }
 
 void MainWindow::buildView() {
