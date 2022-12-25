@@ -22,7 +22,7 @@ FilterSettingsWidget::FilterSettingsWidget(ConvKernels::ConvKenrelSetting *setti
     : QWidget{parent}, m_setting{setting} {
     m_layout = new QFormLayout;
 
-    QAbstractSpinBox *spin = nullptr;
+    QWidget *w = nullptr;
 
     if(setting->type() == ConvKernels::ConvKenrelSetting::SettingType_Int) {
         QSpinBox *s = new QSpinBox(this);
@@ -44,7 +44,7 @@ FilterSettingsWidget::FilterSettingsWidget(ConvKernels::ConvKenrelSetting *setti
         connect(s, &QSpinBox::valueChanged, setting,
                 QOverload<int>::of(&ConvKernels::ConvKenrelSetting::setVal));
 
-        spin = s;
+        w = s;
     } else if(setting->type() == ConvKernels::ConvKenrelSetting::SettingType_Float) {
         QDoubleSpinBox *s = new QDoubleSpinBox(this);
 
@@ -66,11 +66,26 @@ FilterSettingsWidget::FilterSettingsWidget(ConvKernels::ConvKenrelSetting *setti
         connect(s, &QDoubleSpinBox::valueChanged, setting,
                 QOverload<float>::of(&ConvKernels::ConvKenrelSetting::setVal));
 
-        spin = s;
+        w = s;
+    } else if(setting->type() == ConvKernels::ConvKenrelSetting::SettingsType_Bool) {
+        QCheckBox *c = new QCheckBox(this);
+        c->setChecked(setting->valB());
+
+        connect(c, &QCheckBox::stateChanged, setting,
+                QOverload<bool>::of(&ConvKernels::ConvKenrelSetting::setVal));
+
+        w = c;
+    } else if(setting->type() == ConvKernels::ConvKenrelSetting::SettingsType_String) {
+        QLineEdit *l = new QLineEdit(setting->valS(), this);
+
+        connect(l, &QLineEdit::textChanged, setting,
+                QOverload<QString>::of(&ConvKernels::ConvKenrelSetting::setVal));
+
+        w = l;
     }
 
-    if(spin) {
-        m_layout->addRow(setting->name(), spin);
+    if(w) {
+        m_layout->addRow(setting->name(), w);
     }
 
     setLayout(m_layout);

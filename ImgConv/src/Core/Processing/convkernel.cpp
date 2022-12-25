@@ -80,6 +80,16 @@ ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, float min
     setVal(val);
 }
 
+ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool val, QObject *parent)
+: QObject{parent}, m_name{name}, m_type{SettingsType_Bool} {
+    setVal(val);
+}
+
+ConvKenrelSetting::ConvKenrelSetting(const QString &name, QString val, QObject *parent)
+    : QObject{parent}, m_name{name}, m_type{SettingsType_String} {
+    setVal(val);
+}
+
 
 QString ConvKenrelSetting::name() const {
     return m_name;
@@ -113,6 +123,14 @@ float ConvKenrelSetting::valF() const {
     return m_val.toFloat();
 }
 
+bool ConvKenrelSetting::valB() const {
+    return m_val.toBool();
+}
+
+QString ConvKenrelSetting::valS() const {
+    return m_val.toString();
+}
+
 void ConvKenrelSetting::setVal(int val) {
     m_val = QVariant(val);
 
@@ -120,6 +138,18 @@ void ConvKenrelSetting::setVal(int val) {
 }
 
 void ConvKenrelSetting::setVal(float val) {
+    m_val = QVariant(val);
+
+    emit valueChanged(this);
+}
+
+void ConvKenrelSetting::setVal(bool val) {
+    m_val = QVariant(val);
+
+    emit valueChanged(this);
+}
+
+void ConvKenrelSetting::setVal(QString val) {
     m_val = QVariant(val);
 
     emit valueChanged(this);

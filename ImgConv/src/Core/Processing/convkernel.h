@@ -35,13 +35,17 @@ class ConvKenrelSetting : public QObject
 public:
     enum SettingType {
         SettingType_Float,
-        SettingType_Int
+        SettingType_Int,
+        SettingsType_Bool,
+        SettingsType_String
     };
 
 public:
     explicit ConvKenrelSetting(const QString &name, SettingType type, QObject *parent = nullptr);
     explicit ConvKenrelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
     explicit ConvKenrelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
+    explicit ConvKenrelSetting(const QString &name, bool val, QObject *parent = nullptr);
+    explicit ConvKenrelSetting(const QString &name, QString val, QObject *parent = nullptr);
 
     QString name() const;
     void setName(const QString &name);
@@ -53,6 +57,8 @@ public:
     void setType(SettingType type);
     int val() const;
     float valF() const;
+    bool valB() const;
+    QString valS() const;
     int min() const;
     int max() const;
     float minF() const;
@@ -61,6 +67,8 @@ public:
 public slots:
     void setVal(int val);
     void setVal(float val);
+    void setVal(bool val);
+    void setVal(QString val);
     void setMin(int min);
     void setMin(float min);
     void setMax(int max);

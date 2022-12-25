@@ -22,6 +22,8 @@
 #include <QWidget>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
+#include <QCheckBox>
+#include <QLineEdit>
 #include <QFormLayout>
 
 #include "Core/Processing/convkernel.h"
