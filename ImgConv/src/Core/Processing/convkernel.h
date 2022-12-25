@@ -23,6 +23,7 @@
 #include <QSize>
 #include <QVector>
 #include <QList>
+#include <QVariant>
 
 #include <QDebug>
 
@@ -50,17 +51,12 @@ public:
     void setHasMax(bool hasMax);
     SettingType type() const;
     void setType(SettingType type);
-    uint32_t val() const;
+    int val() const;
     float valF() const;
     int min() const;
     int max() const;
     float minF() const;
     float maxF() const;
-
-    static uint32_t floatToUint32(float v);
-    static float uint32ToFloat(uint32_t v);
-    static uint32_t intToUint32(int v);
-    static float uint32ToInt(uint32_t v);
 
 public slots:
     void setVal(int val);
@@ -79,9 +75,9 @@ private:
     bool m_hasMin = false;
     bool m_hasMax = false;
     SettingType m_type;
-    uint32_t m_val;
-    uint32_t m_min;
-    uint32_t m_max;
+    QVariant m_val;
+    QVariant m_min;
+    QVariant m_max;
 };
 
 class ConvKernel : public QObject
