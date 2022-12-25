@@ -20,7 +20,13 @@
 
 ConvKernels::Custom::Custom(QObject *parent)
     : ConvKernel{parent} {
+    m_normalizeSetting = new ConvKenrelSetting(tr("Normalize kernel"),
+                                               true,
+                                               this);
 
+    connect(m_normalizeSetting, &ConvKenrelSetting::valueChanged, this, &Custom::settingChanged);
+
+    addSetting(m_normalizeSetting);
 }
 
 QVector<QVector<float> > ConvKernels::Custom::getMat() const {
@@ -47,5 +53,15 @@ void ConvKernels::Custom::select() {
 
     Utils::imageToMatrix(m_k, kImg);
 
-    m_s = 1.f/Utils::matrixSumCoef(m_k);
+    settingChanged();
+}
+
+void ConvKernels::Custom::settingChanged() {
+    float s = 1.f;
+
+    if(m_normalizeSetting->valB()) {
+        s = 1.f/Utils::matrixSumCoef(m_k);
+    }
+
+    m_s = s;
 }

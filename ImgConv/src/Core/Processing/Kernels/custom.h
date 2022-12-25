@@ -37,8 +37,10 @@ public:
 
 public slots:
     void select();
+    void settingChanged();
 
 private:
+    ConvKenrelSetting *m_normalizeSetting;
     QVector<QVector<float>> m_k;
     float m_s;
 };
