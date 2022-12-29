@@ -60,28 +60,46 @@ OCLWrapper::~OCLWrapper() {
 }
 
 QString OCLWrapper::getDeviceName() {
-    char device_name_buffer[128] = {0};
+    size_t buffSize = 0;
+    QString str;
 
     m_ret = clGetDeviceInfo(m_device.device, CL_DEVICE_NAME,
-                            sizeof(device_name_buffer), device_name_buffer, NULL);
+                            0, NULL, &buffSize);
     if(m_ret != CL_SUCCESS) {
         return QString();
     }
 
-    return QString(device_name_buffer);
+    char *buff = new char[buffSize];
+
+    m_ret = clGetDeviceInfo(m_device.device, CL_DEVICE_NAME,
+                            buffSize, buff, NULL);
+
+    str = QString(buff);
+    delete[] buff;
+
+    return str;
 }
 
 QString OCLWrapper::getBuildLog() {
-    char program_log_buffer[128] = {0};
+    size_t buffSize = 0;
+    QString str;
 
     m_ret = clGetProgramBuildInfo(m_program, m_device.device, CL_PROGRAM_BUILD_LOG,
-                                  sizeof(program_log_buffer), program_log_buffer, NULL);
+                                  0, NULL, &buffSize);
 
     if(m_ret != CL_SUCCESS) {
         return QString();
     }
 
-    return QString(program_log_buffer);
+    char *buff = new char[buffSize];
+
+    m_ret = clGetProgramBuildInfo(m_program, m_device.device, CL_PROGRAM_BUILD_LOG,
+                                  buffSize, buff, NULL);
+
+    str = QString(buff);
+    delete[] buff;
+
+    return str;
 }
 
 size_t OCLWrapper::getNumberOfBuffers() const {
