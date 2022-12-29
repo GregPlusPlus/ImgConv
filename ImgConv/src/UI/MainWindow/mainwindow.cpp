@@ -25,8 +25,10 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon(":/icons/icon.png"));
     setWindowTitle(APP_NAME);
 
-    buildFilterSettingsView();
+
     initCore();
+
+    buildFilterSettingsView();
 
     buildKernelComboBox();
     buildMenus();

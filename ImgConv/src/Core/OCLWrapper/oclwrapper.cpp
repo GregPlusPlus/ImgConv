@@ -254,13 +254,11 @@ QString OCLWrapper::getDevicesInfoStr() {
     cl_device_id* devices;
     cl_uint maxComputeUnits;
 
-    // get all platforms
     clGetPlatformIDs(0, NULL, &platformCount);
     platforms = new cl_platform_id[platformCount];
     clGetPlatformIDs(platformCount, platforms, NULL);
 
     for(cl_uint i = 0; i < platformCount; i ++) {
-
 
         clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, 0, NULL, &valueSize);
         value = new char[valueSize];
@@ -268,43 +266,41 @@ QString OCLWrapper::getDevicesInfoStr() {
         str += tr("%1. Platform: %2\n").arg(i+1).arg(value);
         delete[] value;
 
-        // get all devices
         clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 0, NULL, &deviceCount);
         devices = new cl_device_id[deviceCount];
         clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, deviceCount, devices, NULL);
 
-        // for each device print critical attributes
         for(cl_uint j = 0; j < deviceCount; j ++) {
 
-            // print device name
+            // Print device name
             clGetDeviceInfo(devices[j], CL_DEVICE_NAME, 0, NULL, &valueSize);
             value = new char[valueSize];
             clGetDeviceInfo(devices[j], CL_DEVICE_NAME, valueSize, value, NULL);
             str += tr("  %1. Device: %2\n").arg(j+1).arg(value);
             delete[] value;
 
-            // print hardware device version
+            // Print hardware device version
             clGetDeviceInfo(devices[j], CL_DEVICE_VERSION, 0, NULL, &valueSize);
             value = new char[valueSize];
             clGetDeviceInfo(devices[j], CL_DEVICE_VERSION, valueSize, value, NULL);
             str += tr("    %1.1 Hardware version: %2\n").arg(j+1).arg(value);
             delete[] value;
 
-            // print software driver version
+            // Print software driver version
             clGetDeviceInfo(devices[j], CL_DRIVER_VERSION, 0, NULL, &valueSize);
             value = new char[valueSize];
             clGetDeviceInfo(devices[j], CL_DRIVER_VERSION, valueSize, value, NULL);
             str += tr("    %1.2 Software version: %2\n").arg(j+1).arg(value);
             delete[] value;
 
-            // print c version supported by compiler for device
+            // Print c version supported by compiler for device
             clGetDeviceInfo(devices[j], CL_DEVICE_OPENCL_C_VERSION, 0, NULL, &valueSize);
             value = new char[valueSize];
             clGetDeviceInfo(devices[j], CL_DEVICE_OPENCL_C_VERSION, valueSize, value, NULL);
             str += tr("    %1.3 OpenCL C version: %2\n").arg(j+1).arg(value);
             delete[] value;
 
-            // print parallel compute units
+            // Print parallel compute units
             clGetDeviceInfo(devices[j], CL_DEVICE_MAX_COMPUTE_UNITS,
                     sizeof(maxComputeUnits), &maxComputeUnits, NULL);
             str += tr("    %1.4 Parallel compute units: %2\n").arg(j+1).arg(maxComputeUnits);
@@ -331,18 +327,16 @@ QList<OCLWrapper::Device> OCLWrapper::getDevices() {
     cl_uint deviceCount;
     cl_device_id* devices;
 
-    // get all platforms
     clGetPlatformIDs(0, NULL, &platformCount);
     platforms = new cl_platform_id[platformCount];
     clGetPlatformIDs(platformCount, platforms, NULL);
 
     for(cl_uint i = 0; i < platformCount; i ++) {
-        // get all devices
+
         clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 0, NULL, &deviceCount);
         devices = new cl_device_id[deviceCount];
         clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, deviceCount, devices, NULL);
 
-        // for each device print critical attributes
         for(cl_uint j = 0; j < deviceCount; j ++) {
 
             OCLWrapper::Device device;
@@ -350,7 +344,6 @@ QList<OCLWrapper::Device> OCLWrapper::getDevices() {
             device.device = devices[j];
             device.platform = platforms[i];
 
-            // print device name
             clGetDeviceInfo(devices[j], CL_DEVICE_NAME, 0, NULL, &valueSize);
             value = new char[valueSize];
             clGetDeviceInfo(devices[j], CL_DEVICE_NAME, valueSize, value, NULL);
