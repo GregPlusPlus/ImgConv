@@ -40,6 +40,7 @@
 #include <QElapsedTimer>
 #include <QImageReader>
 #include <QThreadPool>
+#include <QCloseEvent>
 
 #include "app_strings.h"
 
@@ -109,5 +110,8 @@ private:
     QImage m_original;
     QImage m_processed;
     QList<ConvKernels::ConvKernel*> m_convKernels;
+
+protected:
+    void closeEvent(QCloseEvent *ev);
 };
 #endif // MAINWINDOW_H

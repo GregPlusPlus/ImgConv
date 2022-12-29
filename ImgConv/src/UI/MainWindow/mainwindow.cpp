@@ -309,3 +309,11 @@ void MainWindow::buildFilterSettingsView() {
     addDockWidget(Qt::LeftDockWidgetArea, mw_dockFilterSettings);
 }
 
+void MainWindow::closeEvent(QCloseEvent *ev) {
+    if(m_ocl->isRunning()) {
+        ev->ignore();
+        return;
+    }
+
+    ev->accept();
+}
