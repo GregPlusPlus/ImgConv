@@ -229,14 +229,23 @@ void OCLWrapper::runKernel(QSize s) {
     size_t global_item_size[2] = {(size_t)s.width(), (size_t)s.height()};
     //size_t local_item_size[2] = {1, 1};
 
+    m_isRunning = true;
+
     m_ret = clEnqueueNDRangeKernel(m_command_queue, m_kernel, 2, NULL,
             global_item_size, /*local_item_size*/NULL, 0, NULL, NULL);
 
     if(m_ret != CL_SUCCESS) {
+        m_isRunning = false;
+
         return;
     }
 
     m_ret = clFinish(m_command_queue);
+    m_isRunning = false;
+}
+
+bool OCLWrapper::isRunning() const {
+    return m_isRunning;
 }
 
 cl_int OCLWrapper::ret() const {

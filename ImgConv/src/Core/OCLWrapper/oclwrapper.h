@@ -54,6 +54,8 @@ public:
     static QString getDevicesInfoStr();
     static QList<Device> getDevices();
 
+    bool isRunning() const;
+
 public slots:
     void createProgramFromSource(const QString &s, const QString &kname, const QString &options);
     QFileDevice::FileError createProgramFromFile(const QString &fn, const QString &kname, const QString &options);
@@ -77,6 +79,8 @@ private:
     cl_kernel m_kernel = NULL;
 
     QList<cl_mem> m_buffers;
+
+    bool m_isRunning = false;
 };
 
 #endif // OCLWRAPPER_H
