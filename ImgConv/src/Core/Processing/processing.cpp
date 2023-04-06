@@ -79,7 +79,8 @@ bool Processing::processImg(OCLWrapper *ocl, const QImage &in, QImage &out, cons
     }
 
     // Convert back buffer to image
-    out = QImage((const uchar *)outImg, imgW, imgH, QImage::Format_RGB888);
+    out = QImage((const uchar *)outImg, imgW, imgH, QImage::Format_RGB888).copy();
+    delete[] outImg;
 
     ocl->releaseAll();
 
