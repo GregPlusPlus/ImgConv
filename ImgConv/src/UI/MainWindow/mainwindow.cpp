@@ -69,7 +69,7 @@ void MainWindow::showOriginalImage(const QImage &img) {
     m_original = img;
 
     mw_origImgView->setPixmap(QPixmap::fromImage(m_original));
-    mw_prcdImgView->setPixmap(QPixmap());
+    mw_processedImgView->setPixmap(QPixmap());
 
     mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
                              .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
@@ -129,11 +129,11 @@ void MainWindow::startProcess() {
 
         mw_labelElapsedTime->setText(tr("Processing done in %1 ms. - Approx %2 px/sec.")
                                      .arg(et)
-                                     .arg(1000.f*(m_processed.size().width()*m_processed.size().height())/et));
+                                     .arg(1000.f * (m_processed.size().width() * m_processed.size().height()) / et));
 
-        mw_prcdImgView->setPixmap(QPixmap::fromImage(m_processed));
+        mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
 
-        mw_tabWidget->setCurrentWidget(mw_prcdImgView);
+        mw_tabWidget->setCurrentWidget(mw_processedImgView);
 
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
@@ -295,10 +295,10 @@ void MainWindow::buildView() {
     mw_tabWidget = new QTabWidget(this);
 
     mw_origImgView = new ImageViewer(tr("Original image"));
-    mw_prcdImgView = new ImageViewer(tr("Processed image"));
+    mw_processedImgView = new ImageViewer(tr("Processed image"));
 
     mw_tabWidget->addTab(mw_origImgView, tr("Original"));
-    mw_tabWidget->addTab(mw_prcdImgView, tr("Processed"));
+    mw_tabWidget->addTab(mw_processedImgView, tr("Processed"));
 
     setCentralWidget(mw_tabWidget);
 }

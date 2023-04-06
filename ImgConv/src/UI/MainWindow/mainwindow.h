@@ -83,7 +83,7 @@ private:
 private:
     QTabWidget *mw_tabWidget;
     ImageViewer *mw_origImgView;
-    ImageViewer *mw_prcdImgView;
+    ImageViewer *mw_processedImgView;
     QComboBox *mw_convKernelComboBox;
     FilterSettingsDock *mw_dockFilterSettings;
     QLabel *mw_labelDevice;
