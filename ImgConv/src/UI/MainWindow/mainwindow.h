@@ -70,7 +70,7 @@ private slots:
     void showAboutDialog();
 
 private:
-    void initCore();
+    bool initCore();
     void initOpenCL(const OCLWrapper::Device &device);
     void createOCLProgram(const QString &options);
     void buildMenus();

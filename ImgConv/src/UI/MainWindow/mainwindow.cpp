@@ -26,7 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(APP_NAME);
 
 
-    initCore();
+    if(!initCore()) {
+        exit(EXIT_FAILURE);
+    }
 
     buildFilterSettingsView();
 
@@ -169,10 +171,19 @@ void MainWindow::showAboutDialog() {
                        .arg(LGPL_STR));
 }
 
-void MainWindow::initCore() {
+bool MainWindow::initCore() {
     m_devices = OCLWrapper::getDevices();
+
+    if(m_devices.count() == 0) {
+        QMessageBox::critical(nullptr, tr("OCL init error"), tr("No OpenCL compatible device found !"));
+
+        return false;
+    }
+
     initOpenCL(m_devices[0]);
     Processing::registerConvKernels(&m_convKernels, this);
+
+    return true;
 }
 
 void MainWindow::initOpenCL(const OCLWrapper::Device &device) {
