@@ -62,7 +62,8 @@ INCLUDEPATH += \
     src/
 
 LIBS += \
-    -Llibs/lib/ -lOpenCL
+    -Llibs/lib/ \
+    -lOpenCL
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
