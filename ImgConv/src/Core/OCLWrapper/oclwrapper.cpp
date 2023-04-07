@@ -150,12 +150,15 @@ QFileDevice::FileError OCLWrapper::createProgramFromFile(const QString &fn, cons
     QFile f(fn);
 
     if(!f.open(QFile::ReadOnly)) {
+        f.close();
         return f.error();
     }
 
     createProgramFromSource(QString::fromUtf8(f.readAll()), kname, options);
 
-    return QFileDevice::NoError;
+    f.close();
+
+    return f.error();
 }
 
 qint64 OCLWrapper::addBuffer(size_t size, cl_mem_flags flags) {
