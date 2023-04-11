@@ -28,6 +28,8 @@
 
 #include "Core/Processing/convkernel.h"
 
+#include "UI/FilterSettingsWidget/filenamepicker.h"
+
 class FilterSettingsWidget : public QWidget
 {
     Q_OBJECT

@@ -25,6 +25,7 @@ SOURCES += \
     src/Core/Threads/imgloader.cpp \
     src/Core/Threads/process.cpp \
     src/Core/Utils/utils.cpp \
+    src/UI/FilterSettingsWidget/filenamepicker.cpp \
     src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     src/Core/Threads/process.h \
     src/Core/Threads/threads.h \
     src/Core/Utils/utils.h \
+    src/UI/FilterSettingsWidget/filenamepicker.h \
     src/UI/FilterSettingsWidget/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \
     src/UI/ImageViewer/imageviewer.h \

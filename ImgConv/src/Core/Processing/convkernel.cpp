@@ -22,7 +22,10 @@ using namespace ConvKernels;
 
 ConvKernel::ConvKernel(QObject *parent)
     : QObject{parent} {
-
+    ConvKenrelSetting *sourcePath = new ConvKenrelSetting(tr("Source file"), tr("Open source file"),
+                                                          tr("OpenCL source (*.cl *.c);;All files (*.*)"),
+                                                          QString(":/ocl/conv2D.cl"), this);
+    addSetting(sourcePath);
 }
 
 QSize ConvKernel::getMatSize() const {
@@ -41,8 +44,26 @@ const QList<ConvKenrelSetting *> &ConvKernel::settings() const {
     return m_settings;
 }
 
+ConvKenrelSetting *ConvKernel::getSettingByName(const QString &name) const {
+    for(ConvKenrelSetting *s : settings()) {
+        if(s->name() == name) {
+            return s;
+        }
+    }
+
+    return nullptr;
+}
+
 void ConvKernel::addSetting(ConvKenrelSetting *s) {
     m_settings.append(s);
+}
+
+QString ConvKernel::getSourceFilePath() const {
+    return getSettingByName(tr("Source file"))->valS();
+}
+
+void ConvKernel::setSourceFilePath(const QString &path) {
+    getSettingByName(tr("Source file"))->setVal(path);
 }
 
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, SettingType type, QObject *parent)
@@ -88,6 +109,13 @@ ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool val, QObject *par
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, QString val, QObject *parent)
     : QObject{parent}, m_name{name}, m_type{SettingsType_String} {
     setVal(val);
+}
+
+ConvKenrelSetting::ConvKenrelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent)
+    : QObject{parent}, m_name{name}, m_type{SettingsType_FileName} {
+    setVal(fileName);
+    setFileNameTitle(title);
+    setFileNameFilter(filter);
 }
 
 
@@ -193,5 +221,21 @@ bool ConvKenrelSetting::hasMin() const {
 
 void ConvKenrelSetting::setHasMin(bool hasMin) {
     m_hasMin = hasMin;
+}
+
+const QString &ConvKenrelSetting::fileNameTitle() const {
+    return m_fileNameTitle;
+}
+
+void ConvKenrelSetting::setFileNameTitle(const QString &newFileNameTitle) {
+    m_fileNameTitle = newFileNameTitle;
+}
+
+const QString &ConvKenrelSetting::fileNameFilter() const {
+    return m_fileNameFilter;
+}
+
+void ConvKenrelSetting::setFileNameFilter(const QString &newFileNameFilter) {
+    m_fileNameFilter = newFileNameFilter;
 }
 

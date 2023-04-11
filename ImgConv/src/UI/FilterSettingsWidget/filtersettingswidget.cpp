@@ -82,6 +82,14 @@ FilterSettingsWidget::FilterSettingsWidget(ConvKernels::ConvKenrelSetting *setti
                 QOverload<QString>::of(&ConvKernels::ConvKenrelSetting::setVal));
 
         w = l;
+    } else if(setting->type() == ConvKernels::ConvKenrelSetting::SettingsType_FileName) {
+        FileNamePicker *fnp = new FileNamePicker(setting->fileNameTitle(), setting->fileNameFilter(), this);
+        fnp->setFileName(setting->valS());
+
+        connect(fnp, &FileNamePicker::fileNameChanged, setting,
+                QOverload<QString>::of(&ConvKernels::ConvKenrelSetting::setVal));
+
+        w = fnp;
     }
 
     if(w) {
