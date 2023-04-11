@@ -24,6 +24,11 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
 
     mw_editor = new CodeEditor(this);
 
+    int id = QFontDatabase::addApplicationFont(":/fonts/SourceCodePro-Regular.ttf");
+    QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+    QFont code(family);
+    mw_editor->setFont(code);
+
     m_layout = new QVBoxLayout;
     m_layout->addWidget(mw_editor);
 

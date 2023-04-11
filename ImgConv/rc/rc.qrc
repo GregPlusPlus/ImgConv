@@ -11,5 +11,6 @@
         <file>icons/spinner.gif</file>
         <file>icons/hourglass.png</file>
         <file>icons/graphic-card.png</file>
+        <file>fonts/SourceCodePro-Regular.ttf</file>
     </qresource>
 </RCC>
