@@ -314,8 +314,11 @@ void MainWindow::buildView() {
     mw_origImgView = new ImageViewer(tr("Original image"));
     mw_processedImgView = new ImageViewer(tr("Processed image"));
 
+    mw_codeEditor = new CodeEditor(this);
+
     mw_tabWidget->addTab(mw_origImgView, tr("Original"));
     mw_tabWidget->addTab(mw_processedImgView, tr("Processed"));
+    mw_tabWidget->addTab(mw_codeEditor, tr("Code editor"));
 
     setCentralWidget(mw_tabWidget);
 }

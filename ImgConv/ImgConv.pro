@@ -32,6 +32,7 @@ SOURCES += \
     src/UI/MainWindow/mainwindow.cpp \
     src/UI/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/WaitDialog/waitdialog.cpp \
+    src/UI/CodeEditor/codeeditor.cpp \
     src/main.cpp
 HEADERS += \
     src/Core/OCLWrapper/oclwrapper.h \
@@ -57,7 +58,8 @@ HEADERS += \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \
     src/UI/SelectDeviceDialog/selectdevicedialog.h \
-    src/UI/WaitDialog/waitdialog.h
+    src/UI/WaitDialog/waitdialog.h \
+    src/UI/CodeEditor/codeeditor.h
 
 INCLUDEPATH += \
     libs/include/ \
