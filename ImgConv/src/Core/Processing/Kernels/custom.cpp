@@ -20,12 +20,28 @@
 
 ConvKernels::Custom::Custom(QObject *parent)
     : ConvKernel{parent} {
+    m_kernelFileSetting = new ConvKenrelSetting(tr("Kernel"), tr("Open kernel as image file"),
+                                                tr("Image files (*.png *.jpg *.bmp)"), QString(), this);
+
     m_normalizeSetting = new ConvKenrelSetting(tr("Normalize kernel"),
                                                true,
                                                this);
 
-    connect(m_normalizeSetting, &ConvKenrelSetting::valueChanged, this, &Custom::settingChanged);
+    connect(m_kernelFileSetting, &ConvKenrelSetting::valueChanged, this, [=]() {
+        if(m_kernelFileSetting->valS().isEmpty()) {
+            return;
+        }
 
+        QImage kImg(m_kernelFileSetting->valS());
+
+        Utils::imageToMatrix(m_k, kImg);
+
+        updateFilter();
+    });
+
+    connect(m_normalizeSetting, &ConvKenrelSetting::valueChanged, this, &ConvKernels::Custom::updateFilter);
+
+    addSetting(m_kernelFileSetting);
     addSetting(m_normalizeSetting);
 }
 
@@ -42,21 +58,10 @@ QString ConvKernels::Custom::getName() const {
 }
 
 void ConvKernels::Custom::select() {
-    QString fn = QFileDialog::getOpenFileName(nullptr, tr("Open kernel as image file"), QString(),
-                                              tr("Image files (*.png *.jpg *.bmp)"));
-
-    if(fn.isEmpty()) {
-        return;
-    }
-
-    QImage kImg(fn);
-
-    Utils::imageToMatrix(m_k, kImg);
-
-    settingChanged();
+    updateFilter();
 }
 
-void ConvKernels::Custom::settingChanged() {
+void ConvKernels::Custom::updateFilter() {
     float s = 1.f;
 
     if(m_normalizeSetting->valB()) {

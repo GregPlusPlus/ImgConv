@@ -37,9 +37,12 @@ public:
 
 public slots:
     void select();
-    void settingChanged();
+
+private slots:
+    void updateFilter();
 
 private:
+    ConvKenrelSetting *m_kernelFileSetting;
     ConvKenrelSetting *m_normalizeSetting;
     QVector<QVector<float>> m_k;
     float m_s;
