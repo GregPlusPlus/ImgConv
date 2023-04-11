@@ -25,6 +25,7 @@ SOURCES += \
     src/Core/Threads/imgloader.cpp \
     src/Core/Threads/process.cpp \
     src/Core/Utils/utils.cpp \
+    src/UI/CodeEditor/codeeditorcontainer.cpp \
     src/UI/FilterSettingsWidget/filenamepicker.cpp \
     src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
@@ -32,7 +33,6 @@ SOURCES += \
     src/UI/MainWindow/mainwindow.cpp \
     src/UI/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/WaitDialog/waitdialog.cpp \
-    src/UI/CodeEditor/codeeditor.cpp \
     src/main.cpp
 HEADERS += \
     src/Core/OCLWrapper/oclwrapper.h \
@@ -51,6 +51,7 @@ HEADERS += \
     src/Core/Threads/process.h \
     src/Core/Threads/threads.h \
     src/Core/Utils/utils.h \
+    src/UI/CodeEditor/codeeditorcontainer.h \
     src/UI/FilterSettingsWidget/filenamepicker.h \
     src/UI/FilterSettingsWidget/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \
@@ -58,8 +59,7 @@ HEADERS += \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \
     src/UI/SelectDeviceDialog/selectdevicedialog.h \
-    src/UI/WaitDialog/waitdialog.h \
-    src/UI/CodeEditor/codeeditor.h
+    src/UI/WaitDialog/waitdialog.h
 
 INCLUDEPATH += \
     libs/include/ \

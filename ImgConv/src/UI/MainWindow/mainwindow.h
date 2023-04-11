@@ -48,7 +48,7 @@
 #include "UI/FilterSettingsWidget/filtersettingsdock.h"
 #include "UI/WaitDialog/waitdialog.h"
 #include "UI/SelectDeviceDialog/selectdevicedialog.h"
-#include "UI/CodeEditor/codeeditor.h"
+#include "UI/CodeEditor/codeeditorcontainer.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
@@ -85,7 +85,7 @@ private:
     QTabWidget *mw_tabWidget;
     ImageViewer *mw_origImgView;
     ImageViewer *mw_processedImgView;
-    CodeEditor *mw_codeEditor;
+    CodeEditorContainter *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
     FilterSettingsDock *mw_dockFilterSettings;
     QLabel *mw_labelDevice;
