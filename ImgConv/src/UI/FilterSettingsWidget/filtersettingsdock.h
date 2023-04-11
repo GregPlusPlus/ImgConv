@@ -20,6 +20,9 @@
 #define FILTERSETTINGSDOCK_H
 
 #include <QDockWidget>
+#include <QTextEdit>
+#include <QSplitter>
+
 #include <QList>
 
 #include "UI/FilterSettingsWidget/filtersettingswidget.h"
@@ -34,8 +37,14 @@ public slots:
     void setConvKernel(ConvKernels::ConvKernel *k);
 
 private:
+    void updateDescription(ConvKernels::ConvKernel *k);
+
+private:
+    QSplitter *mw_splitter;
     QWidget *mw_container;
-    QVBoxLayout *m_layout = nullptr;
+    QTextEdit *mw_descriptionField;
+    QVBoxLayout *m_layout;
+    QVBoxLayout *m_settingsLayout = nullptr;
 
 private:
     QList<FilterSettingsWidget*> m_FilterSettingsWidgets;

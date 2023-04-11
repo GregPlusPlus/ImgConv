@@ -42,3 +42,9 @@ float ConvKernels::UnsharpMasking::getScalar() const {
 QString ConvKernels::UnsharpMasking::getName() const {
     return tr("Unsharp masking");
 }
+
+QString ConvKernels::UnsharpMasking::getDescription() {
+    return tr("Applies the <i>Unsharp Masking (USM)</i> effect. This effect increases the edge's contrast, " \
+              "and is an improved version of the <i>Sharpen</i> effect.<br><br>" \
+              "This effect doesn't have any parameters to tweak.");
+}

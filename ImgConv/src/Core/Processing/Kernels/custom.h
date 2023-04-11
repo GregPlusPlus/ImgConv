@@ -34,6 +34,7 @@ public:
     QVector<QVector<float>> getMat() const;
     float getScalar() const;
     QString getName() const;
+    QString getDescription();
 
 public slots:
     void select();
