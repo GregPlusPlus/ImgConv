@@ -103,12 +103,15 @@ void MainWindow::startProcess() {
         return;
     }
 
-    createOCLProgram(k->getSourceFilePath(),
-                    QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4")
-                    .arg(m_original.width())
-                    .arg(m_original.height())
-                    .arg(matSize.width())
-                    .arg(matSize.height()));
+    if(!createOCLProgram(k->getSourceFilePath(),
+                            QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4")
+                            .arg(m_original.width())
+                            .arg(m_original.height())
+                            .arg(matSize.width())
+                            .arg(matSize.height()))) {
+
+        return;
+    }
     if(m_ocl->ret() != CL_SUCCESS) {
         return;
     }
@@ -120,7 +123,7 @@ void MainWindow::startProcess() {
 
     connect(process, &Threads::Process::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
         if(!res) {
-            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(res));
+            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
 
             m_runAction->setDisabled(false);
             delete dialog;
@@ -201,13 +204,13 @@ void MainWindow::initOpenCL(const OCLWrapper::Device &device) {
     }
 }
 
-void MainWindow::createOCLProgram(const QString &fn, const QString &options) {
+bool MainWindow::createOCLProgram(const QString &fn, const QString &options) {
     QFileDevice::FileError e = m_ocl->createProgramFromFile(fn, "conv2D", options);
 
     if(e != QFileDevice::NoError) {
         QMessageBox::critical(this, tr("Filesystem error"), tr("File error (%1)").arg(e));
 
-        return;
+        return false;
     }
 
     if(m_ocl->ret() != CL_SUCCESS) {
@@ -227,8 +230,10 @@ void MainWindow::createOCLProgram(const QString &fn, const QString &options) {
             break;
         }
 
-        return;
+        return false;
     }
+
+    return true;
 }
 
 void MainWindow::buildKernelComboBox() {

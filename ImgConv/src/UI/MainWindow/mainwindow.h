@@ -72,7 +72,7 @@ private slots:
 private:
     bool initCore();
     void initOpenCL(const OCLWrapper::Device &device);
-    void createOCLProgram(const QString &fn, const QString &options);
+    bool createOCLProgram(const QString &fn, const QString &options);
     void buildMenus();
     void updateDeviceNameStatusBar();
     void buildView();
