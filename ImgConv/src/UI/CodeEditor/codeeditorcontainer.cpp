@@ -22,7 +22,30 @@
 CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     QWidget{parent} {
 
+    mw_toolBar = new QToolBar(this);
+
+    m_generateSkeleton = new QAction(QIcon(":/icons/wand.png"), tr("Genrate skeleton"), mw_toolBar);
+    connect(m_generateSkeleton, &QAction::triggered, this, &CodeEditorContainter::generateSkeleton);
+
+    m_apply = new QAction(QIcon(":/icons/tick-button.png"), tr("Apply"), mw_toolBar);
+    connect(m_apply, &QAction::triggered, this, &CodeEditorContainter::applyFile);
+
+    m_openFile = new QAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), mw_toolBar);
+    connect(m_openFile, &QAction::triggered, this, &CodeEditorContainter::openFile);
+
+    m_saveFile = new QAction(QIcon(":/icons/disk.png"), tr("Save file"), mw_toolBar);
+    connect(m_saveFile, &QAction::triggered, this, &CodeEditorContainter::saveFile);
+
+    mw_toolBar->addAction(m_generateSkeleton);
+    mw_toolBar->addAction(m_apply);
+    mw_toolBar->addSeparator();
+    mw_toolBar->addAction(m_openFile);
+    mw_toolBar->addAction(m_saveFile);
+
     mw_editor = new CodeEditor(this);
+    connect(mw_editor, &CodeEditor::textChanged, [=]() {
+        m_saved = false;
+    });
 
     int id = QFontDatabase::addApplicationFont(":/fonts/SourceCodePro-Regular.ttf");
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);
@@ -30,6 +53,7 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_editor->setFont(code);
 
     m_layout = new QVBoxLayout;
+    m_layout->addWidget(mw_toolBar);
     m_layout->addWidget(mw_editor);
 
     setLayout(m_layout);
@@ -37,4 +61,98 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
 
 CodeEditorContainter::~CodeEditorContainter() {
 
+}
+
+void CodeEditorContainter::generateSkeleton() {
+    confirmSave();
+
+    QFile f(":/ocl/skeleton.cl");
+
+    if(!f.open(QFile::ReadOnly)) {
+        f.close();
+        return;
+    }
+
+    mw_editor->setPlainText(f.readAll());
+    m_saved = false;
+    m_fileName = QString();
+
+    f.close();
+}
+
+void CodeEditorContainter::openFile() {
+    confirmSave();
+
+    QString fn = QFileDialog::getOpenFileName(this, tr("Open OpenCL source file"),
+                                              QString(), tr("OpenCL source (*.cl *.c);;All files (*.*)"));
+
+    if(fn.isEmpty()) {
+        return;
+    }
+
+    m_fileName = fn;
+
+    QFile f(fn);
+
+    if(!f.open(QFile::ReadOnly)) {
+        f.close();
+        return;
+    }
+
+    mw_editor->setPlainText(f.readAll());
+    m_saved = true;
+
+    f.close();
+}
+
+void CodeEditorContainter::saveFile() {
+    if(m_saved) {
+        return;
+    }
+
+    QString fn;
+
+    if(m_fileName.isEmpty()) {
+        fn = QFileDialog::getSaveFileName(this, tr("Save OpenCL source file"),
+                                          QString(), tr("OpenCL source (*.cl *.c);;All files (*.*)"));
+    } else {
+        fn = m_fileName;
+    }
+
+    if(fn.isEmpty()) {
+        m_saved = false;
+
+        return;
+    }
+
+    QFile f(fn);
+
+    if(!f.open(QFile::WriteOnly)) {
+        f.close();
+        m_saved = false;
+
+        return;
+    }
+
+    if(f.write(mw_editor->toPlainText().toLatin1()) != -1) {
+        m_fileName = fn;
+        m_saved = true;
+    }
+
+    f.close();
+}
+
+void CodeEditorContainter::applyFile() {
+    saveFile();
+
+    emit useFile(m_fileName);
+}
+
+void CodeEditorContainter::confirmSave() {
+    if(!m_saved) {
+        if(QMessageBox::question(this, tr("Unsaved file"), tr("Save file before proceeding ?"),
+                                 QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+            saveFile();
+        }
+    }
 }

@@ -315,6 +315,10 @@ void MainWindow::buildView() {
     mw_processedImgView = new ImageViewer(tr("Processed image"));
 
     mw_codeEditor = new CodeEditorContainter(this);
+    connect(mw_codeEditor, &CodeEditorContainter::useFile, this, [=](const QString &fn) {
+        m_convKernels.at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
+        filterSelected(mw_convKernelComboBox->currentIndex());
+    });
 
     mw_tabWidget->addTab(mw_origImgView, tr("Original"));
     mw_tabWidget->addTab(mw_processedImgView, tr("Processed"));

@@ -12,5 +12,8 @@
         <file>icons/hourglass.png</file>
         <file>icons/graphic-card.png</file>
         <file>fonts/SourceCodePro-Regular.ttf</file>
+        <file>icons/wand.png</file>
+        <file>ocl/skeleton.cl</file>
+        <file>icons/tick-button.png</file>
     </qresource>
 </RCC>

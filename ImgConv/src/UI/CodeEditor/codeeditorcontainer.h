@@ -21,7 +21,15 @@
 #define CODEEDITORCONTAINER_H
 
 #include <QWidget>
+#include <QToolBar>
+#include <QAction>
+
 #include <QVBoxLayout>
+
+#include <QMessageBox>
+#include <QFileDialog>
+
+#include <QFile>
 
 #include "Components/codeeditor.h"
 
@@ -31,10 +39,29 @@ public:
     CodeEditorContainter(QWidget *parent = nullptr);
     ~CodeEditorContainter();
 
+signals:
+    void useFile(const QString &fn);
+
+private slots:
+    void generateSkeleton();
+    void openFile();
+    void saveFile();
+    void applyFile();
+    void confirmSave();
+
 private:
+    QToolBar *mw_toolBar;
+    QAction *m_generateSkeleton;
+    QAction *m_apply;
+    QAction *m_openFile;
+    QAction *m_saveFile;
+
     CodeEditor *mw_editor;
 
     QVBoxLayout *m_layout;
+
+    QString m_fileName;
+    bool m_saved = true;
 };
 
 #endif // CODEEDITORCONTAINER_H
