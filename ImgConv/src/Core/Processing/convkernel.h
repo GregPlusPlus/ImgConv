@@ -37,7 +37,8 @@ public:
         SettingType_Float,
         SettingType_Int,
         SettingsType_Bool,
-        SettingsType_String
+        SettingsType_String,
+        SettingsType_FileName
     };
 
 public:
@@ -46,9 +47,11 @@ public:
     explicit ConvKenrelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
     explicit ConvKenrelSetting(const QString &name, bool val, QObject *parent = nullptr);
     explicit ConvKenrelSetting(const QString &name, QString val, QObject *parent = nullptr);
+    explicit ConvKenrelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent = nullptr);
 
     QString name() const;
     void setName(const QString &name);
+
     bool hasMin() const;
     void setHasMin(bool hasMin);
     bool hasMax() const;
@@ -63,6 +66,12 @@ public:
     int max() const;
     float minF() const;
     float maxF() const;
+
+    const QString &fileNameTitle() const;
+    void setFileNameTitle(const QString &newFileNameTitle);
+
+    const QString &fileNameFilter() const;
+    void setFileNameFilter(const QString &newFileNameFilter);
 
 public slots:
     void setVal(int val);
@@ -86,6 +95,9 @@ private:
     QVariant m_val;
     QVariant m_min;
     QVariant m_max;
+
+    QString m_fileNameTitle;
+    QString m_fileNameFilter;
 };
 
 class ConvKernel : public QObject
@@ -101,12 +113,15 @@ public:
     QSize getMatSize() const;
 
     const QList<ConvKenrelSetting *> &settings() const;
+    ConvKenrelSetting *getSettingByName(const QString &name) const;
 
     void addSetting(ConvKenrelSetting *s);
 
+    QString getSourceFilePath() const;
+    void setSourceFilePath(const QString &path);
+
 public slots:
     virtual void reset() {}
-    virtual void setSettingValue(const ConvKernels::ConvKenrelSetting *s) {Q_UNUSED(s)};
     virtual void select() {}
 
 signals:
