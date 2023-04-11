@@ -40,3 +40,8 @@ float ConvKernels::Ridge::getScalar() const {
 QString ConvKernels::Ridge::getName() const {
     return tr("Ridge");
 }
+
+QString ConvKernels::Ridge::getDescription() {
+    return tr("Applies an <i>Ridge</i> effect (a kind of edge-detection effect).<br><br>" \
+              "This effect doesn't have any parameters to tweak.");
+}

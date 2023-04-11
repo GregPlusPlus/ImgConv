@@ -53,6 +53,14 @@ QString ConvKernels::Sharpen::getName() const {
     return tr("Sharpen");
 }
 
+QString ConvKernels::Sharpen::getDescription() {
+    return tr("Applies a <i>Sharpen</i> effect. This effect increases the edge's contrast.<br>" \
+              "<ul>" \
+              "<li><strong>Contour strength : </strong>How strong the effect is. As the contrast increases, the noise does as well.</li>" \
+              "<li><strong>Smoothing : </strong>How much the effect must be smoothed (increases the center pixel's ponderation).</li>" \
+              "</ul>");
+}
+
 void ConvKernels::Sharpen::settingChanged() {
     size_t kSize = m_strengthSetting->val() * 2;
 

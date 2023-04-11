@@ -53,6 +53,16 @@ QString ConvKernels::MotionBlur::getName() const {
     return tr("Motion blur");
 }
 
+QString ConvKernels::MotionBlur::getDescription() {
+    return tr("Applies a <i>Motion Blur</i> effect.<br>" \
+              "This effect mimics a camera's shutter exposure time on moving objects." \
+              "<ul>" \
+              "<li><strong>Size : </strong>The size of the movement effect. " \
+              "In reality, it is determined by the shutter speed as well as the speed of the moving object.</li>" \
+              "<li><strong>Angle : </strong>Simulates the direction of the moving object.</li>" \
+              "</ul>");
+}
+
 void ConvKernels::MotionBlur::settingChanged() {
     size_t kSize = m_sizeSetting->val() * 2;
 

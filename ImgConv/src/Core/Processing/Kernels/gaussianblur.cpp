@@ -55,6 +55,14 @@ QString ConvKernels::GaussianBlur::getName() const {
     return tr("Gaussian blur");
 }
 
+QString ConvKernels::GaussianBlur::getDescription() {
+    return tr("Applies a gaussian blur effect.<br>" \
+              "<ul>" \
+              "<li><strong>Size : </strong>The size of the blur effect.</li>" \
+              "<li><strong>Std Dev : </strong>The <i>Standard Deviation</i> of the Gaussian curve.</li>" \
+              "</ul>");
+}
+
 void ConvKernels::GaussianBlur::settingChanged() {
     size_t kSize = m_sizeSetting->val() * 2;
 

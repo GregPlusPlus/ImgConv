@@ -57,6 +57,20 @@ QString ConvKernels::Custom::getName() const {
     return tr("Custom kernel");
 }
 
+QString ConvKernels::Custom::getDescription() {
+    return tr("Allows to load an image file as a custom convolution kernel matrix.<br>" \
+              "<ul>" \
+              "<li><strong>Kernel : </strong>The image to be loaded as a kernel.</li>" \
+              "<li><strong>Normalize kernel : </strong>Should the kernel be normalized (sum of coefs = 1).</li>" \
+              "</ul><br>" \
+              "The mapping is the following :" \
+              "<ul>" \
+              "<li>0 => -1</li>" \
+              "<li>128 => 0</li>" \
+              "<li>255 => +1</li>" \
+              "</ul>");
+}
+
 void ConvKernels::Custom::select() {
     updateFilter();
 }

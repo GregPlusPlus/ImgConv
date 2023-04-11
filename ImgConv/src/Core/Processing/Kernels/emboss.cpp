@@ -53,6 +53,14 @@ QString ConvKernels::Emboss::getName() const {
     return tr("Emboss");
 }
 
+QString ConvKernels::Emboss::getDescription() {
+    return tr("Applies an <i>Emboss</i> effect.<br>" \
+              "<ul>" \
+              "<li><strong>Size : </strong>The \"witdh\" of the emboss effect along the edges. The bigger the number, the stronger the effect.</li>" \
+              "<li><strong>Smoothing : </strong>How much the effect must be smoothed (increases the center pixel's ponderation).</li>" \
+              "</ul>");
+}
+
 void ConvKernels::Emboss::settingChanged() {
     size_t kSize = m_sizeSetting->val() * 2;
 
