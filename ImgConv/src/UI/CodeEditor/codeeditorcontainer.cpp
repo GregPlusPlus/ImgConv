@@ -17,13 +17,19 @@
  **/
 
 
-#include "codeeditor.h"
+#include "codeeditorcontainer.h"
 
-CodeEditor::CodeEditor(QWidget *parent) :
+CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     QWidget{parent} {
 
+    mw_editor = new CodeEditor(this);
+
+    m_layout = new QVBoxLayout;
+    m_layout->addWidget(mw_editor);
+
+    setLayout(m_layout);
 }
 
-CodeEditor::~CodeEditor() {
+CodeEditorContainter::~CodeEditorContainter() {
 
 }

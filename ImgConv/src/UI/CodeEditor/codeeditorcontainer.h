@@ -21,12 +21,20 @@
 #define CODEEDITORCONTAINER_H
 
 #include <QWidget>
+#include <QVBoxLayout>
+
+#include "Components/codeeditor.h"
 
 class CodeEditorContainter : public QWidget {
     Q_OBJECT
 public:
     CodeEditorContainter(QWidget *parent = nullptr);
     ~CodeEditorContainter();
+
+private:
+    CodeEditor *mw_editor;
+
+    QVBoxLayout *m_layout;
 };
 
 #endif // CODEEDITORCONTAINER_H
