@@ -14,6 +14,8 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);
     QFont code(family);
     setFont(code);
+    setTabStopDistance(40);
+    setWordWrapMode(QTextOption::NoWrap);
 
     lineNumberArea = new LineNumberArea(this);
 
