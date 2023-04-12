@@ -69,6 +69,144 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
         updateLineNumberAreaWidth(0);
 }
 
+bool CodeEditor::autocomplete(QKeyEvent *e)
+{
+    int key = e->key();
+
+    if(key == Qt::Key_Tab && m_useSpacesAsTab) {
+        insertPlainText(buildTabs(1));
+    } else if(key == Qt::Key_BraceLeft) {
+        buildBrackets();
+    } else if(key == Qt::Key_ParenLeft) {
+        insertPlainText("()");
+        moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+    } else if(key == Qt::Key_BracketLeft) {
+        insertPlainText("[]");
+        moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+    } else if(key == Qt::Key_QuoteDbl) {
+        insertPlainText("\"\"");
+        moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+    } else if(key == Qt::Key_Apostrophe) {
+        insertPlainText("''");
+        moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+    } else if(key == Qt::Key_Backspace) {
+        QList<QString> charCouples;
+        charCouples.append("{}");
+        charCouples.append("()");
+        charCouples.append("[]");
+        charCouples.append("\"\"");
+        charCouples.append("''");
+
+        if(charCouples.contains(charAroundCursor())) {
+            removeCharAroundCursor();
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+
+    return true;
+}
+
+QString CodeEditor::buildTabs(int level)
+{
+    if(useSpacesAsTab()) {
+        return QString(" ").repeated(level * tabSpaceCount());
+    }
+
+    return QString("\t").repeated(level);
+}
+
+char CodeEditor::charBeforeCursor()
+{
+    char c = 0;
+
+    int pos = textCursor().position() - 1;
+
+    if(pos >= 0 && pos < toPlainText().size()) {
+        c = toPlainText().at(pos).toLatin1();
+    }
+
+    return c;
+}
+
+char CodeEditor::charAfterCursor()
+{
+    char c = 0;
+
+    int pos = textCursor().position();
+
+    if(pos >= 0 && pos < toPlainText().size()) {
+        c = toPlainText().at(pos).toLatin1();
+    }
+
+    return c;
+}
+
+QString CodeEditor::charAroundCursor()
+{
+    return QString(charBeforeCursor()) + QString(charAfterCursor());
+}
+
+void CodeEditor::removeCharAroundCursor()
+{
+    moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+    moveCursor(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+    moveCursor(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+    textCursor().removeSelectedText();
+}
+
+int CodeEditor::getCurrentLineIndentationLevel()
+{
+    int lineBeginIndex = textCursor().position() - 1;
+
+    if(toPlainText().isEmpty()) {
+        return 0;
+    }
+
+    QStringList lines = toPlainText().left(textCursor().position()).split("\n");
+
+    if(lines.count() == 0) {
+        return 0;
+    }
+
+    QString line = lines.last();
+
+    int spacesCount = 0;
+
+    for(int i = 0; i < line.size(); i ++) {
+        if(m_useSpacesAsTab) {
+            if(line[i] != ' ') {
+                break;
+            }
+        } else {
+            if(line[i] != '\t') {
+                break;
+            }
+        }
+
+        spacesCount ++;
+    }
+
+    if(m_useSpacesAsTab) {
+        spacesCount /= m_tabSpaceCount;
+    }
+
+    return spacesCount;
+}
+
+void CodeEditor::buildBrackets()
+{
+    int indentLvl = getCurrentLineIndentationLevel();
+
+    insertPlainText(QString("{\n%1\n%2}")
+                    .arg(buildTabs(indentLvl + 1))
+                    .arg(buildTabs(indentLvl)));
+    moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+    moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+}
+
 qsizetype CodeEditor::tabSpaceCount() const
 {
     return m_tabSpaceCount;
@@ -103,9 +241,7 @@ void CodeEditor::resizeEvent(QResizeEvent *e)
 
 void CodeEditor::keyPressEvent(QKeyEvent *e)
 {
-    if(e->key() == Qt::Key_Tab && m_useSpacesAsTab) {
-        insertPlainText(QString(" ").repeated(m_tabSpaceCount));
-    } else {
+    if(!autocomplete(e)) {
         QPlainTextEdit::keyPressEvent(e);
     }
 }

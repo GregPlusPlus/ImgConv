@@ -41,6 +41,16 @@ private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &rect, int dy);
+    bool autocomplete(QKeyEvent *e);
+
+private:
+    QString buildTabs(int level);
+    char charBeforeCursor();
+    char charAfterCursor();
+    QString charAroundCursor();
+    void removeCharAroundCursor();
+    int getCurrentLineIndentationLevel();
+    void buildBrackets();
 
 private:
     QWidget *lineNumberArea;
