@@ -72,23 +72,54 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
 bool CodeEditor::autocomplete(QKeyEvent *e)
 {
     int key = e->key();
-
-    if(key == Qt::Key_Tab && m_useSpacesAsTab) {
+    if(key == Qt::Key_Return) {
+        insertPlainText("\n" + buildTabs(getCurrentLineIndentationLevel()));
+    } else if(key == Qt::Key_Tab && m_useSpacesAsTab) {
         insertPlainText(buildTabs(1));
     } else if(key == Qt::Key_BraceLeft) {
         buildBrackets();
-    } else if(key == Qt::Key_ParenLeft) {
+    } else if(key == Qt::Key_BraceRight) {
+        if(charAfterCursor() == '}') {
+            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
+        } else {
+            return false;
+        }
+    }  else if(key == Qt::Key_ParenLeft) {
         insertPlainText("()");
         moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+    } else if(key == Qt::Key_ParenRight) {
+        if(charAfterCursor() == ')') {
+            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
+        } else {
+            return false;
+        }
     } else if(key == Qt::Key_BracketLeft) {
         insertPlainText("[]");
         moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+    } else if(key == Qt::Key_BracketRight) {
+        if(charAfterCursor() == ']') {
+            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
+        } else {
+            return false;
+        }
     } else if(key == Qt::Key_QuoteDbl) {
-        insertPlainText("\"\"");
-        moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+        if(charAfterCursor() == '"' && charBeforeCursor() != '\\') {
+            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
+        } else if(charBeforeCursor() != '\\') {
+            insertPlainText("\"\"");
+            moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+        } else {
+            return false;
+        }
     } else if(key == Qt::Key_Apostrophe) {
-        insertPlainText("''");
-        moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+        if(charAfterCursor() == '\'' && charBeforeCursor() != '\\') {
+            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
+        } else if(charBeforeCursor() != '\\') {
+            insertPlainText("''");
+            moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+        } else {
+            return false;
+        }
     } else if(key == Qt::Key_Backspace) {
         QList<QString> charCouples;
         charCouples.append("{}");
