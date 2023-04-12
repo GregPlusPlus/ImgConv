@@ -35,7 +35,6 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_generateTemplateMenu->addAction(QIcon(":/icons/wand.png"), tr("Convolution template"), this, [=]() {
         generateTemplate(":/ocl/conv2D.cl");
     });
-    //connect(m_generateTemplate, &QAction::triggered, this, &CodeEditorContainter::generateTemplate);
 
     m_apply = new QAction(QIcon(":/icons/tick-button.png"), tr("Apply"), mw_toolBar);
     connect(m_apply, &QAction::triggered, this, &CodeEditorContainter::applyFile);
