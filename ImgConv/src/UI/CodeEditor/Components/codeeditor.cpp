@@ -190,8 +190,6 @@ void CodeEditor::removeCharAroundCursor()
 
 int CodeEditor::getCurrentLineIndentationLevel()
 {
-    int lineBeginIndex = textCursor().position() - 1;
-
     if(toPlainText().isEmpty()) {
         return 0;
     }
