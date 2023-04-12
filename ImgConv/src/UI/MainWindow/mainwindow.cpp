@@ -318,6 +318,7 @@ void MainWindow::buildView() {
     connect(mw_codeEditor, &CodeEditorContainter::useFile, this, [=](const QString &fn) {
         m_convKernels.at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
         filterSelected(mw_convKernelComboBox->currentIndex());
+        startProcess();
     });
 
     mw_tabWidget->addTab(mw_origImgView, tr("Original"));
