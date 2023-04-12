@@ -69,6 +69,26 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
         updateLineNumberAreaWidth(0);
 }
 
+qsizetype CodeEditor::tabSpaceCount() const
+{
+    return m_tabSpaceCount;
+}
+
+void CodeEditor::setTabSpaceCount(qsizetype newTabSpaceCount)
+{
+    m_tabSpaceCount = newTabSpaceCount;
+}
+
+bool CodeEditor::useSpacesAsTab() const
+{
+    return m_useSpacesAsTab;
+}
+
+void CodeEditor::setUseSpacesAsTab(bool newUseSpacesAsTab)
+{
+    m_useSpacesAsTab = newUseSpacesAsTab;
+}
+
 //![slotUpdateRequest]
 
 //![resizeEvent]
@@ -79,6 +99,15 @@ void CodeEditor::resizeEvent(QResizeEvent *e)
 
     QRect cr = contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+}
+
+void CodeEditor::keyPressEvent(QKeyEvent *e)
+{
+    if(e->key() == Qt::Key_Tab && m_useSpacesAsTab) {
+        insertPlainText(QString(" ").repeated(m_tabSpaceCount));
+    } else {
+        QPlainTextEdit::keyPressEvent(e);
+    }
 }
 
 //![resizeEvent]

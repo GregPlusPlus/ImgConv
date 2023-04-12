@@ -27,8 +27,15 @@ public:
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
+    bool useSpacesAsTab() const;
+    void setUseSpacesAsTab(bool newUseSpaceForTab);
+
+    qsizetype tabSpaceCount() const;
+    void setTabSpaceCount(qsizetype newTabSpaceCount);
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    void keyPressEvent(QKeyEvent *e) override;
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
@@ -37,6 +44,10 @@ private slots:
 
 private:
     QWidget *lineNumberArea;
+
+private:
+    qsizetype m_useSpacesAsTab = false;
+    quint8 m_tabSpaceCount = 4;
 };
 
 //![codeeditordefinition]

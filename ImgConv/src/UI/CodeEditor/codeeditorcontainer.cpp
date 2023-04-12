@@ -52,6 +52,7 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_toolBar->addAction(m_saveFile);
 
     mw_editor = new CodeEditor(this);
+    mw_editor->setUseSpacesAsTab(true);
     connect(mw_editor, &CodeEditor::textChanged, [=]() {
         m_saved = false;
     });
