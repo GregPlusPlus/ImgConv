@@ -150,7 +150,9 @@ void CodeEditorContainter::saveFile() {
 void CodeEditorContainter::applyFile() {
     saveFile();
 
-    emit useFile(m_fileName);
+    if(!m_fileName.isEmpty()) {
+        emit useFile(m_fileName);
+    }
 }
 
 void CodeEditorContainter::confirmSave() {
