@@ -74,8 +74,12 @@ bool CodeEditor::autocomplete(QKeyEvent *e)
     int key = e->key();
     if(key == Qt::Key_Return) {
         insertPlainText("\n" + buildTabs(getCurrentLineIndentationLevel()));
-    } else if(key == Qt::Key_Tab && m_useSpacesAsTab) {
-        insertPlainText(buildTabs(1));
+    } else if(key == Qt::Key_Tab) {
+        if(m_useSpacesAsTab) {
+            insertPlainText(buildTabs(1));
+        } else {
+            return false;
+        }
     } else if(key == Qt::Key_BraceLeft) {
         buildBrackets();
     } else if(key == Qt::Key_BraceRight) {
