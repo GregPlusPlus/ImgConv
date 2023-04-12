@@ -22,7 +22,9 @@
 
 #include <QWidget>
 #include <QToolBar>
+#include <QToolButton>
 #include <QAction>
+#include <QMenu>
 
 #include <QVBoxLayout>
 
@@ -43,7 +45,7 @@ signals:
     void useFile(const QString &fn);
 
 private slots:
-    void generateSkeleton();
+    void generateTemplate(const QString &fn);
     void openFile();
     void saveFile();
     void applyFile();
@@ -51,7 +53,8 @@ private slots:
 
 private:
     QToolBar *mw_toolBar;
-    QAction *m_generateSkeleton;
+    QToolButton *mw_generateTemplateButton;
+    QMenu *mw_generateTemplateMenu;
     QAction *m_apply;
     QAction *m_openFile;
     QAction *m_saveFile;

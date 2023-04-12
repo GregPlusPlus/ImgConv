@@ -24,8 +24,18 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
 
     mw_toolBar = new QToolBar(this);
 
-    m_generateSkeleton = new QAction(QIcon(":/icons/wand.png"), tr("Genrate skeleton"), mw_toolBar);
-    connect(m_generateSkeleton, &QAction::triggered, this, &CodeEditorContainter::generateSkeleton);
+    mw_generateTemplateButton = new QToolButton(mw_toolBar);
+    mw_generateTemplateButton->setIcon(QIcon(":/icons/wand.png"));
+    mw_generateTemplateButton->setPopupMode(QToolButton::InstantPopup);
+    mw_generateTemplateMenu = new QMenu(tr("Generate code template"), mw_generateTemplateButton);
+    mw_generateTemplateButton->setMenu(mw_generateTemplateMenu);
+    mw_generateTemplateMenu->addAction(QIcon(":/icons/wand.png"), tr("Basic template"), this, [=]() {
+        generateTemplate(":/ocl/basic_template.cl");
+    });
+    mw_generateTemplateMenu->addAction(QIcon(":/icons/wand.png"), tr("Convolution template"), this, [=]() {
+        generateTemplate(":/ocl/conv2D.cl");
+    });
+    //connect(m_generateTemplate, &QAction::triggered, this, &CodeEditorContainter::generateTemplate);
 
     m_apply = new QAction(QIcon(":/icons/tick-button.png"), tr("Apply"), mw_toolBar);
     connect(m_apply, &QAction::triggered, this, &CodeEditorContainter::applyFile);
@@ -36,7 +46,7 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     m_saveFile = new QAction(QIcon(":/icons/disk.png"), tr("Save file"), mw_toolBar);
     connect(m_saveFile, &QAction::triggered, this, &CodeEditorContainter::saveFile);
 
-    mw_toolBar->addAction(m_generateSkeleton);
+    mw_toolBar->addWidget(mw_generateTemplateButton);
     mw_toolBar->addAction(m_apply);
     mw_toolBar->addSeparator();
     mw_toolBar->addAction(m_openFile);
@@ -63,10 +73,10 @@ CodeEditorContainter::~CodeEditorContainter() {
 
 }
 
-void CodeEditorContainter::generateSkeleton() {
+void CodeEditorContainter::generateTemplate(const QString &fn) {
     confirmSave();
 
-    QFile f(":/ocl/skeleton.cl");
+    QFile f(fn);
 
     if(!f.open(QFile::ReadOnly)) {
         f.close();
