@@ -4,7 +4,7 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <QPlainTextEdit>
+#include "interactivetextedit.h"
 
 QT_BEGIN_NAMESPACE
 class QPaintEvent;
@@ -17,7 +17,7 @@ class LineNumberArea;
 
 //![codeeditordefinition]
 
-class CodeEditor : public QPlainTextEdit
+class CodeEditor : public InteractiveTextEdit
 {
     Q_OBJECT
 
@@ -27,37 +27,16 @@ public:
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
-    bool useSpacesAsTab() const;
-    void setUseSpacesAsTab(bool newUseSpaceForTab);
-
-    qsizetype tabSpaceCount() const;
-    void setTabSpaceCount(qsizetype newTabSpaceCount);
-
 protected:
     void resizeEvent(QResizeEvent *event) override;
-    void keyPressEvent(QKeyEvent *e) override;
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &rect, int dy);
-    bool autocomplete(QKeyEvent *e);
-
-private:
-    QString buildTabs(int level);
-    char charBeforeCursor();
-    char charAfterCursor();
-    QString charAroundCursor();
-    void removeCharAroundCursor();
-    int getCurrentLineIndentationLevel();
-    void buildBrackets();
 
 private:
     QWidget *lineNumberArea;
-
-private:
-    qsizetype m_useSpacesAsTab = false;
-    quint8 m_tabSpaceCount = 4;
 };
 
 //![codeeditordefinition]
