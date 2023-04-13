@@ -1,13 +1,11 @@
 #include "keycompletion.h"
 
 KeyCompletion::KeyCompletion(InteractiveTextEdit *parent)
-    : QObject{parent}, m_textEdit{parent}
-{
+    : QObject{parent}, m_textEdit{parent} {
 
 }
 
-QString KeyCompletion::buildTabs(int level)
-{
+QString KeyCompletion::buildTabs(int level) {
     if(m_textEdit->useSpacesAsTab()) {
         return QString(" ").repeated(level * m_textEdit->tabSpaceCount());
     }
@@ -15,8 +13,7 @@ QString KeyCompletion::buildTabs(int level)
     return QString("\t").repeated(level);
 }
 
-void KeyCompletion::buildBrackets()
-{
+void KeyCompletion::buildBrackets() {
     int indentLvl = m_textEdit->getCurrentLineIndentationLevel();
 
     m_textEdit->insertPlainText(QString("{\n%1\n%2}")
@@ -26,9 +23,9 @@ void KeyCompletion::buildBrackets()
     m_textEdit->moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
 }
 
-bool KeyCompletion::autocomplete(QKeyEvent *e)
-{
+bool KeyCompletion::autocomplete(QKeyEvent *e) {
     int key = e->key();
+
     if(key == Qt::Key_Return) {
         m_textEdit->insertPlainText("\n" + buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
     } else if(key == Qt::Key_Tab) {

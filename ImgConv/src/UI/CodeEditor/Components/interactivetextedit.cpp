@@ -6,15 +6,13 @@ InteractiveTextEdit::InteractiveTextEdit(QWidget *parent)
     m_keyCompletion = new KeyCompletion(this);
 }
 
-void InteractiveTextEdit::keyPressEvent(QKeyEvent *e)
-{
+void InteractiveTextEdit::keyPressEvent(QKeyEvent *e) {
     if(!m_keyCompletion->autocomplete(e)) {
         QPlainTextEdit::keyPressEvent(e);
     }
 }
 
-char InteractiveTextEdit::charBeforeCursor()
-{
+char InteractiveTextEdit::charBeforeCursor() {
     char c = 0;
 
     int pos = textCursor().position() - 1;
@@ -26,8 +24,7 @@ char InteractiveTextEdit::charBeforeCursor()
     return c;
 }
 
-char InteractiveTextEdit::charAfterCursor()
-{
+char InteractiveTextEdit::charAfterCursor() {
     char c = 0;
 
     int pos = textCursor().position();
@@ -39,21 +36,18 @@ char InteractiveTextEdit::charAfterCursor()
     return c;
 }
 
-QString InteractiveTextEdit::charAroundCursor()
-{
+QString InteractiveTextEdit::charAroundCursor() {
     return QString(charBeforeCursor()) + QString(charAfterCursor());
 }
 
-void InteractiveTextEdit::removeCharAroundCursor()
-{
+void InteractiveTextEdit::removeCharAroundCursor() {
     moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
     moveCursor(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
     moveCursor(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
     textCursor().removeSelectedText();
 }
 
-int InteractiveTextEdit::getCurrentLineIndentationLevel()
-{
+int InteractiveTextEdit::getCurrentLineIndentationLevel() {
     if(toPlainText().isEmpty()) {
         return 0;
     }
@@ -89,22 +83,18 @@ int InteractiveTextEdit::getCurrentLineIndentationLevel()
     return spacesCount;
 }
 
-qsizetype InteractiveTextEdit::tabSpaceCount() const
-{
+qsizetype InteractiveTextEdit::tabSpaceCount() const {
     return m_tabSpaceCount;
 }
 
-void InteractiveTextEdit::setTabSpaceCount(qsizetype newTabSpaceCount)
-{
+void InteractiveTextEdit::setTabSpaceCount(qsizetype newTabSpaceCount) {
     m_tabSpaceCount = newTabSpaceCount;
 }
 
-bool InteractiveTextEdit::useSpacesAsTab() const
-{
+bool InteractiveTextEdit::useSpacesAsTab() const {
     return m_useSpacesAsTab;
 }
 
-void InteractiveTextEdit::setUseSpacesAsTab(bool newUseSpacesAsTab)
-{
+void InteractiveTextEdit::setUseSpacesAsTab(bool newUseSpacesAsTab) {
     m_useSpacesAsTab = newUseSpacesAsTab;
 }
