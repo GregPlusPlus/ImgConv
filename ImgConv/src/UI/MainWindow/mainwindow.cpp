@@ -205,7 +205,7 @@ void MainWindow::initOpenCL(const OCLWrapper::Device &device) {
 }
 
 bool MainWindow::createOCLProgram(const QString &fn, const QString &options) {
-    QFileDevice::FileError e = m_ocl->createProgramFromFile(fn, "conv2D", options);
+    QFileDevice::FileError e = m_ocl->createProgramFromFile(fn, "pixelKernel", options);
 
     if(e != QFileDevice::NoError) {
         QMessageBox::critical(this, tr("Filesystem error"), tr("File error (%1)").arg(e));

@@ -1,4 +1,4 @@
-__kernel void conv2D(const __global uchar *In,
+__kernel void pixelKernel(const __global uchar *In,
                      __global uchar *Out,
                      __global float *k) {
 
