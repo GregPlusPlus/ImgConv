@@ -75,6 +75,49 @@ void InteractiveTextEdit::unindentLine() {
     textCursor().insertText(startOfLine.trimmed());
 }
 
+bool InteractiveTextEdit::isBetweenMatchingChars(qsizetype index, char opening, char closing) {
+    typedef enum {
+        Unknown,
+        Opened,
+        Closed,
+    } State_t;
+
+    State_t state = Unknown;
+
+    for(qsizetype i = 0; i < index; i ++) {
+        if((state == Unknown || state == Closed) &&
+            toPlainText().at(i).toLatin1() == opening) {
+            state = Opened;
+        } else if(state == Opened && toPlainText().at(i).toLatin1() == closing) {
+            state = Closed;
+        }
+    }
+
+    if(state != Opened) {
+        return false;
+    }
+
+    if(index == toPlainText().size()) {
+        return false;
+    }
+
+    for(qsizetype i = index; i < toPlainText().size(); i ++) {
+        if(toPlainText().at(i).toLatin1() == closing) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool InteractiveTextEdit::isBetweenDblQuotes(qsizetype index) {
+    return isBetweenMatchingChars(index, '"', '"');
+}
+
+bool InteractiveTextEdit::isBetweenQuotes(qsizetype index) {
+    return isBetweenMatchingChars(index, '\'', '\'');
+}
+
 int InteractiveTextEdit::getCursorIndentationLevel() {
     if(toPlainText().isEmpty()) {
         return 0;

@@ -25,6 +25,9 @@ public:
     QString charAroundCursor();
     void removeCharAroundCursor();
     void unindentLine();
+    bool isBetweenMatchingChars(qsizetype index, char opening, char closing);
+    bool isBetweenDblQuotes(qsizetype index);
+    bool isBetweenQuotes(qsizetype index);
 
     QString buildTabs(int level);
 
