@@ -55,13 +55,7 @@
 #include <QTextCharFormat>
 #include <QRegularExpression>
 
-QT_BEGIN_NAMESPACE
-class QTextDocument;
-QT_END_NAMESPACE
-
-//! [0]
-class Highlighter : public QSyntaxHighlighter
-{
+class Highlighter : public QSyntaxHighlighter {
     Q_OBJECT
 
 public:
@@ -82,12 +76,15 @@ private:
     QRegularExpression commentEndExpression;
 
     QTextCharFormat keywordFormat;
-    QTextCharFormat classFormat;
+    QTextCharFormat typeFormat;
+    QTextCharFormat numberFormat;
+    QTextCharFormat clkeywordFormat;
+    QTextCharFormat quoteFormat;
+    QTextCharFormat preprocFormat;
     QTextCharFormat singleLineCommentFormat;
     QTextCharFormat multiLineCommentFormat;
-    QTextCharFormat quotationFormat;
     QTextCharFormat functionFormat;
+    QTextCharFormat flowCtrlFormat;
 };
-//! [0]
 
 #endif // HIGHLIGHTER_H
