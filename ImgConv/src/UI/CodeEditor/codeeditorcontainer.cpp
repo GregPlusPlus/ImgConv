@@ -27,7 +27,7 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     m_keyCompletion = new KeyCompletion(mw_editor);
     m_highlighter = new Highlighter(mw_editor->document());
     connect(mw_editor, &CodeEditor::textChanged, [=]() {
-        m_saved = false;
+        setSaved(false);
     });
 
     mw_toolBar = new QToolBar(this);
@@ -73,12 +73,21 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_toolBar->addAction(m_undo);
     mw_toolBar->addAction(m_redo);
 
+    mw_statusBar = new QStatusBar(this);
+    mw_statusBar->setSizeGripEnabled(false);
+
+    mw_saved = new QLabel(this);
+    mw_saved->setPixmap(QPixmap(":/icons/disk-small-black.png"));
+
     mw_fileName = new QLabel(tr("Untitled"), this);
 
     m_layout = new QVBoxLayout;
     m_layout->addWidget(mw_toolBar);
     m_layout->addWidget(mw_editor);
-    m_layout->addWidget(mw_fileName);
+    m_layout->addWidget(mw_statusBar);
+
+    mw_statusBar->addWidget(mw_saved);
+    mw_statusBar->addWidget(mw_fileName);
 
     setLayout(m_layout);
 }
@@ -101,8 +110,16 @@ bool CodeEditorContainter::isSaved() const {
     return m_saved;
 }
 
-void CodeEditorContainter::setSaved(bool newSaved) {
-    m_saved = newSaved;
+void CodeEditorContainter::setSaved(bool s) {
+    m_saved = s;
+
+    if(m_saved) {
+        mw_saved->setPixmap(QPixmap(":/icons/disk-small.png"));
+        mw_saved->setToolTip(tr("File is saved"));
+    } else {
+        mw_saved->setPixmap(QPixmap(":/icons/disk-small-black.png"));
+        mw_saved->setToolTip(tr("File is not saved"));
+    }
 }
 
 void CodeEditorContainter::generateTemplate(const QString &fn) {
@@ -162,7 +179,7 @@ void CodeEditorContainter::saveFile() {
     }
 
     if(fn.isEmpty()) {
-        m_saved = false;
+        setSaved(false);
 
         return;
     }
@@ -171,14 +188,14 @@ void CodeEditorContainter::saveFile() {
 
     if(!f.open(QFile::WriteOnly)) {
         f.close();
-        m_saved = false;
+        setSaved(false);
 
         return;
     }
 
     if(f.write(mw_editor->toPlainText().toLatin1()) != -1) {
         setFileName(fn);
-        m_saved = true;
+        setSaved(true);
     }
 
     f.close();
@@ -202,7 +219,7 @@ void CodeEditorContainter::saveAsFile() {
 
     if(f.write(mw_editor->toPlainText().toLatin1()) != -1) {
         setFileName(fn);
-        m_saved = true;
+        setSaved(true);
     }
 
     f.close();
@@ -217,7 +234,7 @@ void CodeEditorContainter::applyFile() {
 }
 
 void CodeEditorContainter::confirmSave() {
-    if(!m_saved) {
+    if(!isSaved()) {
         if(QMessageBox::question(this, tr("Unsaved file"), tr("Save file before proceeding ?"),
                                  QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
             saveFile();

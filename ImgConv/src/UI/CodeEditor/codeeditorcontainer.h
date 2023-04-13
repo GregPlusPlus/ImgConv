@@ -22,6 +22,7 @@
 
 #include <QWidget>
 #include <QToolBar>
+#include <QStatusBar>
 #include <QLabel>
 #include <QToolButton>
 #include <QAction>
@@ -49,7 +50,6 @@ public:
 
 signals:
     void useFile(const QString &fn);
-    void setSaved(bool newSaved);
 
 private slots:
     void generateTemplate(const QString &fn);
@@ -59,9 +59,11 @@ private slots:
     void applyFile();
     void confirmSave();
     void setFileName(const QString &fn);
+    void setSaved(bool s);
 
 private:
     QToolBar *mw_toolBar;
+    QStatusBar *mw_statusBar;
     QToolButton *mw_generateTemplateButton;
     QMenu *mw_generateTemplateMenu;
     QAction *m_apply;
@@ -71,6 +73,7 @@ private:
     QAction *m_undo;
     QAction *m_redo;
     QLabel *mw_fileName;
+    QLabel *mw_saved;
 
     CodeEditor *mw_editor;
     KeyCompletion *m_keyCompletion;
