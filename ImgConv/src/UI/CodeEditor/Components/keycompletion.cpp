@@ -39,6 +39,12 @@ bool KeyCompletion::autocompleteInQuotes(QKeyEvent *e) {
     } else if(key == Qt::Key_Backspace) {
         QString quotes;
 
+        if(mw_textEdit->textCursor().position() > 2) {
+            if(mw_textEdit->toPlainText().at(mw_textEdit->textCursor().position() - 2) == '\\') {
+                return false;
+            }
+        }
+
         if(mw_textEdit->isBetweenDblQuotes(mw_textEdit->textCursor().position())) {
             quotes = "\"\"";
         } else if(mw_textEdit->isBetweenQuotes(mw_textEdit->textCursor().position())) {
