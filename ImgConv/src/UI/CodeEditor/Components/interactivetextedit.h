@@ -25,7 +25,7 @@ public:
     QString charAroundCursor();
     void removeCharAroundCursor();
     void unindentLine();
-    bool isBetweenMatchingChars(qsizetype index, char opening, char closing);
+    bool isBetweenMatchingChars(qsizetype index, char opening, char closing, char escape);
     bool isBetweenDblQuotes(qsizetype index);
     bool isBetweenQuotes(qsizetype index);
 

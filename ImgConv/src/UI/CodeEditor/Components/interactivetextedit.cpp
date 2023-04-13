@@ -75,7 +75,7 @@ void InteractiveTextEdit::unindentLine() {
     textCursor().insertText(startOfLine.trimmed());
 }
 
-bool InteractiveTextEdit::isBetweenMatchingChars(qsizetype index, char opening, char closing) {
+bool InteractiveTextEdit::isBetweenMatchingChars(qsizetype index, char opening, char closing, char escape) {
     typedef enum {
         Unknown,
         Opened,
@@ -84,12 +84,26 @@ bool InteractiveTextEdit::isBetweenMatchingChars(qsizetype index, char opening, 
 
     State_t state = Unknown;
 
+    bool escaped = false;
+
     for(qsizetype i = 0; i < index; i ++) {
+        char c = toPlainText().at(i).toLatin1();
+
         if((state == Unknown || state == Closed) &&
-            toPlainText().at(i).toLatin1() == opening) {
+            c == opening) {
             state = Opened;
-        } else if(state == Opened && toPlainText().at(i).toLatin1() == closing) {
-            state = Closed;
+        } else if(state == Opened) {
+            if(c == escape) {
+                escaped = true;
+
+                continue;
+            }
+
+            if(c == closing && !escaped) {
+                state = Closed;
+            }
+
+            escaped = false;
         }
     }
 
@@ -111,11 +125,11 @@ bool InteractiveTextEdit::isBetweenMatchingChars(qsizetype index, char opening, 
 }
 
 bool InteractiveTextEdit::isBetweenDblQuotes(qsizetype index) {
-    return isBetweenMatchingChars(index, '"', '"');
+    return isBetweenMatchingChars(index, '"', '"', '\\');
 }
 
 bool InteractiveTextEdit::isBetweenQuotes(qsizetype index) {
-    return isBetweenMatchingChars(index, '\'', '\'');
+    return isBetweenMatchingChars(index, '\'', '\'', '\\');
 }
 
 int InteractiveTextEdit::getCursorIndentationLevel() {
