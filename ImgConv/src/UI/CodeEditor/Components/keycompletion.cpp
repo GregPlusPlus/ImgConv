@@ -27,7 +27,13 @@ bool KeyCompletion::autocomplete(QKeyEvent *e) {
     int key = e->key();
 
     if(key == Qt::Key_Return) {
-        m_textEdit->insertPlainText("\n" + buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
+        if((e->modifiers() & Qt::ControlModifier) && (e->modifiers() & Qt::ShiftModifier)) {
+            m_textEdit->moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+            m_textEdit->moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
+            m_textEdit->insertPlainText("\n" + buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
+        } else {
+            m_textEdit->insertPlainText("\n" + buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
+        }
     } else if(key == Qt::Key_Tab) {
         if(m_textEdit->useSpacesAsTab()) {
             m_textEdit->insertPlainText(buildTabs(1));
