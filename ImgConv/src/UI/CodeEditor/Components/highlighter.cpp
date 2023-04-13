@@ -106,11 +106,6 @@ Highlighter::Highlighter(QTextDocument *parent)
     rule.format = clkeywordFormat;
     highlightingRules.append(rule);
 
-    quoteFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegularExpression(QStringLiteral("\\\"(?:[^\\\"\\\\]|\\\\.)*\\\"|\\'(?:[^\\'\\\\]|\\\\.)*\\'"));
-    rule.format = quoteFormat;
-    highlightingRules.append(rule);
-
     preprocFormat.setFontWeight(QFont::Bold);
     preprocFormat.setForeground(Qt::darkMagenta);
     rule.pattern = QRegularExpression(QStringLiteral("#[a-zA-Z0-9_]+?\\s"));
@@ -140,6 +135,11 @@ Highlighter::Highlighter(QTextDocument *parent)
         rule.format = flowCtrlFormat;
         highlightingRules.append(rule);
     }
+
+    quoteFormat.setForeground(Qt::darkGreen);
+    rule.pattern = QRegularExpression(QStringLiteral("\\\"(?:[^\\\"\\\\]|\\\\.)*\\\"|\\'(?:[^\\'\\\\]|\\\\.)*\\'"));
+    rule.format = quoteFormat;
+    highlightingRules.append(rule);
 
     commentStartExpression = QRegularExpression(QStringLiteral("/\\*"));
     commentEndExpression = QRegularExpression(QStringLiteral("\\*/"));
