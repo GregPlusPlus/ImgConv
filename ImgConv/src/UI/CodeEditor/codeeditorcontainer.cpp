@@ -73,15 +73,36 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_toolBar->addAction(m_undo);
     mw_toolBar->addAction(m_redo);
 
+    mw_fileName = new QLabel(tr("Untitled"), this);
+
     m_layout = new QVBoxLayout;
     m_layout->addWidget(mw_toolBar);
     m_layout->addWidget(mw_editor);
+    m_layout->addWidget(mw_fileName);
 
     setLayout(m_layout);
 }
 
 CodeEditorContainter::~CodeEditorContainter() {
 
+}
+
+QString CodeEditorContainter::getFileName() {
+    return m_fileName;
+}
+
+void CodeEditorContainter::setFileName(const QString &fn) {
+    m_fileName = fn;
+
+    mw_fileName->setText((m_fileName.isEmpty())? tr("Untitled"): m_fileName);
+}
+
+bool CodeEditorContainter::isSaved() const {
+    return m_saved;
+}
+
+void CodeEditorContainter::setSaved(bool newSaved) {
+    m_saved = newSaved;
 }
 
 void CodeEditorContainter::generateTemplate(const QString &fn) {
@@ -95,8 +116,8 @@ void CodeEditorContainter::generateTemplate(const QString &fn) {
     }
 
     mw_editor->setPlainText(f.readAll());
-    m_saved = false;
-    m_fileName = QString();
+    setSaved(false);
+    setFileName(QString());
 
     f.close();
 }
@@ -111,7 +132,7 @@ void CodeEditorContainter::openFile() {
         return;
     }
 
-    m_fileName = fn;
+    setFileName(fn);
 
     QFile f(fn);
 
@@ -121,23 +142,23 @@ void CodeEditorContainter::openFile() {
     }
 
     mw_editor->setPlainText(f.readAll());
-    m_saved = true;
+    setSaved(true);
 
     f.close();
 }
 
 void CodeEditorContainter::saveFile() {
-    if(m_saved) {
+    if(isSaved()) {
         return;
     }
 
     QString fn;
 
-    if(m_fileName.isEmpty()) {
+    if(getFileName().isEmpty()) {
         fn = QFileDialog::getSaveFileName(this, tr("Save OpenCL source file"),
                                           QString(), tr("OpenCL source (*.cl *.c);;All files (*.*)"));
     } else {
-        fn = m_fileName;
+        fn = getFileName();
     }
 
     if(fn.isEmpty()) {
@@ -156,7 +177,7 @@ void CodeEditorContainter::saveFile() {
     }
 
     if(f.write(mw_editor->toPlainText().toLatin1()) != -1) {
-        m_fileName = fn;
+        setFileName(fn);
         m_saved = true;
     }
 
@@ -180,7 +201,7 @@ void CodeEditorContainter::saveAsFile() {
     }
 
     if(f.write(mw_editor->toPlainText().toLatin1()) != -1) {
-        m_fileName = fn;
+        setFileName(fn);
         m_saved = true;
     }
 
@@ -190,8 +211,8 @@ void CodeEditorContainter::saveAsFile() {
 void CodeEditorContainter::applyFile() {
     saveFile();
 
-    if(!m_fileName.isEmpty()) {
-        emit useFile(m_fileName);
+    if(!getFileName().isEmpty()) {
+        emit useFile(getFileName());
     }
 }
 

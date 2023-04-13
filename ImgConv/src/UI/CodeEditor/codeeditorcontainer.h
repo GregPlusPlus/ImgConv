@@ -22,6 +22,7 @@
 
 #include <QWidget>
 #include <QToolBar>
+#include <QLabel>
 #include <QToolButton>
 #include <QAction>
 #include <QMenu>
@@ -43,8 +44,12 @@ public:
     CodeEditorContainter(QWidget *parent = nullptr);
     ~CodeEditorContainter();
 
+    QString getFileName();
+    bool isSaved() const;
+
 signals:
     void useFile(const QString &fn);
+    void setSaved(bool newSaved);
 
 private slots:
     void generateTemplate(const QString &fn);
@@ -53,6 +58,7 @@ private slots:
     void saveAsFile();
     void applyFile();
     void confirmSave();
+    void setFileName(const QString &fn);
 
 private:
     QToolBar *mw_toolBar;
@@ -64,6 +70,7 @@ private:
     QMenu *mw_saveMenu;
     QAction *m_undo;
     QAction *m_redo;
+    QLabel *mw_fileName;
 
     CodeEditor *mw_editor;
     KeyCompletion *m_keyCompletion;
