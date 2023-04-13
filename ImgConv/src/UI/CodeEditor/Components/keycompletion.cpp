@@ -28,9 +28,10 @@ bool KeyCompletion::autocompleteNotSelected(QKeyEvent *e) {
 
     if(key == Qt::Key_Return) {
         if((e->modifiers() & Qt::ControlModifier) && (e->modifiers() & Qt::ShiftModifier)) {
+            int l = m_textEdit->getCurrentLineIndentationLevel();
             m_textEdit->moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+            m_textEdit->insertPlainText(m_textEdit->buildTabs(l) + "\n");
             m_textEdit->moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
-            m_textEdit->insertPlainText("\n" + m_textEdit->buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
         } else {
             m_textEdit->insertPlainText("\n" + m_textEdit->buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
         }
