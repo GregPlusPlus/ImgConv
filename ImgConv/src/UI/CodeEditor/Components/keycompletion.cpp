@@ -17,11 +17,44 @@ void KeyCompletion::buildBrackets() {
 }
 
 bool KeyCompletion::autocomplete(QKeyEvent *e) {
-    if(mw_textEdit->textCursor().selectedText().isEmpty()) {
+    if(mw_textEdit->isBetweenDblQuotes(mw_textEdit->textCursor().position()) ||
+        mw_textEdit->isBetweenQuotes(mw_textEdit->textCursor().position())) {
+        return autocompleteInQuotes(e);
+    } else if(mw_textEdit->textCursor().selectedText().isEmpty()) {
         return autocompleteNotSelected(e);
     } else {
         return autocompleteSelected(e, mw_textEdit->textCursor().selectedText());
     }
+}
+
+bool KeyCompletion::autocompleteInQuotes(QKeyEvent *e) {
+    int key = e->key();
+
+    if(key == Qt::Key_Tab) {
+        if(mw_textEdit->useSpacesAsTab()) {
+            mw_textEdit->insertPlainText(mw_textEdit->buildTabs(1));
+        } else {
+            return false;
+        }
+    } else if(key == Qt::Key_Backspace) {
+        QString quotes;
+
+        if(mw_textEdit->isBetweenDblQuotes(mw_textEdit->textCursor().position())) {
+            quotes = "\"\"";
+        } else if(mw_textEdit->isBetweenQuotes(mw_textEdit->textCursor().position())) {
+            quotes = "''";
+        }
+
+        if(mw_textEdit->charAroundCursor() == quotes) {
+            mw_textEdit->removeCharAroundCursor();
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+
+    return true;
 }
 
 bool KeyCompletion::autocompleteNotSelected(QKeyEvent *e) {
@@ -95,6 +128,13 @@ bool KeyCompletion::autocompleteNotSelected(QKeyEvent *e) {
             return false;
         }
     } else if(key == Qt::Key_Backspace) {
+        if(mw_textEdit->textCursor().position() > 0) {
+            if(mw_textEdit->isBetweenDblQuotes(mw_textEdit->textCursor().position() - 1) ||
+                    mw_textEdit->isBetweenQuotes(mw_textEdit->textCursor().position() - 1)) {
+                return false;
+            }
+        }
+
         QList<QString> charCouples;
         charCouples.append("{}");
         charCouples.append("()");

@@ -15,6 +15,7 @@ public:
 signals:
 
 private:
+    bool autocompleteInQuotes(QKeyEvent *e);
     bool autocompleteNotSelected(QKeyEvent *e);
     bool autocompleteSelected(QKeyEvent *e, const QString &selectedText);
     void buildBrackets();
