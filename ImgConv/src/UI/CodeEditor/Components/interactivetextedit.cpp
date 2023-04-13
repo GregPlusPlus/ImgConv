@@ -56,7 +56,7 @@ void InteractiveTextEdit::removeCharAroundCursor() {
 }
 
 void InteractiveTextEdit::unindentLine() {
-    int l = getCurrentLineIndentationLevel();
+    int l = getCursorIndentationLevel();
 
     if(l < 1) {
         return;
@@ -69,7 +69,7 @@ void InteractiveTextEdit::unindentLine() {
     textCursor().insertText(startOfLine.trimmed());
 }
 
-int InteractiveTextEdit::getCurrentLineIndentationLevel() {
+int InteractiveTextEdit::getCursorIndentationLevel() {
     if(toPlainText().isEmpty()) {
         return 0;
     }

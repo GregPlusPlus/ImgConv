@@ -20,7 +20,7 @@ private:
     void buildBrackets();
 
 private:
-    InteractiveTextEdit *m_textEdit;
+    InteractiveTextEdit *mw_textEdit;
 };
 
 #endif // KEYCOMPLETION_H

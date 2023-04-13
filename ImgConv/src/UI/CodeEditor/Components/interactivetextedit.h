@@ -19,7 +19,7 @@ public:
     qsizetype tabSpaceCount() const;
     void setTabSpaceCount(qsizetype newTabSpaceCount);
 
-    int getCurrentLineIndentationLevel();
+    int getCursorIndentationLevel();
     char charBeforeCursor();
     char charAfterCursor();
     QString charAroundCursor();
