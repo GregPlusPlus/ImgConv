@@ -5,6 +5,7 @@
 #define CODEEDITOR_H
 
 #include "interactivetextedit.h"
+#include "highlighter.h"
 
 QT_BEGIN_NAMESPACE
 class QPaintEvent;
@@ -37,6 +38,7 @@ private slots:
 
 private:
     QWidget *lineNumberArea;
+    Highlighter *m_highlighter;
 };
 
 //![codeeditordefinition]

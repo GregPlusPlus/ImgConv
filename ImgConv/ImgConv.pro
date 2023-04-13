@@ -26,6 +26,7 @@ SOURCES += \
     src/Core/Threads/process.cpp \
     src/Core/Utils/utils.cpp \
     src/UI/CodeEditor/Components/codeeditor.cpp \
+    src/UI/CodeEditor/Components/highlighter.cpp \
     src/UI/CodeEditor/Components/interactivetextedit.cpp \
     src/UI/CodeEditor/Components/keycompletion.cpp \
     src/UI/CodeEditor/codeeditorcontainer.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
     src/Core/Threads/threads.h \
     src/Core/Utils/utils.h \
     src/UI/CodeEditor/Components/codeeditor.h \
+    src/UI/CodeEditor/Components/highlighter.h \
     src/UI/CodeEditor/Components/interactivetextedit.h \
     src/UI/CodeEditor/Components/keycompletion.h \
     src/UI/CodeEditor/codeeditorcontainer.h \

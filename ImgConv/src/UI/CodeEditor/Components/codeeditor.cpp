@@ -23,6 +23,8 @@ CodeEditor::CodeEditor(QWidget *parent) : InteractiveTextEdit(parent)
     connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea);
     connect(this, &CodeEditor::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine);
 
+    m_highlighter = new Highlighter(this->document());
+
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
 }
