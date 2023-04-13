@@ -57,6 +57,8 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
         m_saved = false;
     });
 
+    m_highlighter = new Highlighter(mw_editor->document());
+
     m_layout = new QVBoxLayout;
     m_layout->addWidget(mw_toolBar);
     m_layout->addWidget(mw_editor);
