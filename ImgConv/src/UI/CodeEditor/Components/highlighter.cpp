@@ -96,7 +96,7 @@ Highlighter::Highlighter(QTextDocument *parent)
     }
 
     numberFormat.setForeground(Qt::darkRed);
-    rule.pattern = QRegularExpression(QStringLiteral("[.]?[-+]?[0-9]+[.]?[0-9]*([E][-+]?[0-9]+)?(f)?"));
+    rule.pattern = QRegularExpression(QStringLiteral("(?<![A-Za-z_])[.]?[-+]?[0-9]+[.]?[0-9]*([E][-+]?[0-9]+)?f?(?![A-Za-z_])"));
     rule.format = numberFormat;
     highlightingRules.append(rule);
 
@@ -108,7 +108,7 @@ Highlighter::Highlighter(QTextDocument *parent)
 
     preprocFormat.setFontWeight(QFont::Bold);
     preprocFormat.setForeground(Qt::darkMagenta);
-    rule.pattern = QRegularExpression(QStringLiteral("#[a-zA-Z0-9_]+?\\s"));
+    rule.pattern = QRegularExpression(QStringLiteral("#[a-zA-Z0-9_]+"));
     rule.format = preprocFormat;
     highlightingRules.append(rule);
 
