@@ -42,14 +42,19 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     m_openFile = new QAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), mw_toolBar);
     connect(m_openFile, &QAction::triggered, this, &CodeEditorContainter::openFile);
 
-    m_saveFile = new QAction(QIcon(":/icons/disk.png"), tr("Save file"), mw_toolBar);
-    connect(m_saveFile, &QAction::triggered, this, &CodeEditorContainter::saveFile);
+    mw_saveButton = new QToolButton(mw_toolBar);
+    mw_saveButton->setIcon(QIcon(":/icons/disk.png"));
+    mw_saveButton->setPopupMode(QToolButton::InstantPopup);
+    mw_saveMenu = new QMenu(tr("Save file"), mw_saveButton);
+    mw_saveButton->setMenu(mw_saveMenu);
+    mw_saveMenu->addAction(QIcon(":/icons/disk.png"), tr("Save"), this, &CodeEditorContainter::saveFile);
+    mw_saveMenu->addAction(QIcon(":/icons/disk-rename.png"), tr("Save as"), this, &CodeEditorContainter::saveAsFile);
 
     mw_toolBar->addWidget(mw_generateTemplateButton);
     mw_toolBar->addAction(m_apply);
     mw_toolBar->addSeparator();
     mw_toolBar->addAction(m_openFile);
-    mw_toolBar->addAction(m_saveFile);
+    mw_toolBar->addWidget(mw_saveButton);
 
     mw_editor = new CodeEditor(this);
     mw_editor->setUseSpacesAsTab(true);
@@ -139,6 +144,30 @@ void CodeEditorContainter::saveFile() {
     if(!f.open(QFile::WriteOnly)) {
         f.close();
         m_saved = false;
+
+        return;
+    }
+
+    if(f.write(mw_editor->toPlainText().toLatin1()) != -1) {
+        m_fileName = fn;
+        m_saved = true;
+    }
+
+    f.close();
+}
+
+void CodeEditorContainter::saveAsFile() {
+    QString fn = QFileDialog::getSaveFileName(this, tr("Save OpenCL source file as..."),
+                                      QString(), tr("OpenCL source (*.cl *.c);;All files (*.*)"));
+
+    if(fn.isEmpty()) {
+        return;
+    }
+
+    QFile f(fn);
+
+    if(!f.open(QFile::WriteOnly)) {
+        f.close();
 
         return;
     }

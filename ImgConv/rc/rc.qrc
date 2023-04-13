@@ -15,5 +15,6 @@
         <file>icons/wand.png</file>
         <file>ocl/basic_template.cl</file>
         <file>icons/tick-button.png</file>
+        <file>icons/disk-rename.png</file>
     </qresource>
 </RCC>

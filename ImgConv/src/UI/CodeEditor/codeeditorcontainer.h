@@ -50,6 +50,7 @@ private slots:
     void generateTemplate(const QString &fn);
     void openFile();
     void saveFile();
+    void saveAsFile();
     void applyFile();
     void confirmSave();
 
@@ -59,7 +60,8 @@ private:
     QMenu *mw_generateTemplateMenu;
     QAction *m_apply;
     QAction *m_openFile;
-    QAction *m_saveFile;
+    QToolButton *mw_saveButton;
+    QMenu *mw_saveMenu;
 
     CodeEditor *mw_editor;
     KeyCompletion *m_keyCompletion;
