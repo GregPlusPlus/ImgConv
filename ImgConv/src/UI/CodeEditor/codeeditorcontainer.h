@@ -62,6 +62,8 @@ private:
     QAction *m_openFile;
     QToolButton *mw_saveButton;
     QMenu *mw_saveMenu;
+    QAction *m_undo;
+    QAction *m_redo;
 
     CodeEditor *mw_editor;
     KeyCompletion *m_keyCompletion;

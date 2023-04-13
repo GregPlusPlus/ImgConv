@@ -16,5 +16,7 @@
         <file>ocl/basic_template.cl</file>
         <file>icons/tick-button.png</file>
         <file>icons/disk-rename.png</file>
+        <file>icons/arrow-curve.png</file>
+        <file>icons/arrow-curve-180-left.png</file>
     </qresource>
 </RCC>

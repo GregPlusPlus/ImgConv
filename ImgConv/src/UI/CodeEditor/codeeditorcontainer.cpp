@@ -22,6 +22,14 @@
 CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     QWidget{parent} {
 
+    mw_editor = new CodeEditor(this);
+    mw_editor->setUseSpacesAsTab(true);
+    m_keyCompletion = new KeyCompletion(mw_editor);
+    m_highlighter = new Highlighter(mw_editor->document());
+    connect(mw_editor, &CodeEditor::textChanged, [=]() {
+        m_saved = false;
+    });
+
     mw_toolBar = new QToolBar(this);
 
     mw_generateTemplateButton = new QToolButton(mw_toolBar);
@@ -50,21 +58,20 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_saveMenu->addAction(QIcon(":/icons/disk.png"), tr("Save"), this, &CodeEditorContainter::saveFile);
     mw_saveMenu->addAction(QIcon(":/icons/disk-rename.png"), tr("Save as"), this, &CodeEditorContainter::saveAsFile);
 
+    m_undo = new QAction(QIcon(":/icons/arrow-curve-180-left.png"), tr("Undo"), mw_toolBar);
+    connect(m_undo, &QAction::triggered, mw_editor, &CodeEditor::undo);
+
+    m_redo = new QAction(QIcon(":/icons/arrow-curve.png"), tr("Redo"), mw_toolBar);
+    connect(m_redo, &QAction::triggered, mw_editor, &CodeEditor::redo);
+
     mw_toolBar->addWidget(mw_generateTemplateButton);
     mw_toolBar->addAction(m_apply);
     mw_toolBar->addSeparator();
     mw_toolBar->addAction(m_openFile);
     mw_toolBar->addWidget(mw_saveButton);
-
-    mw_editor = new CodeEditor(this);
-    mw_editor->setUseSpacesAsTab(true);
-    connect(mw_editor, &CodeEditor::textChanged, [=]() {
-        m_saved = false;
-    });
-
-    m_keyCompletion = new KeyCompletion(mw_editor);
-
-    m_highlighter = new Highlighter(mw_editor->document());
+    mw_toolBar->addSeparator();
+    mw_toolBar->addAction(m_undo);
+    mw_toolBar->addAction(m_redo);
 
     m_layout = new QVBoxLayout;
     m_layout->addWidget(mw_toolBar);
