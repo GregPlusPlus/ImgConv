@@ -28,11 +28,14 @@ public:
 
     QString buildTabs(int level);
 
+    KeyCompletion *keyCompletion() const;
+    void setKeyCompletion(KeyCompletion *newKeyCompletion);
+
 protected:
     void keyPressEvent(QKeyEvent *e) override;
 
 private:
-    KeyCompletion *m_keyCompletion;
+    KeyCompletion *m_keyCompletion = nullptr;
 
     qsizetype m_useSpacesAsTab = false;
     quint8 m_tabSpaceCount = 4;

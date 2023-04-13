@@ -3,6 +3,7 @@
 KeyCompletion::KeyCompletion(InteractiveTextEdit *parent)
     : QObject{parent}, mw_textEdit{parent} {
 
+    mw_textEdit->setKeyCompletion(this);
 }
 
 void KeyCompletion::buildBrackets() {

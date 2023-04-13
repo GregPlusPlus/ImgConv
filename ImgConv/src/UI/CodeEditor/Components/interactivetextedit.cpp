@@ -2,14 +2,20 @@
 
 InteractiveTextEdit::InteractiveTextEdit(QWidget *parent)
     : QPlainTextEdit{parent} {
-
-    m_keyCompletion = new KeyCompletion(this);
 }
 
 void InteractiveTextEdit::keyPressEvent(QKeyEvent *e) {
-    if(!m_keyCompletion->autocomplete(e)) {
+    if(m_keyCompletion && !m_keyCompletion->autocomplete(e)) {
         QPlainTextEdit::keyPressEvent(e);
     }
+}
+
+KeyCompletion *InteractiveTextEdit::keyCompletion() const {
+    return m_keyCompletion;
+}
+
+void InteractiveTextEdit::setKeyCompletion(KeyCompletion *newKeyCompletion) {
+    m_keyCompletion = newKeyCompletion;
 }
 
 QString InteractiveTextEdit::buildTabs(int level) {

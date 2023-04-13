@@ -57,6 +57,8 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
         m_saved = false;
     });
 
+    m_keyCompletion = new KeyCompletion(mw_editor);
+
     m_highlighter = new Highlighter(mw_editor->document());
 
     m_layout = new QVBoxLayout;

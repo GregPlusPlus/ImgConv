@@ -34,6 +34,7 @@
 #include <QFile>
 
 #include "Components/codeeditor.h"
+#include "Components/keycompletion.h"
 #include "Components/highlighter.h"
 
 class CodeEditorContainter : public QWidget {
@@ -61,6 +62,7 @@ private:
     QAction *m_saveFile;
 
     CodeEditor *mw_editor;
+    KeyCompletion *m_keyCompletion;
     Highlighter *m_highlighter;
 
     QVBoxLayout *m_layout;
