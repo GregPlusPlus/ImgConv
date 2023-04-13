@@ -5,20 +5,12 @@ KeyCompletion::KeyCompletion(InteractiveTextEdit *parent)
 
 }
 
-QString KeyCompletion::buildTabs(int level) {
-    if(m_textEdit->useSpacesAsTab()) {
-        return QString(" ").repeated(level * m_textEdit->tabSpaceCount());
-    }
-
-    return QString("\t").repeated(level);
-}
-
 void KeyCompletion::buildBrackets() {
     int indentLvl = m_textEdit->getCurrentLineIndentationLevel();
 
     m_textEdit->insertPlainText(QString("{\n%1\n%2}")
-                                .arg(buildTabs(indentLvl + 1))
-                                .arg(buildTabs(indentLvl)));
+                                .arg(m_textEdit->buildTabs(indentLvl + 1))
+                                .arg(m_textEdit->buildTabs(indentLvl)));
     m_textEdit->moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
     m_textEdit->moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
 }
@@ -30,15 +22,23 @@ bool KeyCompletion::autocomplete(QKeyEvent *e) {
         if((e->modifiers() & Qt::ControlModifier) && (e->modifiers() & Qt::ShiftModifier)) {
             m_textEdit->moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
             m_textEdit->moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
-            m_textEdit->insertPlainText("\n" + buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
+            m_textEdit->insertPlainText("\n" + m_textEdit->buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
         } else {
-            m_textEdit->insertPlainText("\n" + buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
+            m_textEdit->insertPlainText("\n" + m_textEdit->buildTabs(m_textEdit->getCurrentLineIndentationLevel()));
         }
     } else if(key == Qt::Key_Tab) {
         if(m_textEdit->useSpacesAsTab()) {
-            m_textEdit->insertPlainText(buildTabs(1));
+            m_textEdit->insertPlainText(m_textEdit->buildTabs(1));
         } else {
             return false;
+        }
+    } else if(key == Qt::Key_Backtab) {
+        int l = m_textEdit->getCurrentLineIndentationLevel();
+
+        if(l > 0) {
+            m_textEdit->unindentLine();
+            m_textEdit->moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+            m_textEdit->insertPlainText(m_textEdit->buildTabs(l - 1));
         }
     } else if(key == Qt::Key_BraceLeft) {
         buildBrackets();

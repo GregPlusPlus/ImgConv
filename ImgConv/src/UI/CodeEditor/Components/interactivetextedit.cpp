@@ -12,6 +12,14 @@ void InteractiveTextEdit::keyPressEvent(QKeyEvent *e) {
     }
 }
 
+QString InteractiveTextEdit::buildTabs(int level) {
+    if(useSpacesAsTab()) {
+        return QString(" ").repeated(level * tabSpaceCount());
+    }
+
+    return QString("\t").repeated(level);
+}
+
 char InteractiveTextEdit::charBeforeCursor() {
     char c = 0;
 
@@ -45,6 +53,20 @@ void InteractiveTextEdit::removeCharAroundCursor() {
     moveCursor(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
     moveCursor(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
     textCursor().removeSelectedText();
+}
+
+void InteractiveTextEdit::unindentLine() {
+    int l = getCurrentLineIndentationLevel();
+
+    if(l < 1) {
+        return;
+    }
+
+    moveCursor(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
+
+    QString startOfLine = textCursor().selectedText();
+
+    textCursor().insertText(startOfLine.trimmed());
 }
 
 int InteractiveTextEdit::getCurrentLineIndentationLevel() {

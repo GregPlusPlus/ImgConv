@@ -24,6 +24,9 @@ public:
     char charAfterCursor();
     QString charAroundCursor();
     void removeCharAroundCursor();
+    void unindentLine();
+
+    QString buildTabs(int level);
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;

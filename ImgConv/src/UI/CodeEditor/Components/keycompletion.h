@@ -15,7 +15,6 @@ public:
 signals:
 
 private:
-    QString buildTabs(int level);
     void buildBrackets();
 
 private:
