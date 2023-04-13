@@ -27,6 +27,7 @@ SOURCES += \
     src/Core/Utils/utils.cpp \
     src/UI/CodeEditor/Components/codeeditor.cpp \
     src/UI/CodeEditor/Components/interactivetextedit.cpp \
+    src/UI/CodeEditor/Components/keycompletion.cpp \
     src/UI/CodeEditor/codeeditorcontainer.cpp \
     src/UI/FilterSettingsWidget/filenamepicker.cpp \
     src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
     src/Core/Utils/utils.h \
     src/UI/CodeEditor/Components/codeeditor.h \
     src/UI/CodeEditor/Components/interactivetextedit.h \
+    src/UI/CodeEditor/Components/keycompletion.h \
     src/UI/CodeEditor/codeeditorcontainer.h \
     src/UI/FilterSettingsWidget/filenamepicker.h \
     src/UI/FilterSettingsWidget/filtersettingsdock.h \

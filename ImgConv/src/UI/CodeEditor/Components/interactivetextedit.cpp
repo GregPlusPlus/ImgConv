@@ -3,97 +3,14 @@
 InteractiveTextEdit::InteractiveTextEdit(QWidget *parent)
     : QPlainTextEdit{parent} {
 
+    m_keyCompletion = new KeyCompletion(this);
 }
 
 void InteractiveTextEdit::keyPressEvent(QKeyEvent *e)
 {
-    if(!autocomplete(e)) {
+    if(!m_keyCompletion->autocomplete(e)) {
         QPlainTextEdit::keyPressEvent(e);
     }
-}
-
-bool InteractiveTextEdit::autocomplete(QKeyEvent *e)
-{
-    int key = e->key();
-    if(key == Qt::Key_Return) {
-        insertPlainText("\n" + buildTabs(getCurrentLineIndentationLevel()));
-    } else if(key == Qt::Key_Tab) {
-        if(m_useSpacesAsTab) {
-            insertPlainText(buildTabs(1));
-        } else {
-            return false;
-        }
-    } else if(key == Qt::Key_BraceLeft) {
-        buildBrackets();
-    } else if(key == Qt::Key_BraceRight) {
-        if(charAfterCursor() == '}') {
-            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
-        } else {
-            return false;
-        }
-    }  else if(key == Qt::Key_ParenLeft) {
-        insertPlainText("()");
-        moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
-    } else if(key == Qt::Key_ParenRight) {
-        if(charAfterCursor() == ')') {
-            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
-        } else {
-            return false;
-        }
-    } else if(key == Qt::Key_BracketLeft) {
-        insertPlainText("[]");
-        moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
-    } else if(key == Qt::Key_BracketRight) {
-        if(charAfterCursor() == ']') {
-            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
-        } else {
-            return false;
-        }
-    } else if(key == Qt::Key_QuoteDbl) {
-        if(charAfterCursor() == '"' && charBeforeCursor() != '\\') {
-            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
-        } else if(charBeforeCursor() != '\\') {
-            insertPlainText("\"\"");
-            moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
-        } else {
-            return false;
-        }
-    } else if(key == Qt::Key_Apostrophe) {
-        if(charAfterCursor() == '\'' && charBeforeCursor() != '\\') {
-            moveCursor(QTextCursor::NextCharacter, QTextCursor::MoveAnchor);
-        } else if(charBeforeCursor() != '\\') {
-            insertPlainText("''");
-            moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
-        } else {
-            return false;
-        }
-    } else if(key == Qt::Key_Backspace) {
-        QList<QString> charCouples;
-        charCouples.append("{}");
-        charCouples.append("()");
-        charCouples.append("[]");
-        charCouples.append("\"\"");
-        charCouples.append("''");
-
-        if(charCouples.contains(charAroundCursor())) {
-            removeCharAroundCursor();
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
-
-    return true;
-}
-
-QString InteractiveTextEdit::buildTabs(int level)
-{
-    if(useSpacesAsTab()) {
-        return QString(" ").repeated(level * tabSpaceCount());
-    }
-
-    return QString("\t").repeated(level);
 }
 
 char InteractiveTextEdit::charBeforeCursor()
@@ -170,17 +87,6 @@ int InteractiveTextEdit::getCurrentLineIndentationLevel()
     }
 
     return spacesCount;
-}
-
-void InteractiveTextEdit::buildBrackets()
-{
-    int indentLvl = getCurrentLineIndentationLevel();
-
-    insertPlainText(QString("{\n%1\n%2}")
-                    .arg(buildTabs(indentLvl + 1))
-                    .arg(buildTabs(indentLvl)));
-    moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-    moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
 }
 
 qsizetype InteractiveTextEdit::tabSpaceCount() const

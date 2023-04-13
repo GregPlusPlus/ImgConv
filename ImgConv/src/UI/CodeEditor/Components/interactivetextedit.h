@@ -4,8 +4,11 @@
 #include <QPlainTextEdit>
 #include <QWidget>
 
-class InteractiveTextEdit : public QPlainTextEdit
-{
+#include "keycompletion.h"
+
+class KeyCompletion;
+
+class InteractiveTextEdit : public QPlainTextEdit {
     Q_OBJECT
 public:
     InteractiveTextEdit(QWidget *parent = nullptr);
@@ -16,20 +19,18 @@ public:
     qsizetype tabSpaceCount() const;
     void setTabSpaceCount(qsizetype newTabSpaceCount);
 
-protected:
-    void keyPressEvent(QKeyEvent *e) override;
-
-private:
-    QString buildTabs(int level);
+    int getCurrentLineIndentationLevel();
     char charBeforeCursor();
     char charAfterCursor();
     QString charAroundCursor();
     void removeCharAroundCursor();
-    int getCurrentLineIndentationLevel();
-    void buildBrackets();
-    bool autocomplete(QKeyEvent *e);
+
+protected:
+    void keyPressEvent(QKeyEvent *e) override;
 
 private:
+    KeyCompletion *m_keyCompletion;
+
     qsizetype m_useSpacesAsTab = false;
     quint8 m_tabSpaceCount = 4;
 };
