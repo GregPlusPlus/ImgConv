@@ -16,6 +16,14 @@ void KeyCompletion::buildBrackets() {
 }
 
 bool KeyCompletion::autocomplete(QKeyEvent *e) {
+    if(m_textEdit->textCursor().selectedText().isEmpty()) {
+        return autocompleteNotSelected(e);
+    } else {
+        return autocompleteSelected(e, m_textEdit->textCursor().selectedText());
+    }
+}
+
+bool KeyCompletion::autocompleteNotSelected(QKeyEvent *e) {
     int key = e->key();
 
     if(key == Qt::Key_Return) {
@@ -97,6 +105,27 @@ bool KeyCompletion::autocomplete(QKeyEvent *e) {
         } else {
             return false;
         }
+    } else {
+        return false;
+    }
+
+    return true;
+}
+
+bool KeyCompletion::autocompleteSelected(QKeyEvent *e, const QString &selectedText) {
+    int key = e->key();
+
+    if(key == Qt::Key_ParenLeft) {
+        m_textEdit->insertPlainText(QString("(%1)").arg(selectedText));
+    } else if(key == Qt::Key_BraceLeft) {
+        buildBrackets();
+        m_textEdit->insertPlainText(selectedText.trimmed());
+    } else if(key == Qt::Key_BracketLeft) {
+        m_textEdit->insertPlainText(QString("[%1]").arg(selectedText));
+    } else if(key == Qt::Key_QuoteDbl) {
+        m_textEdit->insertPlainText(QString("\"%1\"").arg(selectedText));
+    } else if(key == Qt::Key_Apostrophe) {
+        m_textEdit->insertPlainText(QString("'%1'").arg(selectedText));
     } else {
         return false;
     }
