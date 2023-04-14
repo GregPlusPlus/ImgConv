@@ -132,12 +132,12 @@ bool InteractiveTextEdit::isBetweenQuotes(qsizetype index) {
     return isBetweenMatchingChars(index, '\'', '\'', '\\');
 }
 
-int InteractiveTextEdit::getCursorIndentationLevel() {
+int InteractiveTextEdit::getIndentationLevel(qsizetype index) {
     if(toPlainText().isEmpty()) {
         return 0;
     }
 
-    QStringList lines = toPlainText().left(textCursor().position()).split("\n");
+    QStringList lines = toPlainText().left(index).split("\n");
 
     if(lines.count() == 0) {
         return 0;
@@ -166,6 +166,10 @@ int InteractiveTextEdit::getCursorIndentationLevel() {
     }
 
     return spacesCount;
+}
+
+int InteractiveTextEdit::getCursorIndentationLevel() {
+    return getIndentationLevel(textCursor().selectionStart());
 }
 
 qsizetype InteractiveTextEdit::tabSpaceCount() const {
