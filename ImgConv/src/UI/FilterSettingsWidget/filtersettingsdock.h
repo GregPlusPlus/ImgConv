@@ -44,6 +44,7 @@ private slots:
 private:
     QSplitter *mw_splitter;
     QWidget *mw_container;
+    QWidget *mw_containerSettings;
     QPushButton *mw_resetButton;
     QTextEdit *mw_descriptionField;
     QVBoxLayout *m_layout;
