@@ -1,6 +1,8 @@
 #ifndef KEYCOMPLETION_H
 #define KEYCOMPLETION_H
 
+#include <QTextDocumentFragment>
+
 #include "interactivetextedit.h"
 
 class InteractiveTextEdit;

@@ -17,13 +17,15 @@ void KeyCompletion::buildBrackets() {
 }
 
 bool KeyCompletion::autocomplete(QKeyEvent *e) {
+    QString selectedText = mw_textEdit->textCursor().selection().toPlainText();
+
     if(mw_textEdit->isBetweenDblQuotes(mw_textEdit->textCursor().position()) ||
         mw_textEdit->isBetweenQuotes(mw_textEdit->textCursor().position())) {
         return autocompleteInQuotes(e);
-    } else if(mw_textEdit->textCursor().selectedText().isEmpty()) {
+    } else if(selectedText.isEmpty()) {
         return autocompleteNotSelected(e);
     } else {
-        return autocompleteSelected(e, mw_textEdit->textCursor().selectedText());
+        return autocompleteSelected(e, selectedText);
     }
 }
 
