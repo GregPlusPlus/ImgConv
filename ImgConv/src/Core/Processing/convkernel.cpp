@@ -66,9 +66,16 @@ void ConvKernel::setSourceFilePath(const QString &path) {
     getSettingByName(tr("Source file"))->setVal(path);
 }
 
+void ConvKernel::reset() {
+    for(ConvKenrelSetting *s : m_settings) {
+        s->reset();
+    }
+}
+
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, SettingType type, QObject *parent)
     : QObject{parent}, m_name{name}, m_type{type} {
     setVal((int)0);
+    setDefault();
 }
 
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val, QObject *parent)
@@ -84,6 +91,7 @@ ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, int min, 
     }
 
     setVal(val);
+    setDefault();
 }
 
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val, QObject *parent)
@@ -99,21 +107,26 @@ ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, float min
     }
 
     setVal(val);
+    setDefault();
 }
 
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool val, QObject *parent)
 : QObject{parent}, m_name{name}, m_type{SettingsType_Bool} {
     setVal(val);
+    setDefault();
 }
 
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, QString val, QObject *parent)
     : QObject{parent}, m_name{name}, m_type{SettingsType_String} {
     setVal(val);
+    setDefault();
 }
 
 ConvKenrelSetting::ConvKenrelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent)
     : QObject{parent}, m_name{name}, m_type{SettingsType_FileName} {
     setVal(fileName);
+    setDefault();
+
     setFileNameTitle(title);
     setFileNameFilter(filter);
 }
@@ -207,6 +220,18 @@ void ConvKenrelSetting::setMax(float max) {
     m_max = QVariant(max);
 }
 
+void ConvKenrelSetting::reset() {
+    m_val = m_default;
+}
+
+void ConvKenrelSetting::setDefault() {
+    m_default = m_val;
+}
+
+const QVariant &ConvKenrelSetting::defaultVal() const {
+    return m_default;
+}
+
 void ConvKenrelSetting::setMin(int min) {
     m_min = QVariant(min);
 }
@@ -237,5 +262,9 @@ const QString &ConvKenrelSetting::fileNameFilter() const {
 
 void ConvKenrelSetting::setFileNameFilter(const QString &newFileNameFilter) {
     m_fileNameFilter = newFileNameFilter;
+}
+
+void ConvKenrelSetting::setVal(const QVariant &val) {
+    m_val = val;
 }
 

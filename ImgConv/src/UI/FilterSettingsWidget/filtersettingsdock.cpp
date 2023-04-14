@@ -31,17 +31,23 @@ FilterSettingsDock::FilterSettingsDock(QWidget *parent)
     mw_container = new QWidget(this);
     mw_container->setLayout(m_settingsLayout);
 
+    mw_resetButton = new QPushButton(tr("Reset settings"), this);
+    connect(mw_resetButton, &QPushButton::clicked, this, &FilterSettingsDock::resetSettings);
+
     mw_descriptionField = new QTextEdit(tr("<h2>Filter description</h2>"), this);
     mw_descriptionField->setReadOnly(true);
     mw_descriptionField->setMinimumHeight(300);
 
     mw_splitter->addWidget(mw_container);
+    mw_splitter->addWidget(mw_resetButton);
     mw_splitter->addWidget(mw_descriptionField);
 
     setWidget(mw_splitter);
 }
 
 void FilterSettingsDock::setConvKernel(ConvKernels::ConvKernel *k) {
+    m_k = k;
+
     for(FilterSettingsWidget *w : m_FilterSettingsWidgets) {
         if(w) {
             m_settingsLayout->removeWidget(w);
@@ -61,7 +67,14 @@ void FilterSettingsDock::setConvKernel(ConvKernels::ConvKernel *k) {
     updateDescription(k);
 }
 
-void FilterSettingsDock::updateDescription(ConvKernels::ConvKernel *k)
-{
+void FilterSettingsDock::updateDescription(ConvKernels::ConvKernel *k) {
     mw_descriptionField->setText(tr("<h2>%1</h2><hr>%2").arg(k->getName()).arg(k->getDescription()));
+}
+
+void FilterSettingsDock::resetSettings() {
+    if(m_k) {
+        m_k->reset();
+
+        setConvKernel(m_k);
+    }
 }
