@@ -113,13 +113,6 @@ Highlighter::Highlighter(QTextDocument *parent)
     rule.format = preprocFormat;
     highlightingRules.append(rule);
 
-    singleLineCommentFormat.setForeground(Qt::red);
-    rule.pattern = QRegularExpression(QStringLiteral("//[^\n]*"));
-    rule.format = singleLineCommentFormat;
-    highlightingRules.append(rule);
-
-    multiLineCommentFormat.setForeground(Qt::red);
-
     functionFormat.setForeground(Qt::blue);
     rule.pattern = QRegularExpression(QStringLiteral("\\b[A-Za-z0-9_]+(?=\\()"));
     rule.format = functionFormat;
@@ -142,6 +135,12 @@ Highlighter::Highlighter(QTextDocument *parent)
     rule.format = quoteFormat;
     highlightingRules.append(rule);
 
+    singleLineCommentFormat.setForeground(Qt::red);
+    rule.pattern = QRegularExpression(QStringLiteral("//[^\n]*"));
+    rule.format = singleLineCommentFormat;
+    highlightingRules.append(rule);
+
+    multiLineCommentFormat.setForeground(Qt::red);
     commentStartExpression = QRegularExpression(QStringLiteral("/\\*"));
     commentEndExpression = QRegularExpression(QStringLiteral("\\*/"));
 }
