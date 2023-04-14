@@ -38,6 +38,7 @@
 #include "Components/codeeditor.h"
 #include "Components/keycompletion.h"
 #include "Components/highlighter.h"
+#include "UI/UtilsUI/utilsui.h"
 
 class CodeEditorContainter : public QWidget {
     Q_OBJECT

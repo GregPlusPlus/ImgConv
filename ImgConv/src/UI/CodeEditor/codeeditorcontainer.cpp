@@ -53,9 +53,9 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_saveMenu->addAction(QIcon(":/icons/disk-rename.png"), tr("Save as"), tr("Ctrl+Shift+S"), this, &CodeEditorContainter::saveAsFile);
 
     mw_toolBar->addWidget(mw_generateTemplateButton);
-    mw_toolBar->addAction(QIcon(":/icons/tick-button.png"), tr("Apply"), tr("F9"), this, &CodeEditorContainter::applyFile);
+    UtilsUI::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/tick-button.png"), tr("Apply"), tr("F9"), this, &CodeEditorContainter::applyFile));
     mw_toolBar->addSeparator();
-    mw_toolBar->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), tr("Ctrl+Shift+O"), this, &CodeEditorContainter::openFile);
+    UtilsUI::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), tr("Ctrl+Shift+O"), this, &CodeEditorContainter::openFile));
     mw_toolBar->addWidget(mw_saveButton);
     mw_toolBar->addSeparator();
     mw_toolBar->addAction(QIcon(":/icons/arrow-curve-180-left.png"), tr("Undo"), (QPlainTextEdit*)this, &QPlainTextEdit::undo);
