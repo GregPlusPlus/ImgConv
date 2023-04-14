@@ -66,12 +66,8 @@ private:
     QStatusBar *mw_statusBar;
     QToolButton *mw_generateTemplateButton;
     QMenu *mw_generateTemplateMenu;
-    QAction *m_apply;
-    QAction *m_openFile;
     QToolButton *mw_saveButton;
     QMenu *mw_saveMenu;
-    QAction *m_undo;
-    QAction *m_redo;
     QLabel *mw_fileName;
     QLabel *mw_saved;
 

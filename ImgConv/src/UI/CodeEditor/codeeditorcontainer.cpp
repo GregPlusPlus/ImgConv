@@ -44,34 +44,22 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
         generateTemplate(":/ocl/conv2D.cl");
     });
 
-    m_apply = new QAction(QIcon(":/icons/tick-button.png"), tr("Apply"), mw_toolBar);
-    connect(m_apply, &QAction::triggered, this, &CodeEditorContainter::applyFile);
-
-    m_openFile = new QAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), mw_toolBar);
-    connect(m_openFile, &QAction::triggered, this, &CodeEditorContainter::openFile);
-
     mw_saveButton = new QToolButton(mw_toolBar);
     mw_saveButton->setIcon(QIcon(":/icons/disk.png"));
     mw_saveButton->setPopupMode(QToolButton::InstantPopup);
     mw_saveMenu = new QMenu(tr("Save file"), mw_saveButton);
     mw_saveButton->setMenu(mw_saveMenu);
-    mw_saveMenu->addAction(QIcon(":/icons/disk.png"), tr("Save"), this, &CodeEditorContainter::saveFile);
-    mw_saveMenu->addAction(QIcon(":/icons/disk-rename.png"), tr("Save as"), this, &CodeEditorContainter::saveAsFile);
-
-    m_undo = new QAction(QIcon(":/icons/arrow-curve-180-left.png"), tr("Undo"), mw_toolBar);
-    connect(m_undo, &QAction::triggered, mw_editor, &CodeEditor::undo);
-
-    m_redo = new QAction(QIcon(":/icons/arrow-curve.png"), tr("Redo"), mw_toolBar);
-    connect(m_redo, &QAction::triggered, mw_editor, &CodeEditor::redo);
+    mw_saveMenu->addAction(QIcon(":/icons/disk.png"), tr("Save"), tr("Ctrl+S"), this, &CodeEditorContainter::saveFile);
+    mw_saveMenu->addAction(QIcon(":/icons/disk-rename.png"), tr("Save as"), tr("Ctrl+Shift+S"), this, &CodeEditorContainter::saveAsFile);
 
     mw_toolBar->addWidget(mw_generateTemplateButton);
-    mw_toolBar->addAction(m_apply);
+    mw_toolBar->addAction(QIcon(":/icons/tick-button.png"), tr("Apply"), tr("F9"), this, &CodeEditorContainter::applyFile);
     mw_toolBar->addSeparator();
-    mw_toolBar->addAction(m_openFile);
+    mw_toolBar->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), tr("Ctrl+Shift+O"), this, &CodeEditorContainter::openFile);
     mw_toolBar->addWidget(mw_saveButton);
     mw_toolBar->addSeparator();
-    mw_toolBar->addAction(m_undo);
-    mw_toolBar->addAction(m_redo);
+    mw_toolBar->addAction(QIcon(":/icons/arrow-curve-180-left.png"), tr("Undo"), (QPlainTextEdit*)this, &QPlainTextEdit::undo);
+    mw_toolBar->addAction(QIcon(":/icons/arrow-curve.png"), tr("Redo"), (QPlainTextEdit*)this, &QPlainTextEdit::redo);
 
     mw_statusBar = new QStatusBar(this);
     mw_statusBar->setSizeGripEnabled(false);
