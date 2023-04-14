@@ -16,6 +16,9 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
+#ifndef COMMON_H
+#define COMMON_H
+
 #define X           get_global_id(0)
 #define Y           get_global_id(1)
 #define _I          ((W * Y + X) * 3)
@@ -28,3 +31,5 @@
 #define IN_RED      (In[_I + 0])
 #define IN_GREEN    (In[_I + 1])
 #define IN_BLUE     (In[_I + 2])
+
+#endif //COMMON_H
