@@ -61,7 +61,8 @@ Highlighter::Highlighter(QTextDocument *parent)
         QStringLiteral("\\bstatic\\b"), QStringLiteral("\\bstruct\\b"), QStringLiteral("\\btypedef\\b"),
         QStringLiteral("\\btypename\\b"), QStringLiteral("\\bunion\\b"), QStringLiteral("\\bvolatile\\b"),
         QStringLiteral("\\breturn\\b"), QStringLiteral("\\bbreak\\b"), QStringLiteral("\\bcontinue\\b"),
-        QStringLiteral("\\bsizeof\\b"), QStringLiteral("\\bcase\\b"), QStringLiteral("\\bdefault\\b")
+        QStringLiteral("\\bsizeof\\b"), QStringLiteral("\\bcase\\b"), QStringLiteral("\\bdefault\\b"),
+        QStringLiteral("\\btrue\\b"), QStringLiteral("\\bfalse\\b")
     };
     for(const QString &pattern : keywordPatterns) {
         rule.pattern = QRegularExpression(pattern);
