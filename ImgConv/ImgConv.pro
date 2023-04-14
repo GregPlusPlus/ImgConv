@@ -25,12 +25,18 @@ SOURCES += \
     src/Core/Threads/imgloader.cpp \
     src/Core/Threads/process.cpp \
     src/Core/Utils/utils.cpp \
+    src/UI/CodeEditor/Components/codeeditor.cpp \
+    src/UI/CodeEditor/Components/highlighter.cpp \
+    src/UI/CodeEditor/Components/interactivetextedit.cpp \
+    src/UI/CodeEditor/Components/keycompletion.cpp \
+    src/UI/CodeEditor/codeeditorcontainer.cpp \
     src/UI/FilterSettingsWidget/filenamepicker.cpp \
     src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
     src/UI/MainWindow/mainwindow.cpp \
     src/UI/SelectDeviceDialog/selectdevicedialog.cpp \
+    src/UI/UtilsUI/utilsui.cpp \
     src/UI/WaitDialog/waitdialog.cpp \
     src/main.cpp
 HEADERS += \
@@ -50,6 +56,11 @@ HEADERS += \
     src/Core/Threads/process.h \
     src/Core/Threads/threads.h \
     src/Core/Utils/utils.h \
+    src/UI/CodeEditor/Components/codeeditor.h \
+    src/UI/CodeEditor/Components/highlighter.h \
+    src/UI/CodeEditor/Components/interactivetextedit.h \
+    src/UI/CodeEditor/Components/keycompletion.h \
+    src/UI/CodeEditor/codeeditorcontainer.h \
     src/UI/FilterSettingsWidget/filenamepicker.h \
     src/UI/FilterSettingsWidget/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \
@@ -57,6 +68,7 @@ HEADERS += \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \
     src/UI/SelectDeviceDialog/selectdevicedialog.h \
+    src/UI/UtilsUI/utilsui.h \
     src/UI/WaitDialog/waitdialog.h
 
 INCLUDEPATH += \

@@ -104,11 +104,12 @@ void MainWindow::startProcess() {
     }
 
     if(!createOCLProgram(k->getSourceFilePath(),
-                            QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4")
+                            QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -I%5")
                             .arg(m_original.width())
                             .arg(m_original.height())
                             .arg(matSize.width())
-                            .arg(matSize.height()))) {
+                            .arg(matSize.height())
+                            .arg(QCoreApplication::applicationDirPath() + "/kCLinclude"))) {
 
         return;
     }
@@ -205,7 +206,7 @@ void MainWindow::initOpenCL(const OCLWrapper::Device &device) {
 }
 
 bool MainWindow::createOCLProgram(const QString &fn, const QString &options) {
-    QFileDevice::FileError e = m_ocl->createProgramFromFile(fn, "conv2D", options);
+    QFileDevice::FileError e = m_ocl->createProgramFromFile(fn, "pixelKernel", options);
 
     if(e != QFileDevice::NoError) {
         QMessageBox::critical(this, tr("Filesystem error"), tr("File error (%1)").arg(e));
@@ -314,8 +315,16 @@ void MainWindow::buildView() {
     mw_origImgView = new ImageViewer(tr("Original image"));
     mw_processedImgView = new ImageViewer(tr("Processed image"));
 
+    mw_codeEditor = new CodeEditorContainter(this);
+    connect(mw_codeEditor, &CodeEditorContainter::useFile, this, [=](const QString &fn) {
+        m_convKernels.at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
+        filterSelected(mw_convKernelComboBox->currentIndex());
+        startProcess();
+    });
+
     mw_tabWidget->addTab(mw_origImgView, tr("Original"));
     mw_tabWidget->addTab(mw_processedImgView, tr("Processed"));
+    mw_tabWidget->addTab(mw_codeEditor, tr("Code editor"));
 
     setCentralWidget(mw_tabWidget);
 }

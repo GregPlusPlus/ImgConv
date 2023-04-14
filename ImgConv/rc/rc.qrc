@@ -11,5 +11,14 @@
         <file>icons/spinner.gif</file>
         <file>icons/hourglass.png</file>
         <file>icons/graphic-card.png</file>
+        <file>fonts/SourceCodePro-Regular.ttf</file>
+        <file>icons/wand.png</file>
+        <file>ocl/basic_template.cl</file>
+        <file>icons/tick-button.png</file>
+        <file>icons/disk-rename.png</file>
+        <file>icons/arrow-curve.png</file>
+        <file>icons/arrow-curve-180-left.png</file>
+        <file>icons/disk-small.png</file>
+        <file>icons/disk-small-black.png</file>
     </qresource>
 </RCC>
