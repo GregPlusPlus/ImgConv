@@ -26,21 +26,30 @@ FilterSettingsDock::FilterSettingsDock(QWidget *parent)
     mw_splitter = new QSplitter(this);
     mw_splitter->setOrientation(Qt::Vertical);
 
+    mw_container = new QWidget(this);
+    m_layout = new QVBoxLayout;
+
     m_settingsLayout = new QVBoxLayout;
 
-    mw_container = new QWidget(this);
-    mw_container->setLayout(m_settingsLayout);
+    mw_containerSettings = new QWidget(this);
+    mw_containerSettings->setLayout(m_settingsLayout);
 
     mw_resetButton = new QPushButton(tr("Reset settings"), this);
     connect(mw_resetButton, &QPushButton::clicked, this, &FilterSettingsDock::resetSettings);
 
+    m_layout->addWidget(mw_containerSettings);
+    m_layout->addStretch(10);
+    m_layout->addWidget(mw_resetButton);
+    mw_container->setLayout(m_layout);
+
     mw_descriptionField = new QTextEdit(tr("<h2>Filter description</h2>"), this);
     mw_descriptionField->setReadOnly(true);
-    mw_descriptionField->setMinimumHeight(300);
+    mw_descriptionField->setMinimumHeight(150);
 
     mw_splitter->addWidget(mw_container);
-    mw_splitter->addWidget(mw_resetButton);
     mw_splitter->addWidget(mw_descriptionField);
+    mw_splitter->setStretchFactor(0, 10);
+    mw_splitter->setStretchFactor(1, 1);
 
     setWidget(mw_splitter);
 }
@@ -58,7 +67,7 @@ void FilterSettingsDock::setConvKernel(ConvKernels::ConvKernel *k) {
     m_FilterSettingsWidgets.clear();
 
     for(ConvKernels::ConvKenrelSetting *s : k->settings()) {
-        FilterSettingsWidget *w = new FilterSettingsWidget(s, mw_container);
+        FilterSettingsWidget *w = new FilterSettingsWidget(s, mw_containerSettings);
         w->show();
         m_FilterSettingsWidgets.append(w);
         m_settingsLayout->addWidget(w);
