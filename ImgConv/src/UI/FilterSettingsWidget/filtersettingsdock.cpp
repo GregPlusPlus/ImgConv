@@ -36,7 +36,7 @@ FilterSettingsDock::FilterSettingsDock(QWidget *parent)
 
     mw_descriptionField = new QTextEdit(tr("<h2>Filter description</h2>"), this);
     mw_descriptionField->setReadOnly(true);
-    mw_descriptionField->setMinimumHeight(300);
+    mw_descriptionField->setMinimumHeight(150);
 
     mw_splitter->addWidget(mw_container);
     mw_splitter->addWidget(mw_resetButton);
