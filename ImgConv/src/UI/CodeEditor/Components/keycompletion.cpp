@@ -168,8 +168,12 @@ bool KeyCompletion::autocompleteSelected(QKeyEvent *e, const QString &selectedTe
     if(key == Qt::Key_ParenLeft) {
         mw_textEdit->insertPlainText(QString("(%1)").arg(selectedText));
     } else if(key == Qt::Key_BraceLeft) {
+        QString s = selectedText;
+        int l = mw_textEdit->getCursorIndentationLevel() + 1;
+        QString contents = s.replace("\n", "\n" + mw_textEdit->buildTabs(l)).trimmed();
+
         buildBrackets();
-        mw_textEdit->insertPlainText(selectedText.trimmed());
+        mw_textEdit->insertPlainText(contents);
     } else if(key == Qt::Key_BracketLeft) {
         mw_textEdit->insertPlainText(QString("[%1]").arg(selectedText));
     } else if(key == Qt::Key_QuoteDbl) {
