@@ -21,6 +21,7 @@
 
 #include <QDockWidget>
 #include <QTextEdit>
+#include <QPushButton>
 #include <QSplitter>
 
 #include <QList>
@@ -36,17 +37,20 @@ public:
 public slots:
     void setConvKernel(ConvKernels::ConvKernel *k);
 
-private:
+private slots:
     void updateDescription(ConvKernels::ConvKernel *k);
+    void resetSettings();
 
 private:
     QSplitter *mw_splitter;
     QWidget *mw_container;
+    QPushButton *mw_resetButton;
     QTextEdit *mw_descriptionField;
     QVBoxLayout *m_layout;
     QVBoxLayout *m_settingsLayout = nullptr;
 
 private:
+    ConvKernels::ConvKernel *m_k;
     QList<FilterSettingsWidget*> m_FilterSettingsWidgets;
 };
 

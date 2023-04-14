@@ -73,7 +73,10 @@ public:
     const QString &fileNameFilter() const;
     void setFileNameFilter(const QString &newFileNameFilter);
 
+    const QVariant &defaultVal() const;
+
 public slots:
+    void setVal(const QVariant &val);
     void setVal(int val);
     void setVal(float val);
     void setVal(bool val);
@@ -83,9 +86,13 @@ public slots:
     void setMax(int max);
     void setMax(float max);
     virtual void settingChanged() {}
+    void reset();
 
 signals:
     void valueChanged(const ConvKernels::ConvKenrelSetting *s);
+
+private:
+    void setDefault();
 
 private:
     QString m_name;
@@ -95,6 +102,7 @@ private:
     QVariant m_val;
     QVariant m_min;
     QVariant m_max;
+    QVariant m_default;
 
     QString m_fileNameTitle;
     QString m_fileNameFilter;
@@ -122,7 +130,7 @@ public:
     void setSourceFilePath(const QString &path);
 
 public slots:
-    virtual void reset() {}
+    void reset();
     virtual void select() {}
 
 signals:
