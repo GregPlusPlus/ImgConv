@@ -54,4 +54,6 @@ debug/
 release/
 profile/
 
+Makefile
+
 .qtc_clangd
