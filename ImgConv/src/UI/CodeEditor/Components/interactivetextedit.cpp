@@ -18,6 +18,12 @@ void InteractiveTextEdit::setKeyCompletion(KeyCompletion *newKeyCompletion) {
     m_keyCompletion = newKeyCompletion;
 }
 
+bool InteractiveTextEdit::isWhiteSpace(const QString &str) {
+     static QRegularExpression whiteSpace (QStringLiteral("\\s+|\x0"));
+
+     return whiteSpace.match(str).hasMatch();
+}
+
 QString InteractiveTextEdit::buildTabs(int level) {
     if(useSpacesAsTab()) {
         return QString(" ").repeated(level * tabSpaceCount());

@@ -4,6 +4,9 @@
 #include <QPlainTextEdit>
 #include <QWidget>
 
+#include <QRegularExpression>
+#include <QStringLiteral>
+
 #include "keycompletion.h"
 
 class KeyCompletion;
@@ -34,6 +37,8 @@ public:
 
     KeyCompletion *keyCompletion() const;
     void setKeyCompletion(KeyCompletion *newKeyCompletion);
+
+    static bool isWhiteSpace(const QString &str);
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
