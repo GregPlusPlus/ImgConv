@@ -36,6 +36,7 @@ SOURCES += \
     src/UI/ImageViewer/imageviewer.cpp \
     src/UI/MainWindow/mainwindow.cpp \
     src/UI/SelectDeviceDialog/selectdevicedialog.cpp \
+    src/UI/UtilsUI/utilsui.cpp \
     src/UI/WaitDialog/waitdialog.cpp \
     src/main.cpp
 HEADERS += \
@@ -67,6 +68,7 @@ HEADERS += \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \
     src/UI/SelectDeviceDialog/selectdevicedialog.h \
+    src/UI/UtilsUI/utilsui.h \
     src/UI/WaitDialog/waitdialog.h
 
 INCLUDEPATH += \
