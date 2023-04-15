@@ -1,6 +1,9 @@
+#include "common.h"
+#include "convolution.h"
+
 __kernel void pixelKernel(const __global uchar *In,
-                     __global uchar *Out,
-                     __global float *k) {
+                                __global uchar *Out,
+                                __global float *k) {
 
     size_t x = get_global_id(0);
     size_t y = get_global_id(1);
