@@ -64,6 +64,8 @@ public slots:
     bool readBuffer(size_t i, uint8_t **b, size_t *s);
     void releaseBuffer(size_t i);
     void releaseAll();
+    cl_int releaseKernel();
+    cl_int releaseProgram();
     void setKernelArg(size_t i, size_t bi);
     void setKernelArg(size_t i, size_t bs, const uint8_t *b);
     void runKernel(QSize s);

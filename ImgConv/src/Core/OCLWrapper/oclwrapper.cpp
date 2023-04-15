@@ -40,13 +40,8 @@ OCLWrapper::~OCLWrapper() {
         clFinish(m_command_queue);
     }
 
-    if(m_kernel) {
-        clReleaseKernel(m_kernel);
-    }
-
-    if(m_program) {
-        clReleaseProgram(m_program);
-    }
+    releaseKernel();
+    releaseProgram();
 
     releaseAll();
 
@@ -109,18 +104,12 @@ size_t OCLWrapper::getNumberOfBuffers() const {
 void OCLWrapper::createProgramFromSource(const QString &s, const QString &kname, const QString &options) {
     m_ret = CL_SUCCESS;
 
-    if(m_kernel) {
-        m_ret = clReleaseKernel(m_kernel);
-        if(m_ret != CL_SUCCESS) {
-            return;
-        }
+    if(releaseKernel() != CL_SUCCESS) {
+        return;
     }
 
-    if(m_program) {
-        m_ret = clReleaseProgram(m_program);
-        if(m_ret != CL_SUCCESS) {
-            return;
-        }
+    if(releaseProgram() != CL_SUCCESS) {
+        return;
     }
 
     size_t size = s.size();
@@ -218,6 +207,30 @@ void OCLWrapper::releaseAll() {
     while(m_buffers.size()) {
         releaseBuffer(0);
     }
+}
+
+cl_int OCLWrapper::releaseKernel() {
+    m_ret = CL_SUCCESS;
+
+    if(m_kernel) {
+        m_ret = clReleaseKernel(m_kernel);
+
+        m_kernel = nullptr;
+    }
+
+    return m_ret;
+}
+
+cl_int OCLWrapper::releaseProgram() {
+    m_ret = CL_SUCCESS;
+
+    if(m_program) {
+        m_ret = clReleaseProgram(m_program);
+
+        m_program = nullptr;
+    }
+
+    return m_ret;
 }
 
 void OCLWrapper::setKernelArg(size_t i, size_t bi) {
