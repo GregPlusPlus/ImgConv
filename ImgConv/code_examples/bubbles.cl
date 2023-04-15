@@ -2,7 +2,7 @@
 #include "convolution.h"
 #include "geometry.h"
 
-#define EFFECT_OUTSIDE false
+#define EFFECT_INSIDE true
 
 static geom_circle_t circle1 = {
     .c = {
@@ -48,11 +48,9 @@ __kernel void pixelKernel(const __global uchar *In,
         }
     }
 
-    if(insideCircles == EFFECT_OUTSIDE) {
-        OUT_RED = IN_RED;
-        OUT_GREEN = IN_GREEN;
-        OUT_BLUE = IN_BLUE;
-    } else {
+    if(insideCircles == EFFECT_INSIDE) {
         conv2D(In, Out, k);
+    } else {
+        copyPixelAtCurrentCoord(In, Out);
     }
 }
