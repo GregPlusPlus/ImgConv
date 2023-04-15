@@ -94,4 +94,14 @@ inline void writePixelColorAtCurrentCoord(uchar *img, color_t color) {
     writePixelColor(img, getCurrentPixelCoord(), color);
 }
 
+inline void copyPixel(uchar *src, uchar *dst, coord2D_t coord) {
+    dst[INDEX_AT(coord.x, coord.y) + RED_OFFSET] = src[INDEX_AT(coord.x, coord.y) + RED_OFFSET];
+    dst[INDEX_AT(coord.x, coord.y) + GREEN_OFFSET] = src[INDEX_AT(coord.x, coord.y) + GREEN_OFFSET];
+    dst[INDEX_AT(coord.x, coord.y) + BLUE_OFFSET] = src[INDEX_AT(coord.x, coord.y) + BLUE_OFFSET];
+}
+
+inline void copyPixelAtCurrentCoord(uchar *src, uchar *dst) {
+    copyPixel(src, dst, getCurrentPixelCoord());
+}
+
 #endif //COMMON_H
