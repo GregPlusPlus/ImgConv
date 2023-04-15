@@ -209,6 +209,9 @@ bool MainWindow::createOCLProgram(const QString &fn, const QString &options) {
     QFileDevice::FileError e = m_ocl->createProgramFromFile(fn, "pixelKernel", options);
 
     if(e != QFileDevice::NoError) {
+        m_ocl->releaseKernel();
+        m_ocl->releaseProgram();
+
         QMessageBox::critical(this, tr("Filesystem error"), tr("File error (%1)").arg(e));
 
         return false;
@@ -217,17 +220,16 @@ bool MainWindow::createOCLProgram(const QString &fn, const QString &options) {
     if(m_ocl->ret() != CL_SUCCESS) {
         switch(m_ocl->ret()) {
         case CL_BUILD_PROGRAM_FAILURE :
-        {QMessageBox msg;
-            qDebug() << m_ocl->getBuildLog();
-            msg.setWindowTitle(tr("OCL error"));
-            msg.setText(tr("OCL build program error (%1)")
-                        .arg(m_ocl->ret()));
-            msg.setDetailedText(m_ocl->getBuildLog());
-            msg.setIcon(QMessageBox::Critical);
-            msg.exec();}
+            displayOCLProgramError();
+
+            m_ocl->releaseKernel();
+            m_ocl->releaseProgram();
             break;
         default:
             QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
+
+            m_ocl->releaseKernel();
+            m_ocl->releaseProgram();
             break;
         }
 
@@ -235,6 +237,19 @@ bool MainWindow::createOCLProgram(const QString &fn, const QString &options) {
     }
 
     return true;
+}
+
+void MainWindow::displayOCLProgramError() {
+    QMessageBox msg;
+
+    qDebug() << m_ocl->getBuildLog();
+
+    msg.setWindowTitle(tr("OCL error"));
+    msg.setText(tr("OCL build program error (%1)")
+                .arg(m_ocl->ret()));
+    msg.setDetailedText(m_ocl->getBuildLog());
+    msg.setIcon(QMessageBox::Critical);
+    msg.exec();
 }
 
 void MainWindow::buildKernelComboBox() {

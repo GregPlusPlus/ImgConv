@@ -74,6 +74,7 @@ private:
     bool initCore();
     void initOpenCL(const OCLWrapper::Device &device);
     bool createOCLProgram(const QString &fn, const QString &options);
+    void displayOCLProgramError();
     void buildMenus();
     void updateDeviceNameStatusBar();
     void buildView();
