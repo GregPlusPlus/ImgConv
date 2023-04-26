@@ -22,11 +22,12 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QLineEdit>
-#include <QColorDialog>
 
 #include <QFormLayout>
 
 #include <QIntValidator>
+
+#include "UI/Components/buttoncolorpicker.h"
 
 class CreateImageDialog : public QDialog
 {
@@ -53,6 +54,7 @@ private:
 
     QLineEdit *mw_inputW;
     QLineEdit *mw_inputH;
+    ButtonColorPicker *mw_buttonColorPicker;
 
 };
 

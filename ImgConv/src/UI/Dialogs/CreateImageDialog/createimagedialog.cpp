@@ -38,8 +38,11 @@ CreateImageDialog::CreateImageDialog(QWidget *parent)
     mw_inputH = new QLineEdit(this);
     mw_inputH->setValidator(new QIntValidator(0, 100E3, this));
 
+    mw_buttonColorPicker = new ButtonColorPicker(Qt::white, this);
+
     m_layout->addRow(tr("Width :"), mw_inputW);
     m_layout->addRow(tr("Height :"), mw_inputH);
+    m_layout->addRow(tr("Fill color :"), mw_buttonColorPicker);
 
     m_layout->addWidget(mw_buttonBox);
 
@@ -51,7 +54,7 @@ CreateImageDialog::ImageSettings_t CreateImageDialog::getImageSettings() const {
 
     settings.width = mw_inputW->text().toInt();
     settings.height = mw_inputH->text().toInt();
-    settings.fillColor = QColor(Qt::white);
+    settings.fillColor = mw_buttonColorPicker->selectedColor();
 
     return settings;
 }
