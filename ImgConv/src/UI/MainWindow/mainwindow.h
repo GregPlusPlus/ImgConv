@@ -77,7 +77,7 @@ private:
     bool createOCLProgram(const QString &fn, const QString &options);
     void displayOCLProgramError();
     void buildMenus();
-    void updateDeviceNameStatusBar();
+    void displayDeviceName();
     void buildUI();
     void buildPanels();
     void buildView();
