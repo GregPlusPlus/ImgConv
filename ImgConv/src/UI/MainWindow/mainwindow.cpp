@@ -77,6 +77,10 @@ void MainWindow::createImage() {
 
     CreateImageDialog::ImageSettings_t settings = dialog->getImageSettings();
 
+    if((settings.width == 0) || (settings.height == 0)) {
+        return;
+    }
+
     QImage img(settings.width, settings.height, QImage::Format_RGB888);
     img.fill(settings.fillColor);
 
