@@ -22,6 +22,7 @@
 #include <QDockWidget>
 #include <QTabWidget>
 #include <QTextEdit>
+#include <QPushButton>
 
 class LogPanel : public QDockWidget
 {
@@ -31,12 +32,19 @@ public:
     LogPanel(QWidget *parent = 0);
 
 public slots:
+    void logInfo(const QString &str);
+    void logOutput(const QString &str);
+    void logError(const QString &str);
+
+private slots:
+    void clear();
 
 private:
     QTabWidget *mw_tabs;
     QTextEdit *mw_info;
     QTextEdit *mw_output;
     QTextEdit *mw_errors;
+    QPushButton *mw_clear;
 };
 
 #endif // LOGPANEL_H

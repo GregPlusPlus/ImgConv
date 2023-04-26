@@ -32,9 +32,44 @@ LogPanel::LogPanel(QWidget *parent)
     mw_errors = new QTextEdit(this);
     mw_errors->setReadOnly(true);
 
+    mw_clear = new QPushButton(QIcon(":/icons/broom.png"), QString(), this);
+    connect(mw_clear, &QPushButton::clicked, this, &LogPanel::clear);
+
     mw_tabs->addTab(mw_info, QIcon(":/icons/information.png"), tr("Info"));
     mw_tabs->addTab(mw_output, QIcon(":/icons/script-text.png"), tr("Output"));
     mw_tabs->addTab(mw_errors, QIcon(":/icons/cross-circle.png"), tr("Errors"));
+    mw_tabs->setCornerWidget(mw_clear);
 
     setWidget(mw_tabs);
+}
+
+void LogPanel::logInfo(const QString &str) {
+    mw_info->append(str);
+    mw_info->ensureCursorVisible();
+
+    mw_tabs->setCurrentWidget(mw_info);
+}
+
+void LogPanel::logOutput(const QString &str) {
+    mw_output->append(str);
+    mw_output->ensureCursorVisible();
+
+    mw_tabs->setCurrentWidget(mw_output);
+}
+
+void LogPanel::logError(const QString &str) {
+    mw_errors->append(str);
+    mw_errors->ensureCursorVisible();
+
+    mw_tabs->setCurrentWidget(mw_errors);
+}
+
+void LogPanel::clear() {
+    QTextEdit *textEdit = dynamic_cast<QTextEdit*>(mw_tabs->currentWidget());
+
+    if(textEdit == nullptr) {
+        return;
+    }
+
+    textEdit->clear();
 }
