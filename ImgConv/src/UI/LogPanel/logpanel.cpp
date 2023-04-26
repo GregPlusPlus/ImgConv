@@ -32,9 +32,9 @@ LogPanel::LogPanel(QWidget *parent)
     mw_errors = new QTextEdit(this);
     mw_errors->setReadOnly(true);
 
-    mw_tabs->addTab(mw_info, tr("Info"));
-    mw_tabs->addTab(mw_output, tr("Output"));
-    mw_tabs->addTab(mw_errors, tr("Errors"));
+    mw_tabs->addTab(mw_info, QIcon(":/icons/information.png"), tr("Info"));
+    mw_tabs->addTab(mw_output, QIcon(":/icons/script-text.png"), tr("Output"));
+    mw_tabs->addTab(mw_errors, QIcon(":/icons/cross-circle.png"), tr("Errors"));
 
     setWidget(mw_tabs);
 }
