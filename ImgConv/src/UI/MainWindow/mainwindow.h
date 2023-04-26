@@ -49,6 +49,7 @@
 #include "UI/WaitDialog/waitdialog.h"
 #include "UI/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
+#include "UI/LogPanel/logpanel.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
@@ -77,6 +78,8 @@ private:
     void displayOCLProgramError();
     void buildMenus();
     void updateDeviceNameStatusBar();
+    void buildUI();
+    void buildPanels();
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
@@ -89,6 +92,7 @@ private:
     CodeEditorContainter *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
     FilterSettingsDock *mw_dockFilterSettings;
+    LogPanel *mw_logPanel;
     QLabel *mw_labelDevice;
     QLabel *mw_labelImgInfo;
     QLabel *mw_labelElapsedTime;

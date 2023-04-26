@@ -30,11 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
         exit(EXIT_FAILURE);
     }
 
-    buildFilterSettingsView();
-
-    buildKernelComboBox();
-    buildMenus();
-    buildView();
+    buildUI();
 
     setMinimumSize(QSize(700, 500));
 }
@@ -322,6 +318,21 @@ void MainWindow::buildMenus() {
 
 void MainWindow::updateDeviceNameStatusBar() {
     mw_labelDevice->setText(m_ocl->getDeviceName());
+}
+
+void MainWindow::buildUI() {
+    buildFilterSettingsView();
+
+    buildKernelComboBox();
+    buildMenus();
+    buildView();
+    buildPanels();
+}
+
+void MainWindow::buildPanels() {
+    mw_logPanel = new LogPanel(this);
+
+    addDockWidget(Qt::BottomDockWidgetArea, mw_logPanel);
 }
 
 void MainWindow::buildView() {
