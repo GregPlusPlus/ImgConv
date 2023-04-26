@@ -69,8 +69,18 @@ void MainWindow::openFile() {
 
 void MainWindow::createImage() {
     CreateImageDialog *dialog = new CreateImageDialog(this);
-
     dialog->exec();
+
+    if(dialog->result() != QMessageBox::Accepted) {
+        return;
+    }
+
+    CreateImageDialog::ImageSettings_t settings = dialog->getImageSettings();
+
+    QImage img(settings.width, settings.height, QImage::Format_RGB888);
+    img.fill(settings.fillColor);
+
+    showOriginalImage(img);
 }
 
 void MainWindow::showOriginalImage(const QImage &img) {
