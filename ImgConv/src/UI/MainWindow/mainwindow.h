@@ -1,6 +1,3 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
 /**
  ** This file is part of the ImgConv project.
  ** Copyright 2022-2023 Grégoire BOST <bostgregoire@gmail.com>.
@@ -18,6 +15,9 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
+
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QApplication>
 
