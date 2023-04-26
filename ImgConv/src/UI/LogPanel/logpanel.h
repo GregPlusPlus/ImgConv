@@ -20,6 +20,8 @@
 #define LOGPANEL_H
 
 #include <QDockWidget>
+#include <QTabWidget>
+#include <QTextEdit>
 
 class LogPanel : public QDockWidget
 {
@@ -27,6 +29,14 @@ class LogPanel : public QDockWidget
 
 public:
     LogPanel(QWidget *parent = 0);
+
+public slots:
+
+private:
+    QTabWidget *mw_tabs;
+    QTextEdit *mw_info;
+    QTextEdit *mw_output;
+    QTextEdit *mw_errors;
 };
 
 #endif // LOGPANEL_H

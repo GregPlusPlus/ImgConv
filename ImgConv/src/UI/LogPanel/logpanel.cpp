@@ -21,4 +21,20 @@
 LogPanel::LogPanel(QWidget *parent)
     : QDockWidget(tr("Logs"), parent) {
 
+    mw_tabs = new QTabWidget(this);
+
+    mw_info = new QTextEdit(this);
+    mw_info->setReadOnly(true);
+
+    mw_output = new QTextEdit(this);
+    mw_output->setReadOnly(true);
+
+    mw_errors = new QTextEdit(this);
+    mw_errors->setReadOnly(true);
+
+    mw_tabs->addTab(mw_info, tr("Info"));
+    mw_tabs->addTab(mw_output, tr("Output"));
+    mw_tabs->addTab(mw_errors, tr("Errors"));
+
+    setWidget(mw_tabs);
 }
