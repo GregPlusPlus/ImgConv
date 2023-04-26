@@ -30,6 +30,7 @@ SOURCES += \
     src/UI/CodeEditor/Components/interactivetextedit.cpp \
     src/UI/CodeEditor/Components/keycompletion.cpp \
     src/UI/CodeEditor/codeeditorcontainer.cpp \
+    src/UI/Components/buttoncolorpicker.cpp \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.cpp \
     src/UI/FilterSettingsWidget/filenamepicker.cpp \
     src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     src/UI/CodeEditor/Components/interactivetextedit.h \
     src/UI/CodeEditor/Components/keycompletion.h \
     src/UI/CodeEditor/codeeditorcontainer.h \
+    src/UI/Components/buttoncolorpicker.h \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.h \
     src/UI/FilterSettingsWidget/filenamepicker.h \
     src/UI/FilterSettingsWidget/filtersettingsdock.h \
