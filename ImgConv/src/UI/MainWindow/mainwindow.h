@@ -46,8 +46,9 @@
 
 #include "UI/ImageViewer/imageviewer.h"
 #include "UI/FilterSettingsWidget/filtersettingsdock.h"
-#include "UI/WaitDialog/waitdialog.h"
-#include "UI/SelectDeviceDialog/selectdevicedialog.h"
+#include "UI/Dialogs/WaitDialog/waitdialog.h"
+#include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
+#include "UI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
 #include "UI/LogPanel/logpanel.h"
 #include "Core/OCLWrapper/oclwrapper.h"
@@ -66,6 +67,7 @@ public:
 
 private slots:
     void openFile();
+    void createImage();
     void exportFile();
     void startProcess();
     void filterSelected(int index);
@@ -101,6 +103,7 @@ private:
     QMenu *mw_helpMenu;
     QToolBar *mw_toolBar;
     QAction *m_openFileAction;
+    QAction *m_createImageAction;
     QAction *m_exportAction;
     QAction *m_selectDeviceAction;
     QAction *m_exitAction;

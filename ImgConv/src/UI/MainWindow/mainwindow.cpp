@@ -64,6 +64,26 @@ void MainWindow::openFile() {
     QThreadPool::globalInstance()->start(imgLoader);
 }
 
+void MainWindow::createImage() {
+    CreateImageDialog *dialog = new CreateImageDialog(this);
+    dialog->exec();
+
+    if(dialog->result() != QMessageBox::Accepted) {
+        return;
+    }
+
+    CreateImageDialog::ImageSettings_t settings = dialog->getImageSettings();
+
+    if((settings.width == 0) || (settings.height == 0)) {
+        return;
+    }
+
+    QImage img(settings.width, settings.height, QImage::Format_RGB888);
+    img.fill(settings.fillColor);
+
+    showOriginalImage(img);
+}
+
 void MainWindow::showOriginalImage(const QImage &img) {
     m_original = img;
 
@@ -272,6 +292,7 @@ void MainWindow::buildMenus() {
     mw_fileMenu = menuBar()->addMenu(tr("&File"));
 
     m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
+    m_createImageAction = mw_fileMenu->addAction(QIcon(":/icons/image-new.png"), tr("&Create image"), tr("Ctrl+N"), this, &MainWindow::createImage);
     m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportFile);
     mw_fileMenu->addSeparator();
     m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
@@ -307,6 +328,7 @@ void MainWindow::buildMenus() {
 
     mw_toolBar = new QToolBar(tr("Tools"), this);
     mw_toolBar->addAction(m_openFileAction);
+    mw_toolBar->addAction(m_createImageAction);
     mw_toolBar->addAction(m_exportAction);
     mw_toolBar->addSeparator();
     mw_toolBar->addWidget(new QLabel(tr("Filter : "), this));
