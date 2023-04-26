@@ -104,11 +104,15 @@ void MainWindow::startProcess() {
     }
 
     if(!createOCLProgram(k->getSourceFilePath(),
-                            QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -I%5")
+                            QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED='{%5, %6, %7, %8}' -I%9")
                             .arg(m_original.width())
                             .arg(m_original.height())
                             .arg(matSize.width())
                             .arg(matSize.height())
+                            .arg(QRandomGenerator::global()->generate())
+                            .arg(QRandomGenerator::global()->generate())
+                            .arg(QRandomGenerator::global()->generate())
+                            .arg(QRandomGenerator::global()->generate())
                             .arg(QCoreApplication::applicationDirPath() + "/kCLinclude"))) {
 
         return;
