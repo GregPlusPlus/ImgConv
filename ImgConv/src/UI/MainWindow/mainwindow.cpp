@@ -81,6 +81,8 @@ void MainWindow::createImage() {
     QImage img(settings.width, settings.height, QImage::Format_RGB888);
     img.fill(settings.fillColor);
 
+    mw_logPanel->logInfo(tr("Created image of size %1x%2.").arg(settings.width).arg(settings.height));
+
     showOriginalImage(img);
 }
 
