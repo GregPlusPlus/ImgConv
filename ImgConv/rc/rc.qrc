@@ -20,5 +20,6 @@
         <file>icons/arrow-curve-180-left.png</file>
         <file>icons/disk-small.png</file>
         <file>icons/disk-small-black.png</file>
+        <file>icons/image-new.png</file>
     </qresource>
 </RCC>
