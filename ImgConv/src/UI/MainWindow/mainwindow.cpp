@@ -30,11 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
         exit(EXIT_FAILURE);
     }
 
-    buildFilterSettingsView();
-
-    buildKernelComboBox();
-    buildMenus();
-    buildView();
+    buildUI();
 
     setMinimumSize(QSize(700, 500));
 }
@@ -53,8 +49,9 @@ void MainWindow::openFile() {
     WaitDialog *dialog = new WaitDialog(tr("Opening image..."));
     Threads::ImgLoader *imgLoader = new Threads::ImgLoader(fn);
 
-    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog](QImage img, qint64 et) {
+    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog, fn](QImage img, qint64 et) {
         mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
+        mw_logPanel->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
         showOriginalImage(img);
 
         m_openFileAction->setDisabled(false);
@@ -108,6 +105,8 @@ void MainWindow::exportFile() {
 
     QPixmap pix = QPixmap::fromImage(m_processed);
     pix.save(fn);
+
+    mw_logPanel->logInfo(tr("[%1] Image saved.").arg(fn));
 }
 
 void MainWindow::startProcess() {
@@ -123,14 +122,18 @@ void MainWindow::startProcess() {
         return;
     }
 
-    if(!createOCLProgram(k->getSourceFilePath(),
-                            QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -I%5")
-                            .arg(m_original.width())
-                            .arg(m_original.height())
-                            .arg(matSize.width())
-                            .arg(matSize.height())
-                            .arg(QCoreApplication::applicationDirPath() + "/kCLinclude"))) {
+    QString options = QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -I%5")
+                        .arg(m_original.width())
+                        .arg(m_original.height())
+                        .arg(matSize.width())
+                        .arg(matSize.height())
+                        .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
 
+    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
+                           .arg(k->getSourceFilePath())
+                           .arg(options));
+
+    if(!createOCLProgram(k->getSourceFilePath(), options)) {
         return;
     }
     if(m_ocl->ret() != CL_SUCCESS) {
@@ -139,10 +142,14 @@ void MainWindow::startProcess() {
 
     Utils::scaleMatrix(mat, k->getScalar());
 
+    mw_logPanel->logOutput(tr("Running kernel..."));
+
     WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
     Threads::Process *process = new Threads::Process(m_ocl, m_original, mat);
 
     connect(process, &Threads::Process::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
+        float pixPerSec = 0;
+
         if(!res) {
             QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
 
@@ -154,9 +161,14 @@ void MainWindow::startProcess() {
 
         m_processed = img;
 
-        mw_labelElapsedTime->setText(tr("Processing done in %1 ms. - Approx %2 px/sec.")
-                                     .arg(et)
-                                     .arg(1000.f * (m_processed.size().width() * m_processed.size().height()) / et));
+        pixPerSec = 1000.f * (m_processed.size().width() * m_processed.size().height()) / et;
+
+        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
+                            .arg(et)
+                            .arg(pixPerSec);
+
+        mw_labelElapsedTime->setText(logStr);
+        mw_logPanel->logOutput(logStr);
 
         mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
 
@@ -260,16 +272,11 @@ bool MainWindow::createOCLProgram(const QString &fn, const QString &options) {
 }
 
 void MainWindow::displayOCLProgramError() {
-    QMessageBox msg;
-
     qDebug() << m_ocl->getBuildLog();
 
-    msg.setWindowTitle(tr("OCL error"));
-    msg.setText(tr("OCL build program error (%1)")
-                .arg(m_ocl->ret()));
-    msg.setDetailedText(m_ocl->getBuildLog());
-    msg.setIcon(QMessageBox::Critical);
-    msg.exec();
+    mw_logPanel->logError(tr("OCL build program error (%1)\n______________________________\n%2")
+                          .arg(m_ocl->ret())
+                          .arg(m_ocl->getBuildLog()));
 }
 
 void MainWindow::buildKernelComboBox() {
@@ -292,7 +299,7 @@ void MainWindow::buildMenus() {
         SelectDeviceDialog dialog(m_devices);
         if(dialog.exec() == QDialog::Accepted) {
             initOpenCL(dialog.getDevice());
-            updateDeviceNameStatusBar();
+            displayDeviceName();
         }
     });
     mw_fileMenu->addSeparator();
@@ -335,15 +342,31 @@ void MainWindow::buildMenus() {
     mw_labelImgInfo = new QLabel(this);
     mw_labelElapsedTime = new QLabel(this);
 
-    updateDeviceNameStatusBar();
+    displayDeviceName();
 
     statusBar()->addWidget(mw_labelDevice);
     statusBar()->addWidget(mw_labelImgInfo);
     statusBar()->addWidget(mw_labelElapsedTime);
 }
 
-void MainWindow::updateDeviceNameStatusBar() {
+void MainWindow::displayDeviceName() {
     mw_labelDevice->setText(m_ocl->getDeviceName());
+    mw_logPanel->logInfo(tr("Selected device : %1").arg(m_ocl->getDeviceName()));
+}
+
+void MainWindow::buildUI() {
+    buildFilterSettingsView();
+    buildPanels();
+
+    buildKernelComboBox();
+    buildMenus();
+    buildView();
+}
+
+void MainWindow::buildPanels() {
+    mw_logPanel = new LogPanel(this);
+
+    addDockWidget(Qt::BottomDockWidgetArea, mw_logPanel);
 }
 
 void MainWindow::buildView() {

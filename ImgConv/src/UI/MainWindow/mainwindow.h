@@ -50,6 +50,7 @@
 #include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
+#include "UI/LogPanel/logpanel.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
@@ -78,7 +79,9 @@ private:
     bool createOCLProgram(const QString &fn, const QString &options);
     void displayOCLProgramError();
     void buildMenus();
-    void updateDeviceNameStatusBar();
+    void displayDeviceName();
+    void buildUI();
+    void buildPanels();
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
@@ -91,6 +94,7 @@ private:
     CodeEditorContainter *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
     FilterSettingsDock *mw_dockFilterSettings;
+    LogPanel *mw_logPanel;
     QLabel *mw_labelDevice;
     QLabel *mw_labelImgInfo;
     QLabel *mw_labelElapsedTime;
