@@ -20,9 +20,13 @@
 #define IMAGEVIEWER_H
 
 #include <QWidget>
+
 #include <QPixmap>
 #include <QImage>
 #include <QPainter>
+
+#include <QMouseEvent>
+#include <QWheelEvent>
 
 class ImageViewer : public QWidget
 {
@@ -31,10 +35,13 @@ public:
     explicit ImageViewer(const QString &title = QString(), QWidget *parent = nullptr);
 
     QPixmap pixmap() const;
-    void setPixmap(const QPixmap &newPixmap);
 
     QString title() const;
+
+public slots:
+    void setPixmap(const QPixmap &newPixmap);
     void setTitle(const QString &newTitle);
+    void fitImage();
 
 signals:
 
@@ -42,8 +49,20 @@ private:
     QString m_title;
     QPixmap m_pixmap;
 
+    QPoint m_mousePos;
+    QSize m_scale;
+    QPoint m_imgPos;
+
+    QPoint m_initialImgPosPress;
+    QPoint m_initialMousePosPress;
+    bool m_mousePressed = false;
+
 protected:
     void paintEvent(QPaintEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent * event) override;
 
 };
 

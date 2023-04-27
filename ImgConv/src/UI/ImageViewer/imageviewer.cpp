@@ -20,6 +20,8 @@
 
 ImageViewer::ImageViewer(const QString &title, QWidget *parent)
     : QWidget{parent}, m_title{title} {
+    setMouseTracking(true);
+    setCursor(Qt::OpenHandCursor);
 }
 
 QPixmap ImageViewer::pixmap() const {
@@ -29,7 +31,7 @@ QPixmap ImageViewer::pixmap() const {
 void ImageViewer::setPixmap(const QPixmap &newPixmap) {
     m_pixmap = newPixmap;
 
-    update();
+    fitImage();
 }
 
 QString ImageViewer::title() const {
@@ -40,6 +42,20 @@ void ImageViewer::setTitle(const QString &newTitle) {
     m_title = newTitle;
 }
 
+void ImageViewer::fitImage() {
+    m_scale = m_pixmap.scaled(size(), Qt::KeepAspectRatio).size();
+
+    if(m_scale.width() >= width()) {
+        m_imgPos.setX(0);
+        m_imgPos.setY((height() / 2) - (m_scale.height() / 2));
+    } else if(m_scale.height() >= height()) {
+        m_imgPos.setX((width() / 2) - (m_scale.width() / 2));
+        m_imgPos.setY(0);
+    }
+
+    update();
+}
+
 void ImageViewer::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event)
 
@@ -47,12 +63,59 @@ void ImageViewer::paintEvent(QPaintEvent *event) {
     p.setPen(Qt::black);
 
     if(!m_pixmap.isNull()) {
-        QPixmap pix = m_pixmap.scaled(size(), Qt::KeepAspectRatio);
+        QPixmap pix = m_pixmap.scaled(m_scale);
 
-        p.drawPixmap(QPoint(width() / 2 - pix.width() / 2,
-                            height() / 2 - pix.height() / 2),
-                     pix);
+        p.drawPixmap(m_imgPos, pix);
+    }
+}
+
+void ImageViewer::mouseMoveEvent(QMouseEvent *event) {
+    m_mousePos = event->pos();
+
+    if(m_mousePressed) {
+        m_imgPos = m_initialImgPosPress + (event->pos() - m_initialMousePosPress);
+
+        update();
+    }
+}
+
+void ImageViewer::mousePressEvent(QMouseEvent *event) {
+    setCursor(Qt::ClosedHandCursor);
+
+    if(event->button() == Qt::LeftButton) {
+        m_mousePressed = true;
+
+        m_initialImgPosPress = m_imgPos;
+        m_initialMousePosPress = event->pos();
+    }
+}
+
+void ImageViewer::mouseReleaseEvent(QMouseEvent *event) {
+    setCursor(Qt::OpenHandCursor);
+
+    if(event->button() == Qt::LeftButton) {
+        m_mousePressed = false;
+    }
+}
+
+void ImageViewer::wheelEvent(QWheelEvent *event) {
+    float factor = 0.8;
+    if (event->angleDelta().y() < 0) {
+        factor = 1 / factor;
     }
 
-    p.drawRect(0, 0, width() - 1, height() - 1);
+    QPoint dP((m_mousePos.x() - m_imgPos.x()) * (factor - 1),
+              (m_mousePos.y() - m_imgPos.y()) * (factor - 1));
+
+    if((event->angleDelta().y() > 0) && ((m_scale.width() < 100) || (m_scale.height() < 100))) {
+        return;
+    }
+
+    m_scale = QSize(m_scale.width() * factor, m_scale.height() * factor);
+    m_imgPos = m_imgPos - dP;
+
+    m_initialImgPosPress = m_imgPos;
+    m_initialMousePosPress = mapFromGlobal(QCursor::pos());
+
+    update();
 }
