@@ -22,6 +22,7 @@ ImageViewer::ImageViewer(const QString &title, QWidget *parent)
     : QWidget{parent}, m_title{title} {
     setMouseTracking(true);
     setCursor(Qt::OpenHandCursor);
+    setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
 QPixmap ImageViewer::pixmap() const {
@@ -30,6 +31,10 @@ QPixmap ImageViewer::pixmap() const {
 
 void ImageViewer::setPixmap(const QPixmap &newPixmap) {
     m_pixmap = newPixmap;
+
+    if(parentWidget() != nullptr) {
+        resize(parentWidget()->size());
+    }
 
     fitImage();
 }
@@ -43,6 +48,15 @@ void ImageViewer::setTitle(const QString &newTitle) {
 }
 
 void ImageViewer::fitImage() {
+    updateGeometry();
+
+    if(m_pixmap.isNull()) {
+        m_imgPos = QPoint(0, 0);
+        m_scaledPix = QPixmap();
+
+        return;
+    }
+
     updatePixScale(m_pixmap.scaled(size(), Qt::KeepAspectRatio).size());
 
     if(m_scaledPix.width() >= width()) {
