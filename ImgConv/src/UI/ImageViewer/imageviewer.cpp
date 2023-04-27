@@ -43,15 +43,55 @@ void ImageViewer::setTitle(const QString &newTitle) {
 }
 
 void ImageViewer::fitImage() {
-    m_scale = m_pixmap.scaled(size(), Qt::KeepAspectRatio).size();
+    updatePixScale(m_pixmap.scaled(size(), Qt::KeepAspectRatio).size());
 
-    if(m_scale.width() >= width()) {
+    if(m_scaledPix.width() >= width()) {
         m_imgPos.setX(0);
-        m_imgPos.setY((height() / 2) - (m_scale.height() / 2));
-    } else if(m_scale.height() >= height()) {
-        m_imgPos.setX((width() / 2) - (m_scale.width() / 2));
+        m_imgPos.setY((height() / 2) - (m_scaledPix.height() / 2));
+    } else if(m_scaledPix.height() >= height()) {
+        m_imgPos.setX((width() / 2) - (m_scaledPix.width() / 2));
         m_imgPos.setY(0);
     }
+
+    update();
+}
+
+void ImageViewer::updatePixScale(const QSize &s) {
+    if(m_pixmap.isNull()) {
+        return;
+    }
+
+    m_scaledPix = m_pixmap.scaled(s, Qt::IgnoreAspectRatio, Qt::FastTransformation);
+}
+
+void ImageViewer::drawBackground(QPainter &painter) {
+    painter.setPen(Qt::NoPen);
+
+    for(int x = 0; x < (width() + m_checkerboardSize); x += m_checkerboardSize) {
+        for(int y = 0; y < (height() + m_checkerboardSize); y += m_checkerboardSize) {
+            QPoint p(x, y);
+
+            if(p.x() % (m_checkerboardSize * 2)) {
+                painter.setBrush(Qt::lightGray);
+            } else {
+                painter.setBrush(Qt::NoBrush);
+            }
+
+            if(y % (m_checkerboardSize * 2)) {
+                p -= QPoint(m_checkerboardSize, 0);
+            }
+
+            painter.drawRect(QRect(p, QSize(m_checkerboardSize, m_checkerboardSize)));
+        }
+    }
+}
+
+int ImageViewer::checkerboardSize() const {
+    return m_checkerboardSize;
+}
+
+void ImageViewer::setCheckerboardSize(int newCheckerboardSize) {
+    m_checkerboardSize = newCheckerboardSize;
 
     update();
 }
@@ -60,12 +100,13 @@ void ImageViewer::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event)
 
     QPainter p(this);
+
+    drawBackground(p);
+
     p.setPen(Qt::black);
 
     if(!m_pixmap.isNull()) {
-        QPixmap pix = m_pixmap.scaled(m_scale);
-
-        p.drawPixmap(m_imgPos, pix);
+        p.drawPixmap(m_imgPos, m_scaledPix);
     }
 }
 
@@ -107,11 +148,11 @@ void ImageViewer::wheelEvent(QWheelEvent *event) {
     QPoint dP((m_mousePos.x() - m_imgPos.x()) * (factor - 1),
               (m_mousePos.y() - m_imgPos.y()) * (factor - 1));
 
-    if((event->angleDelta().y() > 0) && ((m_scale.width() < 100) || (m_scale.height() < 100))) {
+    if((event->angleDelta().y() > 0) && ((m_scaledPix.width() < 100) || (m_scaledPix.height() < 100))) {
         return;
     }
 
-    m_scale = QSize(m_scale.width() * factor, m_scale.height() * factor);
+    updatePixScale(QSize(m_scaledPix.width() * factor, m_scaledPix.height() * factor));
     m_imgPos = m_imgPos - dP;
 
     m_initialImgPosPress = m_imgPos;

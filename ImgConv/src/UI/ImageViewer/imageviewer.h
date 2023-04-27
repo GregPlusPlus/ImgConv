@@ -38,6 +38,9 @@ public:
 
     QString title() const;
 
+    int checkerboardSize() const;
+    void setCheckerboardSize(int newCheckerboardSize);
+
 public slots:
     void setPixmap(const QPixmap &newPixmap);
     void setTitle(const QString &newTitle);
@@ -46,16 +49,22 @@ public slots:
 signals:
 
 private:
+    void updatePixScale(const QSize &s);
+    void drawBackground(QPainter &painter);
+
+private:
     QString m_title;
     QPixmap m_pixmap;
+    QPixmap m_scaledPix;
 
     QPoint m_mousePos;
-    QSize m_scale;
     QPoint m_imgPos;
 
     QPoint m_initialImgPosPress;
     QPoint m_initialMousePosPress;
     bool m_mousePressed = false;
+
+    int m_checkerboardSize = 20;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
