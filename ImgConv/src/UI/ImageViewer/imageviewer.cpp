@@ -32,10 +32,6 @@ QPixmap ImageViewer::pixmap() const {
 void ImageViewer::setPixmap(const QPixmap &newPixmap) {
     m_pixmap = newPixmap;
 
-    if(parentWidget() != nullptr) {
-        resize(parentWidget()->size());
-    }
-
     fitImage();
 }
 

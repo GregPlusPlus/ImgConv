@@ -88,12 +88,12 @@ void MainWindow::createImage() {
 void MainWindow::showOriginalImage(const QImage &img) {
     m_original = img;
 
+    mw_tabWidget->setCurrentWidget(mw_origImgView);
     mw_origImgView->setPixmap(QPixmap::fromImage(m_original));
     mw_processedImgView->setPixmap(QPixmap());
 
     mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
                              .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
-    mw_tabWidget->setCurrentWidget(mw_origImgView);
 }
 
 void MainWindow::exportFile() {
@@ -171,9 +171,9 @@ void MainWindow::startProcess() {
         mw_labelElapsedTime->setText(logStr);
         mw_logPanel->logOutput(logStr);
 
-        mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
-
         mw_tabWidget->setCurrentWidget(mw_processedImgView);
+
+        mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
 
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
