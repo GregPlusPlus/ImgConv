@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     buildUI();
 
-    setMinimumSize(QSize(700, 500));
+    setMinimumSize(QSize(1200, 800));
 }
 
 MainWindow::~MainWindow() {
