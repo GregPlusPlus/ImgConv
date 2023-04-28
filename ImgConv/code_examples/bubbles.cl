@@ -4,7 +4,7 @@
 
 #define EFFECT_INSIDE true
 
-static geom_circle_t circle1 = {
+__constant geom_circle_t circle1 = {
     .c = {
         .x =250,
         .y = 250
@@ -12,7 +12,7 @@ static geom_circle_t circle1 = {
     .r = 200
 };
     
-static geom_circle_t circle2 = {
+__constant geom_circle_t circle2 = {
     .c = {
         .x = 550,
         .y = 500
@@ -20,7 +20,7 @@ static geom_circle_t circle2 = {
     .r = 70
 };
     
-static geom_circle_t circle3 = {
+__constant geom_circle_t circle3 = {
     .c = {
         .x = 750,
         .y = 300
