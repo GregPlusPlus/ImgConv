@@ -172,3 +172,12 @@ void ImageViewer::wheelEvent(QWheelEvent *event) {
 
     update();
 }
+
+void ImageViewer::resizeEvent(QResizeEvent *event) {
+    if( (m_scaledPix.width() == event->oldSize().width()) ||
+        (m_scaledPix.height() == event->oldSize().height())) {
+        fitImage();
+    }
+
+    QWidget::resizeEvent(event);
+}
