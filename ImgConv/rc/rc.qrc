@@ -25,5 +25,6 @@
         <file>icons/information.png</file>
         <file>icons/script-text.png</file>
         <file>icons/broom.png</file>
+        <file>icons/magnifier-zoom-fit.png</file>
     </qresource>
 </RCC>

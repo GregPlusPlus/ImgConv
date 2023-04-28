@@ -36,6 +36,7 @@ SOURCES += \
     src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
+    src/UI/ImageViewer/imageviewercontainer.cpp \
     src/UI/LogPanel/logpanel.cpp \
     src/UI/MainWindow/mainwindow.cpp \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
@@ -70,6 +71,7 @@ HEADERS += \
     src/UI/FilterSettingsWidget/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \
     src/UI/ImageViewer/imageviewer.h \
+    src/UI/ImageViewer/imageviewercontainer.h \
     src/UI/LogPanel/logpanel.h \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \

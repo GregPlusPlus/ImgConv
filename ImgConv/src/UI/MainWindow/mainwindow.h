@@ -44,7 +44,7 @@
 
 #include "app_strings.h"
 
-#include "UI/ImageViewer/imageviewer.h"
+#include "UI/ImageViewer/imageviewercontainer.h"
 #include "UI/FilterSettingsWidget/filtersettingsdock.h"
 #include "UI/Dialogs/WaitDialog/waitdialog.h"
 #include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
@@ -89,8 +89,8 @@ private:
 
 private:
     QTabWidget *mw_tabWidget;
-    ImageViewer *mw_origImgView;
-    ImageViewer *mw_processedImgView;
+    ImageViewerContainer *mw_origImgView;
+    ImageViewerContainer *mw_processedImgView;
     CodeEditorContainter *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
     FilterSettingsDock *mw_dockFilterSettings;
