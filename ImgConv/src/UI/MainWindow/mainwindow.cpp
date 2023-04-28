@@ -373,8 +373,8 @@ void MainWindow::buildPanels() {
 void MainWindow::buildView() {
     mw_tabWidget = new QTabWidget(this);
 
-    mw_origImgView = new ImageViewer(tr("Original image"));
-    mw_processedImgView = new ImageViewer(tr("Processed image"));
+    mw_origImgView = new ImageViewerContainer(tr("Original image"), this);
+    mw_processedImgView = new ImageViewerContainer(tr("Processed image"), this);
 
     mw_codeEditor = new CodeEditorContainter(this);
     connect(mw_codeEditor, &CodeEditorContainter::useFile, this, [=](const QString &fn) {
