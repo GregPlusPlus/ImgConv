@@ -41,6 +41,7 @@
 #include <QImageReader>
 #include <QThreadPool>
 #include <QCloseEvent>
+#include <QRandomGenerator>
 
 #include "app_strings.h"
 

@@ -19,17 +19,89 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#define X           get_global_id(0)
-#define Y           get_global_id(1)
-#define _I          ((W * Y + X) * 3)
-#define PIX_INDEX   _I
-#define INDEX2X     (PIX_INDEX % W)
-#define INDEX2Y     (PIX_INDEX / W)
-#define OUT_RED     (Out[_I + 0])
-#define OUT_GREEN   (Out[_I + 1])
-#define OUT_BLUE    (Out[_I + 2])
-#define IN_RED      (In[_I + 0])
-#define IN_GREEN    (In[_I + 1])
-#define IN_BLUE     (In[_I + 2])
+#define X                   (get_global_id(0))
+#define Y                   (get_global_id(1))
+
+#define INDEX_AT(_x, _y)    ((W * _y + _x) * 3)
+#define CURR_PIX_INDEX      (INDEX_AT(X, Y))
+
+#define INDEX2X(_i)         (_i % W)
+#define INDEX2Y(_i)         (_i / W)
+#define CURR_INDEX2X        (INDEX2X(CURR_PIX_INDEX))
+#define CURR_INDEX2Y        (INDEX2Y(CURR_PIX_INDEX))
+
+#define RED_OFFSET          (0)
+#define GREEN_OFFSET        (1)
+#define BLUE_OFFSET         (2)
+
+#define RED(_p, _x, _y)     (_p[INDEX_AT(_x, _y) + RED_OFFSET])
+#define GREEN(_p, _x, _y)   (_p[INDEX_AT(_x, _y) + GREEN_OFFSET])
+#define BLUE(_p, _x, _y)    (_p[INDEX_AT(_x, _y) + BLUE_OFFSET])
+#define CURR_RED(_p)        (RED(_p, X, Y))
+#define CURR_GREEN(_p)      (GREEN(_p, X, Y))
+#define CURR_BLUE(_p)       (BLUE(_p, X, Y))
+
+typedef struct {
+    size_t x;
+    size_t y;
+} coord2D_t;
+
+typedef struct {
+    uchar r;
+    uchar g;
+    uchar b;
+} color_t;
+
+inline coord2D_t getCurrentPixelCoord(void) {
+    coord2D_t c = {
+        .x = X,
+        .y = Y
+    };
+
+    return c;
+}
+
+inline coord2D_t index2Coord(size_t i) {
+    coord2D_t c = {
+        .x = INDEX2X(i),
+        .y = INDEX2Y(i)
+    };
+
+    return c;
+}
+
+inline color_t pixelColor(__global const uchar *img, coord2D_t coord) {
+    color_t c = {
+        .r = RED(img,   coord.x, coord.y),
+        .g = GREEN(img, coord.x, coord.y),
+        .b = BLUE(img,  coord.x, coord.y)
+    };
+
+    return c;
+}
+
+inline color_t pixelColorAtCurrentCoord(__global const uchar *img) {
+    return pixelColor(img, getCurrentPixelCoord());
+}
+
+inline void writePixelColor(uchar *img, coord2D_t coord, color_t color) {
+    RED(img, coord.x, coord.y) = color.r;
+    GREEN(img, coord.x, coord.y) = color.g;
+    BLUE(img, coord.x, coord.y) = color.b;
+}
+
+inline void writePixelColorAtCurrentCoord(uchar *img, color_t color) {
+    writePixelColor(img, getCurrentPixelCoord(), color);
+}
+
+inline void copyPixel(__global const uchar *src, uchar *dst, coord2D_t coord) {
+    dst[INDEX_AT(coord.x, coord.y) + RED_OFFSET] = src[INDEX_AT(coord.x, coord.y) + RED_OFFSET];
+    dst[INDEX_AT(coord.x, coord.y) + GREEN_OFFSET] = src[INDEX_AT(coord.x, coord.y) + GREEN_OFFSET];
+    dst[INDEX_AT(coord.x, coord.y) + BLUE_OFFSET] = src[INDEX_AT(coord.x, coord.y) + BLUE_OFFSET];
+}
+
+inline void copyPixelAtCurrentCoord(__global const uchar *src, uchar *dst) {
+    copyPixel(src, dst, getCurrentPixelCoord());
+}
 
 #endif //COMMON_H

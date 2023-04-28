@@ -129,20 +129,25 @@ void MainWindow::startProcess() {
         return;
     }
 
-    QString options = QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -I%5")
-                        .arg(m_original.width())
-                        .arg(m_original.height())
-                        .arg(matSize.width())
-                        .arg(matSize.height())
-                        .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
+    QString options = QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED='{%5, %6, %7, %8}' -I%9")
+                                .arg(m_original.width())
+                                .arg(m_original.height())
+                                .arg(matSize.width())
+                                .arg(matSize.height())
+                                .arg(QRandomGenerator::global()->generate())
+                                .arg(QRandomGenerator::global()->generate())
+                                .arg(QRandomGenerator::global()->generate())
+                                .arg(QRandomGenerator::global()->generate())
+                                .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
 
     mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
-                           .arg(k->getSourceFilePath())
-                           .arg(options));
+                        .arg(k->getSourceFilePath())
+                        .arg(options));
 
     if(!createOCLProgram(k->getSourceFilePath(), options)) {
         return;
     }
+
     if(m_ocl->ret() != CL_SUCCESS) {
         return;
     }
