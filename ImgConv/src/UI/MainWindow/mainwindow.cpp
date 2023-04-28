@@ -111,6 +111,12 @@ void MainWindow::exportFile() {
 }
 
 void MainWindow::startProcess() {
+    if(m_ocl->isRunning()) {
+        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
+
+        return;
+    }
+
     if(m_original.isNull()) {
         return;
     }
