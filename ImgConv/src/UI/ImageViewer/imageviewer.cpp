@@ -151,14 +151,16 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event) {
 
 void ImageViewer::wheelEvent(QWheelEvent *event) {
     float factor = 0.8;
-    if (event->angleDelta().y() < 0) {
+    int delta = -event->angleDelta().y();
+
+    if (delta < 0) {
         factor = 1 / factor;
     }
 
     QPoint dP((m_mousePos.x() - m_imgPos.x()) * (factor - 1),
               (m_mousePos.y() - m_imgPos.y()) * (factor - 1));
 
-    if((event->angleDelta().y() > 0) && ((m_scaledPix.width() < 100) || (m_scaledPix.height() < 100))) {
+    if((delta > 0) && ((m_scaledPix.width() < 100) || (m_scaledPix.height() < 100))) {
         return;
     }
 
