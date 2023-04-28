@@ -16,7 +16,6 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 #include "mainwindow.h"
 #include "Core/Processing/processing.h"
 
@@ -30,13 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
         exit(EXIT_FAILURE);
     }
 
-    buildFilterSettingsView();
+    buildUI();
 
-    buildKernelComboBox();
-    buildMenus();
-    buildView();
-
-    setMinimumSize(QSize(700, 500));
+    setMinimumSize(QSize(1200, 800));
 }
 
 MainWindow::~MainWindow() {
@@ -53,8 +48,9 @@ void MainWindow::openFile() {
     WaitDialog *dialog = new WaitDialog(tr("Opening image..."));
     Threads::ImgLoader *imgLoader = new Threads::ImgLoader(fn);
 
-    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog](QImage img, qint64 et) {
+    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog, fn](QImage img, qint64 et) {
         mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
+        mw_logPanel->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
         showOriginalImage(img);
 
         m_openFileAction->setDisabled(false);
@@ -67,15 +63,37 @@ void MainWindow::openFile() {
     QThreadPool::globalInstance()->start(imgLoader);
 }
 
+void MainWindow::createImage() {
+    CreateImageDialog *dialog = new CreateImageDialog(this);
+    dialog->exec();
+
+    if(dialog->result() != QMessageBox::Accepted) {
+        return;
+    }
+
+    CreateImageDialog::ImageSettings_t settings = dialog->getImageSettings();
+
+    if((settings.width == 0) || (settings.height == 0)) {
+        return;
+    }
+
+    QImage img(settings.width, settings.height, QImage::Format_RGB888);
+    img.fill(settings.fillColor);
+
+    mw_logPanel->logInfo(tr("Created image of size %1x%2.").arg(settings.width).arg(settings.height));
+
+    showOriginalImage(img);
+}
+
 void MainWindow::showOriginalImage(const QImage &img) {
     m_original = img;
 
+    mw_tabWidget->setCurrentWidget(mw_origImgView);
     mw_origImgView->setPixmap(QPixmap::fromImage(m_original));
     mw_processedImgView->setPixmap(QPixmap());
 
     mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
                              .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
-    mw_tabWidget->setCurrentWidget(mw_origImgView);
 }
 
 void MainWindow::exportFile() {
@@ -88,9 +106,17 @@ void MainWindow::exportFile() {
 
     QPixmap pix = QPixmap::fromImage(m_processed);
     pix.save(fn);
+
+    mw_logPanel->logInfo(tr("[%1] Image saved.").arg(fn));
 }
 
 void MainWindow::startProcess() {
+    if(m_ocl->isRunning()) {
+        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
+
+        return;
+    }
+
     if(m_original.isNull()) {
         return;
     }
@@ -103,30 +129,39 @@ void MainWindow::startProcess() {
         return;
     }
 
-    if(!createOCLProgram(k->getSourceFilePath(),
-                            QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED='{%5, %6, %7, %8}' -I%9")
-                            .arg(m_original.width())
-                            .arg(m_original.height())
-                            .arg(matSize.width())
-                            .arg(matSize.height())
-                            .arg(QRandomGenerator::global()->generate())
-                            .arg(QRandomGenerator::global()->generate())
-                            .arg(QRandomGenerator::global()->generate())
-                            .arg(QRandomGenerator::global()->generate())
-                            .arg(QCoreApplication::applicationDirPath() + "/kCLinclude"))) {
+    QString options = QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED='{%5, %6, %7, %8}' -I%9")
+                                .arg(m_original.width())
+                                .arg(m_original.height())
+                                .arg(matSize.width())
+                                .arg(matSize.height())
+                                .arg(QRandomGenerator::global()->generate())
+                                .arg(QRandomGenerator::global()->generate())
+                                .arg(QRandomGenerator::global()->generate())
+                                .arg(QRandomGenerator::global()->generate())
+                                .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
 
+    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
+                        .arg(k->getSourceFilePath())
+                        .arg(options));
+
+    if(!createOCLProgram(k->getSourceFilePath(), options)) {
         return;
     }
+
     if(m_ocl->ret() != CL_SUCCESS) {
         return;
     }
 
     Utils::scaleMatrix(mat, k->getScalar());
 
+    mw_logPanel->logOutput(tr("Running kernel..."));
+
     WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
     Threads::Process *process = new Threads::Process(m_ocl, m_original, mat);
 
     connect(process, &Threads::Process::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
+        float pixPerSec = 0;
+
         if(!res) {
             QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
 
@@ -138,13 +173,18 @@ void MainWindow::startProcess() {
 
         m_processed = img;
 
-        mw_labelElapsedTime->setText(tr("Processing done in %1 ms. - Approx %2 px/sec.")
-                                     .arg(et)
-                                     .arg(1000.f * (m_processed.size().width() * m_processed.size().height()) / et));
+        pixPerSec = 1000.f * (m_processed.size().width() * m_processed.size().height()) / et;
 
-        mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
+        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
+                            .arg(et)
+                            .arg(pixPerSec);
+
+        mw_labelElapsedTime->setText(logStr);
+        mw_logPanel->logOutput(logStr);
 
         mw_tabWidget->setCurrentWidget(mw_processedImgView);
+
+        mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
 
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
@@ -244,16 +284,11 @@ bool MainWindow::createOCLProgram(const QString &fn, const QString &options) {
 }
 
 void MainWindow::displayOCLProgramError() {
-    QMessageBox msg;
-
     qDebug() << m_ocl->getBuildLog();
 
-    msg.setWindowTitle(tr("OCL error"));
-    msg.setText(tr("OCL build program error (%1)")
-                .arg(m_ocl->ret()));
-    msg.setDetailedText(m_ocl->getBuildLog());
-    msg.setIcon(QMessageBox::Critical);
-    msg.exec();
+    mw_logPanel->logError(tr("OCL build program error (%1)\n______________________________\n%2")
+                          .arg(m_ocl->ret())
+                          .arg(m_ocl->getBuildLog()));
 }
 
 void MainWindow::buildKernelComboBox() {
@@ -269,13 +304,14 @@ void MainWindow::buildMenus() {
     mw_fileMenu = menuBar()->addMenu(tr("&File"));
 
     m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
+    m_createImageAction = mw_fileMenu->addAction(QIcon(":/icons/image-new.png"), tr("&Create image"), tr("Ctrl+N"), this, &MainWindow::createImage);
     m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportFile);
     mw_fileMenu->addSeparator();
     m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
         SelectDeviceDialog dialog(m_devices);
         if(dialog.exec() == QDialog::Accepted) {
             initOpenCL(dialog.getDevice());
-            updateDeviceNameStatusBar();
+            displayDeviceName();
         }
     });
     mw_fileMenu->addSeparator();
@@ -304,6 +340,7 @@ void MainWindow::buildMenus() {
 
     mw_toolBar = new QToolBar(tr("Tools"), this);
     mw_toolBar->addAction(m_openFileAction);
+    mw_toolBar->addAction(m_createImageAction);
     mw_toolBar->addAction(m_exportAction);
     mw_toolBar->addSeparator();
     mw_toolBar->addWidget(new QLabel(tr("Filter : "), this));
@@ -317,22 +354,38 @@ void MainWindow::buildMenus() {
     mw_labelImgInfo = new QLabel(this);
     mw_labelElapsedTime = new QLabel(this);
 
-    updateDeviceNameStatusBar();
+    displayDeviceName();
 
     statusBar()->addWidget(mw_labelDevice);
     statusBar()->addWidget(mw_labelImgInfo);
     statusBar()->addWidget(mw_labelElapsedTime);
 }
 
-void MainWindow::updateDeviceNameStatusBar() {
+void MainWindow::displayDeviceName() {
     mw_labelDevice->setText(m_ocl->getDeviceName());
+    mw_logPanel->logInfo(tr("Selected device : %1").arg(m_ocl->getDeviceName()));
+}
+
+void MainWindow::buildUI() {
+    buildFilterSettingsView();
+    buildPanels();
+
+    buildKernelComboBox();
+    buildMenus();
+    buildView();
+}
+
+void MainWindow::buildPanels() {
+    mw_logPanel = new LogPanel(this);
+
+    addDockWidget(Qt::BottomDockWidgetArea, mw_logPanel);
 }
 
 void MainWindow::buildView() {
     mw_tabWidget = new QTabWidget(this);
 
-    mw_origImgView = new ImageViewer(tr("Original image"));
-    mw_processedImgView = new ImageViewer(tr("Processed image"));
+    mw_origImgView = new ImageViewerContainer(tr("Original image"), this);
+    mw_processedImgView = new ImageViewerContainer(tr("Processed image"), this);
 
     mw_codeEditor = new CodeEditorContainter(this);
     connect(mw_codeEditor, &CodeEditorContainter::useFile, this, [=](const QString &fn) {

@@ -16,37 +16,35 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef FILENAMEPICKER_H
-#define FILENAMEPICKER_H
+#ifndef LOGPANEL_H
+#define LOGPANEL_H
 
-#include <QWidget>
-#include <QLineEdit>
+#include <QDockWidget>
+#include <QTabWidget>
+#include <QTextEdit>
 #include <QPushButton>
 
-#include <QFileDialog>
-
-#include <QHBoxLayout>
-
-class FileNamePicker : public QWidget
+class LogPanel : public QDockWidget
 {
     Q_OBJECT
-public:
-    explicit FileNamePicker(const QString &title, const QString &filters, QWidget *parent = nullptr);
 
-    QString getFileName() const;
+public:
+    LogPanel(QWidget *parent = 0);
 
 public slots:
-    void setFileName(const QString &fn);
+    void logInfo(const QString &str);
+    void logOutput(const QString &str);
+    void logError(const QString &str);
 
-signals:
-    void fileNameChanged(const QString &fn);
+private slots:
+    void clear();
 
 private:
-    QHBoxLayout *m_layout;
-
-    QLineEdit *mw_fileName;
-    QPushButton *mw_browse;
-
+    QTabWidget *mw_tabs;
+    QTextEdit *mw_info;
+    QTextEdit *mw_output;
+    QTextEdit *mw_errors;
+    QPushButton *mw_clear;
 };
 
-#endif // FILENAMEPICKER_H
+#endif // LOGPANEL_H

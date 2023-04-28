@@ -30,14 +30,18 @@ SOURCES += \
     src/UI/CodeEditor/Components/interactivetextedit.cpp \
     src/UI/CodeEditor/Components/keycompletion.cpp \
     src/UI/CodeEditor/codeeditorcontainer.cpp \
+    src/UI/Components/buttoncolorpicker.cpp \
+    src/UI/Dialogs/CreateImageDialog/createimagedialog.cpp \
     src/UI/FilterSettingsWidget/filenamepicker.cpp \
     src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
+    src/UI/ImageViewer/imageviewercontainer.cpp \
+    src/UI/LogPanel/logpanel.cpp \
     src/UI/MainWindow/mainwindow.cpp \
-    src/UI/SelectDeviceDialog/selectdevicedialog.cpp \
+    src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/UtilsUI/utilsui.cpp \
-    src/UI/WaitDialog/waitdialog.cpp \
+    src/UI/Dialogs/WaitDialog/waitdialog.cpp \
     src/main.cpp
 HEADERS += \
     src/Core/OCLWrapper/oclwrapper.h \
@@ -61,15 +65,19 @@ HEADERS += \
     src/UI/CodeEditor/Components/interactivetextedit.h \
     src/UI/CodeEditor/Components/keycompletion.h \
     src/UI/CodeEditor/codeeditorcontainer.h \
+    src/UI/Components/buttoncolorpicker.h \
+    src/UI/Dialogs/CreateImageDialog/createimagedialog.h \
     src/UI/FilterSettingsWidget/filenamepicker.h \
     src/UI/FilterSettingsWidget/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \
     src/UI/ImageViewer/imageviewer.h \
+    src/UI/ImageViewer/imageviewercontainer.h \
+    src/UI/LogPanel/logpanel.h \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \
-    src/UI/SelectDeviceDialog/selectdevicedialog.h \
+    src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \
     src/UI/UtilsUI/utilsui.h \
-    src/UI/WaitDialog/waitdialog.h
+    src/UI/Dialogs/WaitDialog/waitdialog.h
 
 INCLUDEPATH += \
     libs/include/ \

@@ -16,37 +16,34 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef FILENAMEPICKER_H
-#define FILENAMEPICKER_H
+#ifndef BUTTONCOLORPICKER_H
+#define BUTTONCOLORPICKER_H
 
-#include <QWidget>
-#include <QLineEdit>
 #include <QPushButton>
 
-#include <QFileDialog>
+#include <QColorDialog>
 
-#include <QHBoxLayout>
+#include <QPixmap>
+#include <QPainter>
 
-class FileNamePicker : public QWidget
+class ButtonColorPicker : public QPushButton
 {
     Q_OBJECT
+
 public:
-    explicit FileNamePicker(const QString &title, const QString &filters, QWidget *parent = nullptr);
+    ButtonColorPicker(QColor defaultColor = Qt::white, QWidget *parent = nullptr);
 
-    QString getFileName() const;
-
-public slots:
-    void setFileName(const QString &fn);
+    QColor selectedColor() const;
 
 signals:
-    void fileNameChanged(const QString &fn);
+    void colorSelected(const QColor &color);
 
 private:
-    QHBoxLayout *m_layout;
+    void updateColor(const QColor &color);
+    QIcon makeIcon(const QColor &color);
 
-    QLineEdit *mw_fileName;
-    QPushButton *mw_browse;
-
+private:
+    QColor m_selectedColor;
 };
 
-#endif // FILENAMEPICKER_H
+#endif // BUTTONCOLORPICKER_H

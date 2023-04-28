@@ -1,3 +1,10 @@
+#ifndef IMAGEVIEWERCONTAINER_H
+#define IMAGEVIEWERCONTAINER_H
+
+#include <QWidget>
+#include <QPushButton>
+#include <QStatusBar>
+
 /**
  ** This file is part of the ImgConv project.
  ** Copyright 2022-2023 Grégoire BOST <bostgregoire@gmail.com>.
@@ -16,37 +23,33 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef FILENAMEPICKER_H
-#define FILENAMEPICKER_H
+#include <QVBoxLayout>
 
-#include <QWidget>
-#include <QLineEdit>
-#include <QPushButton>
+#include "imageviewer.h"
 
-#include <QFileDialog>
-
-#include <QHBoxLayout>
-
-class FileNamePicker : public QWidget
+class ImageViewerContainer : public QWidget
 {
     Q_OBJECT
 public:
-    explicit FileNamePicker(const QString &title, const QString &filters, QWidget *parent = nullptr);
+    explicit ImageViewerContainer(const QString &title = QString(), QWidget *parent = nullptr);
 
-    QString getFileName() const;
+    QPixmap pixmap() const;
+    QString title() const;
 
 public slots:
-    void setFileName(const QString &fn);
+    void setPixmap(const QPixmap &pixmap);
+    void setTitle(const QString &title);
 
 signals:
-    void fileNameChanged(const QString &fn);
 
 private:
-    QHBoxLayout *m_layout;
+    QVBoxLayout *m_layout;
 
-    QLineEdit *mw_fileName;
-    QPushButton *mw_browse;
+    QStatusBar *mw_status;
+    QPushButton *mw_fitButton;
+
+    ImageViewer *mw_viewer;
 
 };
 
-#endif // FILENAMEPICKER_H
+#endif // IMAGEVIEWERCONTAINER_H

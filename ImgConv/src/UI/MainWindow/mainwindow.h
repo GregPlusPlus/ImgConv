@@ -1,6 +1,3 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
 /**
  ** This file is part of the ImgConv project.
  ** Copyright 2022-2023 Grégoire BOST <bostgregoire@gmail.com>.
@@ -18,6 +15,9 @@
  ** You should have received a copy of the GNU Lesser General Public License
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
+
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QApplication>
 
@@ -45,11 +45,13 @@
 
 #include "app_strings.h"
 
-#include "UI/ImageViewer/imageviewer.h"
+#include "UI/ImageViewer/imageviewercontainer.h"
 #include "UI/FilterSettingsWidget/filtersettingsdock.h"
-#include "UI/WaitDialog/waitdialog.h"
-#include "UI/SelectDeviceDialog/selectdevicedialog.h"
+#include "UI/Dialogs/WaitDialog/waitdialog.h"
+#include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
+#include "UI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
+#include "UI/LogPanel/logpanel.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
@@ -66,6 +68,7 @@ public:
 
 private slots:
     void openFile();
+    void createImage();
     void exportFile();
     void startProcess();
     void filterSelected(int index);
@@ -77,7 +80,9 @@ private:
     bool createOCLProgram(const QString &fn, const QString &options);
     void displayOCLProgramError();
     void buildMenus();
-    void updateDeviceNameStatusBar();
+    void displayDeviceName();
+    void buildUI();
+    void buildPanels();
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
@@ -85,11 +90,12 @@ private:
 
 private:
     QTabWidget *mw_tabWidget;
-    ImageViewer *mw_origImgView;
-    ImageViewer *mw_processedImgView;
+    ImageViewerContainer *mw_origImgView;
+    ImageViewerContainer *mw_processedImgView;
     CodeEditorContainter *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
     FilterSettingsDock *mw_dockFilterSettings;
+    LogPanel *mw_logPanel;
     QLabel *mw_labelDevice;
     QLabel *mw_labelImgInfo;
     QLabel *mw_labelElapsedTime;
@@ -98,6 +104,7 @@ private:
     QMenu *mw_helpMenu;
     QToolBar *mw_toolBar;
     QAction *m_openFileAction;
+    QAction *m_createImageAction;
     QAction *m_exportAction;
     QAction *m_selectDeviceAction;
     QAction *m_exitAction;

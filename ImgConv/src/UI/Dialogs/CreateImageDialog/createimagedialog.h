@@ -16,37 +16,46 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef FILENAMEPICKER_H
-#define FILENAMEPICKER_H
+#ifndef CREATEIMAGEDIALOG_H
+#define CREATEIMAGEDIALOG_H
 
-#include <QWidget>
+#include <QDialog>
+#include <QDialogButtonBox>
 #include <QLineEdit>
-#include <QPushButton>
 
-#include <QFileDialog>
+#include <QFormLayout>
 
-#include <QHBoxLayout>
+#include <QIntValidator>
 
-class FileNamePicker : public QWidget
+#include "UI/Components/buttoncolorpicker.h"
+
+class CreateImageDialog : public QDialog
 {
     Q_OBJECT
-public:
-    explicit FileNamePicker(const QString &title, const QString &filters, QWidget *parent = nullptr);
 
-    QString getFileName() const;
+public:
+    struct ImageSettings_t {
+        int width;
+        int height;
+        QColor fillColor;
+    };
+
+public:
+    CreateImageDialog(QWidget *parent = nullptr);
+
+    ImageSettings_t getImageSettings() const;
 
 public slots:
-    void setFileName(const QString &fn);
-
-signals:
-    void fileNameChanged(const QString &fn);
 
 private:
-    QHBoxLayout *m_layout;
+    QFormLayout *m_layout;
 
-    QLineEdit *mw_fileName;
-    QPushButton *mw_browse;
+    QDialogButtonBox *mw_buttonBox;
+
+    QLineEdit *mw_inputW;
+    QLineEdit *mw_inputH;
+    ButtonColorPicker *mw_buttonColorPicker;
 
 };
 
-#endif // FILENAMEPICKER_H
+#endif // CREATEIMAGEDIALOG_H
