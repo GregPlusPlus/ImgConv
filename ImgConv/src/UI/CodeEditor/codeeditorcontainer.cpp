@@ -57,8 +57,8 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     UtilsUI::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), tr("Ctrl+Shift+O"), this, &CodeEditorContainter::openFile));
     mw_toolBar->addWidget(mw_saveButton);
     mw_toolBar->addSeparator();
-    mw_toolBar->addAction(QIcon(":/icons/arrow-curve-180-left.png"), tr("Undo"), (QPlainTextEdit*)this, &QPlainTextEdit::undo);
-    mw_toolBar->addAction(QIcon(":/icons/arrow-curve.png"), tr("Redo"), (QPlainTextEdit*)this, &QPlainTextEdit::redo);
+    mw_toolBar->addAction(QIcon(":/icons/arrow-curve-180-left.png"), tr("Undo"), mw_editor, &QPlainTextEdit::undo);
+    mw_toolBar->addAction(QIcon(":/icons/arrow-curve.png"), tr("Redo"), mw_editor, &QPlainTextEdit::redo);
 
     mw_statusBar = new QStatusBar(this);
     mw_statusBar->setSizeGripEnabled(false);
