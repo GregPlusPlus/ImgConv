@@ -96,6 +96,77 @@ void MainWindow::showOriginalImage(const QImage &img) {
                              .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
 }
 
+void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
+    QString str;
+
+    str += tr("\n%1x%2 Convolution matrix :\n").arg(mat[0].size()).arg(mat.size());
+
+    QVector<int> maxColLen(mat[0].size());
+
+    for(int i = 0; i < mat.size(); i ++) {
+        for(int j = 0; j < mat[0].size(); j ++) {
+            QString numberAsStr = QString::number(mat[i][j]);
+
+            if(numberAsStr.size() > maxColLen[j]) {
+                maxColLen[j] = numberAsStr.size();
+            }
+        }
+    }
+
+    str += "┌";
+
+    for(int j = 0; j < mat[0].size(); j ++) {
+        str += QString("─").repeated(maxColLen[j] + 2);
+
+        if(j < (mat[0].size() - 1)) {
+            str += "┬";
+        }
+    }
+
+    str += "┐\n";
+
+    for(int i = 0; i < mat.size(); i ++) {
+        str += "│ ";
+
+        for(int j = 0; j < mat[0].size(); j ++) {
+            QString numberAsStr = QString::number(mat[i][j]);
+            int nSpaces = maxColLen[j] - numberAsStr.size();
+
+            str += numberAsStr + QString(" ").repeated(nSpaces) + " │ ";
+        }
+
+        str += "\n";
+
+        if(i < (mat.size() - 1)) {
+            str += "├";
+
+            for(int j = 0; j < mat[0].size(); j ++) {
+                str += QString("─").repeated(maxColLen[j] + 2);
+
+                if(j < (mat[0].size() - 1)) {
+                    str += "┼";
+                }
+            }
+
+            str += "┤\n";
+        }
+    }
+
+    str += "└";
+
+    for(int j = 0; j < mat[0].size(); j ++) {
+        str += QString("─").repeated(maxColLen[j] + 2);
+
+        if(j < (mat[0].size() - 1)) {
+            str += "┴";
+        }
+    }
+
+    str += "┘\n";
+
+    mw_logPanel->logOutput(str);
+}
+
 void MainWindow::exportFile() {
     QString fn = QFileDialog::getSaveFileName(this, tr("Save image file"), QString(),
                                               tr("Image files (*.png)"));
@@ -153,6 +224,8 @@ void MainWindow::startProcess() {
     }
 
     Utils::scaleMatrix(mat, k->getScalar());
+
+    logConvMatrix(mat);
 
     mw_logPanel->logOutput(tr("Running kernel..."));
 
