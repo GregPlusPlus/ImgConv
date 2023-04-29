@@ -23,14 +23,11 @@ LogPanel::LogPanel(QWidget *parent)
 
     mw_tabs = new QTabWidget(this);
 
-    mw_info = new QTextEdit(this);
-    mw_info->setReadOnly(true);
+    mw_info = new LogWidget(this);
 
-    mw_output = new QTextEdit(this);
-    mw_output->setReadOnly(true);
+    mw_output = new LogWidget(this);
 
-    mw_errors = new QTextEdit(this);
-    mw_errors->setReadOnly(true);
+    mw_errors = new LogWidget(this);
 
     mw_clear = new QPushButton(QIcon(":/icons/broom.png"), QString(), this);
     connect(mw_clear, &QPushButton::clicked, this, &LogPanel::clear);

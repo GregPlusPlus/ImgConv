@@ -16,37 +16,15 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef LOGPANEL_H
-#define LOGPANEL_H
-
-#include <QDockWidget>
-#include <QTabWidget>
-#include <QTextEdit>
-#include <QPushButton>
-
 #include "logwidget.h"
 
-class LogPanel : public QDockWidget
-{
-    Q_OBJECT
+LogWidget::LogWidget(QWidget *parent)
+    : QTextEdit{parent} {
 
-public:
-    LogPanel(QWidget *parent = 0);
+    setReadOnly(true);
+    setWordWrapMode(QTextOption::NoWrap);
 
-public slots:
-    void logInfo(const QString &str);
-    void logOutput(const QString &str);
-    void logError(const QString &str);
-
-private slots:
-    void clear();
-
-private:
-    QTabWidget *mw_tabs;
-    LogWidget *mw_info;
-    LogWidget *mw_output;
-    LogWidget *mw_errors;
-    QPushButton *mw_clear;
-};
-
-#endif // LOGPANEL_H
+    QFont f("unexistent");
+    f.setStyleHint(QFont::Monospace);
+    setFont(f);
+}

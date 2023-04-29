@@ -16,37 +16,17 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef LOGPANEL_H
-#define LOGPANEL_H
+#ifndef LOGWIDGET_H
+#define LOGWIDGET_H
 
-#include <QDockWidget>
-#include <QTabWidget>
 #include <QTextEdit>
-#include <QPushButton>
+#include <QObject>
 
-#include "logwidget.h"
-
-class LogPanel : public QDockWidget
+class LogWidget : public QTextEdit
 {
     Q_OBJECT
-
 public:
-    LogPanel(QWidget *parent = 0);
-
-public slots:
-    void logInfo(const QString &str);
-    void logOutput(const QString &str);
-    void logError(const QString &str);
-
-private slots:
-    void clear();
-
-private:
-    QTabWidget *mw_tabs;
-    LogWidget *mw_info;
-    LogWidget *mw_output;
-    LogWidget *mw_errors;
-    QPushButton *mw_clear;
+    LogWidget(QWidget *parent = nullptr);
 };
 
-#endif // LOGPANEL_H
+#endif // LOGWIDGET_H
