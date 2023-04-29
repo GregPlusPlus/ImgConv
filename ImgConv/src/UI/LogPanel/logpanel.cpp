@@ -41,22 +41,19 @@ LogPanel::LogPanel(QWidget *parent)
 }
 
 void LogPanel::logInfo(const QString &str) {
-    mw_info->append(str);
-    mw_info->ensureCursorVisible();
+    mw_info->log(str);
 
     mw_tabs->setCurrentWidget(mw_info);
 }
 
 void LogPanel::logOutput(const QString &str) {
-    mw_output->append(str);
-    mw_output->ensureCursorVisible();
+    mw_output->log(str);
 
     mw_tabs->setCurrentWidget(mw_output);
 }
 
 void LogPanel::logError(const QString &str) {
-    mw_errors->append(str);
-    mw_errors->ensureCursorVisible();
+    mw_errors->log(str);
 
     mw_tabs->setCurrentWidget(mw_errors);
 }

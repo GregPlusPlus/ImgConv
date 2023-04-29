@@ -20,13 +20,16 @@
 #define LOGWIDGET_H
 
 #include <QTextEdit>
-#include <QObject>
+#include <QScrollBar>
 
 class LogWidget : public QTextEdit
 {
     Q_OBJECT
 public:
     LogWidget(QWidget *parent = nullptr);
+
+public slots:
+    void log(const QString &str);
 };
 
 #endif // LOGWIDGET_H

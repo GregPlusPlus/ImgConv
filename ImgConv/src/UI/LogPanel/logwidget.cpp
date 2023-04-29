@@ -28,3 +28,10 @@ LogWidget::LogWidget(QWidget *parent)
     f.setStyleHint(QFont::Monospace);
     setFont(f);
 }
+
+void LogWidget::log(const QString &str) {
+    moveCursor(QTextCursor::End);
+    append(str);
+    verticalScrollBar()->setValue(verticalScrollBar()->maximum());
+    ensureCursorVisible();
+}
