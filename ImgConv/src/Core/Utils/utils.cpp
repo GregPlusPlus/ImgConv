@@ -50,3 +50,72 @@ float Utils::matrixSumCoef(const QVector<QVector<float>> &m) {
 
     return s;
 }
+
+QString Utils::matrixToBoxString(const QVector<QVector<float> > &mat) {
+    QString str;
+
+    QVector<int> maxColLen(mat[0].size());
+
+    for(int i = 0; i < mat.size(); i ++) {
+        for(int j = 0; j < mat[0].size(); j ++) {
+            QString numberAsStr = QString::number(mat[i][j]);
+
+            if(numberAsStr.size() > maxColLen[j]) {
+                maxColLen[j] = numberAsStr.size();
+            }
+        }
+    }
+
+    str += "┌";
+
+    for(int j = 0; j < mat[0].size(); j ++) {
+        str += QString("─").repeated(maxColLen[j] + 2);
+
+        if(j < (mat[0].size() - 1)) {
+            str += "┬";
+        }
+    }
+
+    str += "┐\n";
+
+    for(int i = 0; i < mat.size(); i ++) {
+        str += "│ ";
+
+        for(int j = 0; j < mat[0].size(); j ++) {
+            QString numberAsStr = QString::number(mat[i][j]);
+            int nSpaces = maxColLen[j] - numberAsStr.size();
+
+            str += numberAsStr + QString(" ").repeated(nSpaces) + " │ ";
+        }
+
+        str += "\n";
+
+        if(i < (mat.size() - 1)) {
+            str += "├";
+
+            for(int j = 0; j < mat[0].size(); j ++) {
+                str += QString("─").repeated(maxColLen[j] + 2);
+
+                if(j < (mat[0].size() - 1)) {
+                    str += "┼";
+                }
+            }
+
+            str += "┤\n";
+        }
+    }
+
+    str += "└";
+
+    for(int j = 0; j < mat[0].size(); j ++) {
+        str += QString("─").repeated(maxColLen[j] + 2);
+
+        if(j < (mat[0].size() - 1)) {
+            str += "┴";
+        }
+    }
+
+    str += "┘";
+
+    return str;
+}

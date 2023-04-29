@@ -101,68 +101,13 @@ void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
 
     str += tr("\n%1x%2 Convolution matrix :\n").arg(mat[0].size()).arg(mat.size());
 
-    QVector<int> maxColLen(mat[0].size());
-
-    for(int i = 0; i < mat.size(); i ++) {
-        for(int j = 0; j < mat[0].size(); j ++) {
-            QString numberAsStr = QString::number(mat[i][j]);
-
-            if(numberAsStr.size() > maxColLen[j]) {
-                maxColLen[j] = numberAsStr.size();
-            }
-        }
+    if((mat.size() > 16) || (mat[0].size() > 16)) {
+        str += tr("Matrix is too large to be printed.");
+    } else {
+        str += Utils::matrixToBoxString(mat);
     }
 
-    str += "┌";
-
-    for(int j = 0; j < mat[0].size(); j ++) {
-        str += QString("─").repeated(maxColLen[j] + 2);
-
-        if(j < (mat[0].size() - 1)) {
-            str += "┬";
-        }
-    }
-
-    str += "┐\n";
-
-    for(int i = 0; i < mat.size(); i ++) {
-        str += "│ ";
-
-        for(int j = 0; j < mat[0].size(); j ++) {
-            QString numberAsStr = QString::number(mat[i][j]);
-            int nSpaces = maxColLen[j] - numberAsStr.size();
-
-            str += numberAsStr + QString(" ").repeated(nSpaces) + " │ ";
-        }
-
-        str += "\n";
-
-        if(i < (mat.size() - 1)) {
-            str += "├";
-
-            for(int j = 0; j < mat[0].size(); j ++) {
-                str += QString("─").repeated(maxColLen[j] + 2);
-
-                if(j < (mat[0].size() - 1)) {
-                    str += "┼";
-                }
-            }
-
-            str += "┤\n";
-        }
-    }
-
-    str += "└";
-
-    for(int j = 0; j < mat[0].size(); j ++) {
-        str += QString("─").repeated(maxColLen[j] + 2);
-
-        if(j < (mat[0].size() - 1)) {
-            str += "┴";
-        }
-    }
-
-    str += "┘\n";
+    str += "\n";
 
     mw_logPanel->logOutput(str);
 }
