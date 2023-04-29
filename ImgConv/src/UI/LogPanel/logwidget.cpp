@@ -33,5 +33,4 @@ void LogWidget::log(const QString &str) {
     moveCursor(QTextCursor::End);
     append(str);
     verticalScrollBar()->setValue(verticalScrollBar()->maximum());
-    ensureCursorVisible();
 }
