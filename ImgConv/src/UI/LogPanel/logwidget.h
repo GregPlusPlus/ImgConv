@@ -16,17 +16,20 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef LOGWIDGET_H
+#define LOGWIDGET_H
 
-#include <QVector>
-#include <QImage>
+#include <QTextEdit>
+#include <QScrollBar>
 
-namespace Utils {
-    void scaleMatrix(QVector<QVector<float>> &v, float c);
-    void imageToMatrix(QVector<QVector<float>> &m, QImage &i);
-    float matrixSumCoef(const QVector<QVector<float>> &m);
-    QString matrixToBoxString(const QVector<QVector<float>> &mat);
-}
+class LogWidget : public QTextEdit
+{
+    Q_OBJECT
+public:
+    LogWidget(QWidget *parent = nullptr);
 
-#endif // UTILS_H
+public slots:
+    void log(const QString &str);
+};
+
+#endif // LOGWIDGET_H

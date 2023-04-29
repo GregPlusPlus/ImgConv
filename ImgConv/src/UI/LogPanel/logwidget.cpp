@@ -16,17 +16,21 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef UTILS_H
-#define UTILS_H
+#include "logwidget.h"
 
-#include <QVector>
-#include <QImage>
+LogWidget::LogWidget(QWidget *parent)
+    : QTextEdit{parent} {
 
-namespace Utils {
-    void scaleMatrix(QVector<QVector<float>> &v, float c);
-    void imageToMatrix(QVector<QVector<float>> &m, QImage &i);
-    float matrixSumCoef(const QVector<QVector<float>> &m);
-    QString matrixToBoxString(const QVector<QVector<float>> &mat);
+    setReadOnly(true);
+    setWordWrapMode(QTextOption::NoWrap);
+
+    QFont f("unexistent");
+    f.setStyleHint(QFont::Monospace);
+    setFont(f);
 }
 
-#endif // UTILS_H
+void LogWidget::log(const QString &str) {
+    moveCursor(QTextCursor::End);
+    append(str);
+    verticalScrollBar()->setValue(verticalScrollBar()->maximum());
+}

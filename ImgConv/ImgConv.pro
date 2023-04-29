@@ -38,6 +38,7 @@ SOURCES += \
     src/UI/ImageViewer/imageviewer.cpp \
     src/UI/ImageViewer/imageviewercontainer.cpp \
     src/UI/LogPanel/logpanel.cpp \
+    src/UI/LogPanel/logwidget.cpp \
     src/UI/MainWindow/mainwindow.cpp \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/UtilsUI/utilsui.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
     src/UI/ImageViewer/imageviewer.h \
     src/UI/ImageViewer/imageviewercontainer.h \
     src/UI/LogPanel/logpanel.h \
+    src/UI/LogPanel/logwidget.h \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \

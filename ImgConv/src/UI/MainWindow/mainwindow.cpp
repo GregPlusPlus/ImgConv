@@ -96,6 +96,22 @@ void MainWindow::showOriginalImage(const QImage &img) {
                              .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
 }
 
+void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
+    QString str;
+
+    str += tr("\n%1x%2 Convolution matrix :\n").arg(mat[0].size()).arg(mat.size());
+
+    if((mat.size() > 16) || (mat[0].size() > 16)) {
+        str += tr("Matrix is too large to be printed.");
+    } else {
+        str += Utils::matrixToBoxString(mat);
+    }
+
+    str += "\n";
+
+    mw_logPanel->logOutput(str);
+}
+
 void MainWindow::exportFile() {
     QString fn = QFileDialog::getSaveFileName(this, tr("Save image file"), QString(),
                                               tr("Image files (*.png)"));
@@ -153,6 +169,8 @@ void MainWindow::startProcess() {
     }
 
     Utils::scaleMatrix(mat, k->getScalar());
+
+    logConvMatrix(mat);
 
     mw_logPanel->logOutput(tr("Running kernel..."));
 

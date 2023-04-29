@@ -24,6 +24,8 @@
 #include <QTextEdit>
 #include <QPushButton>
 
+#include "logwidget.h"
+
 class LogPanel : public QDockWidget
 {
     Q_OBJECT
@@ -41,9 +43,9 @@ private slots:
 
 private:
     QTabWidget *mw_tabs;
-    QTextEdit *mw_info;
-    QTextEdit *mw_output;
-    QTextEdit *mw_errors;
+    LogWidget *mw_info;
+    LogWidget *mw_output;
+    LogWidget *mw_errors;
     QPushButton *mw_clear;
 };
 

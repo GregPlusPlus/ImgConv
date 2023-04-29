@@ -87,6 +87,7 @@ private:
     void buildFilterSettingsView();
     void buildKernelComboBox();
     void showOriginalImage(const QImage &img);
+    void logConvMatrix(const QVector<QVector<float>> &mat);
 
 private:
     QTabWidget *mw_tabWidget;
