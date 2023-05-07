@@ -54,9 +54,11 @@ Highlighter::Highlighter(QTextDocument *parent)
     : QSyntaxHighlighter{parent} {
     HighlightingRule rule;
 
-
     numberFormat.setForeground(Qt::darkRed);
     rule.pattern = QRegularExpression(QStringLiteral("(?<![a-zA-Z])[-+]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][-+]?\\d+)?[fF]?\\b"));
+    rule.format = numberFormat;
+    highlightingRules.append(rule);
+    rule.pattern = QRegularExpression(QStringLiteral("0[xX][0-9a-fA-F]+"));
     rule.format = numberFormat;
     highlightingRules.append(rule);
 
