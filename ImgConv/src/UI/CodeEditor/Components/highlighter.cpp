@@ -54,6 +54,14 @@ Highlighter::Highlighter(QTextDocument *parent)
     : QSyntaxHighlighter{parent} {
     HighlightingRule rule;
 
+    numberFormat.setForeground(Qt::darkRed);
+    rule.pattern = QRegularExpression(QStringLiteral("(?<![a-zA-Z])[-+]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][-+]?\\d+)?[fF]?\\b"));
+    rule.format = numberFormat;
+    highlightingRules.append(rule);
+    rule.pattern = QRegularExpression(QStringLiteral("0[xX][0-9a-fA-F]+"));
+    rule.format = numberFormat;
+    highlightingRules.append(rule);
+
     keywordFormat.setForeground(Qt::darkBlue);
     keywordFormat.setFontWeight(QFont::Bold);
     const QString keywordPatterns[] = {
@@ -81,11 +89,11 @@ Highlighter::Highlighter(QTextDocument *parent)
         QStringLiteral("\\bcl_int\\b"), QStringLiteral("\\buint\\b"), QStringLiteral("\\bcl_uint\\b"),
         QStringLiteral("\\bcl_long\\b"), QStringLiteral("\\bulong\\b"), QStringLiteral("\\bcl_ulong\\b"),
         QStringLiteral("\\bfloat\\b"), QStringLiteral("\\bsize_t\\b"), QStringLiteral("\\bptrdiff_t\\b"),
-        QStringLiteral("\\bintptr_t\\b"), QStringLiteral("\\bhalf\\b"), QStringLiteral("\\bcharn\\b"),
-        QStringLiteral("\\bucharn\\b"), QStringLiteral("\\bshortn\\b"), QStringLiteral("\\bushortn\\b"),
-        QStringLiteral("\\bintn\\b"), QStringLiteral("\\buintn\\b"), QStringLiteral("\\blongn\\b"),
-        QStringLiteral("\\bulongn\\b"), QStringLiteral("\\bfloatn\\b"), QStringLiteral("\\bdoublen\\b"),
-        QStringLiteral("\\bhalfn\\b"), QStringLiteral("\\bcl_platform_id\\b"), QStringLiteral("\\bcl_device_id\\b"),
+        QStringLiteral("\\bintptr_t\\b"), QStringLiteral("\\bhalf\\b"), QStringLiteral("\\bchar([2-4]|8|16)?\\b"),
+        QStringLiteral("\\buchar([2-4]|8|16)?\\b"), QStringLiteral("\\bshort([2-4]|8|16)?\\b"), QStringLiteral("\\bushort([2-4]|8|16)?\\b"),
+        QStringLiteral("\\bint([2-4]|8|16)?\\b"), QStringLiteral("\\buint([2-4]|8|16)?\\b"), QStringLiteral("\\blong([2-4]|8|16)?\\b"),
+        QStringLiteral("\\bulong([2-4]|8|16)?\\b"), QStringLiteral("\\bfloat([2-4]|8|16)?\\b"), QStringLiteral("\\bdouble([2-4]|8|16)?\\b"),
+        QStringLiteral("\\bhalf([2-4]|8|16)?\\b"), QStringLiteral("\\bcl_platform_id\\b"), QStringLiteral("\\bcl_device_id\\b"),
         QStringLiteral("\\bcl_context\\b"), QStringLiteral("\\bcl_command_queue\\b"), QStringLiteral("\\bcl_mem\\b"),
         QStringLiteral("\\bcl_program\\b"), QStringLiteral("\\bcl_kernel\\b"), QStringLiteral("\\bcl_event\\b"),
         QStringLiteral("\\bcl_sampler\\b")
@@ -95,11 +103,6 @@ Highlighter::Highlighter(QTextDocument *parent)
         rule.format = typeFormat;
         highlightingRules.append(rule);
     }
-
-    numberFormat.setForeground(Qt::darkRed);
-    rule.pattern = QRegularExpression(QStringLiteral("(?<![A-Za-z_])[.]?[-+]?[0-9]+[.]?[0-9]*([E][-+]?[0-9]+)?f?(?![A-Za-z_])"));
-    rule.format = numberFormat;
-    highlightingRules.append(rule);
 
     clkeywordFormat.setFontWeight(QFont::Bold);
     clkeywordFormat.setForeground(Qt::darkGreen);
