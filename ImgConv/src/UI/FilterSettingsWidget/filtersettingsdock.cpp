@@ -37,9 +37,13 @@ FilterSettingsDock::FilterSettingsDock(QWidget *parent)
     mw_resetButton = new QPushButton(tr("Reset settings"), this);
     connect(mw_resetButton, &QPushButton::clicked, this, &FilterSettingsDock::resetSettings);
 
+    mw_exportButton = new QPushButton(tr("Export matrix"), this);
+    connect(mw_exportButton, &QPushButton::clicked, this, &FilterSettingsDock::exportMatrix);
+
     m_layout->addWidget(mw_containerSettings);
     m_layout->addStretch(10);
     m_layout->addWidget(mw_resetButton);
+    m_layout->addWidget(mw_exportButton);
     mw_container->setLayout(m_layout);
 
     mw_descriptionField = new QTextEdit(tr("<h2>Filter description</h2>"), this);
@@ -86,4 +90,31 @@ void FilterSettingsDock::resetSettings() {
 
         setConvKernel(m_k);
     }
+}
+
+void FilterSettingsDock::exportMatrix() {
+    QString csv = Utils::matrixToCSVString(m_k->getMat());
+
+    QString fn = QFileDialog::getSaveFileName(this, tr("Save Convolution matrix..."),
+                                      QString(), tr("CSV File (*.csv);;All files (*.*)"));
+
+    if(fn.isEmpty()) {
+        return;
+    }
+
+    if(fn.isEmpty()) {
+        return;
+    }
+
+    QFile f(fn);
+
+    if(!f.open(QFile::WriteOnly)) {
+        f.close();
+
+        return;
+    }
+
+    f.write(csv.toLatin1());
+
+    f.close();
 }

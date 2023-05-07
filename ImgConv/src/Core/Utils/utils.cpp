@@ -119,3 +119,25 @@ QString Utils::matrixToBoxString(const QVector<QVector<float> > &mat) {
 
     return str;
 }
+
+QString Utils::matrixToCSVString(const QVector<QVector<float>> &mat) {
+    QString str;
+
+    for(int i = 0; i < mat.size(); i ++) {
+        for(int j = 0; j < mat[0].size(); j ++) {
+            QString numberAsStr = QString::number(mat[i][j]);
+
+            str += numberAsStr;
+
+            if(j < (mat[0].size() - 1)) {
+                str += ", ";
+            }
+        }
+
+        if(i < (mat.size() - 1)) {
+            str += "\n";
+        }
+    }
+
+    return str;
+}

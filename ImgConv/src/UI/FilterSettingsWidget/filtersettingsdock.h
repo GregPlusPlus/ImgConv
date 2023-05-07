@@ -24,8 +24,12 @@
 #include <QPushButton>
 #include <QSplitter>
 
-#include <QList>
+#include <QFileDialog>
 
+#include <QList>
+#include <QFile>
+
+#include "Core/Utils/utils.h"
 #include "UI/FilterSettingsWidget/filtersettingswidget.h"
 
 class FilterSettingsDock : public QDockWidget
@@ -40,12 +44,14 @@ public slots:
 private slots:
     void updateDescription(ConvKernels::ConvKernel *k);
     void resetSettings();
+    void exportMatrix();
 
 private:
     QSplitter *mw_splitter;
     QWidget *mw_container;
     QWidget *mw_containerSettings;
     QPushButton *mw_resetButton;
+    QPushButton *mw_exportButton;
     QTextEdit *mw_descriptionField;
     QVBoxLayout *m_layout;
     QVBoxLayout *m_settingsLayout = nullptr;
