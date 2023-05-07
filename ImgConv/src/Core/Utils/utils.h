@@ -27,6 +27,7 @@ namespace Utils {
     void imageToMatrix(QVector<QVector<float>> &m, QImage &i);
     float matrixSumCoef(const QVector<QVector<float>> &m);
     QString matrixToBoxString(const QVector<QVector<float>> &mat);
+    QString matrixToCSVString(const QVector<QVector<float>> &mat);
 }
 
 #endif // UTILS_H
