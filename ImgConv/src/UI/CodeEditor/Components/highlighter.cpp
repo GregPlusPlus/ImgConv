@@ -54,6 +54,12 @@ Highlighter::Highlighter(QTextDocument *parent)
     : QSyntaxHighlighter{parent} {
     HighlightingRule rule;
 
+
+    numberFormat.setForeground(Qt::darkRed);
+    rule.pattern = QRegularExpression(QStringLiteral("(?<![a-zA-Z])[-+]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][-+]?\\d+)?[fF]?\\b"));
+    rule.format = numberFormat;
+    highlightingRules.append(rule);
+
     keywordFormat.setForeground(Qt::darkBlue);
     keywordFormat.setFontWeight(QFont::Bold);
     const QString keywordPatterns[] = {
@@ -95,11 +101,6 @@ Highlighter::Highlighter(QTextDocument *parent)
         rule.format = typeFormat;
         highlightingRules.append(rule);
     }
-
-    numberFormat.setForeground(Qt::darkRed);
-    rule.pattern = QRegularExpression(QStringLiteral("(?<![A-Za-z_])[.]?[-+]?[0-9]+[.]?[0-9]*([E][-+]?[0-9]+)?f?(?![A-Za-z_])"));
-    rule.format = numberFormat;
-    highlightingRules.append(rule);
 
     clkeywordFormat.setFontWeight(QFont::Bold);
     clkeywordFormat.setForeground(Qt::darkGreen);
