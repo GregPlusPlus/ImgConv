@@ -21,6 +21,8 @@
 
 #include <QPixmap>
 #include <QImage>
+#include <QRandomGenerator>
+#include <QCoreApplication>
 
 #include "Core/Processing/convkernel.h"
 #include "Core/Processing/Kernels/kernels.h"
@@ -29,6 +31,7 @@
 #include "Core/Utils/utils.h"
 
 namespace Processing {
+    QString createOCLProgramOptions(const QSize &imgSize, const QSize &matSize);
     bool processImg(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
     void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
 };
