@@ -84,23 +84,23 @@ inline color_t pixelColorAtCurrentCoord(__global const uchar *img) {
     return pixelColor(img, getCurrentPixelCoord());
 }
 
-inline void writePixelColor(uchar *img, coord2D_t coord, color_t color) {
+inline void writePixelColor(__global uchar *img, coord2D_t coord, color_t color) {
     RED(img, coord.x, coord.y) = color.r;
     GREEN(img, coord.x, coord.y) = color.g;
     BLUE(img, coord.x, coord.y) = color.b;
 }
 
-inline void writePixelColorAtCurrentCoord(uchar *img, color_t color) {
+inline void writePixelColorAtCurrentCoord(__global uchar *img, color_t color) {
     writePixelColor(img, getCurrentPixelCoord(), color);
 }
 
-inline void copyPixel(__global const uchar *src, uchar *dst, coord2D_t coord) {
+inline void copyPixel(__global const uchar *src, __global uchar *dst, coord2D_t coord) {
     dst[INDEX_AT(coord.x, coord.y) + RED_OFFSET] = src[INDEX_AT(coord.x, coord.y) + RED_OFFSET];
     dst[INDEX_AT(coord.x, coord.y) + GREEN_OFFSET] = src[INDEX_AT(coord.x, coord.y) + GREEN_OFFSET];
     dst[INDEX_AT(coord.x, coord.y) + BLUE_OFFSET] = src[INDEX_AT(coord.x, coord.y) + BLUE_OFFSET];
 }
 
-inline void copyPixelAtCurrentCoord(__global const uchar *src, uchar *dst) {
+inline void copyPixelAtCurrentCoord(__global const uchar *src, __global uchar *dst) {
     copyPixel(src, dst, getCurrentPixelCoord());
 }
 
