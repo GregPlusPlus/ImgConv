@@ -88,12 +88,15 @@ void ConvKernels::Custom::importMatrix() {
             return;
         }
 
-        QVector<QVector<float>> k;
+        QVector<QVector<float>> k(0);
 
         QString in = f.readAll();
 
         if(!Utils::CSVToMatrix(k, in)) {
+            m_k = k;
+
             f.close();
+
             return;
         }
 
