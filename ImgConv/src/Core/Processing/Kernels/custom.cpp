@@ -20,58 +20,17 @@
 
 ConvKernels::Custom::Custom(QObject *parent)
     : ConvKernel{parent} {
-    static QStringList supportedImgFiles = {
-        "png", "jpg", "jpeg", "bmp", "gif"
-    };
-
     m_kernelFileSetting = new ConvKenrelSetting(tr("Kernel"), tr("Open kernel as image file"),
-                                                tr("Image files (%1);;" \
-                                                   "CSV file (*.csv *.txt)")
-                                                .arg(generateSupportedImgFilesStringFilter(supportedImgFiles)),
+                                                tr("CSV file (*.csv *.txt);;" \
+                                                   "Image files (%1)")
+                                                .arg(generateSupportedImgFilesStringFilter()),
                                                 QString(), this);
 
     m_normalizeSetting = new ConvKenrelSetting(tr("Normalize kernel"),
                                                true,
                                                this);
 
-    connect(m_kernelFileSetting, &ConvKenrelSetting::valueChanged, this, [=]() {
-        QString fn = m_kernelFileSetting->valS();
-
-        if(fn.isEmpty()) {
-            return;
-        }
-
-        QString fileSuffix = QFileInfo(fn).suffix();
-
-        if(supportedImgFiles.contains(fileSuffix)) {
-            QImage kImg(fn);
-
-            Utils::imageToMatrix(m_k, kImg);
-        } else {
-            QFile f(fn);
-
-            if(!f.open(QFile::ReadOnly)) {
-                f.close();
-                return;
-            }
-
-            QVector<QVector<float>> k;
-
-            QString in = f.readAll();
-
-            if(!Utils::CSVToMatrix(k, in)) {
-                f.close();
-                return;
-            }
-
-            m_k = k;
-
-            f.close();
-        }
-
-        updateFilter();
-    });
-
+    connect(m_kernelFileSetting, &ConvKenrelSetting::valueChanged, this, &ConvKernels::Custom::updateFilter);
     connect(m_normalizeSetting, &ConvKenrelSetting::valueChanged, this, &ConvKernels::Custom::updateFilter);
 
     addSetting(m_kernelFileSetting);
@@ -108,8 +67,46 @@ void ConvKernels::Custom::select() {
     updateFilter();
 }
 
+void ConvKernels::Custom::importMatrix() {
+    QString fn = m_kernelFileSetting->valS();
+
+    if(fn.isEmpty()) {
+        return;
+    }
+
+    QString fileSuffix = QFileInfo(fn).suffix();
+
+    if(supportedImgFilesList().contains(fileSuffix)) {
+        QImage kImg(fn);
+
+        Utils::imageToMatrix(m_k, kImg);
+    } else {
+        QFile f(fn);
+
+        if(!f.open(QFile::ReadOnly)) {
+            f.close();
+            return;
+        }
+
+        QVector<QVector<float>> k;
+
+        QString in = f.readAll();
+
+        if(!Utils::CSVToMatrix(k, in)) {
+            f.close();
+            return;
+        }
+
+        m_k = k;
+
+        f.close();
+    }
+}
+
 void ConvKernels::Custom::updateFilter() {
     float s = 1.f;
+
+    importMatrix();
 
     if(m_normalizeSetting->valB()) {
         s = 1.f/Utils::matrixSumCoef(m_k);
@@ -118,8 +115,17 @@ void ConvKernels::Custom::updateFilter() {
     m_s = s;
 }
 
-QString ConvKernels::Custom::generateSupportedImgFilesStringFilter(const QStringList &formats) {
+QStringList ConvKernels::Custom::supportedImgFilesList() {
+    static QStringList supportedImgFiles = {
+        "png", "jpg", "jpeg", "bmp", "gif"
+    };
+
+    return supportedImgFiles;
+}
+
+QString ConvKernels::Custom::generateSupportedImgFilesStringFilter() {
     QString str;
+    QStringList formats = supportedImgFilesList();
 
     for(const QString &format : formats) {
         str += "*." + format + " ";

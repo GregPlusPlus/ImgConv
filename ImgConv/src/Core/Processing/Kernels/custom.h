@@ -42,10 +42,12 @@ public slots:
     void select();
 
 private slots:
+    void importMatrix();
     void updateFilter();
 
 private:
-    QString generateSupportedImgFilesStringFilter(const QStringList &formats);
+    QStringList supportedImgFilesList();
+    QString generateSupportedImgFilesStringFilter();
 
 private:
     ConvKenrelSetting *m_kernelFileSetting;

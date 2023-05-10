@@ -178,7 +178,5 @@ bool Utils::CSVToMatrix(QVector<QVector<float>> &m, QString &in) {
 
     m = mat;
 
-    qDebug() << m;
-
     return true;
 }
