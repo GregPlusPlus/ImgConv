@@ -22,9 +22,15 @@
 #include <QVector>
 #include <QImage>
 
+#include <QFile>
+#include <QTextStream>
+
+#include <QRegularExpression>
+
 namespace Utils {
     void scaleMatrix(QVector<QVector<float>> &v, float c);
     void imageToMatrix(QVector<QVector<float>> &m, QImage &i);
+    bool CSVToMatrix(QVector<QVector<float>> &m, QString &in);
     float matrixSumCoef(const QVector<QVector<float>> &m);
     QString matrixToBoxString(const QVector<QVector<float>> &mat);
     QString matrixToCSVString(const QVector<QVector<float>> &mat);

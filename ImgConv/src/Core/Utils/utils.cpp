@@ -141,3 +141,44 @@ QString Utils::matrixToCSVString(const QVector<QVector<float>> &mat) {
 
     return str;
 }
+
+bool Utils::CSVToMatrix(QVector<QVector<float>> &m, QString &in) {
+    static QRegularExpression regex("\\s*,\\s*");
+
+    qsizetype prevLineLength = 0;
+    QVector<QVector<float>> mat;
+
+    QTextStream stream(&in);
+
+    while (!stream.atEnd()) {
+        QStringList line = stream.readLine().split(regex);
+
+        if(line.isEmpty()) {
+           return false;
+        }
+
+        if((prevLineLength != 0) && (prevLineLength != line.size())) {
+            return false;
+        }
+
+        prevLineLength = line.size();
+
+        mat.append(QVector<float>());
+
+        for(const QString &tok : line) {
+            bool ok = false;
+
+            mat.last().append(tok.toFloat(&ok));
+
+            if(!ok) {
+                return false;
+            }
+        }
+    }
+
+    m = mat;
+
+    qDebug() << m;
+
+    return true;
+}
