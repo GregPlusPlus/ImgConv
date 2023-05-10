@@ -20,21 +20,54 @@
 
 ConvKernels::Custom::Custom(QObject *parent)
     : ConvKernel{parent} {
+    static QStringList supportedImgFiles = {
+        "png", "jpg", "jpeg", "bmp", "gif"
+    };
+
     m_kernelFileSetting = new ConvKenrelSetting(tr("Kernel"), tr("Open kernel as image file"),
-                                                tr("Image files (*.png *.jpg *.bmp)"), QString(), this);
+                                                tr("Image files (%1);;" \
+                                                   "CSV file (*.csv *.txt)")
+                                                .arg(generateSupportedImgFilesStringFilter(supportedImgFiles)),
+                                                QString(), this);
 
     m_normalizeSetting = new ConvKenrelSetting(tr("Normalize kernel"),
                                                true,
                                                this);
 
     connect(m_kernelFileSetting, &ConvKenrelSetting::valueChanged, this, [=]() {
-        if(m_kernelFileSetting->valS().isEmpty()) {
+        QString fn = m_kernelFileSetting->valS();
+
+        if(fn.isEmpty()) {
             return;
         }
 
-        QImage kImg(m_kernelFileSetting->valS());
+        QString fileSuffix = QFileInfo(fn).suffix();
 
-        Utils::imageToMatrix(m_k, kImg);
+        if(supportedImgFiles.contains(fileSuffix)) {
+            QImage kImg(fn);
+
+            Utils::imageToMatrix(m_k, kImg);
+        } else {
+            QFile f(fn);
+
+            if(!f.open(QFile::ReadOnly)) {
+                f.close();
+                return;
+            }
+
+            QVector<QVector<float>> k;
+
+            QString in = f.readAll();
+
+            if(!Utils::CSVToMatrix(k, in)) {
+                f.close();
+                return;
+            }
+
+            m_k = k;
+
+            f.close();
+        }
 
         updateFilter();
     });
@@ -83,4 +116,14 @@ void ConvKernels::Custom::updateFilter() {
     }
 
     m_s = s;
+}
+
+QString ConvKernels::Custom::generateSupportedImgFilesStringFilter(const QStringList &formats) {
+    QString str;
+
+    for(const QString &format : formats) {
+        str += "*." + format + " ";
+    }
+
+    return str;
 }
