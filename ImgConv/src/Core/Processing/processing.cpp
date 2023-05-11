@@ -94,6 +94,7 @@ void Processing::registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObjec
     l->append(new ConvKernels::Sharpen(parent));
     l->append(new ConvKernels::UnsharpMasking(parent));
     l->append(new ConvKernels::MotionBlur(parent));
+    l->append(new ConvKernels::Unity(parent));
     l->append(new ConvKernels::Custom(parent));
 }
 

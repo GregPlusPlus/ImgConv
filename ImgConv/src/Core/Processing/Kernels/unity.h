@@ -16,16 +16,26 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef KERNELS_H
-#define KERNELS_H
+#ifndef UNITY_H
+#define UNITY_H
 
-#include "gaussianblur.h"
-#include "emboss.h"
-#include "ridge.h"
-#include "sharpen.h"
-#include "unsharpmasking.h"
-#include "motionblur.h"
-#include "unity.h"
-#include "custom.h"
+#include "Core/Processing/convkernel.h"
 
-#endif // KERNELS_H
+namespace ConvKernels {
+class Unity : public ConvKernels::ConvKernel
+{
+    Q_OBJECT
+public:
+    explicit Unity(QObject *parent = nullptr);
+
+    QVector<QVector<float>> getMat() const;
+    float getScalar() const;
+    QString getName() const;
+    QString getDescription();
+
+private:
+    ConvKenrelSetting *m_scalar;
+};
+}
+
+#endif // UNITY_H
