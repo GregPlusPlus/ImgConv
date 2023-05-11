@@ -16,16 +16,38 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef KERNELS_H
-#define KERNELS_H
-
-#include "gaussianblur.h"
-#include "emboss.h"
-#include "ridge.h"
-#include "sharpen.h"
-#include "unsharpmasking.h"
-#include "motionblur.h"
 #include "unity.h"
-#include "custom.h"
 
-#endif // KERNELS_H
+ConvKernels::Unity::Unity(QObject *parent)
+    : ConvKernels::ConvKernel{parent} {
+    m_scalar = new ConvKenrelSetting(tr("Gain"),
+                        true, 0.f,
+                        false, 0.f,
+                        1.f,
+                        this);
+
+    addSetting(m_scalar);
+}
+
+QVector<QVector<float> > ConvKernels::Unity::getMat() const {
+    static QVector<QVector<float>> k = {
+        {1}
+    };
+
+    return k;
+}
+
+float ConvKernels::Unity::getScalar() const {
+    return m_scalar->valF();
+}
+
+QString ConvKernels::Unity::getName() const {
+    return tr("Unity kernel");
+}
+
+QString ConvKernels::Unity::getDescription() {
+    return tr("Applies a Unity convolution matrix." \
+              "<ul>" \
+              "<li><strong>Gain : </strong>Adjust the gain of the image.</li>" \
+              "</ul>");
+}
