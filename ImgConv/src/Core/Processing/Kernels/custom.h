@@ -22,6 +22,8 @@
 #include <QFileDialog>
 #include <QImage>
 
+#include <QFileInfo>
+
 #include "Core/Processing/convkernel.h"
 #include "Core/Utils/utils.h"
 
@@ -40,7 +42,12 @@ public slots:
     void select();
 
 private slots:
+    void importMatrix();
     void updateFilter();
+
+private:
+    QStringList supportedImgFilesList();
+    QString generateSupportedImgFilesStringFilter();
 
 private:
     ConvKenrelSetting *m_kernelFileSetting;
