@@ -39,7 +39,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::openFile() {
     QString fn = QFileDialog::getOpenFileName(this, tr("Open image file"), QString(),
-                                              tr("Image files (*.png *.jpg *.bmp)"));
+                                              tr("Image files (*.png *.jpg *.jpeg *.bmp *.gif)"));
 
     if(fn.isEmpty()) {
         return;
@@ -114,7 +114,7 @@ void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
 
 void MainWindow::exportFile() {
     QString fn = QFileDialog::getSaveFileName(this, tr("Save image file"), QString(),
-                                              tr("Image files (*.png)"));
+                                              tr("Image files (*.png *.jpg *.jpeg *.bmp *.gif)"));
 
     if(fn.isEmpty()) {
         return;
