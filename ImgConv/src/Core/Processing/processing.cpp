@@ -91,6 +91,7 @@ void Processing::registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObjec
     l->append(new ConvKernels::GaussianBlur(parent));
     l->append(new ConvKernels::Emboss(parent));
     l->append(new ConvKernels::Ridge(parent));
+    l->append(new ConvKernels::Sobel(parent));
     l->append(new ConvKernels::Sharpen(parent));
     l->append(new ConvKernels::UnsharpMasking(parent));
     l->append(new ConvKernels::MotionBlur(parent));

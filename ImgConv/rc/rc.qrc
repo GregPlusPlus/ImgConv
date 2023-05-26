@@ -26,5 +26,6 @@
         <file>icons/script-text.png</file>
         <file>icons/broom.png</file>
         <file>icons/magnifier-zoom-fit.png</file>
+        <file>ocl/sobel.cl</file>
     </qresource>
 </RCC>
