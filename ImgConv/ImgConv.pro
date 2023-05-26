@@ -18,6 +18,7 @@ SOURCES += \
     src/Core/Processing/Kernels/motionblur.cpp \
     src/Core/Processing/Kernels/ridge.cpp \
     src/Core/Processing/Kernels/sharpen.cpp \
+    src/Core/Processing/Kernels/sobel.cpp \
     src/Core/Processing/Kernels/unity.cpp \
     src/Core/Processing/Kernels/unsharpmasking.cpp \
     src/Core/Processing/convkernel.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     src/Core/Processing/Kernels/motionblur.h \
     src/Core/Processing/Kernels/ridge.h \
     src/Core/Processing/Kernels/sharpen.h \
+    src/Core/Processing/Kernels/sobel.h \
     src/Core/Processing/Kernels/unity.h \
     src/Core/Processing/Kernels/unsharpmasking.h \
     src/Core/Processing/convkernel.h \

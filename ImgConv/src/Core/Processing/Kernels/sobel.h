@@ -16,17 +16,22 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef KERNELS_H
-#define KERNELS_H
+#ifndef SOBEL_H
+#define SOBEL_H
 
-#include "gaussianblur.h"
-#include "emboss.h"
-#include "ridge.h"
-#include "sobel.h"
-#include "sharpen.h"
-#include "unsharpmasking.h"
-#include "motionblur.h"
-#include "unity.h"
-#include "custom.h"
+#include "Core/Processing/convkernel.h"
 
-#endif // KERNELS_H
+namespace ConvKernels {
+class Sobel : public ConvKernel {
+    Q_OBJECT
+public:
+    explicit Sobel(QObject *parent = nullptr);
+
+    QVector<QVector<float>> getMat() const;
+    float getScalar() const;
+    QString getName() const;
+    QString getDescription();
+};
+}
+
+#endif // SOBEL_H
