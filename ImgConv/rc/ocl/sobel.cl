@@ -23,10 +23,18 @@ __kernel void pixelKernel(const __global uchar *In,
     conv2D(In, Out, dv);
     color_t gy = pixelColorAtCurrentCoord(Out);
 
+    float sumR = abs(gx.r + gy.r);
+    float sumG = abs(gx.g + gy.g);
+    float sumB = abs(gx.b + gy.b);
+
+    sumR = (sumR > 255)? 255: sumR;
+    sumG = (sumG > 255)? 255: sumG;
+    sumB = (sumB > 255)? 255: sumB;
+
     color_t color = {
-        .r = sqrt((float)(gx.r * gx.r)),
-        .g = sqrt((float)(gx.g * gx.g)),
-        .b = sqrt((float)(gx.b * gx.b))
+        .r = sumR,
+        .g = sumG,
+        .b = sumB
     };
 
     writePixelColorAtCurrentCoord(Out, color);
