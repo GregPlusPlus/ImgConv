@@ -29,7 +29,7 @@ void Threads::Process::run() {
     QElapsedTimer tm;
     tm.start();
 
-    bool res = Processing::Algorithms::processImg(m_ocl, m_original, processed, m_mat);
+    bool res = Processing::Algorithms::processImgConv2D(m_ocl, m_original, processed, m_mat);
 
     emit finished(processed, tm.elapsed(), res);
 }

@@ -32,7 +32,7 @@
 #include "Core/Utils/utils.h"
 
 namespace Processing {
-    QString createOCLProgramOptions(const QSize &imgSize, const QSize &matSize);
+    QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize);
     void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
 };
 

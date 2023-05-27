@@ -145,7 +145,7 @@ void MainWindow::startProcess() {
         return;
     }
 
-    QString options = Processing::createOCLProgramOptions(m_original.size(), matSize);
+    QString options = Processing::createOCLProgramOptionsConv2D(m_original.size(), matSize);
 
     mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
                         .arg(k->getSourceFilePath())

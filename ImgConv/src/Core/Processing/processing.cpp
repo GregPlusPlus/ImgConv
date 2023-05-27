@@ -30,7 +30,7 @@ void Processing::registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObjec
     l->append(new ConvKernels::Custom(parent));
 }
 
-QString Processing::createOCLProgramOptions(const QSize &imgSize, const QSize &matSize) {
+QString Processing::createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize) {
     return QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED=\"{%5, %6, %7, %8}\" -I%9")
                     .arg(imgSize.width())
                     .arg(imgSize.height())

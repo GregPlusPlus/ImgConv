@@ -26,7 +26,7 @@
 
 namespace Processing {
 namespace Algorithms {
-    bool processImg(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
+    bool processImgConv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
 }
 }
 
