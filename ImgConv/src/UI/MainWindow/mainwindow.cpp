@@ -126,7 +126,7 @@ void MainWindow::exportFile() {
     mw_logPanel->logInfo(tr("[%1] Image saved.").arg(fn));
 }
 
-void MainWindow::startProcess() {
+void MainWindow::startConv2DProcess() {
     if(m_ocl->isRunning()) {
         mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
 
@@ -166,9 +166,9 @@ void MainWindow::startProcess() {
     mw_logPanel->logOutput(tr("Running kernel..."));
 
     WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
-    Threads::ProcessConv2D *process = new Threads::ProcessConv2D(m_ocl, m_original, mat);
+    Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_original, mat);
 
-    connect(process, &Threads::ProcessConv2D::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
+    connect(process, &Threads::Conv2D::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
         float pixPerSec = 0;
 
         if(!res) {
@@ -330,7 +330,7 @@ void MainWindow::buildMenus() {
     m_reloadKernelAction = mw_processMenu->addAction(QIcon(":/icons/arrow-circle-double.png"), tr("Reload current &kernel"), tr("F5"), this, [this]() {
         filterSelected(mw_convKernelComboBox->currentIndex());
     });
-    m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startProcess);
+    m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startConv2DProcess);
     m_backfeedAction = mw_processMenu->addAction(QIcon(":/icons/arrow-transition-180.png"), tr("&Backfeed"), tr("Ctrl+B"), this, [this](){
         if(!m_processed.isNull()) {
             showOriginalImage(m_processed);
@@ -400,7 +400,7 @@ void MainWindow::buildView() {
     connect(mw_codeEditor, &CodeEditorContainter::useFile, this, [=](const QString &fn) {
         m_convKernels.at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
         filterSelected(mw_convKernelComboBox->currentIndex());
-        startProcess();
+        startConv2DProcess();
     });
 
     mw_tabWidget->addTab(mw_origImgView, tr("Original"));

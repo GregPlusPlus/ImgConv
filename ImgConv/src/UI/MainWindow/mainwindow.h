@@ -69,7 +69,7 @@ private slots:
     void openFile();
     void createImage();
     void exportFile();
-    void startProcess();
+    void startConv2DProcess();
     void filterSelected(int index);
     void showAboutDialog();
 

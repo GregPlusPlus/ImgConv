@@ -18,7 +18,7 @@
 
 #include "algorithms.h"
 
-bool Processing::Algorithms::processImgConv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k) {
+bool Processing::Algorithms::conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k) {
     int imgW = in.width();
     int imgH = in.height();
     size_t inSize = in.sizeInBytes();

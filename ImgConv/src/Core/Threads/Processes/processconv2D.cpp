@@ -18,18 +18,18 @@
 
 #include "processconv2D.h"
 
-Threads::ProcessConv2D::ProcessConv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
+Threads::Conv2D::Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
     : QObject(), QRunnable(), m_ocl{ocl}, m_original{original}, m_mat{mat} {
 
 }
 
-void Threads::ProcessConv2D::run() {
+void Threads::Conv2D::run() {
     QImage processed;
 
     QElapsedTimer tm;
     tm.start();
 
-    bool res = Processing::Algorithms::processImgConv2D(m_ocl, m_original, processed, m_mat);
+    bool res = Processing::Algorithms::conv2D(m_ocl, m_original, processed, m_mat);
 
     emit finished(processed, tm.elapsed(), res);
 }

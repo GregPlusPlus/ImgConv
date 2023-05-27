@@ -28,12 +28,12 @@
 #include "Core/Processing/processing.h"
 
 namespace Threads {
-class ProcessConv2D : public QObject, public QRunnable
+class Conv2D : public QObject, public QRunnable
 {
     Q_OBJECT
 
 public:
-    ProcessConv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float>> &mat);
+    Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float>> &mat);
 
     void run() override;
 
