@@ -21,6 +21,7 @@ SOURCES += \
     src/Core/Processing/Kernels/sobel.cpp \
     src/Core/Processing/Kernels/unity.cpp \
     src/Core/Processing/Kernels/unsharpmasking.cpp \
+    src/Core/Processing/algorithms.cpp \
     src/Core/Processing/convkernel.cpp \
     src/Core/Processing/convkernel1darray.cpp \
     src/Core/Processing/processing.cpp \
@@ -58,6 +59,7 @@ HEADERS += \
     src/Core/Processing/Kernels/sobel.h \
     src/Core/Processing/Kernels/unity.h \
     src/Core/Processing/Kernels/unsharpmasking.h \
+    src/Core/Processing/algorithms.h \
     src/Core/Processing/convkernel.h \
     src/Core/Processing/convkernel1darray.h \
     src/Core/Processing/processing.h \

@@ -16,20 +16,18 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "process.h"
+#ifndef ALGORITHMS_H
+#define ALGORITHMS_H
 
-Threads::Process::Process(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
-    : QObject(), QRunnable(), m_ocl{ocl}, m_original{original}, m_mat{mat} {
+#include "Core/OCLWrapper/oclwrapper.h"
+#include "Core/Processing/convkernel1darray.h"
 
+#include <QImage>
+
+namespace Processing {
+namespace Algorithms {
+    bool processImg(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
+}
 }
 
-void Threads::Process::run() {
-    QImage processed;
-
-    QElapsedTimer tm;
-    tm.start();
-
-    bool res = Processing::Algorithms::processImg(m_ocl, m_original, processed, m_mat);
-
-    emit finished(processed, tm.elapsed(), res);
-}
+#endif // ALGORITHMS_H
