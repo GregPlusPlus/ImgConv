@@ -26,7 +26,7 @@ SOURCES += \
     src/Core/Processing/convkernel1darray.cpp \
     src/Core/Processing/processing.cpp \
     src/Core/Threads/imgloader.cpp \
-    src/Core/Threads/process.cpp \
+    src/Core/Threads/Processes/processconv2D.cpp \
     src/Core/Utils/utils.cpp \
     src/UI/CodeEditor/Components/codeeditor.cpp \
     src/UI/CodeEditor/Components/highlighter.cpp \
@@ -64,7 +64,7 @@ HEADERS += \
     src/Core/Processing/convkernel1darray.h \
     src/Core/Processing/processing.h \
     src/Core/Threads/imgloader.h \
-    src/Core/Threads/process.h \
+    src/Core/Threads/Processes/processconv2D.h \
     src/Core/Threads/threads.h \
     src/Core/Utils/utils.h \
     src/UI/CodeEditor/Components/codeeditor.h \

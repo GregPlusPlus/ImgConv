@@ -16,14 +16,14 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "process.h"
+#include "processconv2D.h"
 
-Threads::Process::Process(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
+Threads::ProcessConv2D::ProcessConv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
     : QObject(), QRunnable(), m_ocl{ocl}, m_original{original}, m_mat{mat} {
 
 }
 
-void Threads::Process::run() {
+void Threads::ProcessConv2D::run() {
     QImage processed;
 
     QElapsedTimer tm;

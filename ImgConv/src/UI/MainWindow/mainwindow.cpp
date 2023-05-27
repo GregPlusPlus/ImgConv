@@ -166,9 +166,9 @@ void MainWindow::startProcess() {
     mw_logPanel->logOutput(tr("Running kernel..."));
 
     WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
-    Threads::Process *process = new Threads::Process(m_ocl, m_original, mat);
+    Threads::ProcessConv2D *process = new Threads::ProcessConv2D(m_ocl, m_original, mat);
 
-    connect(process, &Threads::Process::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
+    connect(process, &Threads::ProcessConv2D::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
         float pixPerSec = 0;
 
         if(!res) {

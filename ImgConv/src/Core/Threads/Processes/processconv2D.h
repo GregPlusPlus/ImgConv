@@ -16,8 +16,8 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PROCESS_H
-#define PROCESS_H
+#ifndef PROCESSCONV2D_H
+#define PROCESSCONV2D_H
 
 #include <QRunnable>
 #include <QImage>
@@ -28,12 +28,12 @@
 #include "Core/Processing/processing.h"
 
 namespace Threads {
-class Process : public QObject, public QRunnable
+class ProcessConv2D : public QObject, public QRunnable
 {
     Q_OBJECT
 
 public:
-    Process(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float>> &mat);
+    ProcessConv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float>> &mat);
 
     void run() override;
 
@@ -47,4 +47,4 @@ private:
 };
 }
 
-#endif // PROCESS_H
+#endif // PROCESSCONV2D_H
