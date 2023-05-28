@@ -70,6 +70,7 @@ private slots:
     void createImage();
     void exportFile();
     void startConv2DProcess();
+    void startComputeHistogram();
     void filterSelected(int index);
     void showAboutDialog();
 

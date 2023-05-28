@@ -207,6 +207,74 @@ void MainWindow::startConv2DProcess() {
     QThreadPool::globalInstance()->start(process);
 }
 
+void MainWindow::startComputeHistogram() {
+    const QString programPath = ":/ocl/histogram.cl";
+
+    if(m_ocl->isRunning()) {
+        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
+
+        return;
+    }
+
+    if(m_original.isNull()) {
+        return;
+    }
+
+    QString options = Processing::createOCLProgramComputeHistogram(m_original.size());
+
+    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
+                        .arg(programPath)
+                        .arg(options));
+
+    if(!createOCLProgram(programPath, options)) {
+        return;
+    }
+
+    if(m_ocl->ret() != CL_SUCCESS) {
+        return;
+    }
+
+    mw_logPanel->logOutput(tr("Running kernel..."));
+
+    WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
+    Threads::Histogram *process = new Threads::Histogram(m_ocl, m_original);
+
+    connect(process, &Threads::Histogram::finished, this, [this, dialog](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
+        float pixPerSec = 0;
+
+        if(!res) {
+            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
+
+            m_runAction->setDisabled(false);
+            delete dialog;
+
+            return;
+        }
+
+        pixPerSec = 1000.f * (m_processed.size().width() * m_processed.size().height()) / et;
+
+        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
+                            .arg(et)
+                            .arg(pixPerSec);
+
+        mw_labelElapsedTime->setText(logStr);
+        mw_logPanel->logOutput(logStr);
+
+        // TODO : Proper display
+        qDebug() << hist.r << hist.g << hist.b;
+
+        m_runAction->setDisabled(false);
+        m_selectDeviceAction->setDisabled(false);
+        delete dialog;
+    });
+
+    m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
+    dialog->show();
+
+    QThreadPool::globalInstance()->start(process);
+}
+
 void MainWindow::filterSelected(int index) {
     ConvKernels::ConvKernel *k = m_convKernels.at(index);
     k->select();
