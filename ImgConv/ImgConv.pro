@@ -41,6 +41,7 @@ SOURCES += \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
     src/UI/ImageViewer/imageviewercontainer.cpp \
+    src/UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp \
     src/UI/Panels/LogPanel/logpanel.cpp \
     src/UI/Panels/LogPanel/logwidget.cpp \
     src/UI/MainWindow/mainwindow.cpp \
@@ -81,6 +82,7 @@ HEADERS += \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \
     src/UI/ImageViewer/imageviewer.h \
     src/UI/ImageViewer/imageviewercontainer.h \
+    src/UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h \
     src/UI/Panels/LogPanel/logpanel.h \
     src/UI/Panels/LogPanel/logwidget.h \
     src/UI/MainWindow/app_strings.h \
