@@ -39,12 +39,13 @@ public:
     explicit HistogramWidget(const QString &title, QWidget *parent = nullptr);
 
     Processing::Algorithms::Histogram histogram() const;
-    void setHistogram(const Processing::Algorithms::Histogram &newHistogram);
 
     QString title() const;
-    void setTitle(const QString &title);
 
 public slots:
+    void setHistogram(const Processing::Algorithms::Histogram &newHistogram);
+    void setTitle(const QString &title);
+    void clear();
 
 signals:
 

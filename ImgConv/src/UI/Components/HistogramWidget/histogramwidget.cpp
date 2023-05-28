@@ -146,6 +146,14 @@ void HistogramWidget::setTitle(const QString &title) {
     update();
 }
 
+void HistogramWidget::clear() {
+    m_histogram.r.clear();
+    m_histogram.g.clear();
+    m_histogram.b.clear();
+
+    update();
+}
+
 void HistogramWidget::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
 
