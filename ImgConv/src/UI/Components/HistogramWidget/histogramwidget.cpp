@@ -21,6 +21,8 @@
 HistogramWidget::HistogramWidget(QWidget *parent)
     : QWidget{parent} {
 
+    setMaximumHeight(300);
+    setMinimumWidth(200);
 }
 
 Processing::Algorithms::Histogram HistogramWidget::histogram() const {
@@ -29,4 +31,46 @@ Processing::Algorithms::Histogram HistogramWidget::histogram() const {
 
 void HistogramWidget::setHistogram(const Processing::Algorithms::Histogram &histogram) {
     m_histogram = histogram;
+
+    m_RGBmax = m_histogram.getMax();
+
+    update();
+}
+
+void HistogramWidget::plot(QPainter &p, const QVector<size_t> &v, size_t max, const QColor &penColor, const QColor &brushColor) {
+    p.setPen(QPen(penColor, 2));
+    p.setBrush(brushColor);
+
+    QPolygon poly;
+    poly << rect().bottomLeft();
+
+    for(qsizetype i = 0; i < m_histogram.r.size(); i ++) {
+        poly << QPoint(i / 256.f * width(), 2 + height() - v[i] / (float)max * height());
+    }
+
+    poly << rect().bottomRight();
+
+    p.drawPolygon(poly);
+}
+
+void HistogramWidget::paintEvent(QPaintEvent *event) {
+    Q_UNUSED(event);
+
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+
+    p.setPen(QPen(Qt::black, 2));
+    p.setBrush(Qt::NoBrush);
+
+    p.drawRect(rect());
+
+    if(m_histogram.r.isEmpty() || m_histogram.g.isEmpty() || m_histogram.b.isEmpty()) {
+        return;
+    }
+
+    size_t max = qMax(m_RGBmax[0], qMax(m_RGBmax[1], m_RGBmax[2]));
+
+    plot(p, m_histogram.r, max, QColor(180, 0, 0, 200), QColor(180, 0, 0, 150));
+    plot(p, m_histogram.g, max, QColor(0, 180, 0, 200), QColor(0, 180, 0, 150));
+    plot(p, m_histogram.b, max, QColor(0, 0, 180, 200), QColor(0, 0, 180, 150));
 }

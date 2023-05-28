@@ -21,6 +21,11 @@
 
 #include <QWidget>
 
+#include <QPainter>
+#include <QPen>
+#include <QBrush>
+#include <QPolygon>
+
 #include "src/Core/Processing/processing.h"
 
 class HistogramWidget : public QWidget
@@ -37,7 +42,15 @@ public slots:
 signals:
 
 private:
+    void plot(QPainter &p, const QVector<size_t> &v, size_t max, const QColor &penColor, const QColor &brushColor);
+
+private:
     Processing::Algorithms::Histogram m_histogram;
+
+    QVector<size_t> m_RGBmax;
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
 
 };
 
