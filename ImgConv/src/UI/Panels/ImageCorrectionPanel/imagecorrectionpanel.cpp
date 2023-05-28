@@ -27,7 +27,7 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
 
     m_layout = new QGridLayout;
 
-    mw_originalHist = new HistogramWidget(this);
+    mw_originalHist = new HistogramWidget(tr("Original image histogram"), this);
 
     m_layout->addWidget(mw_originalHist, 0, 0, 1, 2);
 
