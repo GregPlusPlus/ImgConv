@@ -128,7 +128,12 @@ int HistogramWidget::val2X(size_t val) {
 }
 
 size_t HistogramWidget::X2Val(int X) {
-    return X / (float)width() * 256.f;
+    int v = X / (float)width() * 256.f;
+
+    v = (v < 0)? 0: v;
+    v = (v > 255)? 255: v;
+
+    return v;
 }
 
 QString HistogramWidget::title() const {
