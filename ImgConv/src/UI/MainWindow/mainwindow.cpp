@@ -454,8 +454,10 @@ void MainWindow::buildUI() {
 
 void MainWindow::buildPanels() {
     mw_logPanel = new LogPanel(this);
-
     addDockWidget(Qt::BottomDockWidgetArea, mw_logPanel);
+
+    mw_imgCorrectionPanel = new ImageCorrectionPanel(this);
+    addDockWidget(Qt::RightDockWidgetArea, mw_imgCorrectionPanel);
 }
 
 void MainWindow::buildView() {

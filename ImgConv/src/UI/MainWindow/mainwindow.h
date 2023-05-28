@@ -46,11 +46,12 @@
 
 #include "UI/ImageViewer/imageviewercontainer.h"
 #include "UI/Panels/FilterSettingsPanel/filtersettingsdock.h"
+#include "UI/Panels/LogPanel/logpanel.h"
+#include "UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h"
 #include "UI/Dialogs/WaitDialog/waitdialog.h"
 #include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
-#include "UI/Panels/LogPanel/logpanel.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
@@ -97,6 +98,7 @@ private:
     QComboBox *mw_convKernelComboBox;
     FilterSettingsDock *mw_dockFilterSettings;
     LogPanel *mw_logPanel;
+    ImageCorrectionPanel *mw_imgCorrectionPanel;
     QLabel *mw_labelDevice;
     QLabel *mw_labelImgInfo;
     QLabel *mw_labelElapsedTime;
