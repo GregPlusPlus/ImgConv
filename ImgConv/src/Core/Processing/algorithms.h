@@ -27,7 +27,9 @@
 namespace Processing {
 namespace Algorithms {
 
-struct Histogram {
+class Histogram {
+
+public:
     QVector<size_t> r;
     QVector<size_t> g;
     QVector<size_t> b;
