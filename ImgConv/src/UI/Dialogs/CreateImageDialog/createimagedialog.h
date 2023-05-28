@@ -27,7 +27,7 @@
 
 #include <QIntValidator>
 
-#include "UI/Components/buttoncolorpicker.h"
+#include "UI/Components/ButtonColorPicker/buttoncolorpicker.h"
 
 class CreateImageDialog : public QDialog
 {
