@@ -33,14 +33,14 @@ public:
     ImageCorrectionPanel(QWidget *parent = nullptr);
 
 public slots:
-    void setOriginalImageHistogram(const Processing::Algorithms::Histogram &hist);
+    void setOriginalImageHistogram(const Processing::Algorithms::Histogram &histogram);
 
 signals:
 
 private:
     QGridLayout *m_layout;
 
-    HistogramWidget *mw_hist;
+    HistogramWidget *mw_originalHist;
 };
 
 #endif // IMAGECORRECTIONPANEL_H
