@@ -95,6 +95,22 @@ void HistogramWidget::drawTitle(QPainter &p) {
     p.drawText(QPoint(width() / 2 - textW / 2, height() - 5), title());
 }
 
+void HistogramWidget::drawDefaultText(QPainter &p) {
+    QFont f = p.font();
+    f.setBold(true);
+    f.setPointSize(30);
+    p.setFont(f);
+
+    QFontMetrics fm(p.font());
+
+    QString text = tr("No Data");
+
+    int textW = fm.horizontalAdvance(text);
+
+    p.setPen(Qt::darkGray);
+    p.drawText(QPoint(width() / 2 - textW / 2, height() / 2), text);
+}
+
 int HistogramWidget::bottomMargin() {
     return 20;
 }
@@ -139,6 +155,7 @@ void HistogramWidget::paintEvent(QPaintEvent *event) {
 
     if(m_histogram.r.isEmpty() || m_histogram.g.isEmpty() || m_histogram.b.isEmpty()) {
         drawTitle(p);
+        drawDefaultText(p);
         return;
     }
 

@@ -53,6 +53,7 @@ private:
     void plotCursor(QPainter &p, size_t max);
     void drawCursorValues(QPainter &p);
     void drawTitle(QPainter &p);
+    void drawDefaultText(QPainter &p);
 
     int bottomMargin();
     int plottingHeight();
