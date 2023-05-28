@@ -37,12 +37,12 @@ SOURCES += \
     src/UI/Components/buttoncolorpicker.cpp \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.cpp \
     src/UI/FilterSettingsWidget/filenamepicker.cpp \
-    src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
+    src/UI/Panels/FilterSettingsPanel/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
     src/UI/ImageViewer/imageviewercontainer.cpp \
-    src/UI/LogPanel/logpanel.cpp \
-    src/UI/LogPanel/logwidget.cpp \
+    src/UI/Panels/LogPanel/logpanel.cpp \
+    src/UI/Panels/LogPanel/logwidget.cpp \
     src/UI/MainWindow/mainwindow.cpp \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/UtilsUI/utilsui.cpp \
@@ -77,12 +77,12 @@ HEADERS += \
     src/UI/Components/buttoncolorpicker.h \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.h \
     src/UI/FilterSettingsWidget/filenamepicker.h \
-    src/UI/FilterSettingsWidget/filtersettingsdock.h \
+    src/UI/Panels/FilterSettingsPanel/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \
     src/UI/ImageViewer/imageviewer.h \
     src/UI/ImageViewer/imageviewercontainer.h \
-    src/UI/LogPanel/logpanel.h \
-    src/UI/LogPanel/logwidget.h \
+    src/UI/Panels/LogPanel/logpanel.h \
+    src/UI/Panels/LogPanel/logwidget.h \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \
