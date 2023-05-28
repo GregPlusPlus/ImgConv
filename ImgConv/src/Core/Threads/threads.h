@@ -22,5 +22,6 @@
 #include "imgloader.h"
 #include "processconv2D.h"
 #include "histogram.h"
+#include "correction.h"
 
 #endif // THREADS_H

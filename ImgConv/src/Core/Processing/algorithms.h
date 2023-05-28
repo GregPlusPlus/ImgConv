@@ -79,6 +79,7 @@ public:
 
     bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
     bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist);
+    bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out);
 }
 }
 

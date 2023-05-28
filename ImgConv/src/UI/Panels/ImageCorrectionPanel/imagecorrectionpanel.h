@@ -20,6 +20,7 @@
 #define IMAGECORRECTIONPANEL_H
 
 #include <QDockWidget>
+#include <QPushButton>
 
 #include <QGridLayout>
 
@@ -38,10 +39,15 @@ public:
 public slots:
 
 signals:
+    void convertToGrayscale();
+    void invertColors();
 
 private:
     QGridLayout *m_layout;
     QWidget *mw_container;
+
+    QPushButton *mw_convertGrayscaleButton;
+    QPushButton *mw_invertColorsButton;
 
     HistogramWidget *mw_originalImageHistogram;
     HistogramWidget *mw_processedImageHistogram;

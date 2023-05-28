@@ -33,6 +33,14 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
     mw_processedImageHistogram = new HistogramWidget(tr("Processed image histogram"), this);
     m_layout->addWidget(mw_processedImageHistogram, 1, 0, 1, 2);
 
+    mw_convertGrayscaleButton = new QPushButton(tr("Convert to grayscale"), this);
+    connect(mw_convertGrayscaleButton, &QPushButton::clicked, this, &ImageCorrectionPanel::convertToGrayscale);
+    m_layout->addWidget(mw_convertGrayscaleButton, 2, 0, 1, 1);
+
+    mw_invertColorsButton = new QPushButton(tr("Invert colors"), this);
+    connect(mw_invertColorsButton, &QPushButton::clicked, this, &ImageCorrectionPanel::invertColors);
+    m_layout->addWidget(mw_invertColorsButton, 2, 1, 1, 1);
+
     mw_container->setLayout(m_layout);
     setWidget(mw_container);
 }

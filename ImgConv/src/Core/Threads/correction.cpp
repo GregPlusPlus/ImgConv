@@ -16,26 +16,20 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PROCESSING_H
-#define PROCESSING_H
+#include "correction.h"
 
-#include <QPixmap>
-#include <QImage>
-#include <QRandomGenerator>
-#include <QCoreApplication>
+Threads::Correction::Correction(OCLWrapper *ocl, const QImage &original)
+    : QObject(), QRunnable(), m_ocl{ocl}, m_original{original} {
 
-#include "Core/Processing/convkernel.h"
-#include "Core/Processing/Kernels/kernels.h"
-#include "Core/Processing/convkernel1darray.h"
-#include "Core/Processing/algorithms.h"
-#include "Core/OCLWrapper/oclwrapper.h"
-#include "Core/Utils/utils.h"
+}
 
-namespace Processing {
-    QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize);
-    QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize);
-    QString createOCLProgramOptionsCorrection(const QSize &imgSize);
-    void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
-};
+void Threads::Correction::run() {
+    QImage corrected;
 
-#endif // PROCESSING_H
+    QElapsedTimer tm;
+    tm.start();
+
+    bool res = Processing::Algorithms::applyCorrection(m_ocl, m_original, corrected);
+
+    emit finished(corrected, tm.elapsed(), res);
+}

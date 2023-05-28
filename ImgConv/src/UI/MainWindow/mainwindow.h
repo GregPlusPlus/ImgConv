@@ -72,6 +72,7 @@ private slots:
     void exportFile();
     void startConv2DProcess();
     void startComputeHistogram(const QImage &img, HistogramWidget *widget);
+    void startImageCorrection(const QString &kernelPath);
     void filterSelected(int index);
     void showAboutDialog();
 
