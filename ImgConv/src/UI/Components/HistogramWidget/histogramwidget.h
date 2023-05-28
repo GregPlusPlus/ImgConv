@@ -26,6 +26,9 @@
 #include <QBrush>
 #include <QPolygon>
 
+#include <QMouseEvent>
+#include <QEnterEvent>
+
 #include "src/Core/Processing/processing.h"
 
 class HistogramWidget : public QWidget
@@ -43,15 +46,25 @@ signals:
 
 private:
     void plot(QPainter &p, const QVector<size_t> &v, size_t max, const QColor &penColor, const QColor &brushColor);
+    void plotCursor(QPainter &p, size_t max);
+
+    int val2Y(size_t val, size_t max);
+    int val2X(size_t val);
+    size_t X2Val(int X);
 
 private:
     Processing::Algorithms::Histogram m_histogram;
 
     QVector<size_t> m_RGBmax;
 
+    bool m_mouseIn;
+    QPoint m_mousePos;
+
 protected:
     void paintEvent(QPaintEvent *event) override;
-
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void enterEvent(QEnterEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 };
 
 #endif // HISTOGRAMWIDGET_H

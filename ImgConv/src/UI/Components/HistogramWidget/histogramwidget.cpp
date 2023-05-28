@@ -23,6 +23,8 @@ HistogramWidget::HistogramWidget(QWidget *parent)
 
     setMaximumHeight(300);
     setMinimumWidth(200);
+
+    setMouseTracking(true);
 }
 
 Processing::Algorithms::Histogram HistogramWidget::histogram() const {
@@ -45,12 +47,38 @@ void HistogramWidget::plot(QPainter &p, const QVector<size_t> &v, size_t max, co
     poly << rect().bottomLeft();
 
     for(qsizetype i = 0; i < m_histogram.r.size(); i ++) {
-        poly << QPoint(i / 256.f * width(), 2 + height() - v[i] / (float)max * height());
+        poly << QPoint(val2X(i), val2Y(v[i], max));
     }
 
     poly << rect().bottomRight();
 
     p.drawPolygon(poly);
+}
+
+void HistogramWidget::plotCursor(QPainter &p, size_t max) {
+    p.setPen(QPen(Qt::black, 1));
+    p.setBrush(QColor(100, 100, 100, 100));
+
+    size_t curVal = X2Val(m_mousePos.x());
+    int curX = val2X(curVal);
+
+    p.drawLine(curX, 0, curX, height());
+
+    p.drawEllipse(QPoint(curX, val2Y(m_histogram.r[curVal], max)), 5, 5);
+    p.drawEllipse(QPoint(curX, val2Y(m_histogram.g[curVal], max)), 5, 5);
+    p.drawEllipse(QPoint(curX, val2Y(m_histogram.b[curVal], max)), 5, 5);
+}
+
+int HistogramWidget::val2Y(size_t val, size_t max) {
+    return 2 + height() - val / (float)max * height();
+}
+
+int HistogramWidget::val2X(size_t val) {
+    return val / 256.f * width();
+}
+
+size_t HistogramWidget::X2Val(int X) {
+    return X / (float)width() * 256.f;
 }
 
 void HistogramWidget::paintEvent(QPaintEvent *event) {
@@ -73,4 +101,26 @@ void HistogramWidget::paintEvent(QPaintEvent *event) {
     plot(p, m_histogram.r, max, QColor(180, 0, 0, 200), QColor(180, 0, 0, 150));
     plot(p, m_histogram.g, max, QColor(0, 180, 0, 200), QColor(0, 180, 0, 150));
     plot(p, m_histogram.b, max, QColor(0, 0, 180, 200), QColor(0, 0, 180, 150));
+
+    if(m_mouseIn) {
+        plotCursor(p, max);
+    }
+}
+
+void HistogramWidget::mouseMoveEvent(QMouseEvent *event) {
+    m_mousePos = event->pos();
+
+    update();
+}
+
+void HistogramWidget::enterEvent(QEnterEvent *event) {
+    Q_UNUSED(event);
+
+    m_mouseIn = true;
+}
+
+void HistogramWidget::leaveEvent(QEvent *event) {
+    Q_UNUSED(event);
+
+    m_mouseIn = false;
 }
