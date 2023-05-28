@@ -104,7 +104,7 @@ int HistogramWidget::plottingHeight() {
 }
 
 int HistogramWidget::val2Y(size_t val, size_t max) {
-    return 2 + plottingHeight() - val / (float)max * plottingHeight();
+    return plottingHeight() - val / (float)max * plottingHeight();
 }
 
 int HistogramWidget::val2X(size_t val) {
