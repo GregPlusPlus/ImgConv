@@ -71,7 +71,7 @@ private slots:
     void createImage();
     void exportFile();
     void startConv2DProcess();
-    void startComputeHistogram();
+    void startComputeHistogram(const QImage &img, HistogramWidget *widget);
     void filterSelected(int index);
     void showAboutDialog();
 
@@ -88,6 +88,7 @@ private:
     void buildFilterSettingsView();
     void buildKernelComboBox();
     void showOriginalImage(const QImage &img);
+    void showProcessedImage(const QImage &img);
     void logConvMatrix(const QVector<QVector<float>> &mat);
 
 private:

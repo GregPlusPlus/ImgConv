@@ -94,6 +94,20 @@ void MainWindow::showOriginalImage(const QImage &img) {
 
     mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
                              .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
+
+    mw_imgCorrectionPanel->originalImageHistogramWidget()->clear();
+    mw_imgCorrectionPanel->processedImageHistogramWidget()->clear();
+    startComputeHistogram(m_original, mw_imgCorrectionPanel->originalImageHistogramWidget());
+}
+
+void MainWindow::showProcessedImage(const QImage &img) {
+    m_processed = img;
+
+    mw_tabWidget->setCurrentWidget(mw_processedImgView);
+    mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
+
+    mw_imgCorrectionPanel->processedImageHistogramWidget()->clear();
+    startComputeHistogram(m_processed, mw_imgCorrectionPanel->processedImageHistogramWidget());
 }
 
 void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
@@ -180,9 +194,7 @@ void MainWindow::startConv2DProcess() {
             return;
         }
 
-        m_processed = img;
-
-        pixPerSec = 1000.f * (m_processed.size().width() * m_processed.size().height()) / et;
+        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
 
         QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
                             .arg(et)
@@ -191,9 +203,7 @@ void MainWindow::startConv2DProcess() {
         mw_labelElapsedTime->setText(logStr);
         mw_logPanel->logOutput(logStr);
 
-        mw_tabWidget->setCurrentWidget(mw_processedImgView);
-
-        mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
+        showProcessedImage(img);
 
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
@@ -207,7 +217,7 @@ void MainWindow::startConv2DProcess() {
     QThreadPool::globalInstance()->start(process);
 }
 
-void MainWindow::startComputeHistogram() {
+void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widget) {
     const QString programPath = ":/ocl/histogram.cl";
 
     if(m_ocl->isRunning()) {
@@ -216,11 +226,11 @@ void MainWindow::startComputeHistogram() {
         return;
     }
 
-    if(m_original.isNull()) {
+    if(img.isNull()) {
         return;
     }
 
-    QString options = Processing::createOCLProgramComputeHistogram(m_original.size());
+    QString options = Processing::createOCLProgramComputeHistogram(img.size());
 
     mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
                         .arg(programPath)
@@ -237,9 +247,9 @@ void MainWindow::startComputeHistogram() {
     mw_logPanel->logOutput(tr("Running kernel..."));
 
     WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
-    Threads::Histogram *process = new Threads::Histogram(m_ocl, m_original);
+    Threads::Histogram *process = new Threads::Histogram(m_ocl, img);
 
-    connect(process, &Threads::Histogram::finished, this, [this, dialog](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
+    connect(process, &Threads::Histogram::finished, this, [=](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
         float pixPerSec = 0;
 
         if(!res) {
@@ -251,7 +261,7 @@ void MainWindow::startComputeHistogram() {
             return;
         }
 
-        pixPerSec = 1000.f * (m_processed.size().width() * m_processed.size().height()) / et;
+        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
 
         QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
                             .arg(et)
@@ -260,8 +270,7 @@ void MainWindow::startComputeHistogram() {
         mw_labelElapsedTime->setText(logStr);
         mw_logPanel->logOutput(logStr);
 
-        // TODO : Proper display
-        qDebug() << hist.r << hist.g << hist.b;
+        widget->setHistogram(hist);
 
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
