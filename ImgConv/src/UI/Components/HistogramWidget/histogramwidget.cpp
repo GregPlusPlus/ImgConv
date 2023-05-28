@@ -22,6 +22,7 @@ HistogramWidget::HistogramWidget(const QString &title, QWidget *parent)
     : QWidget{parent} {
 
     setMaximumHeight(300);
+    setMinimumHeight(100);
     setMinimumWidth(200);
 
     setMouseTracking(true);
