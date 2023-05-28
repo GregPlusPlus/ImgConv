@@ -89,7 +89,8 @@ bool Processing::Algorithms::conv2D(OCLWrapper *ocl, const QImage &in, QImage &o
 
 bool Processing::Algorithms::computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
     const size_t inSize = in.sizeInBytes();
-    const size_t histBuffSize = 255 * sizeof(size_t);
+    const size_t numberOfLevels = 256;
+    const size_t histBuffSize = numberOfLevels * sizeof(size_t);
 
     ocl->releaseAll();
 
@@ -114,7 +115,7 @@ bool Processing::Algorithms::computeHistogram(OCLWrapper *ocl, const QImage &in,
     }
 
     // Init R,G,B histogram buffers to zero
-    static const size_t zeroes[255] = {0};
+    static const size_t zeroes[numberOfLevels] = {0};
 
     if(!ocl->writeBuffer(1, (uint8_t*)zeroes, histBuffSize)) {
         return false;
@@ -171,7 +172,7 @@ bool Processing::Algorithms::computeHistogram(OCLWrapper *ocl, const QImage &in,
     hist.g.clear();
     hist.b.clear();
 
-    for(size_t i = 0; i < 255; i ++) {
+    for(size_t i = 0; i < numberOfLevels; i ++) {
         hist.r.append(histBuffer[0][i]);
         hist.g.append(histBuffer[1][i]);
         hist.b.append(histBuffer[2][i]);
