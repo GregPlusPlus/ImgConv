@@ -21,11 +21,26 @@
 
 #include <QDockWidget>
 
+#include <QGridLayout>
+
+#include "src/Core/Processing/processing.h"
+#include "UI/Components/HistogramWidget/histogramwidget.h"
+
 class ImageCorrectionPanel : public QDockWidget
 {
     Q_OBJECT
 public:
     ImageCorrectionPanel(QWidget *parent = nullptr);
+
+public slots:
+    void setOriginalImageHistogram(const Processing::Algorithms::Histogram &hist);
+
+signals:
+
+private:
+    QGridLayout *m_layout;
+
+    HistogramWidget *mw_hist;
 };
 
 #endif // IMAGECORRECTIONPANEL_H
