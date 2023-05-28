@@ -31,6 +31,48 @@ struct Histogram {
     QVector<size_t> r;
     QVector<size_t> g;
     QVector<size_t> b;
+
+    QVector<size_t> getMax() {
+        QVector<size_t> max = {0, 0, 0};
+
+        for(qsizetype i = 0; i < r.size(); i ++) {
+            if(r.at(i) > max[0]) {
+                max[0] = r.at(i);
+            }
+        }
+
+        for(qsizetype i = 0; i < g.size(); i ++) {
+            if(g.at(i) > max[1]) {
+                max[1] = g.at(i);
+            }
+        }
+
+        for(qsizetype i = 0; i < b.size(); i ++) {
+            if(b.at(i) > max[2]) {
+                max[2] = b.at(i);
+            }
+        }
+
+        return max;
+    };
+
+    QVector<size_t> getSum() {
+        QVector<size_t> sum = {0, 0, 0};
+
+        for(qsizetype i = 0; i < r.size(); i ++) {
+            sum[0] += r.at(i);
+        }
+
+        for(qsizetype i = 0; i < g.size(); i ++) {
+            sum[1] += g.at(i);
+        }
+
+        for(qsizetype i = 0; i < b.size(); i ++) {
+            sum[2] += b.at(i);
+        }
+
+        return sum;
+    };
 };
 
     bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
