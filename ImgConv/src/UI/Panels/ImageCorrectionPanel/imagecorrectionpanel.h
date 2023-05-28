@@ -39,6 +39,7 @@ signals:
 
 private:
     QGridLayout *m_layout;
+    QWidget *mw_container;
 
     HistogramWidget *mw_originalHist;
 };

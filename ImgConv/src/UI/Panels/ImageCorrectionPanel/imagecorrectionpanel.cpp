@@ -23,13 +23,16 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
 
     setWindowTitle(tr("Image correction"));
 
+    mw_container = new QWidget(this);
+
     m_layout = new QGridLayout;
 
     mw_originalHist = new HistogramWidget(this);
 
     m_layout->addWidget(mw_originalHist, 0, 0, 1, 2);
 
-    setLayout(m_layout);
+    mw_container->setLayout(m_layout);
+    setWidget(mw_container);
 }
 
 void ImageCorrectionPanel::setOriginalImageHistogram(const Processing::Algorithms::Histogram &histogram) {
