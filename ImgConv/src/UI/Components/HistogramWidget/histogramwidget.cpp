@@ -18,13 +18,15 @@
 
 #include "histogramwidget.h"
 
-HistogramWidget::HistogramWidget(QWidget *parent)
+HistogramWidget::HistogramWidget(const QString &title, QWidget *parent)
     : QWidget{parent} {
 
     setMaximumHeight(300);
     setMinimumWidth(200);
 
     setMouseTracking(true);
+
+    setTitle(title);
 }
 
 Processing::Algorithms::Histogram HistogramWidget::histogram() const {
@@ -44,13 +46,13 @@ void HistogramWidget::plot(QPainter &p, const QVector<size_t> &v, size_t max, co
     p.setBrush(brushColor);
 
     QPolygon poly;
-    poly << rect().bottomLeft();
+    poly << (rect().bottomLeft() - QPoint(0, bottomMargin()));
 
     for(qsizetype i = 0; i < m_histogram.r.size(); i ++) {
         poly << QPoint(val2X(i), val2Y(v[i], max));
     }
 
-    poly << rect().bottomRight();
+    poly << (rect().bottomRight() - QPoint(0, bottomMargin()));
 
     p.drawPolygon(poly);
 }
@@ -62,15 +64,47 @@ void HistogramWidget::plotCursor(QPainter &p, size_t max) {
     size_t curVal = X2Val(m_mousePos.x());
     int curX = val2X(curVal);
 
-    p.drawLine(curX, 0, curX, height());
+    p.drawLine(curX, 0, curX, plottingHeight());
 
+    p.setPen(QPen(QColor(100, 0, 0), 1));
     p.drawEllipse(QPoint(curX, val2Y(m_histogram.r[curVal], max)), 5, 5);
+    p.setPen(QPen(QColor(0, 100, 0), 1));
     p.drawEllipse(QPoint(curX, val2Y(m_histogram.g[curVal], max)), 5, 5);
+    p.setPen(QPen(QColor(0, 0, 100), 1));
     p.drawEllipse(QPoint(curX, val2Y(m_histogram.b[curVal], max)), 5, 5);
+
+    drawCursorValues(p);
+}
+
+void HistogramWidget::drawCursorValues(QPainter &p) {
+    size_t curVal = X2Val(m_mousePos.x());
+
+    p.setPen(QPen(Qt::black, 1));
+    p.drawText(QPoint(5, height() - 5), tr("X : %1 R : %2 G : %3 B : %4")
+                                    .arg(curVal)
+                                    .arg(m_histogram.r[curVal])
+                                    .arg(m_histogram.g[curVal])
+                                    .arg(m_histogram.b[curVal]));
+}
+
+void HistogramWidget::drawTitle(QPainter &p) {
+    QFontMetrics fm(p.font());
+    int textW = fm.horizontalAdvance(title());
+
+    p.setPen(QPen(Qt::black, 1));
+    p.drawText(QPoint(width() / 2 - textW / 2, height() - 5), title());
+}
+
+int HistogramWidget::bottomMargin() {
+    return 20;
+}
+
+int HistogramWidget::plottingHeight() {
+    return height() - bottomMargin();
 }
 
 int HistogramWidget::val2Y(size_t val, size_t max) {
-    return 2 + height() - val / (float)max * height();
+    return 2 + plottingHeight() - val / (float)max * plottingHeight();
 }
 
 int HistogramWidget::val2X(size_t val) {
@@ -81,6 +115,16 @@ size_t HistogramWidget::X2Val(int X) {
     return X / (float)width() * 256.f;
 }
 
+QString HistogramWidget::title() const {
+    return m_title;
+}
+
+void HistogramWidget::setTitle(const QString &title) {
+    m_title = title;
+
+    update();
+}
+
 void HistogramWidget::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
 
@@ -88,11 +132,13 @@ void HistogramWidget::paintEvent(QPaintEvent *event) {
     p.setRenderHint(QPainter::Antialiasing);
 
     p.setPen(QPen(Qt::black, 2));
-    p.setBrush(Qt::NoBrush);
+    p.setBrush(QColor(200, 200, 200, 128));
 
     p.drawRect(rect());
+    p.drawLine(0, plottingHeight(), width(), plottingHeight());
 
     if(m_histogram.r.isEmpty() || m_histogram.g.isEmpty() || m_histogram.b.isEmpty()) {
+        drawTitle(p);
         return;
     }
 
@@ -104,6 +150,8 @@ void HistogramWidget::paintEvent(QPaintEvent *event) {
 
     if(m_mouseIn) {
         plotCursor(p, max);
+    } else {
+        drawTitle(p);
     }
 }
 
@@ -117,10 +165,14 @@ void HistogramWidget::enterEvent(QEnterEvent *event) {
     Q_UNUSED(event);
 
     m_mouseIn = true;
+
+    update();
 }
 
 void HistogramWidget::leaveEvent(QEvent *event) {
     Q_UNUSED(event);
 
     m_mouseIn = false;
+
+    update();
 }

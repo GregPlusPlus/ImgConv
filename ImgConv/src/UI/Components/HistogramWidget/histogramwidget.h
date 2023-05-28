@@ -25,6 +25,7 @@
 #include <QPen>
 #include <QBrush>
 #include <QPolygon>
+#include <QFontMetrics>
 
 #include <QMouseEvent>
 #include <QEnterEvent>
@@ -35,10 +36,13 @@ class HistogramWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit HistogramWidget(QWidget *parent = nullptr);
+    explicit HistogramWidget(const QString &title, QWidget *parent = nullptr);
 
     Processing::Algorithms::Histogram histogram() const;
     void setHistogram(const Processing::Algorithms::Histogram &newHistogram);
+
+    QString title() const;
+    void setTitle(const QString &title);
 
 public slots:
 
@@ -47,13 +51,18 @@ signals:
 private:
     void plot(QPainter &p, const QVector<size_t> &v, size_t max, const QColor &penColor, const QColor &brushColor);
     void plotCursor(QPainter &p, size_t max);
+    void drawCursorValues(QPainter &p);
+    void drawTitle(QPainter &p);
 
+    int bottomMargin();
+    int plottingHeight();
     int val2Y(size_t val, size_t max);
     int val2X(size_t val);
     size_t X2Val(int X);
 
 private:
     Processing::Algorithms::Histogram m_histogram;
+    QString m_title;
 
     QVector<size_t> m_RGBmax;
 
