@@ -16,26 +16,35 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PROCESSING_H
-#define PROCESSING_H
+#ifndef PROCESSCONV2D_H
+#define PROCESSCONV2D_H
 
-#include <QPixmap>
+#include <QRunnable>
 #include <QImage>
-#include <QRandomGenerator>
-#include <QCoreApplication>
+#include <QElapsedTimer>
+#include <QVector>
 
-#include "Core/Processing/convkernel.h"
-#include "Core/Processing/Kernels/kernels.h"
-#include "Core/Processing/convkernel1darray.h"
-#include "Core/Processing/algorithms.h"
 #include "Core/OCLWrapper/oclwrapper.h"
-#include "Core/Utils/utils.h"
+#include "Core/Processing/processing.h"
 
-namespace Processing {
-    QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize);
-    QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize);
-    QString createOCLProgramOptionsCorrection(const QSize &imgSize);
-    void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
+namespace Threads {
+class Conv2D : public QObject, public QRunnable
+{
+    Q_OBJECT
+
+public:
+    Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float>> &mat);
+
+    void run() override;
+
+signals:
+    void finished(const QImage &img, qint64 et, bool res);
+
+private:
+    OCLWrapper *m_ocl;
+    QImage m_original;
+    QVector<QVector<float>> m_mat;
 };
+}
 
-#endif // PROCESSING_H
+#endif // PROCESSCONV2D_H

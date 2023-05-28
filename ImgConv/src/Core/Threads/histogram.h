@@ -16,26 +16,37 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PROCESSING_H
-#define PROCESSING_H
+#ifndef HISTOGRAM_H
+#define HISTOGRAM_H
 
-#include <QPixmap>
+#include <QRunnable>
+#include <QObject>
+
+#include <QRunnable>
 #include <QImage>
-#include <QRandomGenerator>
-#include <QCoreApplication>
+#include <QElapsedTimer>
+#include <QVector>
 
-#include "Core/Processing/convkernel.h"
-#include "Core/Processing/Kernels/kernels.h"
-#include "Core/Processing/convkernel1darray.h"
-#include "Core/Processing/algorithms.h"
 #include "Core/OCLWrapper/oclwrapper.h"
-#include "Core/Utils/utils.h"
+#include "Core/Processing/processing.h"
 
-namespace Processing {
-    QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize);
-    QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize);
-    QString createOCLProgramOptionsCorrection(const QSize &imgSize);
-    void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
+namespace Threads {
+class Histogram : public QObject, public QRunnable
+{
+    Q_OBJECT
+
+public:
+    Histogram(OCLWrapper *ocl, const QImage &original);
+
+    void run() override;
+
+signals:
+    void finished(const Processing::Algorithms::Histogram &hist, qint64 et, bool res);
+
+private:
+    OCLWrapper *m_ocl;
+    QImage m_original;
 };
+}
 
-#endif // PROCESSING_H
+#endif // HISTOGRAM_H

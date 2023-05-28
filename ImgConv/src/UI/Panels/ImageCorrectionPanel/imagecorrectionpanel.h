@@ -16,46 +16,41 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef CREATEIMAGEDIALOG_H
-#define CREATEIMAGEDIALOG_H
+#ifndef IMAGECORRECTIONPANEL_H
+#define IMAGECORRECTIONPANEL_H
 
-#include <QDialog>
-#include <QDialogButtonBox>
-#include <QLineEdit>
+#include <QDockWidget>
+#include <QPushButton>
 
-#include <QFormLayout>
+#include <QGridLayout>
 
-#include <QIntValidator>
+#include "src/Core/Processing/processing.h"
+#include "UI/Components/HistogramWidget/histogramwidget.h"
 
-#include "UI/Components/ButtonColorPicker/buttoncolorpicker.h"
-
-class CreateImageDialog : public QDialog
+class ImageCorrectionPanel : public QDockWidget
 {
     Q_OBJECT
-
 public:
-    struct ImageSettings_t {
-        int width;
-        int height;
-        QColor fillColor;
-    };
+    ImageCorrectionPanel(QWidget *parent = nullptr);
 
-public:
-    CreateImageDialog(QWidget *parent = nullptr);
-
-    ImageSettings_t getImageSettings() const;
+    HistogramWidget *originalImageHistogramWidget();
+    HistogramWidget *processedImageHistogramWidget();
 
 public slots:
 
+signals:
+    void convertToGrayscale();
+    void invertColors();
+
 private:
-    QFormLayout *m_layout;
+    QGridLayout *m_layout;
+    QWidget *mw_container;
 
-    QDialogButtonBox *mw_buttonBox;
+    QPushButton *mw_convertGrayscaleButton;
+    QPushButton *mw_invertColorsButton;
 
-    QLineEdit *mw_inputW;
-    QLineEdit *mw_inputH;
-    ButtonColorPicker *mw_buttonColorPicker;
-
+    HistogramWidget *mw_originalImageHistogram;
+    HistogramWidget *mw_processedImageHistogram;
 };
 
-#endif // CREATEIMAGEDIALOG_H
+#endif // IMAGECORRECTIONPANEL_H

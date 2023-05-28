@@ -20,6 +20,8 @@
 #define THREADS_H
 
 #include "imgloader.h"
-#include "process.h"
+#include "processconv2D.h"
+#include "histogram.h"
+#include "correction.h"
 
 #endif // THREADS_H

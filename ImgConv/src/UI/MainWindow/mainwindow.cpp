@@ -94,6 +94,20 @@ void MainWindow::showOriginalImage(const QImage &img) {
 
     mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
                              .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
+
+    mw_imgCorrectionPanel->originalImageHistogramWidget()->clear();
+    mw_imgCorrectionPanel->processedImageHistogramWidget()->clear();
+    startComputeHistogram(m_original, mw_imgCorrectionPanel->originalImageHistogramWidget());
+}
+
+void MainWindow::showProcessedImage(const QImage &img) {
+    m_processed = img;
+
+    mw_tabWidget->setCurrentWidget(mw_processedImgView);
+    mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
+
+    mw_imgCorrectionPanel->processedImageHistogramWidget()->clear();
+    startComputeHistogram(m_processed, mw_imgCorrectionPanel->processedImageHistogramWidget());
 }
 
 void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
@@ -126,7 +140,7 @@ void MainWindow::exportFile() {
     mw_logPanel->logInfo(tr("[%1] Image saved.").arg(fn));
 }
 
-void MainWindow::startProcess() {
+void MainWindow::startConv2DProcess() {
     if(m_ocl->isRunning()) {
         mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
 
@@ -145,7 +159,7 @@ void MainWindow::startProcess() {
         return;
     }
 
-    QString options = Processing::createOCLProgramOptions(m_original.size(), matSize);
+    QString options = Processing::createOCLProgramOptionsConv2D(m_original.size(), matSize);
 
     mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
                         .arg(k->getSourceFilePath())
@@ -166,9 +180,9 @@ void MainWindow::startProcess() {
     mw_logPanel->logOutput(tr("Running kernel..."));
 
     WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
-    Threads::Process *process = new Threads::Process(m_ocl, m_original, mat);
+    Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_original, mat);
 
-    connect(process, &Threads::Process::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
+    connect(process, &Threads::Conv2D::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
         float pixPerSec = 0;
 
         if(!res) {
@@ -180,9 +194,7 @@ void MainWindow::startProcess() {
             return;
         }
 
-        m_processed = img;
-
-        pixPerSec = 1000.f * (m_processed.size().width() * m_processed.size().height()) / et;
+        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
 
         QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
                             .arg(et)
@@ -191,9 +203,139 @@ void MainWindow::startProcess() {
         mw_labelElapsedTime->setText(logStr);
         mw_logPanel->logOutput(logStr);
 
-        mw_tabWidget->setCurrentWidget(mw_processedImgView);
+        showProcessedImage(img);
 
-        mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
+        m_runAction->setDisabled(false);
+        m_selectDeviceAction->setDisabled(false);
+        delete dialog;
+    });
+
+    m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
+    dialog->show();
+
+    QThreadPool::globalInstance()->start(process);
+}
+
+void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widget) {
+    const QString programPath = ":/ocl/histogram.cl";
+
+    if(m_ocl->isRunning()) {
+        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
+
+        return;
+    }
+
+    if(img.isNull()) {
+        return;
+    }
+
+    QString options = Processing::createOCLProgramOptionsComputeHistogram(img.size());
+
+    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
+                        .arg(programPath)
+                        .arg(options));
+
+    if(!createOCLProgram(programPath, options)) {
+        return;
+    }
+
+    if(m_ocl->ret() != CL_SUCCESS) {
+        return;
+    }
+
+    mw_logPanel->logOutput(tr("Running kernel..."));
+
+    WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
+    Threads::Histogram *process = new Threads::Histogram(m_ocl, img);
+
+    connect(process, &Threads::Histogram::finished, this, [=](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
+        float pixPerSec = 0;
+
+        if(!res) {
+            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
+
+            m_runAction->setDisabled(false);
+            delete dialog;
+
+            return;
+        }
+
+        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
+
+        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
+                            .arg(et)
+                            .arg(pixPerSec);
+
+        mw_labelElapsedTime->setText(logStr);
+        mw_logPanel->logOutput(logStr);
+
+        widget->setHistogram(hist);
+
+        m_runAction->setDisabled(false);
+        m_selectDeviceAction->setDisabled(false);
+        delete dialog;
+    });
+
+    m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
+    dialog->show();
+
+    QThreadPool::globalInstance()->start(process);
+}
+
+void MainWindow::startImageCorrection(const QString &kernelPath) {
+    if(m_ocl->isRunning()) {
+        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
+
+        return;
+    }
+
+    if(m_original.isNull()) {
+        return;
+    }
+
+    QString options = Processing::createOCLProgramOptionsCorrection(m_original.size());
+
+    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
+                        .arg(kernelPath)
+                        .arg(options));
+
+    if(!createOCLProgram(kernelPath, options)) {
+        return;
+    }
+
+    if(m_ocl->ret() != CL_SUCCESS) {
+        return;
+    }
+
+    mw_logPanel->logOutput(tr("Running kernel..."));
+
+    WaitDialog *dialog = new WaitDialog(tr("Correcting image..."));
+    Threads::Correction *process = new Threads::Correction(m_ocl, m_original);
+
+    connect(process, &Threads::Correction::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
+        float pixPerSec = 0;
+
+        if(!res) {
+            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
+
+            m_runAction->setDisabled(false);
+            delete dialog;
+
+            return;
+        }
+
+        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
+
+        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
+                            .arg(et)
+                            .arg(pixPerSec);
+
+        mw_labelElapsedTime->setText(logStr);
+        mw_logPanel->logOutput(logStr);
+
+        showProcessedImage(img);
 
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
@@ -330,7 +472,7 @@ void MainWindow::buildMenus() {
     m_reloadKernelAction = mw_processMenu->addAction(QIcon(":/icons/arrow-circle-double.png"), tr("Reload current &kernel"), tr("F5"), this, [this]() {
         filterSelected(mw_convKernelComboBox->currentIndex());
     });
-    m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startProcess);
+    m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startConv2DProcess);
     m_backfeedAction = mw_processMenu->addAction(QIcon(":/icons/arrow-transition-180.png"), tr("&Backfeed"), tr("Ctrl+B"), this, [this](){
         if(!m_processed.isNull()) {
             showOriginalImage(m_processed);
@@ -386,8 +528,18 @@ void MainWindow::buildUI() {
 
 void MainWindow::buildPanels() {
     mw_logPanel = new LogPanel(this);
-
     addDockWidget(Qt::BottomDockWidgetArea, mw_logPanel);
+
+    mw_imgCorrectionPanel = new ImageCorrectionPanel(this);
+    addDockWidget(Qt::RightDockWidgetArea, mw_imgCorrectionPanel);
+
+    connect(mw_imgCorrectionPanel, &ImageCorrectionPanel::convertToGrayscale, this, [=]() {
+        startImageCorrection(":/ocl/convertGrayscale.cl");
+    });
+
+    connect(mw_imgCorrectionPanel, &ImageCorrectionPanel::invertColors, this, [=]() {
+        startImageCorrection(":/ocl/invertColors.cl");
+    });
 }
 
 void MainWindow::buildView() {
@@ -400,7 +552,7 @@ void MainWindow::buildView() {
     connect(mw_codeEditor, &CodeEditorContainter::useFile, this, [=](const QString &fn) {
         m_convKernels.at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
         filterSelected(mw_convKernelComboBox->currentIndex());
-        startProcess();
+        startConv2DProcess();
     });
 
     mw_tabWidget->addTab(mw_origImgView, tr("Original"));

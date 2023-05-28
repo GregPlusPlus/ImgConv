@@ -21,26 +21,31 @@ SOURCES += \
     src/Core/Processing/Kernels/sobel.cpp \
     src/Core/Processing/Kernels/unity.cpp \
     src/Core/Processing/Kernels/unsharpmasking.cpp \
+    src/Core/Processing/algorithms.cpp \
     src/Core/Processing/convkernel.cpp \
     src/Core/Processing/convkernel1darray.cpp \
     src/Core/Processing/processing.cpp \
+    src/Core/Threads/correction.cpp \
+    src/Core/Threads/histogram.cpp \
     src/Core/Threads/imgloader.cpp \
-    src/Core/Threads/process.cpp \
+    src/Core/Threads/processconv2D.cpp \
     src/Core/Utils/utils.cpp \
     src/UI/CodeEditor/Components/codeeditor.cpp \
     src/UI/CodeEditor/Components/highlighter.cpp \
     src/UI/CodeEditor/Components/interactivetextedit.cpp \
     src/UI/CodeEditor/Components/keycompletion.cpp \
     src/UI/CodeEditor/codeeditorcontainer.cpp \
-    src/UI/Components/buttoncolorpicker.cpp \
+    src/UI/Components/ButtonColorPicker/buttoncolorpicker.cpp \
+    src/UI/Components/HistogramWidget/histogramwidget.cpp \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.cpp \
     src/UI/FilterSettingsWidget/filenamepicker.cpp \
-    src/UI/FilterSettingsWidget/filtersettingsdock.cpp \
+    src/UI/Panels/FilterSettingsPanel/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
     src/UI/ImageViewer/imageviewer.cpp \
     src/UI/ImageViewer/imageviewercontainer.cpp \
-    src/UI/LogPanel/logpanel.cpp \
-    src/UI/LogPanel/logwidget.cpp \
+    src/UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp \
+    src/UI/Panels/LogPanel/logpanel.cpp \
+    src/UI/Panels/LogPanel/logwidget.cpp \
     src/UI/MainWindow/mainwindow.cpp \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/UtilsUI/utilsui.cpp \
@@ -58,11 +63,14 @@ HEADERS += \
     src/Core/Processing/Kernels/sobel.h \
     src/Core/Processing/Kernels/unity.h \
     src/Core/Processing/Kernels/unsharpmasking.h \
+    src/Core/Processing/algorithms.h \
     src/Core/Processing/convkernel.h \
     src/Core/Processing/convkernel1darray.h \
     src/Core/Processing/processing.h \
+    src/Core/Threads/correction.h \
+    src/Core/Threads/histogram.h \
     src/Core/Threads/imgloader.h \
-    src/Core/Threads/process.h \
+    src/Core/Threads/processconv2D.h \
     src/Core/Threads/threads.h \
     src/Core/Utils/utils.h \
     src/UI/CodeEditor/Components/codeeditor.h \
@@ -70,15 +78,17 @@ HEADERS += \
     src/UI/CodeEditor/Components/interactivetextedit.h \
     src/UI/CodeEditor/Components/keycompletion.h \
     src/UI/CodeEditor/codeeditorcontainer.h \
-    src/UI/Components/buttoncolorpicker.h \
+    src/UI/Components/ButtonColorPicker/buttoncolorpicker.h \
+    src/UI/Components/HistogramWidget/histogramwidget.h \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.h \
     src/UI/FilterSettingsWidget/filenamepicker.h \
-    src/UI/FilterSettingsWidget/filtersettingsdock.h \
+    src/UI/Panels/FilterSettingsPanel/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \
     src/UI/ImageViewer/imageviewer.h \
     src/UI/ImageViewer/imageviewercontainer.h \
-    src/UI/LogPanel/logpanel.h \
-    src/UI/LogPanel/logwidget.h \
+    src/UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h \
+    src/UI/Panels/LogPanel/logpanel.h \
+    src/UI/Panels/LogPanel/logwidget.h \
     src/UI/MainWindow/app_strings.h \
     src/UI/MainWindow/mainwindow.h \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \

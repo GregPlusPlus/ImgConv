@@ -27,5 +27,8 @@
         <file>icons/broom.png</file>
         <file>icons/magnifier-zoom-fit.png</file>
         <file>ocl/sobel.cl</file>
+        <file>ocl/histogram.cl</file>
+        <file>ocl/convertGrayscale.cl</file>
+        <file>ocl/invertColors.cl</file>
     </qresource>
 </RCC>

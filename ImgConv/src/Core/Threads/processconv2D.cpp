@@ -16,35 +16,20 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PROCESS_H
-#define PROCESS_H
+#include "processconv2D.h"
 
-#include <QRunnable>
-#include <QImage>
-#include <QElapsedTimer>
-#include <QVector>
+Threads::Conv2D::Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
+    : QObject(), QRunnable(), m_ocl{ocl}, m_original{original}, m_mat{mat} {
 
-#include "Core/OCLWrapper/oclwrapper.h"
-#include "Core/Processing/processing.h"
-
-namespace Threads {
-class Process : public QObject, public QRunnable
-{
-    Q_OBJECT
-
-public:
-    Process(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float>> &mat);
-
-    void run() override;
-
-signals:
-    void finished(const QImage &img, qint64 et, bool res);
-
-private:
-    OCLWrapper *m_ocl;
-    QImage m_original;
-    QVector<QVector<float>> m_mat;
-};
 }
 
-#endif // PROCESS_H
+void Threads::Conv2D::run() {
+    QImage processed;
+
+    QElapsedTimer tm;
+    tm.start();
+
+    bool res = Processing::Algorithms::conv2D(m_ocl, m_original, processed, m_mat);
+
+    emit finished(processed, tm.elapsed(), res);
+}

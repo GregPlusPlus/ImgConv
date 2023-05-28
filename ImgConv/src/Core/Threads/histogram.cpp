@@ -16,20 +16,20 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "process.h"
+#include "histogram.h"
 
-Threads::Process::Process(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
-    : QObject(), QRunnable(), m_ocl{ocl}, m_original{original}, m_mat{mat} {
+Threads::Histogram::Histogram(OCLWrapper *ocl, const QImage &original)
+    : QObject(), QRunnable(), m_ocl{ocl}, m_original{original} {
 
 }
 
-void Threads::Process::run() {
-    QImage processed;
+void Threads::Histogram::run() {
+    Processing::Algorithms::Histogram hist;
 
     QElapsedTimer tm;
     tm.start();
 
-    bool res = Processing::processImg(m_ocl, m_original, processed, m_mat);
+    bool res = Processing::Algorithms::computeHistogram(m_ocl, m_original, hist);
 
-    emit finished(processed, tm.elapsed(), res);
+    emit finished(hist, tm.elapsed(), res);
 }

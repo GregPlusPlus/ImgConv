@@ -45,12 +45,13 @@
 #include "app_strings.h"
 
 #include "UI/ImageViewer/imageviewercontainer.h"
-#include "UI/FilterSettingsWidget/filtersettingsdock.h"
+#include "UI/Panels/FilterSettingsPanel/filtersettingsdock.h"
+#include "UI/Panels/LogPanel/logpanel.h"
+#include "UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h"
 #include "UI/Dialogs/WaitDialog/waitdialog.h"
 #include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
-#include "UI/LogPanel/logpanel.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
 #include "Core/Processing/Kernels/kernels.h"
@@ -69,7 +70,9 @@ private slots:
     void openFile();
     void createImage();
     void exportFile();
-    void startProcess();
+    void startConv2DProcess();
+    void startComputeHistogram(const QImage &img, HistogramWidget *widget);
+    void startImageCorrection(const QString &kernelPath);
     void filterSelected(int index);
     void showAboutDialog();
 
@@ -86,6 +89,7 @@ private:
     void buildFilterSettingsView();
     void buildKernelComboBox();
     void showOriginalImage(const QImage &img);
+    void showProcessedImage(const QImage &img);
     void logConvMatrix(const QVector<QVector<float>> &mat);
 
 private:
@@ -96,6 +100,7 @@ private:
     QComboBox *mw_convKernelComboBox;
     FilterSettingsDock *mw_dockFilterSettings;
     LogPanel *mw_logPanel;
+    ImageCorrectionPanel *mw_imgCorrectionPanel;
     QLabel *mw_labelDevice;
     QLabel *mw_labelImgInfo;
     QLabel *mw_labelElapsedTime;
