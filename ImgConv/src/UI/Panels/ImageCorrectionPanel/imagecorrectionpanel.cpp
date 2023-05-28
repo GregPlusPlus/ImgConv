@@ -27,14 +27,20 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
 
     m_layout = new QGridLayout;
 
-    mw_originalHist = new HistogramWidget(tr("Original image histogram"), this);
+    mw_originalImageHistogram = new HistogramWidget(tr("Original image histogram"), this);
+    m_layout->addWidget(mw_originalImageHistogram, 0, 0, 1, 2);
 
-    m_layout->addWidget(mw_originalHist, 0, 0, 1, 2);
+    mw_processedImageHistogram = new HistogramWidget(tr("Processed image histogram"), this);
+    m_layout->addWidget(mw_processedImageHistogram, 1, 0, 1, 2);
 
     mw_container->setLayout(m_layout);
     setWidget(mw_container);
 }
 
-void ImageCorrectionPanel::setOriginalImageHistogram(const Processing::Algorithms::Histogram &histogram) {
-    mw_originalHist->setHistogram(histogram);
+HistogramWidget *ImageCorrectionPanel::originalImageHistogramWidget() {
+    return mw_originalImageHistogram;
+}
+
+HistogramWidget *ImageCorrectionPanel::processedImageHistogramWidget() {
+    return mw_processedImageHistogram;
 }

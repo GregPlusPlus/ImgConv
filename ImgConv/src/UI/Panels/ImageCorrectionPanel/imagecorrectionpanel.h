@@ -32,8 +32,10 @@ class ImageCorrectionPanel : public QDockWidget
 public:
     ImageCorrectionPanel(QWidget *parent = nullptr);
 
+    HistogramWidget *originalImageHistogramWidget();
+    HistogramWidget *processedImageHistogramWidget();
+
 public slots:
-    void setOriginalImageHistogram(const Processing::Algorithms::Histogram &histogram);
 
 signals:
 
@@ -41,7 +43,8 @@ private:
     QGridLayout *m_layout;
     QWidget *mw_container;
 
-    HistogramWidget *mw_originalHist;
+    HistogramWidget *mw_originalImageHistogram;
+    HistogramWidget *mw_processedImageHistogram;
 };
 
 #endif // IMAGECORRECTIONPANEL_H
