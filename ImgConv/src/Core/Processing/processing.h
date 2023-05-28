@@ -33,6 +33,7 @@
 
 namespace Processing {
     QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize);
+    QString createOCLProgramComputeHistogram(const QSize &imgSize);
     void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
 };
 

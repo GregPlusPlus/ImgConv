@@ -16,11 +16,20 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef THREADS_H
-#define THREADS_H
-
-#include "imgloader.h"
-#include "processconv2D.h"
 #include "histogram.h"
 
-#endif // THREADS_H
+Threads::Histogram::Histogram(OCLWrapper *ocl, const QImage &original)
+    : QObject(), QRunnable(), m_ocl{ocl}, m_original{original} {
+
+}
+
+void Threads::Histogram::run() {
+    Processing::Algorithms::Histogram hist;
+
+    QElapsedTimer tm;
+    tm.start();
+
+    bool res = Processing::Algorithms::computeHistogram(m_ocl, m_original, hist);
+
+    emit finished(hist, tm.elapsed(), res);
+}

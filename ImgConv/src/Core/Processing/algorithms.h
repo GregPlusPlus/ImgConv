@@ -26,7 +26,15 @@
 
 namespace Processing {
 namespace Algorithms {
+
+struct Histogram {
+    QVector<size_t> r;
+    QVector<size_t> g;
+    QVector<size_t> b;
+};
+
     bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
+    bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist);
 }
 }
 

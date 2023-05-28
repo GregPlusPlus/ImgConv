@@ -42,3 +42,10 @@ QString Processing::createOCLProgramOptionsConv2D(const QSize &imgSize, const QS
                     .arg(QRandomGenerator::global()->generate())
                     .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
 }
+
+QString Processing::createOCLProgramComputeHistogram(const QSize &imgSize) {
+    return QString("-DW=%1 -DH=%2 -I%3")
+                    .arg(imgSize.width())
+                    .arg(imgSize.height())
+                    .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
+}

@@ -16,11 +16,37 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef THREADS_H
-#define THREADS_H
+#ifndef HISTOGRAM_H
+#define HISTOGRAM_H
 
-#include "imgloader.h"
-#include "processconv2D.h"
-#include "histogram.h"
+#include <QRunnable>
+#include <QObject>
 
-#endif // THREADS_H
+#include <QRunnable>
+#include <QImage>
+#include <QElapsedTimer>
+#include <QVector>
+
+#include "Core/OCLWrapper/oclwrapper.h"
+#include "Core/Processing/processing.h"
+
+namespace Threads {
+class Histogram : public QObject, public QRunnable
+{
+    Q_OBJECT
+
+public:
+    Histogram(OCLWrapper *ocl, const QImage &original);
+
+    void run() override;
+
+signals:
+    void finished(const Processing::Algorithms::Histogram &hist, qint64 et, bool res);
+
+private:
+    OCLWrapper *m_ocl;
+    QImage m_original;
+};
+}
+
+#endif // HISTOGRAM_H

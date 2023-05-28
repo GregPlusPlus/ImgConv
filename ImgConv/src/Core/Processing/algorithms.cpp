@@ -86,3 +86,102 @@ bool Processing::Algorithms::conv2D(OCLWrapper *ocl, const QImage &in, QImage &o
 
     return true;
 }
+
+bool Processing::Algorithms::computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
+    const size_t inSize = in.sizeInBytes();
+    const size_t histBuffSize = 255 * sizeof(size_t);
+
+    ocl->releaseAll();
+
+    // Create INPUT RGB buffer
+    if(ocl->addBuffer(inSize, CL_MEM_READ_ONLY) < 0) {
+        return false;
+    }
+
+    // Create OUTPUT R histogram buffer
+    if(ocl->addBuffer(histBuffSize, CL_MEM_READ_WRITE) < 0) {
+        return false;
+    }
+
+    // Create OUTPUT G histogram buffer
+    if(ocl->addBuffer(histBuffSize, CL_MEM_READ_WRITE) < 0) {
+        return false;
+    }
+
+    // Create OUTPUT B histogram buffer
+    if(ocl->addBuffer(histBuffSize, CL_MEM_READ_WRITE) < 0) {
+        return false;
+    }
+
+    // Init R,G,B histogram buffers to zero
+    static const size_t zeroes[255] = {0};
+
+    if(!ocl->writeBuffer(1, (uint8_t*)zeroes, histBuffSize)) {
+        return false;
+    }
+
+    if(!ocl->writeBuffer(2, (uint8_t*)zeroes, histBuffSize)) {
+        return false;
+    }
+
+    if(!ocl->writeBuffer(3, (uint8_t*)zeroes, histBuffSize)) {
+        return false;
+    }
+
+    // Write INPUT buffer
+    if(!ocl->writeBuffer(0, in.bits(), inSize)) {
+        return false;
+    }
+
+    // Create Kernel parameters
+    //   First set all the buffers
+    for(size_t i = 0; i < ocl->getNumberOfBuffers(); i ++) {
+        ocl->setKernelArg(i, i);
+
+        if(ocl->ret() != CL_SUCCESS) {
+            return false;
+        }
+    }
+
+    // Run kernel
+    ocl->runKernel(in.size());
+    if(ocl->ret() != CL_SUCCESS) {
+        return false;
+    }
+
+    size_t* histBuffer[3] = {nullptr, nullptr, nullptr};
+    size_t histSize = 0;
+
+    // Read OUTPUT R histogram buffer
+    if(!ocl->readBuffer(1, (uint8_t**)&(histBuffer[0]), &histSize)) {
+        return false;
+    }
+
+    // Read OUTPUT G histogram buffer
+    if(!ocl->readBuffer(2, (uint8_t**)&(histBuffer[1]), &histSize)) {
+        return false;
+    }
+
+    // Read OUTPUT B histogram buffer
+    if(!ocl->readBuffer(3, (uint8_t**)&(histBuffer[2]), &histSize)) {
+        return false;
+    }
+
+    hist.r.clear();
+    hist.g.clear();
+    hist.b.clear();
+
+    for(size_t i = 0; i < 255; i ++) {
+        hist.r.append(histBuffer[0][i]);
+        hist.g.append(histBuffer[1][i]);
+        hist.b.append(histBuffer[2][i]);
+    }
+
+    delete[] histBuffer[0];
+    delete[] histBuffer[1];
+    delete[] histBuffer[2];
+
+    ocl->releaseAll();
+
+    return true;
+}
