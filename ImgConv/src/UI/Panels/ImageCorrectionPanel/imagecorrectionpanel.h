@@ -41,6 +41,7 @@ public slots:
 signals:
     void convertToGrayscale();
     void invertColors();
+    void equalizeHistogram();
 
 private:
     QGridLayout *m_layout;
@@ -48,6 +49,7 @@ private:
 
     QPushButton *mw_convertGrayscaleButton;
     QPushButton *mw_invertColorsButton;
+    QPushButton *mw_histogramEqualizationButton;
 
     HistogramWidget *mw_originalImageHistogram;
     HistogramWidget *mw_processedImageHistogram;
