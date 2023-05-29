@@ -473,7 +473,7 @@ void MainWindow::buildMenus() {
     });
 
     mw_helpMenu = menuBar()->addMenu(tr("&Help"));
-    m_aboutAction = mw_helpMenu->addAction(tr("&About this program"), this, &MainWindow::showAboutDialog);
+    m_aboutAction = mw_helpMenu->addAction(QIcon(":/icons/information-balloon.png"), tr("&About this program"), this, &MainWindow::showAboutDialog);
     m_aboutQtAction = mw_helpMenu->addAction(tr("About &Qt"), this, [this]() {
         QMessageBox::aboutQt(this);
     });
