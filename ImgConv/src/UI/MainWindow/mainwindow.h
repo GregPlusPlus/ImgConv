@@ -69,12 +69,13 @@ public:
 private slots:
     void openFile();
     void createImage();
-    void exportFile();
+    void exportProcessedImage();
     void startConv2DProcess();
     void startComputeHistogram(const QImage &img, HistogramWidget *widget);
     void startImageCorrection(const QString &kernelPath);
     void filterSelected(int index);
     void showAboutDialog();
+    void saveOnExit();
 
 private:
     bool initCore();

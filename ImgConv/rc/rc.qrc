@@ -30,5 +30,6 @@
         <file>ocl/histogram.cl</file>
         <file>ocl/convertGrayscale.cl</file>
         <file>ocl/invertColors.cl</file>
+        <file>icons/information-balloon.png</file>
     </qresource>
 </RCC>

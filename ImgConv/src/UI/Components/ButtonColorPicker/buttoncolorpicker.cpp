@@ -20,7 +20,7 @@
 
 ButtonColorPicker::ButtonColorPicker(QColor defaultColor, QWidget *parent)
     : QPushButton{parent} {
-    setText(tr("Choose color"));
+    setText(tr("Pick color"));
 
     updateColor(QColor(defaultColor));
 

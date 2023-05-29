@@ -54,10 +54,14 @@ void MainWindow::openFile() {
         showOriginalImage(img);
 
         m_openFileAction->setDisabled(false);
+        m_createImageAction->setDisabled(false);
+        m_runAction->setDisabled(false);
         delete dialog;
     });
 
     m_openFileAction->setDisabled(true);
+    m_createImageAction->setDisabled(true);
+    m_runAction->setDisabled(true);
     dialog->show();
 
     QThreadPool::globalInstance()->start(imgLoader);
@@ -126,7 +130,11 @@ void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
     mw_logPanel->logOutput(str);
 }
 
-void MainWindow::exportFile() {
+void MainWindow::exportProcessedImage() {
+    if(m_processed.isNull()) {
+        return;
+    }
+
     QString fn = QFileDialog::getSaveFileName(this, tr("Save image file"), QString(),
                                               tr("Image files (*.png *.jpg *.jpeg *.bmp *.gif)"));
 
@@ -232,10 +240,6 @@ void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widge
 
     QString options = Processing::createOCLProgramOptionsComputeHistogram(img.size());
 
-    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
-                        .arg(programPath)
-                        .arg(options));
-
     if(!createOCLProgram(programPath, options)) {
         return;
     }
@@ -244,13 +248,11 @@ void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widge
         return;
     }
 
-    mw_logPanel->logOutput(tr("Running kernel..."));
-
     WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
     Threads::Histogram *process = new Threads::Histogram(m_ocl, img);
 
     connect(process, &Threads::Histogram::finished, this, [=](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
-        float pixPerSec = 0;
+        Q_UNUSED(et)
 
         if(!res) {
             QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
@@ -260,15 +262,6 @@ void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widge
 
             return;
         }
-
-        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
-
-        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
-                            .arg(et)
-                            .arg(pixPerSec);
-
-        mw_labelElapsedTime->setText(logStr);
-        mw_logPanel->logOutput(logStr);
 
         widget->setHistogram(hist);
 
@@ -371,6 +364,19 @@ void MainWindow::showAboutDialog() {
                        .arg(LGPL_STR));
 }
 
+void MainWindow::saveOnExit() {
+    if(m_processed.isNull()) {
+        return;
+    }
+
+    if(QMessageBox::question(this, tr("Unsaved file"), tr("Save processed image before closing ?"),
+                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) {
+        return;
+    }
+
+    exportProcessedImage();
+}
+
 bool MainWindow::initCore() {
     m_devices = OCLWrapper::getDevices();
 
@@ -456,7 +462,7 @@ void MainWindow::buildMenus() {
 
     m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
     m_createImageAction = mw_fileMenu->addAction(QIcon(":/icons/image-new.png"), tr("&Create image"), tr("Ctrl+N"), this, &MainWindow::createImage);
-    m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportFile);
+    m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportProcessedImage);
     mw_fileMenu->addSeparator();
     m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
         SelectDeviceDialog dialog(m_devices);
@@ -480,7 +486,7 @@ void MainWindow::buildMenus() {
     });
 
     mw_helpMenu = menuBar()->addMenu(tr("&Help"));
-    m_aboutAction = mw_helpMenu->addAction(tr("&About this program"), this, &MainWindow::showAboutDialog);
+    m_aboutAction = mw_helpMenu->addAction(QIcon(":/icons/information-balloon.png"), tr("&About this program"), this, &MainWindow::showAboutDialog);
     m_aboutQtAction = mw_helpMenu->addAction(tr("About &Qt"), this, [this]() {
         QMessageBox::aboutQt(this);
     });
@@ -573,6 +579,8 @@ void MainWindow::closeEvent(QCloseEvent *ev) {
         ev->ignore();
         return;
     }
+
+    saveOnExit();
 
     ev->accept();
 }
