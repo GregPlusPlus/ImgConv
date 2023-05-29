@@ -33,7 +33,7 @@ class Correction : public QObject, public QRunnable
     Q_OBJECT
 
 public:
-    Correction(OCLWrapper *ocl, const QImage &original);
+    Correction(OCLWrapper *ocl, const QImage &original, const Processing::Algorithms::Histogram &cdf);
 
     void run() override;
 
@@ -41,6 +41,7 @@ signals:
     void finished(const QImage &img, qint64 et, bool res);
 
 private:
+    Processing::Algorithms::Histogram m_cdf;
     OCLWrapper *m_ocl;
     QImage m_original;
 };
