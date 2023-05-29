@@ -54,10 +54,14 @@ void MainWindow::openFile() {
         showOriginalImage(img);
 
         m_openFileAction->setDisabled(false);
+        m_createImageAction->setDisabled(false);
+        m_runAction->setDisabled(false);
         delete dialog;
     });
 
     m_openFileAction->setDisabled(true);
+    m_createImageAction->setDisabled(true);
+    m_runAction->setDisabled(true);
     dialog->show();
 
     QThreadPool::globalInstance()->start(imgLoader);
