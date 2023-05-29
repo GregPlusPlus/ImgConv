@@ -130,7 +130,7 @@ void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
     mw_logPanel->logOutput(str);
 }
 
-void MainWindow::exportFile() {
+void MainWindow::exportProcessedImage() {
     if(m_processed.isNull()) {
         return;
     }
@@ -374,7 +374,7 @@ void MainWindow::saveOnExit() {
         return;
     }
 
-    exportFile();
+    exportProcessedImage();
 }
 
 bool MainWindow::initCore() {
@@ -462,7 +462,7 @@ void MainWindow::buildMenus() {
 
     m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
     m_createImageAction = mw_fileMenu->addAction(QIcon(":/icons/image-new.png"), tr("&Create image"), tr("Ctrl+N"), this, &MainWindow::createImage);
-    m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportFile);
+    m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportProcessedImage);
     mw_fileMenu->addSeparator();
     m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
         SelectDeviceDialog dialog(m_devices);
