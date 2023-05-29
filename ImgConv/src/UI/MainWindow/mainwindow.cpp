@@ -547,6 +547,10 @@ void MainWindow::buildPanels() {
     connect(mw_imgCorrectionPanel, &ImageCorrectionPanel::invertColors, this, [=]() {
         startImageCorrection(":/ocl/invertColors.cl");
     });
+
+    connect(mw_imgCorrectionPanel, &ImageCorrectionPanel::equalizeHistogram, this, [=]() {
+        startImageCorrection(":/ocl/equalizeHistogram.cl");
+    });
 }
 
 void MainWindow::buildView() {
