@@ -236,10 +236,6 @@ void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widge
 
     QString options = Processing::createOCLProgramOptionsComputeHistogram(img.size());
 
-    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
-                        .arg(programPath)
-                        .arg(options));
-
     if(!createOCLProgram(programPath, options)) {
         return;
     }
@@ -248,13 +244,11 @@ void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widge
         return;
     }
 
-    mw_logPanel->logOutput(tr("Running kernel..."));
-
     WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
     Threads::Histogram *process = new Threads::Histogram(m_ocl, img);
 
     connect(process, &Threads::Histogram::finished, this, [=](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
-        float pixPerSec = 0;
+        Q_UNUSED(et)
 
         if(!res) {
             QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
@@ -264,15 +258,6 @@ void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widge
 
             return;
         }
-
-        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
-
-        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
-                            .arg(et)
-                            .arg(pixPerSec);
-
-        mw_labelElapsedTime->setText(logStr);
-        mw_logPanel->logOutput(logStr);
 
         widget->setHistogram(hist);
 
