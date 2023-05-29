@@ -127,6 +127,10 @@ void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
 }
 
 void MainWindow::exportFile() {
+    if(m_processed.isNull()) {
+        return;
+    }
+
     QString fn = QFileDialog::getSaveFileName(this, tr("Save image file"), QString(),
                                               tr("Image files (*.png *.jpg *.jpeg *.bmp *.gif)"));
 
