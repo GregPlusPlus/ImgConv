@@ -75,13 +75,23 @@ public:
 
         return sum;
     };
+
+    Processing::Algorithms::Histogram getCDF() {
+        Algorithms::Histogram cdf = *this;
+
+        for(size_t i = 1; i < 256; i ++) {
+            cdf.r[i] = cdf.r[i] + cdf.r[i - 1];
+            cdf.g[i] = cdf.g[i] + cdf.g[i - 1];
+            cdf.b[i] = cdf.b[i] + cdf.b[i - 1];
+        }
+
+        return cdf;
+    }
 };
 
     bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
     bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist);
     bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histogram &cdf);
-
-    Histogram computeCDF(const Histogram &hist);
 }
 }
 

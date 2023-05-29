@@ -306,7 +306,7 @@ void MainWindow::startImageCorrection(const QString &kernelPath) {
 
     WaitDialog *dialog = new WaitDialog(tr("Correcting image..."));
     Threads::Correction *process = new Threads::Correction(m_ocl, m_original,
-                                                           Processing::Algorithms::computeCDF(mw_imgCorrectionPanel->originalImageHistogramWidget()->histogram()));
+                                                           mw_imgCorrectionPanel->originalImageHistogramWidget()->histogram().getCDF());
 
     connect(process, &Threads::Correction::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
         float pixPerSec = 0;
