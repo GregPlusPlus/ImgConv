@@ -34,6 +34,7 @@ CreateImageDialog::CreateImageDialog(QWidget *parent)
 
     mw_inputW = new QLineEdit(this);
     mw_inputW->setValidator(new QIntValidator(0, 100E3, this));
+    mw_inputW->setFocus();
 
     mw_inputH = new QLineEdit(this);
     mw_inputH->setValidator(new QIntValidator(0, 100E3, this));
