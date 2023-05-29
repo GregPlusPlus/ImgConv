@@ -289,9 +289,9 @@ Processing::Algorithms::Histogram Processing::Algorithms::computeCDF(const Algor
     Algorithms::Histogram cdf = hist;
 
     for(size_t i = 1; i < 256; i ++) {
-        cdf.r[i] = hist.r[i] + hist.r[i - 1];
-        cdf.g[i] = hist.g[i] + hist.g[i - 1];
-        cdf.b[i] = hist.b[i] + hist.b[i - 1];
+        cdf.r[i] = cdf.r[i] + cdf.r[i - 1];
+        cdf.g[i] = cdf.g[i] + cdf.g[i - 1];
+        cdf.b[i] = cdf.b[i] + cdf.b[i - 1];
     }
 
     return cdf;
