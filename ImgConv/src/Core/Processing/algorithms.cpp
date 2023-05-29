@@ -243,3 +243,15 @@ bool Processing::Algorithms::applyCorrection(OCLWrapper *ocl, const QImage &in, 
 
     return true;
 }
+
+Processing::Algorithms::Histogram Processing::Algorithms::computeCDF(const Algorithms::Histogram &hist) {
+    Algorithms::Histogram cdf = hist;
+
+    for(size_t i = 1; i < 256; i ++) {
+        cdf.r[i] = hist.r[i] + hist.r[i - 1];
+        cdf.g[i] = hist.g[i] + hist.g[i - 1];
+        cdf.b[i] = hist.b[i] + hist.b[i - 1];
+    }
+
+    return cdf;
+}
