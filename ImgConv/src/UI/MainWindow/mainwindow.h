@@ -75,6 +75,7 @@ private slots:
     void startImageCorrection(const QString &kernelPath);
     void filterSelected(int index);
     void showAboutDialog();
+    void saveOnExit();
 
 private:
     bool initCore();

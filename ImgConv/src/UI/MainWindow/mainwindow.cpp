@@ -364,6 +364,19 @@ void MainWindow::showAboutDialog() {
                        .arg(LGPL_STR));
 }
 
+void MainWindow::saveOnExit() {
+    if(m_processed.isNull()) {
+        return;
+    }
+
+    if(QMessageBox::question(this, tr("Unsaved file"), tr("Save processed image before closing ?"),
+                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) {
+        return;
+    }
+
+    exportFile();
+}
+
 bool MainWindow::initCore() {
     m_devices = OCLWrapper::getDevices();
 
@@ -566,6 +579,8 @@ void MainWindow::closeEvent(QCloseEvent *ev) {
         ev->ignore();
         return;
     }
+
+    saveOnExit();
 
     ev->accept();
 }
