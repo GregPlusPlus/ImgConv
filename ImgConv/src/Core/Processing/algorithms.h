@@ -76,7 +76,7 @@ public:
         return sum;
     };
 
-    Processing::Algorithms::Histogram getCDF() {
+    Processing::Algorithms::Histogram getCDF() const {
         Algorithms::Histogram cdf = *this;
 
         for(size_t i = 1; i < 256; i ++) {
