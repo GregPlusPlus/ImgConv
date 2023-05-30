@@ -30,13 +30,25 @@
 class ImageCorrectionPanel : public QDockWidget
 {
     Q_OBJECT
+
+public:
+    enum HistogramRole {
+        OriginalImageHistogram,
+        ProcessedImageHistogram
+    };
+
 public:
     ImageCorrectionPanel(QWidget *parent = nullptr);
 
-    HistogramWidget *originalImageHistogramWidget();
-    HistogramWidget *processedImageHistogramWidget();
+    Processing::Algorithms::Histogram originalImageHistogram();
+    Processing::Algorithms::Histogram processedImageHistogram();
 
 public slots:
+    void displayHistogram(const Processing::Algorithms::Histogram &histogram, ImageCorrectionPanel::HistogramRole role);
+    void setOriginalImageHistogram(const Processing::Algorithms::Histogram &histtogram);
+    void setProcessedImageHistogram(const Processing::Algorithms::Histogram &histogram);
+    void clearOriginalImageHistogram();
+    void clearProcessedImageHistogram();
 
 signals:
     void convertToGrayscale();

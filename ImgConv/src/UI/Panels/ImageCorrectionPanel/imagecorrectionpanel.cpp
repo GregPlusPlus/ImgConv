@@ -49,10 +49,40 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
     setWidget(mw_container);
 }
 
-HistogramWidget *ImageCorrectionPanel::originalImageHistogramWidget() {
-    return mw_originalImageHistogram;
+Processing::Algorithms::Histogram ImageCorrectionPanel::originalImageHistogram() {
+    return mw_originalImageHistogram->histogram();
 }
 
-HistogramWidget *ImageCorrectionPanel::processedImageHistogramWidget() {
-    return mw_processedImageHistogram;
+Processing::Algorithms::Histogram ImageCorrectionPanel::processedImageHistogram() {
+    return mw_processedImageHistogram->histogram();
+}
+
+void ImageCorrectionPanel::displayHistogram(const Processing::Algorithms::Histogram &histogram, ImageCorrectionPanel::HistogramRole role) {
+    switch(role) {
+    case OriginalImageHistogram:
+        mw_originalImageHistogram->setHistogram(histogram);
+        break;
+    case ProcessedImageHistogram:
+        mw_processedImageHistogram->setHistogram(histogram);
+        break;
+    default:
+        break;
+    }
+}
+
+void ImageCorrectionPanel::setOriginalImageHistogram(const Processing::Algorithms::Histogram &histtogram) {
+    mw_originalImageHistogram->setHistogram(histtogram);
+}
+
+void ImageCorrectionPanel::setProcessedImageHistogram(const Processing::Algorithms::Histogram &histogram) {
+    mw_originalImageHistogram->setHistogram(histogram);
+}
+
+void ImageCorrectionPanel::clearOriginalImageHistogram() {
+    mw_originalImageHistogram->clear();
+}
+
+void ImageCorrectionPanel::clearProcessedImageHistogram()
+{
+    mw_processedImageHistogram->clear();
 }

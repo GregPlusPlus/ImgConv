@@ -99,9 +99,9 @@ void MainWindow::showOriginalImage(const QImage &img) {
     mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
                              .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
 
-    mw_imgCorrectionPanel->originalImageHistogramWidget()->clear();
-    mw_imgCorrectionPanel->processedImageHistogramWidget()->clear();
-    startComputeHistogram(m_original, mw_imgCorrectionPanel->originalImageHistogramWidget());
+    mw_imgCorrectionPanel->clearOriginalImageHistogram();
+    mw_imgCorrectionPanel->clearProcessedImageHistogram();
+    startComputeHistogram(m_original, ImageCorrectionPanel::OriginalImageHistogram);
 }
 
 void MainWindow::showProcessedImage(const QImage &img) {
@@ -110,8 +110,8 @@ void MainWindow::showProcessedImage(const QImage &img) {
     mw_tabWidget->setCurrentWidget(mw_processedImgView);
     mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
 
-    mw_imgCorrectionPanel->processedImageHistogramWidget()->clear();
-    startComputeHistogram(m_processed, mw_imgCorrectionPanel->processedImageHistogramWidget());
+    mw_imgCorrectionPanel->clearProcessedImageHistogram();
+    startComputeHistogram(m_processed, ImageCorrectionPanel::ProcessedImageHistogram);
 }
 
 void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
@@ -225,7 +225,7 @@ void MainWindow::startConv2DProcess() {
     QThreadPool::globalInstance()->start(process);
 }
 
-void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widget) {
+void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole role) {
     const QString programPath = ":/ocl/histogram.cl";
 
     if(m_ocl->isRunning()) {
@@ -263,7 +263,7 @@ void MainWindow::startComputeHistogram(const QImage &img, HistogramWidget *widge
             return;
         }
 
-        widget->setHistogram(hist);
+        mw_imgCorrectionPanel->displayHistogram(hist, role);
 
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
@@ -306,7 +306,7 @@ void MainWindow::startImageCorrection(const QString &kernelPath) {
 
     WaitDialog *dialog = new WaitDialog(tr("Correcting image..."));
     Threads::Correction *process = new Threads::Correction(m_ocl, m_original,
-                                                           mw_imgCorrectionPanel->originalImageHistogramWidget()->histogram().getCDF());
+                                                           mw_imgCorrectionPanel->originalImageHistogram().getCDF());
 
     connect(process, &Threads::Correction::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
         float pixPerSec = 0;
