@@ -43,7 +43,7 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
 
     mw_histogramEqualizationButton = new QPushButton(tr("Histogram equalization"), this);
     connect(mw_histogramEqualizationButton, &QPushButton::clicked, this, &ImageCorrectionPanel::equalizeHistogram);
-    m_layout->addWidget(mw_histogramEqualizationButton, 3, 0, 1, 1);
+    m_layout->addWidget(mw_histogramEqualizationButton, 3, 0, 1, 2);
 
     mw_container->setLayout(m_layout);
     setWidget(mw_container);
