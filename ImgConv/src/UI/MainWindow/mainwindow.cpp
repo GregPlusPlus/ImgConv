@@ -119,6 +119,48 @@ void MainWindow::openFile() {
     QThreadPool::globalInstance()->start(imgLoader);
 }
 
+void MainWindow::showOriginalImage(const QImage &img) {
+    mw_tabWidget->setCurrentWidget(mw_origImgView);
+    mw_origImgView->setPixmap(QPixmap::fromImage(img));
+    mw_processedImgView->setPixmap(QPixmap());
+
+    mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
+                             .arg(img.width()).arg(img.height()).arg(img.sizeInBytes()));
+
+    mw_imgCorrectionPanel->clearOriginalImageHistogram();
+    mw_imgCorrectionPanel->clearProcessedImageHistogram();
+
+    startComputeHistogram(img, ImageCorrectionPanel::OriginalImageHistogram);
+}
+
+void MainWindow::showProcessedImage(const QImage &img) {
+    mw_tabWidget->setCurrentWidget(mw_processedImgView);
+    mw_processedImgView->setPixmap(QPixmap::fromImage(img));
+
+    mw_imgCorrectionPanel->clearProcessedImageHistogram();
+
+    startComputeHistogram(img, ImageCorrectionPanel::ProcessedImageHistogram);
+}
+
+void MainWindow::startConv2D() {
+    m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
+
+    m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));
+}
+
+void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole) {
+    m_histRole = histRole;
+    m_coreApp->startComputeHistogram(img);
+}
+
+void MainWindow::startImageCorrection(const QString &kernelPath) {
+    m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
+
+    m_coreApp->startImageCorrection(kernelPath);
+}
+
 void MainWindow::createImage() {
     CreateImageDialog *dialog = new CreateImageDialog(this);
     dialog->exec();
@@ -139,29 +181,6 @@ void MainWindow::createImage() {
     mw_logPanel->logInfo(tr("Created image of size %1x%2.").arg(settings.width).arg(settings.height));
 
     m_coreApp->setOriginalImage(img);
-}
-
-void MainWindow::showOriginalImage(const QImage &img) {
-    mw_tabWidget->setCurrentWidget(mw_origImgView);
-    mw_origImgView->setPixmap(QPixmap::fromImage(img));
-    mw_processedImgView->setPixmap(QPixmap());
-
-    mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
-                             .arg(img.width()).arg(img.height()).arg(img.sizeInBytes()));
-
-    mw_imgCorrectionPanel->clearOriginalImageHistogram();
-    mw_imgCorrectionPanel->clearProcessedImageHistogram();
-    m_histRole = ImageCorrectionPanel::OriginalImageHistogram;
-    m_coreApp->startComputeHistogram(img);
-}
-
-void MainWindow::showProcessedImage(const QImage &img) {
-    mw_tabWidget->setCurrentWidget(mw_processedImgView);
-    mw_processedImgView->setPixmap(QPixmap::fromImage(img));
-
-    mw_imgCorrectionPanel->clearProcessedImageHistogram();
-    m_histRole = ImageCorrectionPanel::ProcessedImageHistogram;
-    m_coreApp->startComputeHistogram(img);
 }
 
 void MainWindow::exportProcessedImage() {

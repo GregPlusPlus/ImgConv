@@ -151,8 +151,6 @@ void App::startConv2DProcess(ConvKernels::ConvKernel *k) {
         delete dialog;
     });
 
-    m_runAction->setDisabled(true);
-    m_selectDeviceAction->setDisabled(true);
     dialog->show();
 
     QThreadPool::globalInstance()->start(process);
@@ -236,7 +234,7 @@ void App::startImageCorrection(const QString &kernelPath) {
     mw_logPanel->logOutput(tr("Running kernel..."));
 
     WaitDialog *dialog = new WaitDialog(tr("Correcting image..."));
-    Threads::Correction *process = new Threads::Correction(m_ocl, m_original,
+    Threads::Correction *process = new Threads::Correction(m_ocl, m_originalImage,
                                                            mw_imgCorrectionPanel->originalImageHistogram().getCDF());
 
     connect(process, &Threads::Correction::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
@@ -256,8 +254,6 @@ void App::startImageCorrection(const QString &kernelPath) {
         delete dialog;
     });
 
-    m_runAction->setDisabled(true);
-    m_selectDeviceAction->setDisabled(true);
     dialog->show();
 
     QThreadPool::globalInstance()->start(process);

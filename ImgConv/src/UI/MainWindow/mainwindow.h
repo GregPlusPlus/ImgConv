@@ -64,6 +64,7 @@ public:
 private slots:
     void connectCoreApp();
     void processFinished(Core::App::ProcessID pid, qint64 elapsedTime);
+    void processError();
     void histogramComputed(const Processing::Algorithms::Histogram &hist);
     void openFile();
     void createImage();
@@ -80,6 +81,8 @@ private slots:
     void buildKernelComboBox();
     void showOriginalImage(const QImage &img);
     void showProcessedImage(const QImage &img);
+    void startConv2D();
+    void startImageCorrection(const QString &kernelPath);
 
 private:
     QTabWidget *mw_tabWidget;
