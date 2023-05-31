@@ -11,6 +11,7 @@ DEFINES += GIT_VERSION='"\\\"$(shell git describe --always)\\\""'
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/Core/Logger/logger.cpp \
     src/Core/OCLWrapper/oclwrapper.cpp \
     src/Core/Processing/Kernels/custom.cpp \
     src/Core/Processing/Kernels/emboss.cpp \
@@ -54,6 +55,7 @@ SOURCES += \
     src/UI/Dialogs/WaitDialog/waitdialog.cpp \
     src/main.cpp
 HEADERS += \
+    src/Core/Logger/logger.h \
     src/Core/OCLWrapper/oclwrapper.h \
     src/Core/Processing/Kernels/custom.h \
     src/Core/Processing/Kernels/emboss.h \
