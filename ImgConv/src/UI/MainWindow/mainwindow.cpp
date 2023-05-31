@@ -49,7 +49,7 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::processFinished, this, &MainWindow::processFinished);
 }
 
-void MainWindow::processFinished(Core::App::ProcessClass pClass, qint64 elapsedTime) {
+void MainWindow::processFinished(Core::App::ProcessClass pClass, QUuid pid, qint64 elapsedTime) {
     float pixPerSec = 1000.f * (m_coreApp->originalImage().size().width() * m_coreApp->originalImage().size().height()) / elapsedTime;
 
     QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
@@ -77,6 +77,12 @@ void MainWindow::processFinished(Core::App::ProcessClass pClass, qint64 elapsedT
         break;
     default:
         break;
+    }
+
+    WaitDialog *dialog = m_waitDialogs.value(pid, nullptr);
+
+    if(dialog) {
+        delete dialog;
     }
 }
 
@@ -146,7 +152,8 @@ void MainWindow::startConv2D() {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));
+    m_waitDialogs.insert(m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex())),
+                         new WaitDialog(tr("Processing image...")));
 }
 
 void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole) {
@@ -155,14 +162,16 @@ void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_coreApp->startComputeHistogram(img);
+    m_waitDialogs.insert(m_coreApp->startComputeHistogram(img),
+                         new WaitDialog(tr("Computing histogram...")));
 }
 
 void MainWindow::startImageCorrection(const QString &kernelPath) {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_coreApp->startImageCorrection(kernelPath);
+    m_waitDialogs.insert(m_coreApp->startImageCorrection(kernelPath),
+                         new WaitDialog(tr("Correcting image...")));
 }
 
 void MainWindow::createImage() {

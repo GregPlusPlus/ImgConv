@@ -128,24 +128,24 @@ QUuid App::startConv2DProcess(ConvKernels::ConvKernel *k) {
 
     mw_logPanel->logOutput(tr("Running kernel..."));
 
-    WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
-
     m_pclass = Conv2D;
 
     Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_originalImage, mat);
 
     connect(process, &Threads::Conv2D::finished, this, [this, process](const QImage &img, qint64 et, bool res) {
         if(!res) {
-            delete dialog;
-
             emit processError();
             emit processFinished(m_pclass, process->getUUID(), et);
+
+            delete process;
 
             return;
         }
 
         setProcessedImage(img);
         emit processFinished(m_pclass, process->getUUID(), et);
+
+        delete process;
     });
 
     QThreadPool::globalInstance()->start(process);
@@ -176,7 +176,6 @@ QUuid App::startComputeHistogram(const QImage &img) {
         return;
     }
 
-    WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
     Threads::Histogram *process = new Threads::Histogram(m_ocl, img);
 
     connect(process, &Threads::Histogram::finished, this, [this, process](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
@@ -186,13 +185,15 @@ QUuid App::startComputeHistogram(const QImage &img) {
             emit processError();
             emit processFinished(m_pclass, process->getUUID(), et);
 
-            return;
+            delete process;
 
             return;
         }
 
         histogramComputingDone(hist);
         emit processFinished(m_pclass, process->getUUID(), et);
+
+        delete process;
     });
 
     QThreadPool::globalInstance()->start(process);
@@ -227,7 +228,6 @@ QUuid App::startImageCorrection(const QString &kernelPath) {
 
     mw_logPanel->logOutput(tr("Running kernel..."));
 
-    WaitDialog *dialog = new WaitDialog(tr("Correcting image..."));
     Threads::Correction *process = new Threads::Correction(m_ocl, m_originalImage,
                                                            mw_imgCorrectionPanel->originalImageHistogram().getCDF());
 
@@ -236,13 +236,15 @@ QUuid App::startImageCorrection(const QString &kernelPath) {
             emit processError();
             emit processFinished(m_pclass, process->getUUID(), et);
 
-            return;
+            delete process;
 
             return;
         }
 
         setProcessedImage(img);
         emit processFinished(m_pclass, process->getUUID(), et);
+
+        delete process;
     });
 
     QThreadPool::globalInstance()->start(process);

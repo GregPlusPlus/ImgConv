@@ -36,6 +36,7 @@
 #include <QDockWidget>
 #include <QHBoxLayout>
 #include <QVector>
+#include <QMap>
 #include <QList>
 #include <QImageReader>
 #include <QCloseEvent>
@@ -63,7 +64,7 @@ public:
 
 private slots:
     void connectCoreApp();
-    void processFinished(Core::App::ProcessID pid, qint64 elapsedTime);
+    void processFinished(Core::App::ProcessClass pid, QUuid pid, qint64 elapsedTime);
     void processError();
     void histogramComputed(const Processing::Algorithms::Histogram &hist);
     void openFile();
@@ -82,6 +83,7 @@ private slots:
     void showOriginalImage(const QImage &img);
     void showProcessedImage(const QImage &img);
     void startConv2D();
+    void startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole);
     void startImageCorrection(const QString &kernelPath);
 
 private:
@@ -116,6 +118,8 @@ private:
     Core::App *m_coreApp;
 
     ImageCorrectionPanel::HistogramRole m_histRole;
+
+    QMap<QUuid, WaitDialog*> m_waitDialogs;
 
 protected:
     void closeEvent(QCloseEvent *ev);
