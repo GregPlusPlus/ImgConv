@@ -156,29 +156,44 @@ void MainWindow::showProcessedImage(const QImage &img) {
 }
 
 void MainWindow::startConv2D() {
+    QUuid pid = m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));
+
+    if(pid.isNull()) {
+        return;
+    }
+
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogs.insert(m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex())),
-                         new WaitDialog(tr("Processing image...")));
+    m_waitDialogs.insert(pid, new WaitDialog(tr("Processing image...")));
 }
 
 void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole) {
+    QUuid pid = m_coreApp->startComputeHistogram(img);
+
+    if(pid.isNull()) {
+        return;
+    }
+
     m_histRole = histRole;
 
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogs.insert(m_coreApp->startComputeHistogram(img),
-                         new WaitDialog(tr("Computing histogram...")));
+    m_waitDialogs.insert(pid, new WaitDialog(tr("Computing histogram...")));
 }
 
 void MainWindow::startImageCorrection(const QString &kernelPath) {
+    QUuid pid = m_coreApp->startImageCorrection(kernelPath, mw_imgCorrectionPanel->originalImageHistogram().getCDF());
+
+    if(pid.isNull()) {
+        return;
+    }
+
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogs.insert(m_coreApp->startImageCorrection(kernelPath),
-                         new WaitDialog(tr("Correcting image...")));
+    m_waitDialogs.insert(pid, new WaitDialog(tr("Correcting image...")));
 }
 
 void MainWindow::createImage() {

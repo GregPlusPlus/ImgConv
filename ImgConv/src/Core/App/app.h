@@ -66,7 +66,7 @@ public slots:
 
     QUuid startConv2DProcess(ConvKernels::ConvKernel *k);
     QUuid startComputeHistogram(const QImage &img);
-    QUuid startImageCorrection(const QString &kernelPath);
+    QUuid startImageCorrection(const QString &kernelPath, const Processing::Algorithms::Histogram &hist);
 
     void logConvMatrix(const QVector<QVector<float> > &mat);
 

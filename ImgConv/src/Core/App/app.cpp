@@ -201,7 +201,7 @@ QUuid App::startComputeHistogram(const QImage &img) {
     return process->getUUID();
 }
 
-QUuid App::startImageCorrection(const QString &kernelPath) {
+QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Algorithms::Histogram &hist) {
     if(m_ocl->isRunning()) {
         logInfo(tr("Kernel already running ! Please wait."));
 
@@ -228,8 +228,7 @@ QUuid App::startImageCorrection(const QString &kernelPath) {
 
     logOutput(tr("Running kernel..."));
 
-    Threads::Correction *process = new Threads::Correction(m_ocl, m_originalImage,
-                                                           mw_imgCorrectionPanel->originalImageHistogram().getCDF());
+    Threads::Correction *process = new Threads::Correction(m_ocl, m_originalImage, hist);
 
     connect(process, &Threads::Correction::finished, this, [this, process](const QImage &img, qint64 et, bool res) {
         if(!res) {
