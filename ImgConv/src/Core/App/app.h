@@ -63,16 +63,16 @@ public slots:
     void initOpenCL(const OCLWrapper::Device &device);
     bool createOCLProgram(const QString &fn, const QString &options);
 
-    void startConv2DProcess(ConvKernels::ConvKernel *k);
-    void startComputeHistogram(const QImage &img);
-    void startImageCorrection(const QString &kernelPath);
+    QUuid startConv2DProcess(ConvKernels::ConvKernel *k);
+    QUuid startComputeHistogram(const QImage &img);
+    QUuid startImageCorrection(const QString &kernelPath);
 
     void logConvMatrix(const QVector<QVector<float> > &mat);
 
 signals:
     void imageProcessingDone(const QImage &img);
     void histogramComputingDone(const Processing::Algorithms::Histogram &histogram);
-    void processFinished(Core::App::ProcessClass pid, qint64 elapsedTime);
+    void processFinished(Core::App::ProcessClass pclass, QUuid pid, qint64 elapsedTime);
     void originalImageChanged();
     void processedImageChanged();
 

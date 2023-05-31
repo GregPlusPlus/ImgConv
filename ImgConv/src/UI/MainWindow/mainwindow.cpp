@@ -151,6 +151,10 @@ void MainWindow::startConv2D() {
 
 void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole) {
     m_histRole = histRole;
+
+    m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
+
     m_coreApp->startComputeHistogram(img);
 }
 

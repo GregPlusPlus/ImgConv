@@ -90,7 +90,7 @@ bool App::createOCLProgram(const QString &fn, const QString &options) {
     return true;
 }
 
-void App::startConv2DProcess(ConvKernels::ConvKernel *k) {
+QUuid App::startConv2DProcess(ConvKernels::ConvKernel *k) {
     if(m_ocl->isRunning()) {
         mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
 
@@ -134,29 +134,26 @@ void App::startConv2DProcess(ConvKernels::ConvKernel *k) {
 
     Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_originalImage, mat);
 
-    connect(process, &Threads::Conv2D::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
+    connect(process, &Threads::Conv2D::finished, this, [this, process](const QImage &img, qint64 et, bool res) {
         if(!res) {
             delete dialog;
 
             emit processError();
-            emit processFinished(m_pclass, et);
+            emit processFinished(m_pclass, process->getUUID(), et);
 
             return;
         }
 
         setProcessedImage(img);
-
-        emit processFinished(m_pclass, et);
-
-        delete dialog;
+        emit processFinished(m_pclass, process->getUUID(), et);
     });
 
-    dialog->show();
-
     QThreadPool::globalInstance()->start(process);
+
+    return process->getUUID();
 }
 
-void App::startComputeHistogram(const QImage &img) {
+QUuid App::startComputeHistogram(const QImage &img) {
     const QString programPath = ":/ocl/histogram.cl";
 
     if(m_ocl->isRunning()) {
@@ -182,12 +179,12 @@ void App::startComputeHistogram(const QImage &img) {
     WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
     Threads::Histogram *process = new Threads::Histogram(m_ocl, img);
 
-    connect(process, &Threads::Histogram::finished, this, [=](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
+    connect(process, &Threads::Histogram::finished, this, [this, process](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
         Q_UNUSED(et)
 
         if(!res) {
             emit processError();
-            emit processFinished(m_pclass, et);
+            emit processFinished(m_pclass, process->getUUID(), et);
 
             return;
 
@@ -195,18 +192,15 @@ void App::startComputeHistogram(const QImage &img) {
         }
 
         histogramComputingDone(hist);
-
-        delete dialog;
+        emit processFinished(m_pclass, process->getUUID(), et);
     });
 
-    m_runAction->setDisabled(true);
-    m_selectDeviceAction->setDisabled(true);
-    dialog->show();
-
     QThreadPool::globalInstance()->start(process);
+
+    return process->getUUID();
 }
 
-void App::startImageCorrection(const QString &kernelPath) {
+QUuid App::startImageCorrection(const QString &kernelPath) {
     if(m_ocl->isRunning()) {
         mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
 
@@ -237,10 +231,10 @@ void App::startImageCorrection(const QString &kernelPath) {
     Threads::Correction *process = new Threads::Correction(m_ocl, m_originalImage,
                                                            mw_imgCorrectionPanel->originalImageHistogram().getCDF());
 
-    connect(process, &Threads::Correction::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
+    connect(process, &Threads::Correction::finished, this, [this, process](const QImage &img, qint64 et, bool res) {
         if(!res) {
             emit processError();
-            emit processFinished(m_pclass, et);
+            emit processFinished(m_pclass, process->getUUID(), et);
 
             return;
 
@@ -248,13 +242,12 @@ void App::startImageCorrection(const QString &kernelPath) {
         }
 
         setProcessedImage(img);
-
-        delete dialog;
+        emit processFinished(m_pclass, process->getUUID(), et);
     });
 
-    dialog->show();
-
     QThreadPool::globalInstance()->start(process);
+
+    return process->getUUID();
 }
 
 void App::logConvMatrix(const QVector<QVector<float> > &mat) {
