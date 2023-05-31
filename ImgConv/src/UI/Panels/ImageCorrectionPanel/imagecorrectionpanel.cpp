@@ -27,28 +27,98 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
 
     m_layout = new QGridLayout;
 
-    mw_originalImageHistogram = new HistogramWidget(tr("Original image histogram"), this);
-    m_layout->addWidget(mw_originalImageHistogram, 0, 0, 1, 2);
+    mw_radioHistogram = new QRadioButton(tr("Histogram"), this);
+    connect(mw_radioHistogram, &QRadioButton::toggled, this, &ImageCorrectionPanel::displayHistCDF);
+    m_layout->addWidget(mw_radioHistogram, 0, 0, 1, 1);
 
+    mw_radioCDF = new QRadioButton("CDF", this);
+    mw_radioCDF->setToolTip(tr("Cumulative Distribution Frequency"));
+    m_layout->addWidget(mw_radioCDF, 0, 1, 1, 1);
+    connect(mw_radioCDF, &QRadioButton::toggled, this, &ImageCorrectionPanel::displayHistCDF);
+
+    mw_originalImageHistogram = new HistogramWidget(tr("Original image histogram"), this);
     mw_processedImageHistogram = new HistogramWidget(tr("Processed image histogram"), this);
-    m_layout->addWidget(mw_processedImageHistogram, 1, 0, 1, 2);
+    mw_originalImageCDF = new HistogramWidget(tr("Original image CDF"), this);
+    mw_processedImageCDF = new HistogramWidget(tr("Processed image CDF"), this);
 
     mw_convertGrayscaleButton = new QPushButton(tr("Convert to grayscale"), this);
     connect(mw_convertGrayscaleButton, &QPushButton::clicked, this, &ImageCorrectionPanel::convertToGrayscale);
-    m_layout->addWidget(mw_convertGrayscaleButton, 2, 0, 1, 1);
+    m_layout->addWidget(mw_convertGrayscaleButton, 4, 0, 1, 1);
 
     mw_invertColorsButton = new QPushButton(tr("Invert colors"), this);
     connect(mw_invertColorsButton, &QPushButton::clicked, this, &ImageCorrectionPanel::invertColors);
-    m_layout->addWidget(mw_invertColorsButton, 2, 1, 1, 1);
+    m_layout->addWidget(mw_invertColorsButton, 4, 1, 1, 1);
+
+    mw_histogramEqualizationButton = new QPushButton(tr("Histogram equalization"), this);
+    connect(mw_histogramEqualizationButton, &QPushButton::clicked, this, &ImageCorrectionPanel::equalizeHistogram);
+    m_layout->addWidget(mw_histogramEqualizationButton, 5, 0, 1, 2);
 
     mw_container->setLayout(m_layout);
     setWidget(mw_container);
+
+    mw_radioHistogram->toggle();
 }
 
-HistogramWidget *ImageCorrectionPanel::originalImageHistogramWidget() {
-    return mw_originalImageHistogram;
+Processing::Algorithms::Histogram ImageCorrectionPanel::originalImageHistogram() {
+    return mw_originalImageHistogram->histogram();
 }
 
-HistogramWidget *ImageCorrectionPanel::processedImageHistogramWidget() {
-    return mw_processedImageHistogram;
+Processing::Algorithms::Histogram ImageCorrectionPanel::processedImageHistogram() {
+    return mw_processedImageHistogram->histogram();
+}
+
+void ImageCorrectionPanel::displayHistogram(const Processing::Algorithms::Histogram &histogram, ImageCorrectionPanel::HistogramRole role) {
+    switch(role) {
+    case OriginalImageHistogram:
+        setOriginalImageHistogram(histogram);
+        break;
+    case ProcessedImageHistogram:
+        setProcessedImageHistogram(histogram);
+        break;
+    default:
+        break;
+    }
+}
+
+void ImageCorrectionPanel::setOriginalImageHistogram(const Processing::Algorithms::Histogram &histogram) {
+    mw_originalImageHistogram->setHistogram(histogram);
+    mw_originalImageCDF->setHistogram(histogram.getCDF());
+}
+
+void ImageCorrectionPanel::setProcessedImageHistogram(const Processing::Algorithms::Histogram &histogram) {
+    mw_processedImageHistogram->setHistogram(histogram);
+    mw_processedImageCDF->setHistogram(histogram.getCDF());
+}
+
+void ImageCorrectionPanel::clearOriginalImageHistogram() {
+    mw_originalImageHistogram->clear();
+    mw_originalImageCDF->clear();
+}
+
+void ImageCorrectionPanel::clearProcessedImageHistogram()
+{
+    mw_processedImageHistogram->clear();
+    mw_processedImageCDF->clear();
+}
+
+void ImageCorrectionPanel::displayHistCDF() {
+    if(mw_radioHistogram->isChecked()) {
+        mw_originalImageCDF->hide();
+        mw_processedImageCDF->hide();
+        m_layout->removeWidget(mw_originalImageCDF);
+        m_layout->removeWidget(mw_processedImageCDF);
+        m_layout->addWidget(mw_originalImageHistogram, 1, 0, 1, 2);
+        m_layout->addWidget(mw_processedImageHistogram, 2, 0, 1, 2);
+        mw_originalImageHistogram->show();
+        mw_processedImageHistogram->show();
+    } else if(mw_radioCDF->isChecked()) {
+        mw_originalImageHistogram->hide();
+        mw_processedImageHistogram->hide();
+        m_layout->removeWidget(mw_originalImageHistogram);
+        m_layout->removeWidget(mw_processedImageHistogram);
+        m_layout->addWidget(mw_originalImageCDF, 1, 0, 1, 2);
+        m_layout->addWidget(mw_processedImageCDF, 2, 0, 1, 2);
+        mw_originalImageCDF->show();
+        mw_processedImageCDF->show();
+    }
 }

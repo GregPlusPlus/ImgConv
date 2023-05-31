@@ -31,5 +31,6 @@
         <file>ocl/convertGrayscale.cl</file>
         <file>ocl/invertColors.cl</file>
         <file>icons/information-balloon.png</file>
+        <file>ocl/equalizeHistogram.cl</file>
     </qresource>
 </RCC>

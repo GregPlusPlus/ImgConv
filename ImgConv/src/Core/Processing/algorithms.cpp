@@ -187,13 +187,15 @@ bool Processing::Algorithms::computeHistogram(OCLWrapper *ocl, const QImage &in,
     return true;
 }
 
-bool Processing::Algorithms::applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out) {
+bool Processing::Algorithms::applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histogram &cdf) {
     int imgW = in.width();
     int imgH = in.height();
     size_t inSize = in.sizeInBytes();
 
-    ocl->releaseAll();
+    const size_t numberOfLevels = 256;
+    const size_t cdfBuffSize = numberOfLevels * sizeof(size_t);
 
+    ocl->releaseAll();
 
     // Output buffer
     uint8_t *outImg = nullptr;
@@ -204,6 +206,21 @@ bool Processing::Algorithms::applyCorrection(OCLWrapper *ocl, const QImage &in, 
         return false;
     }
 
+    // Create INPUT CDF R buffer
+    if(ocl->addBuffer(cdfBuffSize, CL_MEM_READ_ONLY) < 0) {
+        return false;
+    }
+
+    // Create INPUT CDF G buffer
+    if(ocl->addBuffer(cdfBuffSize, CL_MEM_READ_ONLY) < 0) {
+        return false;
+    }
+
+    // Create INPUT CDF B buffer
+    if(ocl->addBuffer(cdfBuffSize, CL_MEM_READ_ONLY) < 0) {
+        return false;
+    }
+
     // Create OUTPUT RGB buffer
     if(ocl->addBuffer(inSize, CL_MEM_READ_WRITE) < 0) {
         return false;
@@ -211,6 +228,30 @@ bool Processing::Algorithms::applyCorrection(OCLWrapper *ocl, const QImage &in, 
 
     // Write INPUT buffer
     if(!ocl->writeBuffer(0, in.bits(), inSize)) {
+        return false;
+    }
+
+    // Fill CDF buffer
+    size_t histBuffer[3][numberOfLevels];
+
+    for(size_t i = 0; i < numberOfLevels; i ++) {
+        histBuffer[0][i] = cdf.r[i];
+        histBuffer[1][i] = cdf.g[i];
+        histBuffer[2][i] = cdf.b[i];
+    }
+
+    // Write INPUT CDF R buffer
+    if(!ocl->writeBuffer(1, (uint8_t*)histBuffer[0], cdfBuffSize)) {
+        return false;
+    }
+
+    // Write INPUT CDF G buffer
+    if(!ocl->writeBuffer(2, (uint8_t*)histBuffer[1], cdfBuffSize)) {
+        return false;
+    }
+
+    // Write INPUT CDF B buffer
+    if(!ocl->writeBuffer(3, (uint8_t*)histBuffer[2], cdfBuffSize)) {
         return false;
     }
 
@@ -231,7 +272,7 @@ bool Processing::Algorithms::applyCorrection(OCLWrapper *ocl, const QImage &in, 
     }
 
     // Read OUTPUT buffer
-    if(!ocl->readBuffer(1, &outImg, &outSize)) {
+    if(!ocl->readBuffer(4, &outImg, &outSize)) {
         return false;
     }
 

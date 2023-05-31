@@ -18,8 +18,8 @@
 
 #include "correction.h"
 
-Threads::Correction::Correction(OCLWrapper *ocl, const QImage &original)
-    : QObject(), QRunnable(), m_ocl{ocl}, m_original{original} {
+Threads::Correction::Correction(OCLWrapper *ocl, const QImage &original, const Processing::Algorithms::Histogram &cdf)
+    : QObject(), QRunnable(), m_cdf{cdf}, m_ocl{ocl}, m_original{original} {
 
 }
 
@@ -29,7 +29,7 @@ void Threads::Correction::run() {
     QElapsedTimer tm;
     tm.start();
 
-    bool res = Processing::Algorithms::applyCorrection(m_ocl, m_original, corrected);
+    bool res = Processing::Algorithms::applyCorrection(m_ocl, m_original, corrected, m_cdf);
 
     emit finished(corrected, tm.elapsed(), res);
 }

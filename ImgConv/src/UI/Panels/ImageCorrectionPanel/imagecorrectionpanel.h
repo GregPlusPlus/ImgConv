@@ -21,6 +21,7 @@
 
 #include <QDockWidget>
 #include <QPushButton>
+#include <QRadioButton>
 
 #include <QGridLayout>
 
@@ -30,27 +31,49 @@
 class ImageCorrectionPanel : public QDockWidget
 {
     Q_OBJECT
+
+public:
+    enum HistogramRole {
+        OriginalImageHistogram,
+        ProcessedImageHistogram
+    };
+
 public:
     ImageCorrectionPanel(QWidget *parent = nullptr);
 
-    HistogramWidget *originalImageHistogramWidget();
-    HistogramWidget *processedImageHistogramWidget();
+    Processing::Algorithms::Histogram originalImageHistogram();
+    Processing::Algorithms::Histogram processedImageHistogram();
 
 public slots:
+    void displayHistogram(const Processing::Algorithms::Histogram &histogram, ImageCorrectionPanel::HistogramRole role);
+    void setOriginalImageHistogram(const Processing::Algorithms::Histogram &histogram);
+    void setProcessedImageHistogram(const Processing::Algorithms::Histogram &histogram);
+    void clearOriginalImageHistogram();
+    void clearProcessedImageHistogram();
 
 signals:
     void convertToGrayscale();
     void invertColors();
+    void equalizeHistogram();
+
+private slots:
+    void displayHistCDF();
 
 private:
     QGridLayout *m_layout;
     QWidget *mw_container;
 
+    QRadioButton *mw_radioHistogram;
+    QRadioButton *mw_radioCDF;
+
     QPushButton *mw_convertGrayscaleButton;
     QPushButton *mw_invertColorsButton;
+    QPushButton *mw_histogramEqualizationButton;
 
     HistogramWidget *mw_originalImageHistogram;
     HistogramWidget *mw_processedImageHistogram;
+    HistogramWidget *mw_originalImageCDF;
+    HistogramWidget *mw_processedImageCDF;
 };
 
 #endif // IMAGECORRECTIONPANEL_H

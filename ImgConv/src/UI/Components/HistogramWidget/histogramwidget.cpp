@@ -49,7 +49,7 @@ void HistogramWidget::plot(QPainter &p, const QVector<size_t> &v, size_t max, co
     QPolygon poly;
     poly << (rect().bottomLeft() - QPoint(0, bottomMargin()));
 
-    for(qsizetype i = 0; i < m_histogram.r.size(); i ++) {
+    for(qsizetype i = 0; i < v.size(); i ++) {
         poly << QPoint(val2X(i), val2Y(v[i], max));
     }
 
