@@ -52,11 +52,8 @@
 #include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
-#include "Core/OCLWrapper/oclwrapper.h"
-#include "Core/Processing/convkernel1darray.h"
-#include "Core/Processing/Kernels/kernels.h"
-#include "Core/Threads/threads.h"
-#include "Core/Utils/utils.h"
+
+#include "Core/App/app.h"
 
 
 class MainWindow : public QMainWindow {
@@ -70,17 +67,9 @@ private slots:
     void openFile();
     void createImage();
     void exportProcessedImage();
-    void startConv2DProcess();
-    void startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole role);
-    void startImageCorrection(const QString &kernelPath);
     void filterSelected(int index);
     void showAboutDialog();
     void saveOnExit();
-
-private:
-    bool initCore();
-    void initOpenCL(const OCLWrapper::Device &device);
-    bool createOCLProgram(const QString &fn, const QString &options);
     void displayOCLProgramError();
     void buildMenus();
     void displayDeviceName();
@@ -91,7 +80,6 @@ private:
     void buildKernelComboBox();
     void showOriginalImage(const QImage &img);
     void showProcessedImage(const QImage &img);
-    void logConvMatrix(const QVector<QVector<float>> &mat);
 
 private:
     QTabWidget *mw_tabWidget;
@@ -122,11 +110,7 @@ private:
     QAction *m_openCLDevices;
 
 private:
-    OCLWrapper *m_ocl = nullptr;
-    QList<OCLWrapper::Device> m_devices;
-    QImage m_original;
-    QImage m_processed;
-    QList<ConvKernels::ConvKernel*> m_convKernels;
+    Core::App *m_app;
 
 protected:
     void closeEvent(QCloseEvent *ev);

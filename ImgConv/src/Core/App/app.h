@@ -29,9 +29,44 @@ class App : public QObject
 {
     Q_OBJECT
 public:
-    explicit App(QObject *parent = nullptr);
+    explicit App(QObject *parent);
+
+    QImage originalImage() const;
+    QImage processedImage() const;
+
+    OCLWrapper *ocl() const;
+
+    QList<OCLWrapper::Device> devices() const;
+
+    QList<ConvKernels::ConvKernel *> convKernels() const;
+
+    void setOriginalImage(const QImage &img);
+    void setProcessedImage(const QImage &img);
+
+    ConvKernels::ConvKernel *getConvKernelAt(qsizetype i) const;
+
+public slots:
+    bool init();
+    void initOpenCL(const OCLWrapper::Device &device);
+    bool createOCLProgram(const QString &fn, const QString &options);
+
+    void startConv2DProcess(ConvKernels::ConvKernel *k);
+    void startComputeHistogram(const QImage &img);
+    void startImageCorrection(const QString &kernelPath);
+
+    void logConvMatrix(const QVector<QVector<float> > &mat);
 
 signals:
+    void imageProcessingDone(const QImage &img);
+    void originalImageChanged();
+    void processedImageChanged();
+
+private:
+    OCLWrapper *m_ocl = nullptr;
+    QList<OCLWrapper::Device> m_devices;
+    QImage m_originalImage;
+    QImage m_processedImage;
+    QList<ConvKernels::ConvKernel*> m_convKernels;
 
 };
 }
