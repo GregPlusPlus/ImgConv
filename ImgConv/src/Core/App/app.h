@@ -24,10 +24,21 @@
 #include "Core/Threads/threads.h"
 #include "Core/Utils/utils.h"
 
+#include <QThreadPool>
+#include <QElapsedTimer>
+
 namespace Core {
 class App : public QObject
 {
     Q_OBJECT
+
+public:
+    enum ProcessID {
+        None,
+        Conv2D,
+        ComputeHistogram,
+        ImageCorrection
+    };
 public:
     explicit App(QObject *parent);
 
@@ -45,6 +56,8 @@ public:
 
     ConvKernels::ConvKernel *getConvKernelAt(qsizetype i) const;
 
+    ProcessID pid() const;
+
 public slots:
     bool init();
     void initOpenCL(const OCLWrapper::Device &device);
@@ -58,8 +71,12 @@ public slots:
 
 signals:
     void imageProcessingDone(const QImage &img);
+    void histogramComputingDone(const Processing::Algorithms::Histogram &histogram);
+    void processFinished(Core::App::ProcessID pid, qint64 elapsedTime);
     void originalImageChanged();
     void processedImageChanged();
+
+    void createOCLProgramError();
 
 private:
     OCLWrapper *m_ocl = nullptr;
@@ -67,6 +84,7 @@ private:
     QImage m_originalImage;
     QImage m_processedImage;
     QList<ConvKernels::ConvKernel*> m_convKernels;
+    ProcessID m_pid = None;
 
 };
 }

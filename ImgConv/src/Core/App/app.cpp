@@ -69,7 +69,9 @@ bool App::createOCLProgram(const QString &fn, const QString &options) {
     if(m_ocl->ret() != CL_SUCCESS) {
         switch(m_ocl->ret()) {
         case CL_BUILD_PROGRAM_FAILURE :
-            displayOCLProgramError();
+            mw_logPanel->logError(tr("OCL build program error (%1)\n______________________________\n%2")
+                                  .arg(m_coreApp->ocl()->ret())
+                                  .arg(m_coreApp->ocl()->getBuildLog()));
 
             m_ocl->releaseKernel();
             m_ocl->releaseProgram();
@@ -106,7 +108,7 @@ void App::startConv2DProcess(ConvKernels::ConvKernel *k) {
         return;
     }
 
-    QString options = Processing::createOCLProgramOptionsConv2D(m_original.size(), matSize);
+    QString options = Processing::createOCLProgramOptionsConv2D(m_originalImage.size(), matSize);
 
     mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
                         .arg(k->getSourceFilePath())
@@ -127,33 +129,25 @@ void App::startConv2DProcess(ConvKernels::ConvKernel *k) {
     mw_logPanel->logOutput(tr("Running kernel..."));
 
     WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
-    Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_original, mat);
+
+    m_pid = Conv2D;
+
+    Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_originalImage, mat);
 
     connect(process, &Threads::Conv2D::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
-        float pixPerSec = 0;
-
         if(!res) {
-            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
-
-            m_runAction->setDisabled(false);
             delete dialog;
+
+            emit processError();
+            emit processFinished(m_pid, et);
 
             return;
         }
 
-        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
+        setProcessedImage(img);
 
-        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
-                            .arg(et)
-                            .arg(pixPerSec);
+        emit processFinished(m_pid, et);
 
-        mw_labelElapsedTime->setText(logStr);
-        mw_logPanel->logOutput(logStr);
-
-        showProcessedImage(img);
-
-        m_runAction->setDisabled(false);
-        m_selectDeviceAction->setDisabled(false);
         delete dialog;
     });
 
@@ -194,18 +188,16 @@ void App::startComputeHistogram(const QImage &img) {
         Q_UNUSED(et)
 
         if(!res) {
-            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
+            emit processError();
+            emit processFinished(m_pid, et);
 
-            m_runAction->setDisabled(false);
-            delete dialog;
+            return;
 
             return;
         }
 
-        mw_imgCorrectionPanel->displayHistogram(hist, role);
+        histogramComputingDone(hist);
 
-        m_runAction->setDisabled(false);
-        m_selectDeviceAction->setDisabled(false);
         delete dialog;
     });
 
@@ -251,27 +243,16 @@ void App::startImageCorrection(const QString &kernelPath) {
         float pixPerSec = 0;
 
         if(!res) {
-            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
+            emit processError();
+            emit processFinished(m_pid, et);
 
-            m_runAction->setDisabled(false);
-            delete dialog;
+            return;
 
             return;
         }
 
-        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
+        setProcessedImage(img);
 
-        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
-                            .arg(et)
-                            .arg(pixPerSec);
-
-        mw_labelElapsedTime->setText(logStr);
-        mw_logPanel->logOutput(logStr);
-
-        showProcessedImage(img);
-
-        m_runAction->setDisabled(false);
-        m_selectDeviceAction->setDisabled(false);
         delete dialog;
     });
 
@@ -296,6 +277,10 @@ void App::logConvMatrix(const QVector<QVector<float> > &mat) {
     str += "\n";
 
     mw_logPanel->logOutput(str);
+}
+
+App::ProcessID App::pid() const {
+    return m_pid;
 }
 
 void App::setProcessedImage(const QImage &newProcessedImage) {

@@ -37,9 +37,7 @@
 #include <QHBoxLayout>
 #include <QVector>
 #include <QList>
-#include <QElapsedTimer>
 #include <QImageReader>
-#include <QThreadPool>
 #include <QCloseEvent>
 
 #include "app_strings.h"
@@ -64,13 +62,15 @@ public:
     ~MainWindow();
 
 private slots:
+    void connectCoreApp();
+    void processFinished(Core::App::ProcessID pid, qint64 elapsedTime);
+    void histogramComputed(const Processing::Algorithms::Histogram &hist);
     void openFile();
     void createImage();
     void exportProcessedImage();
     void filterSelected(int index);
     void showAboutDialog();
     void saveOnExit();
-    void displayOCLProgramError();
     void buildMenus();
     void displayDeviceName();
     void buildUI();
@@ -110,7 +110,9 @@ private:
     QAction *m_openCLDevices;
 
 private:
-    Core::App *m_app;
+    Core::App *m_coreApp;
+
+    ImageCorrectionPanel::HistogramRole m_histRole;
 
 protected:
     void closeEvent(QCloseEvent *ev);
