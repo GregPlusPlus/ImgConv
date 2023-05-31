@@ -19,7 +19,22 @@
 #include "logger.h"
 
 Logger::Logger(QObject *parent)
-    : QObject{parent}
-{
+    : QObject{parent} {
 
+}
+
+void Logger::logInfo(const QString &str) {
+    emit outputLogInfo(str);
+}
+
+void Logger::logOutput(const QString &str) {
+    emit outputLogOutput(str);
+}
+
+void Logger::logError(const QString &str) {
+    emit outputLogError(str);
+}
+
+void Logger::criticalError(const QString &str) {
+    emit showCriticalError(str);
 }

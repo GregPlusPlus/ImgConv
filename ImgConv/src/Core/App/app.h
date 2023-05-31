@@ -23,12 +23,13 @@
 #include "Core/Processing/processing.h"
 #include "Core/Threads/threads.h"
 #include "Core/Utils/utils.h"
+#include "Core/Logger/logger.h"
 
 #include <QThreadPool>
 #include <QElapsedTimer>
 
 namespace Core {
-class App : public QObject
+class App : public Logger
 {
     Q_OBJECT
 

@@ -21,7 +21,7 @@
 namespace Core{
 
 App::App(QObject *parent)
-    : QObject{parent} {
+    : Logger{parent} {
 
 }
 
@@ -29,7 +29,7 @@ bool App::init() {
     m_devices = OCLWrapper::getDevices();
 
     if(m_devices.count() == 0) {
-        QMessageBox::critical(nullptr, tr("OCL init error"), tr("No OpenCL compatible device found !"));
+        showCriticalError(tr("No OpenCL compatible device found !"));
 
         return false;
     }
@@ -48,7 +48,7 @@ void App::initOpenCL(const OCLWrapper::Device &device) {
     m_ocl = new OCLWrapper(device, this);
 
     if(m_ocl->ret() != CL_SUCCESS) {
-        QMessageBox::critical(this, tr("OCL init error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
+        showCriticalError(tr("OCL backend error (%1)").arg(m_ocl->ret()));
 
         return;
     }
@@ -61,7 +61,7 @@ bool App::createOCLProgram(const QString &fn, const QString &options) {
         m_ocl->releaseKernel();
         m_ocl->releaseProgram();
 
-        QMessageBox::critical(this, tr("Filesystem error"), tr("File error (%1)").arg(e));
+        showCriticalError(tr("File error (%1)").arg(e));
 
         return false;
     }
@@ -69,15 +69,15 @@ bool App::createOCLProgram(const QString &fn, const QString &options) {
     if(m_ocl->ret() != CL_SUCCESS) {
         switch(m_ocl->ret()) {
         case CL_BUILD_PROGRAM_FAILURE :
-            mw_logPanel->logError(tr("OCL build program error (%1)\n______________________________\n%2")
-                                  .arg(m_coreApp->ocl()->ret())
-                                  .arg(m_coreApp->ocl()->getBuildLog()));
+            logError(tr("OCL build program error (%1)\n______________________________\n%2")
+                          .arg(m_ocl->ret())
+                          .arg(m_ocl->getBuildLog()));
 
             m_ocl->releaseKernel();
             m_ocl->releaseProgram();
             break;
         default:
-            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
+            showCriticalError(tr("OCL backend error (%1)").arg(m_ocl->ret()));
 
             m_ocl->releaseKernel();
             m_ocl->releaseProgram();
@@ -92,41 +92,41 @@ bool App::createOCLProgram(const QString &fn, const QString &options) {
 
 QUuid App::startConv2DProcess(ConvKernels::ConvKernel *k) {
     if(m_ocl->isRunning()) {
-        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
+        logInfo(tr("Kernel already running ! Please wait."));
 
-        return;
+        return QUuid();
     }
 
     if(m_originalImage.isNull()) {
-        return;
+        return QUuid();
     }
 
     QVector<QVector<float>> mat = k->getMat();
     QSize matSize = k->getMatSize();
 
     if(!matSize.width() || !matSize.height()) {
-        return;
+        return QUuid();
     }
 
     QString options = Processing::createOCLProgramOptionsConv2D(m_originalImage.size(), matSize);
 
-    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
-                        .arg(k->getSourceFilePath())
-                        .arg(options));
+    logOutput(tr("\n[%1] Creating program - opts. : `%2`")
+                    .arg(k->getSourceFilePath())
+                    .arg(options));
 
     if(!createOCLProgram(k->getSourceFilePath(), options)) {
-        return;
+        return QUuid();
     }
 
     if(m_ocl->ret() != CL_SUCCESS) {
-        return;
+        return QUuid();
     }
 
     Utils::scaleMatrix(mat, k->getScalar());
 
     logConvMatrix(mat);
 
-    mw_logPanel->logOutput(tr("Running kernel..."));
+    logOutput(tr("Running kernel..."));
 
     m_pclass = Conv2D;
 
@@ -157,23 +157,23 @@ QUuid App::startComputeHistogram(const QImage &img) {
     const QString programPath = ":/ocl/histogram.cl";
 
     if(m_ocl->isRunning()) {
-        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
+        logInfo(tr("Kernel already running ! Please wait."));
 
-        return;
+        return QUuid();
     }
 
     if(img.isNull()) {
-        return;
+        return QUuid();
     }
 
     QString options = Processing::createOCLProgramOptionsComputeHistogram(img.size());
 
     if(!createOCLProgram(programPath, options)) {
-        return;
+        return QUuid();
     }
 
     if(m_ocl->ret() != CL_SUCCESS) {
-        return;
+        return QUuid();
     }
 
     Threads::Histogram *process = new Threads::Histogram(m_ocl, img);
@@ -203,30 +203,30 @@ QUuid App::startComputeHistogram(const QImage &img) {
 
 QUuid App::startImageCorrection(const QString &kernelPath) {
     if(m_ocl->isRunning()) {
-        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
+        logInfo(tr("Kernel already running ! Please wait."));
 
-        return;
+        return QUuid();
     }
 
-    if(m_original.isNull()) {
-        return;
+    if(m_originalImage.isNull()) {
+        return QUuid();
     }
 
-    QString options = Processing::createOCLProgramOptionsCorrection(m_original.size());
+    QString options = Processing::createOCLProgramOptionsCorrection(m_originalImage.size());
 
-    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
-                        .arg(kernelPath)
-                        .arg(options));
+    logOutput(tr("\n[%1] Creating program - opts. : `%2`")
+                    .arg(kernelPath)
+                    .arg(options));
 
     if(!createOCLProgram(kernelPath, options)) {
-        return;
+        return QUuid();
     }
 
     if(m_ocl->ret() != CL_SUCCESS) {
-        return;
+        return QUuid();
     }
 
-    mw_logPanel->logOutput(tr("Running kernel..."));
+    logOutput(tr("Running kernel..."));
 
     Threads::Correction *process = new Threads::Correction(m_ocl, m_originalImage,
                                                            mw_imgCorrectionPanel->originalImageHistogram().getCDF());
@@ -265,7 +265,7 @@ void App::logConvMatrix(const QVector<QVector<float> > &mat) {
 
     str += "\n";
 
-    mw_logPanel->logOutput(str);
+    logOutput(str);
 }
 
 App::ProcessClass App::processClass() const {
@@ -305,5 +305,4 @@ QImage App::processedImage() const {
 QImage App::originalImage() const {
     return m_originalImage;
 }
-
 }

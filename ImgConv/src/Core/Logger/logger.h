@@ -27,8 +27,19 @@ class Logger : public QObject
 public:
     explicit Logger(QObject *parent = nullptr);
 
-signals:
+public slots:
+    void logInfo(const QString &str);
+    void logOutput(const QString &str);
+    void logError(const QString &str);
 
+    void criticalError(const QString &str);
+
+signals:
+    void outputLogInfo(const QString &str);
+    void outputLogOutput(const QString &str);
+    void outputLogError(const QString &str);
+
+    void showCriticalError(const QString &str);
 };
 
 #endif // LOGGER_H
