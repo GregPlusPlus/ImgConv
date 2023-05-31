@@ -33,7 +33,7 @@ class App : public QObject
     Q_OBJECT
 
 public:
-    enum ProcessID {
+    enum ProcessClass {
         None,
         Conv2D,
         ComputeHistogram,
@@ -56,7 +56,7 @@ public:
 
     ConvKernels::ConvKernel *getConvKernelAt(qsizetype i) const;
 
-    ProcessID pid() const;
+    ProcessClass processClass() const;
 
 public slots:
     bool init();
@@ -72,11 +72,12 @@ public slots:
 signals:
     void imageProcessingDone(const QImage &img);
     void histogramComputingDone(const Processing::Algorithms::Histogram &histogram);
-    void processFinished(Core::App::ProcessID pid, qint64 elapsedTime);
+    void processFinished(Core::App::ProcessClass pid, qint64 elapsedTime);
     void originalImageChanged();
     void processedImageChanged();
 
     void createOCLProgramError();
+    void processError();
 
 private:
     OCLWrapper *m_ocl = nullptr;
@@ -84,7 +85,7 @@ private:
     QImage m_originalImage;
     QImage m_processedImage;
     QList<ConvKernels::ConvKernel*> m_convKernels;
-    ProcessID m_pid = None;
+    ProcessClass m_pclass = None;
 
 };
 }

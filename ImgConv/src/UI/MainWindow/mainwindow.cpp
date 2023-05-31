@@ -49,14 +49,14 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::processFinished, this, &MainWindow::processFinished);
 }
 
-void MainWindow::processFinished(Core::App::ProcessID pid, qint64 elapsedTime) {
+void MainWindow::processFinished(Core::App::ProcessClass pClass, qint64 elapsedTime) {
     float pixPerSec = 1000.f * (m_coreApp->originalImage().size().width() * m_coreApp->originalImage().size().height()) / elapsedTime;
 
     QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
                         .arg(elapsedTime)
                         .arg(pixPerSec);
 
-    switch(pid) {
+    switch(pClass) {
     case Core::App::Conv2D :
         mw_labelElapsedTime->setText(logStr);
         mw_logPanel->logOutput(logStr);

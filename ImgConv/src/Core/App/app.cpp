@@ -130,7 +130,7 @@ void App::startConv2DProcess(ConvKernels::ConvKernel *k) {
 
     WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
 
-    m_pid = Conv2D;
+    m_pclass = Conv2D;
 
     Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_originalImage, mat);
 
@@ -139,14 +139,14 @@ void App::startConv2DProcess(ConvKernels::ConvKernel *k) {
             delete dialog;
 
             emit processError();
-            emit processFinished(m_pid, et);
+            emit processFinished(m_pclass, et);
 
             return;
         }
 
         setProcessedImage(img);
 
-        emit processFinished(m_pid, et);
+        emit processFinished(m_pclass, et);
 
         delete dialog;
     });
@@ -187,7 +187,7 @@ void App::startComputeHistogram(const QImage &img) {
 
         if(!res) {
             emit processError();
-            emit processFinished(m_pid, et);
+            emit processFinished(m_pclass, et);
 
             return;
 
@@ -238,11 +238,9 @@ void App::startImageCorrection(const QString &kernelPath) {
                                                            mw_imgCorrectionPanel->originalImageHistogram().getCDF());
 
     connect(process, &Threads::Correction::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
-        float pixPerSec = 0;
-
         if(!res) {
             emit processError();
-            emit processFinished(m_pid, et);
+            emit processFinished(m_pclass, et);
 
             return;
 
@@ -275,8 +273,8 @@ void App::logConvMatrix(const QVector<QVector<float> > &mat) {
     mw_logPanel->logOutput(str);
 }
 
-App::ProcessID App::pid() const {
-    return m_pid;
+App::ProcessClass App::processClass() const {
+    return m_pclass;
 }
 
 void App::setProcessedImage(const QImage &newProcessedImage) {
