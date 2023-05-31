@@ -19,13 +19,14 @@
 #ifndef IMGLOADER_H
 #define IMGLOADER_H
 
-#include <QRunnable>
 #include <QImage>
 #include <QImageReader>
 #include <QElapsedTimer>
 
+#include "virtualthread.h"
+
 namespace Threads {
-class ImgLoader : public QObject, public QRunnable
+class ImgLoader : public QObject, public VirtualThread
 {
     Q_OBJECT
 public:

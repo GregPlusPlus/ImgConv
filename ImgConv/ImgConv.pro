@@ -29,6 +29,7 @@ SOURCES += \
     src/Core/Threads/histogram.cpp \
     src/Core/Threads/imgloader.cpp \
     src/Core/Threads/processconv2D.cpp \
+    src/Core/Threads/virtualthread.cpp \
     src/Core/Utils/utils.cpp \
     src/Core/App/app.cpp \
     src/UI/CodeEditor/Components/codeeditor.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
     src/Core/Threads/imgloader.h \
     src/Core/Threads/processconv2D.h \
     src/Core/Threads/threads.h \
+    src/Core/Threads/virtualthread.h \
     src/Core/Utils/utils.h \
     src/Core/App/app.h \
     src/UI/CodeEditor/Components/codeeditor.h \
