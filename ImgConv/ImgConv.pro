@@ -30,6 +30,7 @@ SOURCES += \
     src/Core/Threads/imgloader.cpp \
     src/Core/Threads/processconv2D.cpp \
     src/Core/Utils/utils.cpp \
+    src/Core/App/app.cpp \
     src/UI/CodeEditor/Components/codeeditor.cpp \
     src/UI/CodeEditor/Components/highlighter.cpp \
     src/UI/CodeEditor/Components/interactivetextedit.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
     src/Core/Threads/processconv2D.h \
     src/Core/Threads/threads.h \
     src/Core/Utils/utils.h \
+    src/Core/App/app.h \
     src/UI/CodeEditor/Components/codeeditor.h \
     src/UI/CodeEditor/Components/highlighter.h \
     src/UI/CodeEditor/Components/interactivetextedit.h \
