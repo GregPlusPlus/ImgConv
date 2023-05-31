@@ -40,9 +40,6 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
     mw_originalImageCDF = new HistogramWidget(tr("Original image CDF"), this);
     mw_processedImageCDF = new HistogramWidget(tr("Processed image CDF"), this);
 
-    m_layout->addWidget(new QWidget(this));
-    m_layout->setRowStretch(3, 5);
-
     mw_convertGrayscaleButton = new QPushButton(tr("Convert to grayscale"), this);
     connect(mw_convertGrayscaleButton, &QPushButton::clicked, this, &ImageCorrectionPanel::convertToGrayscale);
     m_layout->addWidget(mw_convertGrayscaleButton, 4, 0, 1, 1);
