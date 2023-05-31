@@ -137,15 +137,11 @@ QUuid App::startConv2DProcess(ConvKernels::ConvKernel *k) {
             emit processError();
             emit processFinished(m_pclass, process->getUUID(), et);
 
-            delete process;
-
             return;
         }
 
         setProcessedImage(img);
         emit processFinished(m_pclass, process->getUUID(), et);
-
-        delete process;
     });
 
     QThreadPool::globalInstance()->start(process);
@@ -184,16 +180,11 @@ QUuid App::startComputeHistogram(const QImage &img) {
         if(!res) {
             emit processError();
             emit processFinished(m_pclass, process->getUUID(), et);
-
-            delete process;
-
             return;
         }
 
-        histogramComputingDone(hist);
+        emit histogramComputingDone(hist);
         emit processFinished(m_pclass, process->getUUID(), et);
-
-        delete process;
     });
 
     QThreadPool::globalInstance()->start(process);
@@ -234,16 +225,11 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
         if(!res) {
             emit processError();
             emit processFinished(m_pclass, process->getUUID(), et);
-
-            delete process;
-
             return;
         }
 
         setProcessedImage(img);
         emit processFinished(m_pclass, process->getUUID(), et);
-
-        delete process;
     });
 
     QThreadPool::globalInstance()->start(process);
@@ -273,6 +259,8 @@ App::ProcessClass App::processClass() const {
 
 void App::setProcessedImage(const QImage &newProcessedImage) {
     m_processedImage = newProcessedImage;
+
+    emit processedImageChanged();
 }
 
 ConvKernels::ConvKernel *App::getConvKernelAt(qsizetype i) const {
