@@ -64,7 +64,7 @@ public:
 
 private slots:
     void connectCoreApp();
-    void processFinished(Core::App::ProcessClass pid, QUuid pid, qint64 elapsedTime);
+    void processFinished(Core::App::ProcessClass pClass, QUuid pid, qint64 elapsedTime);
     void processError();
     void histogramComputed(const Processing::Algorithms::Histogram &hist);
     void openFile();
@@ -80,8 +80,8 @@ private slots:
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
-    void showOriginalImage(const QImage &img);
-    void showProcessedImage(const QImage &img);
+    void showOriginalImage();
+    void showProcessedImage();
     void startConv2D();
     void startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole);
     void startImageCorrection(const QString &kernelPath);

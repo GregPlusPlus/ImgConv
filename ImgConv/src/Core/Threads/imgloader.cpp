@@ -19,7 +19,7 @@
 #include "imgloader.h"
 
 Threads::ImgLoader::ImgLoader(const QString &fn)
-    : QObject(), VirtualThread(), m_fn{fn} {
+    : VirtualThread{}, m_fn{fn} {
 
 }
 

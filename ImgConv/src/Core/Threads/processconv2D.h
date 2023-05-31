@@ -28,7 +28,7 @@
 #include "Core/Processing/processing.h"
 
 namespace Threads {
-class Conv2D : public QObject, public VirtualThread
+class Conv2D : public VirtualThread
 {
     Q_OBJECT
 

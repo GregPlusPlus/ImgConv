@@ -26,7 +26,7 @@
 #include "virtualthread.h"
 
 namespace Threads {
-class ImgLoader : public QObject, public VirtualThread
+class ImgLoader : public VirtualThread
 {
     Q_OBJECT
 public:

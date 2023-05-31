@@ -132,27 +132,29 @@ void MainWindow::openFile() {
     QThreadPool::globalInstance()->start(imgLoader);
 }
 
-void MainWindow::showOriginalImage(const QImage &img) {
+void MainWindow::showOriginalImage() {
     mw_tabWidget->setCurrentWidget(mw_origImgView);
-    mw_origImgView->setPixmap(QPixmap::fromImage(img));
+    mw_origImgView->setPixmap(QPixmap::fromImage(m_coreApp->originalImage()));
     mw_processedImgView->setPixmap(QPixmap());
 
     mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
-                             .arg(img.width()).arg(img.height()).arg(img.sizeInBytes()));
+                             .arg(m_coreApp->originalImage().width())
+                             .arg(m_coreApp->originalImage().height())
+                             .arg(m_coreApp->originalImage().sizeInBytes()));
 
     mw_imgCorrectionPanel->clearOriginalImageHistogram();
     mw_imgCorrectionPanel->clearProcessedImageHistogram();
 
-    startComputeHistogram(img, ImageCorrectionPanel::OriginalImageHistogram);
+    startComputeHistogram(m_coreApp->originalImage(), ImageCorrectionPanel::OriginalImageHistogram);
 }
 
-void MainWindow::showProcessedImage(const QImage &img) {
+void MainWindow::showProcessedImage() {
     mw_tabWidget->setCurrentWidget(mw_processedImgView);
-    mw_processedImgView->setPixmap(QPixmap::fromImage(img));
+    mw_processedImgView->setPixmap(QPixmap::fromImage(m_coreApp->processedImage()));
 
     mw_imgCorrectionPanel->clearProcessedImageHistogram();
 
-    startComputeHistogram(img, ImageCorrectionPanel::ProcessedImageHistogram);
+    startComputeHistogram(m_coreApp->processedImage(), ImageCorrectionPanel::ProcessedImageHistogram);
 }
 
 void MainWindow::startConv2D() {
@@ -301,7 +303,7 @@ void MainWindow::buildMenus() {
     m_reloadKernelAction = mw_processMenu->addAction(QIcon(":/icons/arrow-circle-double.png"), tr("Reload current &kernel"), tr("F5"), this, [this]() {
         filterSelected(mw_convKernelComboBox->currentIndex());
     });
-    m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startConv2DProcess);
+    m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startConv2D);
     m_backfeedAction = mw_processMenu->addAction(QIcon(":/icons/arrow-transition-180.png"), tr("&Backfeed"), tr("Ctrl+B"), this, [this](){
         if(!m_coreApp->processedImage().isNull()) {
             m_coreApp->setOriginalImage(m_coreApp->processedImage());
