@@ -34,13 +34,6 @@ class App : public Logger
     Q_OBJECT
 
 public:
-    enum ProcessClass {
-        None,
-        Conv2D,
-        ComputeHistogram,
-        ImageCorrection
-    };
-public:
     explicit App(QObject *parent);
 
     QImage originalImage() const;
@@ -57,8 +50,6 @@ public:
 
     ConvKernels::ConvKernel *getConvKernelAt(qsizetype i) const;
 
-    ProcessClass processClass() const;
-
 public slots:
     bool init();
     void initOpenCL(const OCLWrapper::Device &device);
@@ -73,7 +64,7 @@ public slots:
 signals:
     void imageProcessingDone(const QImage &img);
     void histogramComputingDone(const Processing::Algorithms::Histogram &histogram);
-    void processFinished(Core::App::ProcessClass pclass, QUuid pid, qint64 elapsedTime);
+    void processFinished(Threads::Classes::ProcessClass pclass, QUuid pid, qint64 elapsedTime);
     void originalImageChanged();
     void processedImageChanged();
 
@@ -86,7 +77,6 @@ private:
     QImage m_originalImage;
     QImage m_processedImage;
     QList<ConvKernels::ConvKernel*> m_convKernels;
-    ProcessClass m_pclass = None;
 
 };
 }

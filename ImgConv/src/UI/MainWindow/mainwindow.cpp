@@ -41,12 +41,11 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::connectCoreApp() {
-    connect(m_coreApp, &Core::App::originalImageChanged, this, &MainWindow::showOriginalImage);
-    connect(m_coreApp, &Core::App::processedImageChanged, this, &MainWindow::showProcessedImage);
+    connect(m_coreApp, &Core::App::originalImageChanged, this, &MainWindow::showOriginalImage, Qt::QueuedConnection);
+    connect(m_coreApp, &Core::App::processedImageChanged, this, &MainWindow::showProcessedImage, Qt::QueuedConnection);
+    connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed, Qt::QueuedConnection);
 
-    connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed);
-
-    connect(m_coreApp, &Core::App::processFinished, this, &MainWindow::processFinished);
+    connect(m_coreApp, &Core::App::processFinished, this, &MainWindow::processFinished, Qt::QueuedConnection);
 
     connect(m_coreApp, &Logger::outputLogInfo, mw_logPanel, &LogPanel::logInfo);
     connect(m_coreApp, &Logger::outputLogOutput, mw_logPanel, &LogPanel::logOutput);
@@ -56,7 +55,7 @@ void MainWindow::connectCoreApp() {
     });
 }
 
-void MainWindow::processFinished(Core::App::ProcessClass pClass, QUuid pid, qint64 elapsedTime) {
+void MainWindow::processFinished(Threads::Classes::ProcessClass pClass, QUuid pid, qint64 elapsedTime) {
     float pixPerSec = 1000.f * (m_coreApp->originalImage().size().width() * m_coreApp->originalImage().size().height()) / elapsedTime;
 
     QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
@@ -64,23 +63,23 @@ void MainWindow::processFinished(Core::App::ProcessClass pClass, QUuid pid, qint
                         .arg(pixPerSec);
 
     switch(pClass) {
-    case Core::App::Conv2D :
+    case Threads::Classes::Conv2D :
         mw_labelElapsedTime->setText(logStr);
         mw_logPanel->logOutput(logStr);
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
         break;
-    case Core::App::ComputeHistogram :
+    case Threads::Classes::ComputeHistogram :
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
         break;
-    case Core::App::ImageCorrection :
+    case Threads::Classes::ImageCorrection :
         mw_labelElapsedTime->setText(logStr);
         mw_logPanel->logOutput(logStr);
         m_runAction->setDisabled(false);
         m_selectDeviceAction->setDisabled(false);
         break;
-    case Core::App::None :
+    case Threads::Classes::None :
         break;
     default:
         break;
@@ -167,7 +166,10 @@ void MainWindow::startConv2D() {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogs.insert(pid, new WaitDialog(tr("Processing image...")));
+    WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
+    dialog->show();
+
+    m_waitDialogs.insert(pid, dialog);
 }
 
 void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole) {
@@ -182,7 +184,10 @@ void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogs.insert(pid, new WaitDialog(tr("Computing histogram...")));
+    WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
+    dialog->show();
+
+    m_waitDialogs.insert(pid, dialog);
 }
 
 void MainWindow::startImageCorrection(const QString &kernelPath) {
@@ -195,7 +200,10 @@ void MainWindow::startImageCorrection(const QString &kernelPath) {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogs.insert(pid, new WaitDialog(tr("Correcting image...")));
+    WaitDialog *dialog = new WaitDialog(tr("Correcting image..."));
+    dialog->show();
+
+    m_waitDialogs.insert(pid, dialog);
 }
 
 void MainWindow::createImage() {

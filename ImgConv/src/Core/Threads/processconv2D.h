@@ -27,6 +27,8 @@
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/processing.h"
 
+#include "Core/Threads/processclass.h"
+
 namespace Threads {
 class Conv2D : public VirtualThread
 {

@@ -128,20 +128,18 @@ QUuid App::startConv2DProcess(ConvKernels::ConvKernel *k) {
 
     logOutput(tr("Running kernel..."));
 
-    m_pclass = Conv2D;
-
     Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_originalImage, mat);
 
     connect(process, &Threads::Conv2D::finished, this, [this, process](const QImage &img, qint64 et, bool res) {
         if(!res) {
             emit processError();
-            emit processFinished(m_pclass, process->getUUID(), et);
+            emit processFinished(process->processClass(), process->getUUID(), et);
 
             return;
         }
 
         setProcessedImage(img);
-        emit processFinished(m_pclass, process->getUUID(), et);
+        emit processFinished(process->processClass(), process->getUUID(), et);
     });
 
     QThreadPool::globalInstance()->start(process);
@@ -179,12 +177,12 @@ QUuid App::startComputeHistogram(const QImage &img) {
 
         if(!res) {
             emit processError();
-            emit processFinished(m_pclass, process->getUUID(), et);
+            emit processFinished(process->processClass(), process->getUUID(), et);
             return;
         }
 
         emit histogramComputingDone(hist);
-        emit processFinished(m_pclass, process->getUUID(), et);
+        emit processFinished(process->processClass(), process->getUUID(), et);
     });
 
     QThreadPool::globalInstance()->start(process);
@@ -224,12 +222,12 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
     connect(process, &Threads::Correction::finished, this, [this, process](const QImage &img, qint64 et, bool res) {
         if(!res) {
             emit processError();
-            emit processFinished(m_pclass, process->getUUID(), et);
+            emit processFinished(process->processClass(), process->getUUID(), et);
             return;
         }
 
         setProcessedImage(img);
-        emit processFinished(m_pclass, process->getUUID(), et);
+        emit processFinished(process->processClass(), process->getUUID(), et);
     });
 
     QThreadPool::globalInstance()->start(process);
@@ -251,10 +249,6 @@ void App::logConvMatrix(const QVector<QVector<float> > &mat) {
     str += "\n";
 
     logOutput(str);
-}
-
-App::ProcessClass App::processClass() const {
-    return m_pclass;
 }
 
 void App::setProcessedImage(const QImage &newProcessedImage) {

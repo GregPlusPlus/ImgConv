@@ -74,6 +74,7 @@ HEADERS += \
     src/Core/Threads/correction.h \
     src/Core/Threads/histogram.h \
     src/Core/Threads/imgloader.h \
+    src/Core/Threads/processclass.h \
     src/Core/Threads/processconv2D.h \
     src/Core/Threads/threads.h \
     src/Core/Threads/virtualthread.h \

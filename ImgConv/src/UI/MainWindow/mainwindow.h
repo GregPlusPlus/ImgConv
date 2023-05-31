@@ -64,7 +64,7 @@ public:
 
 private slots:
     void connectCoreApp();
-    void processFinished(Core::App::ProcessClass pClass, QUuid pid, qint64 elapsedTime);
+    void processFinished(Threads::Classes::ProcessClass pClass, QUuid pid, qint64 elapsedTime);
     void processError();
     void histogramComputed(const Processing::Algorithms::Histogram &hist);
     void openFile();

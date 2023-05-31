@@ -16,20 +16,19 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "processconv2D.h"
+#ifndef PROCESSCLASS_H
+#define PROCESSCLASS_H
 
-Threads::Conv2D::Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
-    : VirtualThread{Threads::Classes::Conv2D}, m_ocl{ocl}, m_original{original}, m_mat{mat} {
-
+namespace Threads {
+namespace Classes {
+enum ProcessClass {
+    None = 0,
+    ImgLoader,
+    Conv2D,
+    ComputeHistogram,
+    ImageCorrection
+};
+}
 }
 
-void Threads::Conv2D::run() {
-    QImage processed;
-
-    QElapsedTimer tm;
-    tm.start();
-
-    bool res = Processing::Algorithms::conv2D(m_ocl, m_original, processed, m_mat);
-
-    emit finished(processed, tm.elapsed(), res);
-}
+#endif // PROCESSCLASS_H
