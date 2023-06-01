@@ -13,6 +13,7 @@ class WaitDialogMgr : public QObject
     Q_OBJECT
 public:
     explicit WaitDialogMgr(QObject *parent = nullptr);
+    ~WaitDialogMgr();
 
 public slots:
     void createWaitDialog(const QUuid &uuid, const QString &msg);

@@ -23,6 +23,12 @@ WaitDialogMgr::WaitDialogMgr(QObject *parent)
 
 }
 
+WaitDialogMgr::~WaitDialogMgr() {
+    for(WaitDialog *dialog : m_waitDialogs) {
+        delete dialog;
+    }
+}
+
 void WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QString &msg) {
     WaitDialog *dialog = new WaitDialog(msg);
     dialog->show();
@@ -34,6 +40,8 @@ void WaitDialogMgr::closeDialog(const QUuid &uuid) {
     WaitDialog *dialog = m_waitDialogs.value(uuid, nullptr);
 
     if(dialog) {
+        m_waitDialogs.remove(uuid);
+
         delete dialog;
     }
 }
