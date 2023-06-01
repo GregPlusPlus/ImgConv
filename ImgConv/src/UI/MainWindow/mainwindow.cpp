@@ -56,6 +56,8 @@ void MainWindow::processError() {
 void MainWindow::conv2DDone(const QUuid &pid, qint64 elapsedTime) {
     logProcessFinished(elapsedTime);
 
+    m_openFileAction->setDisabled(false);
+    m_createImageAction->setDisabled(false);
     m_runAction->setDisabled(false);
     m_selectDeviceAction->setDisabled(false);
 
@@ -78,6 +80,8 @@ void MainWindow::histogramComputed(const QUuid &pid, qint64 elapsedTime, const P
 void MainWindow::imageCorrected(const QUuid &pid, qint64 elapsedTime) {
     logProcessFinished(elapsedTime);
 
+    m_openFileAction->setDisabled(false);
+    m_createImageAction->setDisabled(false);
     m_runAction->setDisabled(false);
     m_selectDeviceAction->setDisabled(false);
 
@@ -127,6 +131,8 @@ void MainWindow::startConv2D() {
         return;
     }
 
+    m_openFileAction->setDisabled(true);
+    m_createImageAction->setDisabled(true);
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
@@ -155,6 +161,8 @@ void MainWindow::startImageCorrection(const QString &kernelPath) {
         return;
     }
 
+    m_openFileAction->setDisabled(true);
+    m_createImageAction->setDisabled(true);
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
