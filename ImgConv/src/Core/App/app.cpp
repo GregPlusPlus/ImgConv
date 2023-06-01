@@ -29,7 +29,7 @@ bool App::init() {
     m_devices = OCLWrapper::getDevices();
 
     if(m_devices.count() == 0) {
-        showCriticalError(tr("No OpenCL compatible device found !"));
+        emit showCriticalError(tr("No OpenCL compatible device found !"));
 
         return false;
     }
@@ -48,7 +48,7 @@ void App::initOpenCL(const OCLWrapper::Device &device) {
     m_ocl = new OCLWrapper(device, this);
 
     if(m_ocl->ret() != CL_SUCCESS) {
-        showCriticalError(tr("OCL backend error (%1)").arg(m_ocl->ret()));
+        emit showCriticalError(tr("OCL backend error (%1)").arg(m_ocl->ret()));
 
         return;
     }
@@ -61,7 +61,7 @@ bool App::createOCLProgram(const QString &fn, const QString &options) {
         m_ocl->releaseKernel();
         m_ocl->releaseProgram();
 
-        showCriticalError(tr("File error (%1)").arg(e));
+        emit showCriticalError(tr("File error (%1)").arg(e));
 
         return false;
     }
@@ -77,7 +77,7 @@ bool App::createOCLProgram(const QString &fn, const QString &options) {
             m_ocl->releaseProgram();
             break;
         default:
-            showCriticalError(tr("OCL backend error (%1)").arg(m_ocl->ret()));
+            emit showCriticalError(tr("OCL backend error (%1)").arg(m_ocl->ret()));
 
             m_ocl->releaseKernel();
             m_ocl->releaseProgram();
