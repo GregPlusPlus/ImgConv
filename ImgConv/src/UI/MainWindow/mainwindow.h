@@ -59,7 +59,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Core::App *coreApp);
     ~MainWindow();
 
 private slots:

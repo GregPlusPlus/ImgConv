@@ -25,6 +25,10 @@ App::App(QObject *parent)
 
 }
 
+App::~App() {
+
+}
+
 bool App::init() {
     m_devices = OCLWrapper::getDevices();
 

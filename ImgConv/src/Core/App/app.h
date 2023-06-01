@@ -34,7 +34,8 @@ class App : public Logger
     Q_OBJECT
 
 public:
-    explicit App(QObject *parent);
+    explicit App(QObject *parent = nullptr);
+    virtual ~App();
 
     QImage originalImage() const;
     QImage processedImage() const;

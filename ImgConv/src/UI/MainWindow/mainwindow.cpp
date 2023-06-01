@@ -18,16 +18,10 @@
 
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent) {
+MainWindow::MainWindow(Core::App *coreApp)
+    : QMainWindow{}, m_coreApp{coreApp} {
     setWindowIcon(QIcon(":/icons/icon.png"));
     setWindowTitle(APP_NAME);
-
-    m_coreApp = new Core::App(this);
-
-    if(!m_coreApp->init()) {
-        exit(EXIT_FAILURE);
-    }
 
     buildUI();
 
