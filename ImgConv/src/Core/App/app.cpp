@@ -129,22 +129,23 @@ QUuid App::startConv2DProcess(ConvKernels::ConvKernel *k) {
     logOutput(tr("Running kernel..."));
 
     Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_originalImage, mat);
+    QUuid pid = process->getUUID();
 
-    connect(process, &Threads::Conv2D::finished, this, [this, process](const QImage &img, qint64 et, bool res) {
+    connect(process, &Threads::Conv2D::finished, this, [this, pid](const QImage &img, qint64 et, bool res) {
         if(!res) {
             emit processError();
-            emit conv2DDone(process->getUUID(), et);
+            emit conv2DDone(pid, et);
 
             return;
         }
 
         setProcessedImage(img);
-        emit conv2DDone(process->getUUID(), et);
+        emit conv2DDone(pid, et);
     }, Qt::QueuedConnection);
 
     QThreadPool::globalInstance()->start(process);
 
-    return process->getUUID();
+    return pid;
 }
 
 QUuid App::startComputeHistogram(const QImage &img) {
@@ -171,22 +172,23 @@ QUuid App::startComputeHistogram(const QImage &img) {
     }
 
     Threads::Histogram *process = new Threads::Histogram(m_ocl, img);
+    QUuid pid = process->getUUID();
 
-    connect(process, &Threads::Histogram::finished, this, [this, process](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
+    connect(process, &Threads::Histogram::finished, this, [this, pid](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
         Q_UNUSED(et)
 
         if(!res) {
             emit processError();
-            emit histogramComputingDone(process->getUUID(), et, hist);
+            emit histogramComputingDone(pid, et, hist);
             return;
         }
 
-        emit histogramComputingDone(process->getUUID(), et, hist);
+        emit histogramComputingDone(pid, et, hist);
     }, Qt::QueuedConnection);
 
     QThreadPool::globalInstance()->start(process);
 
-    return process->getUUID();
+    return pid;
 }
 
 QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Algorithms::Histogram &hist) {
@@ -217,21 +219,22 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
     logOutput(tr("Running kernel..."));
 
     Threads::Correction *process = new Threads::Correction(m_ocl, m_originalImage, hist);
+    QUuid pid = process->getUUID();
 
-    connect(process, &Threads::Correction::finished, this, [this, process](const QImage &img, qint64 et, bool res) {
+    connect(process, &Threads::Correction::finished, this, [this, pid](const QImage &img, qint64 et, bool res) {
         if(!res) {
             emit processError();
-            emit imageCorrectionDone(process->getUUID(), et);
+            emit imageCorrectionDone(pid, et);
             return;
         }
 
         setProcessedImage(img);
-        emit imageCorrectionDone(process->getUUID(), et);
+        emit imageCorrectionDone(pid, et);
     }, Qt::QueuedConnection);
 
     QThreadPool::globalInstance()->start(process);
 
-    return process->getUUID();
+    return pid;
 }
 
 void App::logConvMatrix(const QVector<QVector<float> > &mat) {

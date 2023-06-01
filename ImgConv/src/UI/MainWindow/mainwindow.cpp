@@ -40,12 +40,12 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::connectCoreApp() {
-    connect(m_coreApp, &Core::App::originalImageChanged, this, &MainWindow::showOriginalImage, Qt::QueuedConnection);
-    connect(m_coreApp, &Core::App::processedImageChanged, this, &MainWindow::showProcessedImage, Qt::QueuedConnection);
+    connect(m_coreApp, &Core::App::originalImageChanged, this, &MainWindow::showOriginalImage);
+    connect(m_coreApp, &Core::App::processedImageChanged, this, &MainWindow::showProcessedImage);
 
-    connect(m_coreApp, &Core::App::conv2DDone, this, &MainWindow::conv2DDone, Qt::QueuedConnection);
-    connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed, Qt::QueuedConnection);
-    connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected, Qt::QueuedConnection);
+    connect(m_coreApp, &Core::App::conv2DDone, this, &MainWindow::conv2DDone);
+    connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed);
+    connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected);
 
     connect(m_coreApp, &Logger::outputLogInfo, mw_logPanel, &LogPanel::logInfo);
     connect(m_coreApp, &Logger::outputLogOutput, mw_logPanel, &LogPanel::logOutput);
