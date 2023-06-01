@@ -18,21 +18,16 @@
 
 #include "virtualthread.h"
 
-Threads::VirtualThread::VirtualThread(Threads::Classes::ProcessClass pClass)
-    : QObject{}, QRunnable{}, m_processClass{pClass} {
+Threads::VirtualThread::VirtualThread()
+    : QObject{}, QRunnable{} {
 
     m_uuid = QUuid::createUuid();
 }
 
+Threads::VirtualThread::~VirtualThread() {
+
+}
+
 QUuid Threads::VirtualThread::getUUID() {
     return m_uuid;
-}
-
-Threads::Classes::ProcessClass Threads::VirtualThread::processClass() const
-{
-    return m_processClass;
-}
-
-void Threads::VirtualThread::setProcessClass(Threads::Classes::ProcessClass pClass) {
-    m_processClass = pClass;
 }

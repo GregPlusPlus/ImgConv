@@ -16,19 +16,24 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PROCESSCLASS_H
-#define PROCESSCLASS_H
+#include "waitdialogmgr.h"
 
-namespace Threads {
-namespace Classes {
-enum ProcessClass {
-    None = 0,
-    ImgLoader,
-    Conv2D,
-    ComputeHistogram,
-    ImageCorrection
-};
-}
+WaitDialogMgr::WaitDialogMgr(QObject *parent)
+    : QObject{parent} {
+
 }
 
-#endif // PROCESSCLASS_H
+void WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QString &msg) {
+    WaitDialog *dialog = new WaitDialog(msg);
+    dialog->show();
+
+    m_waitDialogs.insert(uuid, dialog);
+}
+
+void WaitDialogMgr::closeDialog(const QUuid &uuid) {
+    WaitDialog *dialog = m_waitDialogs.value(uuid, nullptr);
+
+    if(dialog) {
+        delete dialog;
+    }
+}

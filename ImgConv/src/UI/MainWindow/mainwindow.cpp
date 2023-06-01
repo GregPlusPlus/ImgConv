@@ -17,7 +17,6 @@
  **/
 
 #include "mainwindow.h"
-#include "Core/Processing/processing.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) {
@@ -43,9 +42,10 @@ MainWindow::~MainWindow() {
 void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::originalImageChanged, this, &MainWindow::showOriginalImage, Qt::QueuedConnection);
     connect(m_coreApp, &Core::App::processedImageChanged, this, &MainWindow::showProcessedImage, Qt::QueuedConnection);
-    connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed, Qt::QueuedConnection);
 
-    connect(m_coreApp, &Core::App::processFinished, this, &MainWindow::processFinished, Qt::QueuedConnection);
+    connect(m_coreApp, &Core::App::conv2DDone, this, &MainWindow::conv2DDone, Qt::QueuedConnection);
+    connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed, Qt::QueuedConnection);
+    connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected, Qt::QueuedConnection);
 
     connect(m_coreApp, &Logger::outputLogInfo, mw_logPanel, &LogPanel::logInfo);
     connect(m_coreApp, &Logger::outputLogOutput, mw_logPanel, &LogPanel::logOutput);
@@ -55,80 +55,50 @@ void MainWindow::connectCoreApp() {
     });
 }
 
-void MainWindow::processFinished(Threads::Classes::ProcessClass pClass, QUuid pid, qint64 elapsedTime) {
+void MainWindow::processError() {
+    QMessageBox::critical(this, tr("OpenCL error"), tr("OpenCL backend error"));
+}
+
+void MainWindow::conv2DDone(const QUuid &pid, qint64 elapsedTime) {
+    logProcessFinished(elapsedTime);
+
+    m_runAction->setDisabled(false);
+    m_selectDeviceAction->setDisabled(false);
+
+    m_waitDialogMgr.closeDialog(pid);
+}
+
+void MainWindow::histogramComputed(const QUuid &pid, qint64 elapsedTime, const Processing::Algorithms::Histogram &histogram) {
+    Q_UNUSED(elapsedTime)
+
+    mw_imgCorrectionPanel->displayHistogram(histogram, m_histRole);
+
+    m_runAction->setDisabled(false);
+    m_selectDeviceAction->setDisabled(false);
+
+    mw_imgCorrectionPanel->displayHistogram(histogram, m_histRole);
+
+    m_waitDialogMgr.closeDialog(pid);
+}
+
+void MainWindow::imageCorrected(const QUuid &pid, qint64 elapsedTime) {
+    logProcessFinished(elapsedTime);
+
+    m_runAction->setDisabled(false);
+    m_selectDeviceAction->setDisabled(false);
+
+    m_waitDialogMgr.closeDialog(pid);
+}
+
+void MainWindow::logProcessFinished(qint64 elapsedTime) {
     float pixPerSec = 1000.f * (m_coreApp->originalImage().size().width() * m_coreApp->originalImage().size().height()) / elapsedTime;
 
     QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
                         .arg(elapsedTime)
                         .arg(pixPerSec);
 
-    switch(pClass) {
-    case Threads::Classes::Conv2D :
-        mw_labelElapsedTime->setText(logStr);
-        mw_logPanel->logOutput(logStr);
-        m_runAction->setDisabled(false);
-        m_selectDeviceAction->setDisabled(false);
-        break;
-    case Threads::Classes::ComputeHistogram :
-        m_runAction->setDisabled(false);
-        m_selectDeviceAction->setDisabled(false);
-        break;
-    case Threads::Classes::ImageCorrection :
-        mw_labelElapsedTime->setText(logStr);
-        mw_logPanel->logOutput(logStr);
-        m_runAction->setDisabled(false);
-        m_selectDeviceAction->setDisabled(false);
-        break;
-    case Threads::Classes::None :
-        break;
-    default:
-        break;
-    }
-
-    WaitDialog *dialog = m_waitDialogs.value(pid, nullptr);
-
-    if(dialog) {
-        delete dialog;
-    }
-}
-
-void MainWindow::processError() {
-    QMessageBox::critical(this, tr("OpenCL error"), tr("OpenCL backend error"));
-}
-
-void MainWindow::histogramComputed(const Processing::Algorithms::Histogram &hist) {
-    mw_imgCorrectionPanel->displayHistogram(hist, m_histRole);
-}
-
-void MainWindow::openFile() {
-    QString fn = QFileDialog::getOpenFileName(this, tr("Open image file"), QString(),
-                                              tr("Image files (*.png *.jpg *.jpeg *.bmp *.gif)"));
-
-    if(fn.isEmpty()) {
-        return;
-    }
-
-    WaitDialog *dialog = new WaitDialog(tr("Opening image..."));
-    Threads::ImgLoader *imgLoader = new Threads::ImgLoader(fn);
-
-    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog, fn](QImage img, qint64 et) {
-        mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
-        mw_logPanel->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
-
-        m_coreApp->setOriginalImage(img);
-
-        m_openFileAction->setDisabled(false);
-        m_createImageAction->setDisabled(false);
-        m_runAction->setDisabled(false);
-        delete dialog;
-    });
-
-    m_openFileAction->setDisabled(true);
-    m_createImageAction->setDisabled(true);
-    m_runAction->setDisabled(true);
-    dialog->show();
-
-    QThreadPool::globalInstance()->start(imgLoader);
+    mw_labelElapsedTime->setText(logStr);
+    mw_logPanel->logOutput(logStr);
 }
 
 void MainWindow::showOriginalImage() {
@@ -166,10 +136,7 @@ void MainWindow::startConv2D() {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
-    dialog->show();
-
-    m_waitDialogs.insert(pid, dialog);
+    m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."));
 }
 
 void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole) {
@@ -184,10 +151,7 @@ void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
-    dialog->show();
-
-    m_waitDialogs.insert(pid, dialog);
+    m_waitDialogMgr.createWaitDialog(pid, tr("Computing histogram..."));
 }
 
 void MainWindow::startImageCorrection(const QString &kernelPath) {
@@ -200,10 +164,38 @@ void MainWindow::startImageCorrection(const QString &kernelPath) {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    WaitDialog *dialog = new WaitDialog(tr("Correcting image..."));
+    m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."));
+}
+
+void MainWindow::openImage() {
+    QString fn = QFileDialog::getOpenFileName(this, tr("Open image file"), QString(),
+                                              tr("Image files (*.png *.jpg *.jpeg *.bmp *.gif)"));
+
+    if(fn.isEmpty()) {
+        return;
+    }
+
+    WaitDialog *dialog = new WaitDialog(tr("Opening image..."));
+    Threads::ImgLoader *imgLoader = new Threads::ImgLoader(fn);
+
+    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog, fn](QImage img, qint64 et) {
+        mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
+        mw_logPanel->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
+
+        m_coreApp->setOriginalImage(img);
+
+        m_openFileAction->setDisabled(false);
+        m_createImageAction->setDisabled(false);
+        m_runAction->setDisabled(false);
+        delete dialog;
+    });
+
+    m_openFileAction->setDisabled(true);
+    m_createImageAction->setDisabled(true);
+    m_runAction->setDisabled(true);
     dialog->show();
 
-    m_waitDialogs.insert(pid, dialog);
+    QThreadPool::globalInstance()->start(imgLoader);
 }
 
 void MainWindow::createImage() {
@@ -293,7 +285,7 @@ void MainWindow::buildKernelComboBox() {
 void MainWindow::buildMenus() {
     mw_fileMenu = menuBar()->addMenu(tr("&File"));
 
-    m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
+    m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openImage);
     m_createImageAction = mw_fileMenu->addAction(QIcon(":/icons/image-new.png"), tr("&Create image"), tr("Ctrl+N"), this, &MainWindow::createImage);
     m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportProcessedImage);
     mw_fileMenu->addSeparator();

@@ -19,7 +19,7 @@
 #include "processconv2D.h"
 
 Threads::Conv2D::Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
-    : VirtualThread{Threads::Classes::Conv2D}, m_ocl{ocl}, m_original{original}, m_mat{mat} {
+    : VirtualThread{}, m_ocl{ocl}, m_original{original}, m_mat{mat} {
 
 }
 

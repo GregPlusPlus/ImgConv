@@ -23,23 +23,18 @@
 #include <QRunnable>
 #include <QUuid>
 
-#include "Core/Threads/processclass.h"
-
 namespace Threads {
 class VirtualThread : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
-    VirtualThread(Classes::ProcessClass pClass);
+    VirtualThread();
+    virtual ~VirtualThread();
 
     QUuid getUUID();
 
-    Classes::ProcessClass processClass() const;
-    void setProcessClass(Classes::ProcessClass pClass);
-
 private:
     QUuid m_uuid;
-    Classes::ProcessClass m_processClass;
 };
 }
 

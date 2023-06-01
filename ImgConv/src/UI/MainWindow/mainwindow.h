@@ -47,7 +47,7 @@
 #include "UI/Panels/FilterSettingsPanel/filtersettingsdock.h"
 #include "UI/Panels/LogPanel/logpanel.h"
 #include "UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h"
-#include "UI/Dialogs/WaitDialog/waitdialog.h"
+#include "UI/WaitDialogMgr/waitdialogmgr.h"
 #include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
@@ -64,10 +64,17 @@ public:
 
 private slots:
     void connectCoreApp();
-    void processFinished(Threads::Classes::ProcessClass pClass, QUuid pid, qint64 elapsedTime);
     void processError();
-    void histogramComputed(const Processing::Algorithms::Histogram &hist);
-    void openFile();
+    void conv2DDone(const QUuid &pid, qint64 elapsedTime);
+    void histogramComputed(const QUuid &pid, qint64 elapsedTime, const Processing::Algorithms::Histogram &histogram);
+    void imageCorrected(const QUuid &pid, qint64 elapsedTime);
+    void logProcessFinished(qint64 elapsedTime);
+    void showOriginalImage();
+    void showProcessedImage();
+    void startConv2D();
+    void startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole);
+    void startImageCorrection(const QString &kernelPath);
+    void openImage();
     void createImage();
     void exportProcessedImage();
     void filterSelected(int index);
@@ -80,11 +87,6 @@ private slots:
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
-    void showOriginalImage();
-    void showProcessedImage();
-    void startConv2D();
-    void startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole);
-    void startImageCorrection(const QString &kernelPath);
 
 private:
     QTabWidget *mw_tabWidget;
@@ -118,8 +120,7 @@ private:
     Core::App *m_coreApp;
 
     ImageCorrectionPanel::HistogramRole m_histRole;
-
-    QMap<QUuid, WaitDialog*> m_waitDialogs;
+    WaitDialogMgr m_waitDialogMgr;
 
 protected:
     void closeEvent(QCloseEvent *ev);

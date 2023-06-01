@@ -25,8 +25,6 @@
 
 #include "virtualthread.h"
 
-#include "Core/Threads/processclass.h"
-
 namespace Threads {
 class ImgLoader : public VirtualThread
 {

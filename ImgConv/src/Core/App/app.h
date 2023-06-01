@@ -62,9 +62,9 @@ public slots:
     void logConvMatrix(const QVector<QVector<float> > &mat);
 
 signals:
-    void imageProcessingDone(const QImage &img);
-    void histogramComputingDone(const Processing::Algorithms::Histogram &histogram);
-    void processFinished(Threads::Classes::ProcessClass pclass, QUuid pid, qint64 elapsedTime);
+    void conv2DDone(const QUuid &pid, qint64 elapsedTime);
+    void histogramComputingDone(const QUuid &pid, qint64 elapsedTime, const Processing::Algorithms::Histogram &histogram);
+    void imageCorrectionDone(const QUuid &pid, qint64 elapsedTime);
     void originalImageChanged();
     void processedImageChanged();
 

@@ -53,6 +53,7 @@ SOURCES += \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/UtilsUI/utilsui.cpp \
     src/UI/Dialogs/WaitDialog/waitdialog.cpp \
+    src/UI/WaitDialogMgr/waitdialogmgr.cpp \
     src/main.cpp
 HEADERS += \
     src/Core/Logger/logger.h \
@@ -74,7 +75,6 @@ HEADERS += \
     src/Core/Threads/correction.h \
     src/Core/Threads/histogram.h \
     src/Core/Threads/imgloader.h \
-    src/Core/Threads/processclass.h \
     src/Core/Threads/processconv2D.h \
     src/Core/Threads/threads.h \
     src/Core/Threads/virtualthread.h \
@@ -100,7 +100,8 @@ HEADERS += \
     src/UI/MainWindow/mainwindow.h \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \
     src/UI/UtilsUI/utilsui.h \
-    src/UI/Dialogs/WaitDialog/waitdialog.h
+    src/UI/Dialogs/WaitDialog/waitdialog.h \
+    src/UI/WaitDialogMgr/waitdialogmgr.h
 
 INCLUDEPATH += \
     libs/include/ \

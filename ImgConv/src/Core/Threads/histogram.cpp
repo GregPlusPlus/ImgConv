@@ -19,7 +19,7 @@
 #include "histogram.h"
 
 Threads::Histogram::Histogram(OCLWrapper *ocl, const QImage &original)
-    : VirtualThread{Threads::Classes::ComputeHistogram}, m_ocl{ocl}, m_original{original} {
+    : VirtualThread{}, m_ocl{ocl}, m_original{original} {
 
 }
 

@@ -27,8 +27,6 @@
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/processing.h"
 
-#include "Core/Threads/processclass.h"
-
 namespace Threads {
 class Histogram : public VirtualThread
 {
