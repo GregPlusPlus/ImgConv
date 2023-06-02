@@ -17,19 +17,15 @@
  **/
 
 #include "mainwindow.h"
-#include "Core/Processing/processing.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent) {
+MainWindow::MainWindow(Core::App *coreApp)
+    : QMainWindow{}, m_coreApp{coreApp} {
     setWindowIcon(QIcon(":/icons/icon.png"));
     setWindowTitle(APP_NAME);
 
-
-    if(!initCore()) {
-        exit(EXIT_FAILURE);
-    }
-
     buildUI();
+
+    connectCoreApp();
 
     setMinimumSize(QSize(1200, 800));
 }
@@ -37,7 +33,140 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {
 }
 
-void MainWindow::openFile() {
+void MainWindow::connectCoreApp() {
+    connect(m_coreApp, &Core::App::originalImageChanged, this, &MainWindow::showOriginalImage);
+    connect(m_coreApp, &Core::App::processedImageChanged, this, &MainWindow::showProcessedImage);
+
+    connect(m_coreApp, &Core::App::conv2DDone, this, &MainWindow::conv2DDone);
+    connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed);
+    connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected);
+
+    connect(m_coreApp, &Logger::showCriticalError, this, [this](const QString &str) {
+        QMessageBox::critical(this, tr("Critical error"), str);
+    });
+}
+
+void MainWindow::processError() {
+    QMessageBox::critical(this, tr("OpenCL error"), tr("OpenCL backend error"));
+}
+
+void MainWindow::conv2DDone(const QUuid &pid, qint64 elapsedTime) {
+    logProcessFinished(elapsedTime);
+
+    m_openFileAction->setDisabled(false);
+    m_createImageAction->setDisabled(false);
+    m_runAction->setDisabled(false);
+    m_selectDeviceAction->setDisabled(false);
+
+    m_waitDialogMgr.closeDialog(pid);
+}
+
+void MainWindow::histogramComputed(const QUuid &pid, qint64 elapsedTime, const Processing::Algorithms::Histogram &histogram) {
+    Q_UNUSED(elapsedTime)
+
+    mw_imgCorrectionPanel->displayHistogram(histogram, m_histRole);
+
+    m_runAction->setDisabled(false);
+    m_selectDeviceAction->setDisabled(false);
+
+    mw_imgCorrectionPanel->displayHistogram(histogram, m_histRole);
+
+    m_waitDialogMgr.closeDialog(pid);
+}
+
+void MainWindow::imageCorrected(const QUuid &pid, qint64 elapsedTime) {
+    logProcessFinished(elapsedTime);
+
+    m_openFileAction->setDisabled(false);
+    m_createImageAction->setDisabled(false);
+    m_runAction->setDisabled(false);
+    m_selectDeviceAction->setDisabled(false);
+
+    m_waitDialogMgr.closeDialog(pid);
+}
+
+void MainWindow::logProcessFinished(qint64 elapsedTime) {
+    float pixPerSec = 1000.f * (m_coreApp->originalImage().size().width() * m_coreApp->originalImage().size().height()) / elapsedTime;
+
+    QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
+                        .arg(elapsedTime)
+                        .arg(pixPerSec);
+
+    mw_labelElapsedTime->setText(logStr);
+    m_coreApp->logOutput(logStr);
+}
+
+void MainWindow::showOriginalImage() {
+    mw_tabWidget->setCurrentWidget(mw_origImgView);
+    mw_origImgView->setPixmap(QPixmap::fromImage(m_coreApp->originalImage()));
+    mw_processedImgView->setPixmap(QPixmap());
+
+    mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
+                             .arg(m_coreApp->originalImage().width())
+                             .arg(m_coreApp->originalImage().height())
+                             .arg(m_coreApp->originalImage().sizeInBytes()));
+
+    mw_imgCorrectionPanel->clearOriginalImageHistogram();
+    mw_imgCorrectionPanel->clearProcessedImageHistogram();
+
+    startComputeHistogram(m_coreApp->originalImage(), ImageCorrectionPanel::OriginalImageHistogram);
+}
+
+void MainWindow::showProcessedImage() {
+    mw_tabWidget->setCurrentWidget(mw_processedImgView);
+    mw_processedImgView->setPixmap(QPixmap::fromImage(m_coreApp->processedImage()));
+
+    mw_imgCorrectionPanel->clearProcessedImageHistogram();
+
+    startComputeHistogram(m_coreApp->processedImage(), ImageCorrectionPanel::ProcessedImageHistogram);
+}
+
+void MainWindow::startConv2D() {
+    QUuid pid = m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));
+
+    if(pid.isNull()) {
+        return;
+    }
+
+    m_openFileAction->setDisabled(true);
+    m_createImageAction->setDisabled(true);
+    m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
+
+    m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."));
+}
+
+void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole) {
+    m_histRole = histRole;
+
+    QUuid pid = m_coreApp->startComputeHistogram(img);
+
+    if(pid.isNull()) {
+        return;
+    }
+
+    m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
+
+    m_waitDialogMgr.createWaitDialog(pid, tr("Computing histogram..."));
+}
+
+void MainWindow::startImageCorrection(const QString &kernelPath) {
+    QUuid pid = m_coreApp->startImageCorrection(kernelPath, mw_imgCorrectionPanel->originalImageHistogram().getCDF());
+
+    if(pid.isNull()) {
+        return;
+    }
+
+    m_openFileAction->setDisabled(true);
+    m_createImageAction->setDisabled(true);
+    m_runAction->setDisabled(true);
+    m_selectDeviceAction->setDisabled(true);
+
+    m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."));
+}
+
+void MainWindow::openImage() {
     QString fn = QFileDialog::getOpenFileName(this, tr("Open image file"), QString(),
                                               tr("Image files (*.png *.jpg *.jpeg *.bmp *.gif)"));
 
@@ -50,8 +179,9 @@ void MainWindow::openFile() {
 
     connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog, fn](QImage img, qint64 et) {
         mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
-        mw_logPanel->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
-        showOriginalImage(img);
+        m_coreApp->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
+
+        m_coreApp->setOriginalImage(img);
 
         m_openFileAction->setDisabled(false);
         m_createImageAction->setDisabled(false);
@@ -84,54 +214,13 @@ void MainWindow::createImage() {
     QImage img(settings.width, settings.height, QImage::Format_RGB888);
     img.fill(settings.fillColor);
 
-    mw_logPanel->logInfo(tr("Created image of size %1x%2.").arg(settings.width).arg(settings.height));
+    m_coreApp->logInfo(tr("Created image of size %1x%2.").arg(settings.width).arg(settings.height));
 
-    showOriginalImage(img);
-}
-
-void MainWindow::showOriginalImage(const QImage &img) {
-    m_original = img;
-
-    mw_tabWidget->setCurrentWidget(mw_origImgView);
-    mw_origImgView->setPixmap(QPixmap::fromImage(m_original));
-    mw_processedImgView->setPixmap(QPixmap());
-
-    mw_labelImgInfo->setText(tr("%1x%2 (%3 bytes)")
-                             .arg(m_original.width()).arg(m_original.height()).arg(m_original.sizeInBytes()));
-
-    mw_imgCorrectionPanel->clearOriginalImageHistogram();
-    mw_imgCorrectionPanel->clearProcessedImageHistogram();
-    startComputeHistogram(m_original, ImageCorrectionPanel::OriginalImageHistogram);
-}
-
-void MainWindow::showProcessedImage(const QImage &img) {
-    m_processed = img;
-
-    mw_tabWidget->setCurrentWidget(mw_processedImgView);
-    mw_processedImgView->setPixmap(QPixmap::fromImage(m_processed));
-
-    mw_imgCorrectionPanel->clearProcessedImageHistogram();
-    startComputeHistogram(m_processed, ImageCorrectionPanel::ProcessedImageHistogram);
-}
-
-void MainWindow::logConvMatrix(const QVector<QVector<float> > &mat) {
-    QString str;
-
-    str += tr("\n%1x%2 Convolution matrix :\n").arg(mat[0].size()).arg(mat.size());
-
-    if((mat.size() > 16) || (mat[0].size() > 16)) {
-        str += tr("Matrix is too large to be printed.");
-    } else {
-        str += Utils::matrixToBoxString(mat);
-    }
-
-    str += "\n";
-
-    mw_logPanel->logOutput(str);
+    m_coreApp->setOriginalImage(img);
 }
 
 void MainWindow::exportProcessedImage() {
-    if(m_processed.isNull()) {
+    if(m_coreApp->processedImage().isNull()) {
         return;
     }
 
@@ -142,209 +231,14 @@ void MainWindow::exportProcessedImage() {
         return;
     }
 
-    QPixmap pix = QPixmap::fromImage(m_processed);
+    QPixmap pix = QPixmap::fromImage(m_coreApp->processedImage());
     pix.save(fn);
 
-    mw_logPanel->logInfo(tr("[%1] Image saved.").arg(fn));
-}
-
-void MainWindow::startConv2DProcess() {
-    if(m_ocl->isRunning()) {
-        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
-
-        return;
-    }
-
-    if(m_original.isNull()) {
-        return;
-    }
-
-    ConvKernels::ConvKernel *k = m_convKernels.at(mw_convKernelComboBox->currentIndex());
-    QVector<QVector<float>> mat = k->getMat();
-    QSize matSize = k->getMatSize();
-
-    if(!matSize.width() || !matSize.height()) {
-        return;
-    }
-
-    QString options = Processing::createOCLProgramOptionsConv2D(m_original.size(), matSize);
-
-    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
-                        .arg(k->getSourceFilePath())
-                        .arg(options));
-
-    if(!createOCLProgram(k->getSourceFilePath(), options)) {
-        return;
-    }
-
-    if(m_ocl->ret() != CL_SUCCESS) {
-        return;
-    }
-
-    Utils::scaleMatrix(mat, k->getScalar());
-
-    logConvMatrix(mat);
-
-    mw_logPanel->logOutput(tr("Running kernel..."));
-
-    WaitDialog *dialog = new WaitDialog(tr("Processing image..."));
-    Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_original, mat);
-
-    connect(process, &Threads::Conv2D::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
-        float pixPerSec = 0;
-
-        if(!res) {
-            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
-
-            m_runAction->setDisabled(false);
-            delete dialog;
-
-            return;
-        }
-
-        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
-
-        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
-                            .arg(et)
-                            .arg(pixPerSec);
-
-        mw_labelElapsedTime->setText(logStr);
-        mw_logPanel->logOutput(logStr);
-
-        showProcessedImage(img);
-
-        m_runAction->setDisabled(false);
-        m_selectDeviceAction->setDisabled(false);
-        delete dialog;
-    });
-
-    m_runAction->setDisabled(true);
-    m_selectDeviceAction->setDisabled(true);
-    dialog->show();
-
-    QThreadPool::globalInstance()->start(process);
-}
-
-void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole role) {
-    const QString programPath = ":/ocl/histogram.cl";
-
-    if(m_ocl->isRunning()) {
-        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
-
-        return;
-    }
-
-    if(img.isNull()) {
-        return;
-    }
-
-    QString options = Processing::createOCLProgramOptionsComputeHistogram(img.size());
-
-    if(!createOCLProgram(programPath, options)) {
-        return;
-    }
-
-    if(m_ocl->ret() != CL_SUCCESS) {
-        return;
-    }
-
-    WaitDialog *dialog = new WaitDialog(tr("Computing histogram..."));
-    Threads::Histogram *process = new Threads::Histogram(m_ocl, img);
-
-    connect(process, &Threads::Histogram::finished, this, [=](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
-        Q_UNUSED(et)
-
-        if(!res) {
-            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
-
-            m_runAction->setDisabled(false);
-            delete dialog;
-
-            return;
-        }
-
-        mw_imgCorrectionPanel->displayHistogram(hist, role);
-
-        m_runAction->setDisabled(false);
-        m_selectDeviceAction->setDisabled(false);
-        delete dialog;
-    });
-
-    m_runAction->setDisabled(true);
-    m_selectDeviceAction->setDisabled(true);
-    dialog->show();
-
-    QThreadPool::globalInstance()->start(process);
-}
-
-void MainWindow::startImageCorrection(const QString &kernelPath) {
-    if(m_ocl->isRunning()) {
-        mw_logPanel->logInfo(tr("Kernel already running ! Please wait."));
-
-        return;
-    }
-
-    if(m_original.isNull()) {
-        return;
-    }
-
-    QString options = Processing::createOCLProgramOptionsCorrection(m_original.size());
-
-    mw_logPanel->logOutput(tr("\n[%1] Creating program - opts. : `%2`")
-                        .arg(kernelPath)
-                        .arg(options));
-
-    if(!createOCLProgram(kernelPath, options)) {
-        return;
-    }
-
-    if(m_ocl->ret() != CL_SUCCESS) {
-        return;
-    }
-
-    mw_logPanel->logOutput(tr("Running kernel..."));
-
-    WaitDialog *dialog = new WaitDialog(tr("Correcting image..."));
-    Threads::Correction *process = new Threads::Correction(m_ocl, m_original,
-                                                           mw_imgCorrectionPanel->originalImageHistogram().getCDF());
-
-    connect(process, &Threads::Correction::finished, this, [this, dialog](const QImage &img, qint64 et, bool res) {
-        float pixPerSec = 0;
-
-        if(!res) {
-            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error"));
-
-            m_runAction->setDisabled(false);
-            delete dialog;
-
-            return;
-        }
-
-        pixPerSec = 1000.f * (img.size().width() * img.size().height()) / et;
-
-        QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
-                            .arg(et)
-                            .arg(pixPerSec);
-
-        mw_labelElapsedTime->setText(logStr);
-        mw_logPanel->logOutput(logStr);
-
-        showProcessedImage(img);
-
-        m_runAction->setDisabled(false);
-        m_selectDeviceAction->setDisabled(false);
-        delete dialog;
-    });
-
-    m_runAction->setDisabled(true);
-    m_selectDeviceAction->setDisabled(true);
-    dialog->show();
-
-    QThreadPool::globalInstance()->start(process);
+    m_coreApp->logInfo(tr("[%1] Image saved.").arg(fn));
 }
 
 void MainWindow::filterSelected(int index) {
-    ConvKernels::ConvKernel *k = m_convKernels.at(index);
+    ConvKernels::ConvKernel *k = m_coreApp->getConvKernelAt(index);
     k->select();
 
     mw_dockFilterSettings->setConvKernel(k);
@@ -366,7 +260,7 @@ void MainWindow::showAboutDialog() {
 }
 
 void MainWindow::saveOnExit() {
-    if(m_processed.isNull()) {
+    if(m_coreApp->processedImage().isNull()) {
         return;
     }
 
@@ -378,82 +272,11 @@ void MainWindow::saveOnExit() {
     exportProcessedImage();
 }
 
-bool MainWindow::initCore() {
-    m_devices = OCLWrapper::getDevices();
-
-    if(m_devices.count() == 0) {
-        QMessageBox::critical(nullptr, tr("OCL init error"), tr("No OpenCL compatible device found !"));
-
-        return false;
-    }
-
-    initOpenCL(m_devices[0]);
-    Processing::registerConvKernels(&m_convKernels, this);
-
-    return true;
-}
-
-void MainWindow::initOpenCL(const OCLWrapper::Device &device) {
-    if(m_ocl) {
-        delete m_ocl;
-    }
-
-    m_ocl = new OCLWrapper(device, this);
-
-    if(m_ocl->ret() != CL_SUCCESS) {
-        QMessageBox::critical(this, tr("OCL init error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
-
-        return;
-    }
-}
-
-bool MainWindow::createOCLProgram(const QString &fn, const QString &options) {
-    QFileDevice::FileError e = m_ocl->createProgramFromFile(fn, "pixelKernel", options);
-
-    if(e != QFileDevice::NoError) {
-        m_ocl->releaseKernel();
-        m_ocl->releaseProgram();
-
-        QMessageBox::critical(this, tr("Filesystem error"), tr("File error (%1)").arg(e));
-
-        return false;
-    }
-
-    if(m_ocl->ret() != CL_SUCCESS) {
-        switch(m_ocl->ret()) {
-        case CL_BUILD_PROGRAM_FAILURE :
-            displayOCLProgramError();
-
-            m_ocl->releaseKernel();
-            m_ocl->releaseProgram();
-            break;
-        default:
-            QMessageBox::critical(this, tr("OCL error"), tr("OCL backend error (%1)").arg(m_ocl->ret()));
-
-            m_ocl->releaseKernel();
-            m_ocl->releaseProgram();
-            break;
-        }
-
-        return false;
-    }
-
-    return true;
-}
-
-void MainWindow::displayOCLProgramError() {
-    qDebug() << m_ocl->getBuildLog();
-
-    mw_logPanel->logError(tr("OCL build program error (%1)\n______________________________\n%2")
-                          .arg(m_ocl->ret())
-                          .arg(m_ocl->getBuildLog()));
-}
-
 void MainWindow::buildKernelComboBox() {
     mw_convKernelComboBox = new QComboBox(this);
     connect(mw_convKernelComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::filterSelected);
 
-    for(ConvKernels::ConvKernel *k : m_convKernels) {
+    for(ConvKernels::ConvKernel *k : m_coreApp->convKernels()) {
         mw_convKernelComboBox->addItem(k->getName());
     }
 }
@@ -461,14 +284,14 @@ void MainWindow::buildKernelComboBox() {
 void MainWindow::buildMenus() {
     mw_fileMenu = menuBar()->addMenu(tr("&File"));
 
-    m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openFile);
+    m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openImage);
     m_createImageAction = mw_fileMenu->addAction(QIcon(":/icons/image-new.png"), tr("&Create image"), tr("Ctrl+N"), this, &MainWindow::createImage);
     m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportProcessedImage);
     mw_fileMenu->addSeparator();
     m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
-        SelectDeviceDialog dialog(m_devices);
+        SelectDeviceDialog dialog(m_coreApp->devices());
         if(dialog.exec() == QDialog::Accepted) {
-            initOpenCL(dialog.getDevice());
+            m_coreApp->initOpenCL(dialog.getDevice());
             displayDeviceName();
         }
     });
@@ -479,10 +302,10 @@ void MainWindow::buildMenus() {
     m_reloadKernelAction = mw_processMenu->addAction(QIcon(":/icons/arrow-circle-double.png"), tr("Reload current &kernel"), tr("F5"), this, [this]() {
         filterSelected(mw_convKernelComboBox->currentIndex());
     });
-    m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startConv2DProcess);
+    m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startConv2D);
     m_backfeedAction = mw_processMenu->addAction(QIcon(":/icons/arrow-transition-180.png"), tr("&Backfeed"), tr("Ctrl+B"), this, [this](){
-        if(!m_processed.isNull()) {
-            showOriginalImage(m_processed);
+        if(!m_coreApp->processedImage().isNull()) {
+            m_coreApp->setOriginalImage(m_coreApp->processedImage());
         }
     });
 
@@ -520,8 +343,8 @@ void MainWindow::buildMenus() {
 }
 
 void MainWindow::displayDeviceName() {
-    mw_labelDevice->setText(m_ocl->getDeviceName());
-    mw_logPanel->logInfo(tr("Selected device : %1").arg(m_ocl->getDeviceName()));
+    mw_labelDevice->setText(m_coreApp->ocl()->getDeviceName());
+    m_coreApp->logInfo(tr("Selected device : %1").arg(m_coreApp->ocl()->getDeviceName()));
 }
 
 void MainWindow::buildUI() {
@@ -535,6 +358,7 @@ void MainWindow::buildUI() {
 
 void MainWindow::buildPanels() {
     mw_logPanel = new LogPanel(this);
+    mw_logPanel->addLogger(m_coreApp);
     addDockWidget(Qt::BottomDockWidgetArea, mw_logPanel);
 
     mw_imgCorrectionPanel = new ImageCorrectionPanel(this);
@@ -561,9 +385,9 @@ void MainWindow::buildView() {
 
     mw_codeEditor = new CodeEditorContainter(this);
     connect(mw_codeEditor, &CodeEditorContainter::useFile, this, [=](const QString &fn) {
-        m_convKernels.at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
+        m_coreApp->convKernels().at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
         filterSelected(mw_convKernelComboBox->currentIndex());
-        startConv2DProcess();
+        m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));
     });
 
     mw_tabWidget->addTab(mw_origImgView, tr("Original"));
@@ -580,7 +404,7 @@ void MainWindow::buildFilterSettingsView() {
 }
 
 void MainWindow::closeEvent(QCloseEvent *ev) {
-    if(m_ocl->isRunning()) {
+    if(m_coreApp->ocl()->isRunning()) {
         ev->ignore();
         return;
     }

@@ -19,16 +19,16 @@
 #ifndef PROCESSCONV2D_H
 #define PROCESSCONV2D_H
 
-#include <QRunnable>
 #include <QImage>
 #include <QElapsedTimer>
 #include <QVector>
 
+#include "virtualthread.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/processing.h"
 
 namespace Threads {
-class Conv2D : public QObject, public QRunnable
+class Conv2D : public VirtualThread
 {
     Q_OBJECT
 

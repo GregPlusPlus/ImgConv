@@ -16,20 +16,26 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "processconv2D.h"
+#ifndef VIRTUALTHREAD_H
+#define VIRTUALTHREAD_H
 
-Threads::Conv2D::Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
-    : VirtualThread{}, m_ocl{ocl}, m_original{original}, m_mat{mat} {
+#include <QObject>
+#include <QRunnable>
+#include <QUuid>
 
+namespace Threads {
+class VirtualThread : public QObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    VirtualThread();
+    virtual ~VirtualThread();
+
+    QUuid getUUID();
+
+private:
+    QUuid m_uuid;
+};
 }
 
-void Threads::Conv2D::run() {
-    QImage processed;
-
-    QElapsedTimer tm;
-    tm.start();
-
-    bool res = Processing::Algorithms::conv2D(m_ocl, m_original, processed, m_mat);
-
-    emit finished(processed, tm.elapsed(), res);
-}
+#endif // VIRTUALTHREAD_H

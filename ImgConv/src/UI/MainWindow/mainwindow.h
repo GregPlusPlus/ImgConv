@@ -36,10 +36,9 @@
 #include <QDockWidget>
 #include <QHBoxLayout>
 #include <QVector>
+#include <QMap>
 #include <QList>
-#include <QElapsedTimer>
 #include <QImageReader>
-#include <QThreadPool>
 #include <QCloseEvent>
 
 #include "app_strings.h"
@@ -48,40 +47,39 @@
 #include "UI/Panels/FilterSettingsPanel/filtersettingsdock.h"
 #include "UI/Panels/LogPanel/logpanel.h"
 #include "UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h"
-#include "UI/Dialogs/WaitDialog/waitdialog.h"
+#include "UI/WaitDialogMgr/waitdialogmgr.h"
 #include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
-#include "Core/OCLWrapper/oclwrapper.h"
-#include "Core/Processing/convkernel1darray.h"
-#include "Core/Processing/Kernels/kernels.h"
-#include "Core/Threads/threads.h"
-#include "Core/Utils/utils.h"
+
+#include "Core/App/app.h"
 
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Core::App *coreApp);
     ~MainWindow();
 
 private slots:
-    void openFile();
+    void connectCoreApp();
+    void processError();
+    void conv2DDone(const QUuid &pid, qint64 elapsedTime);
+    void histogramComputed(const QUuid &pid, qint64 elapsedTime, const Processing::Algorithms::Histogram &histogram);
+    void imageCorrected(const QUuid &pid, qint64 elapsedTime);
+    void logProcessFinished(qint64 elapsedTime);
+    void showOriginalImage();
+    void showProcessedImage();
+    void startConv2D();
+    void startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole);
+    void startImageCorrection(const QString &kernelPath);
+    void openImage();
     void createImage();
     void exportProcessedImage();
-    void startConv2DProcess();
-    void startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole role);
-    void startImageCorrection(const QString &kernelPath);
     void filterSelected(int index);
     void showAboutDialog();
     void saveOnExit();
-
-private:
-    bool initCore();
-    void initOpenCL(const OCLWrapper::Device &device);
-    bool createOCLProgram(const QString &fn, const QString &options);
-    void displayOCLProgramError();
     void buildMenus();
     void displayDeviceName();
     void buildUI();
@@ -89,9 +87,6 @@ private:
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
-    void showOriginalImage(const QImage &img);
-    void showProcessedImage(const QImage &img);
-    void logConvMatrix(const QVector<QVector<float>> &mat);
 
 private:
     QTabWidget *mw_tabWidget;
@@ -122,11 +117,10 @@ private:
     QAction *m_openCLDevices;
 
 private:
-    OCLWrapper *m_ocl = nullptr;
-    QList<OCLWrapper::Device> m_devices;
-    QImage m_original;
-    QImage m_processed;
-    QList<ConvKernels::ConvKernel*> m_convKernels;
+    Core::App *m_coreApp;
+
+    ImageCorrectionPanel::HistogramRole m_histRole;
+    WaitDialogMgr m_waitDialogMgr;
 
 protected:
     void closeEvent(QCloseEvent *ev);

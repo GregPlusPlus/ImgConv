@@ -17,12 +17,21 @@
  **/
 
 #include "UI/MainWindow/mainwindow.h"
+#include "Core/App/app.h"
 
 #include <QApplication>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    MainWindow w;
+
+    Core::App coreApp;
+
+    if(!coreApp.init()) {
+        exit(EXIT_FAILURE);
+    }
+
+    MainWindow w(&coreApp);
     w.show();
+
     return a.exec();
 }

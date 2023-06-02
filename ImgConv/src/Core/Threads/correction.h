@@ -19,16 +19,16 @@
 #ifndef CORRECTION_H
 #define CORRECTION_H
 
-#include <QRunnable>
 #include <QImage>
 #include <QElapsedTimer>
 #include <QVector>
 
+#include "virtualthread.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/processing.h"
 
 namespace Threads {
-class Correction : public QObject, public QRunnable
+class Correction : public VirtualThread
 {
     Q_OBJECT
 

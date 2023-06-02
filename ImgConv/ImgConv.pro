@@ -11,6 +11,7 @@ DEFINES += GIT_VERSION='"\\\"$(shell git describe --always)\\\""'
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/Core/Logger/logger.cpp \
     src/Core/OCLWrapper/oclwrapper.cpp \
     src/Core/Processing/Kernels/custom.cpp \
     src/Core/Processing/Kernels/emboss.cpp \
@@ -29,7 +30,9 @@ SOURCES += \
     src/Core/Threads/histogram.cpp \
     src/Core/Threads/imgloader.cpp \
     src/Core/Threads/processconv2D.cpp \
+    src/Core/Threads/virtualthread.cpp \
     src/Core/Utils/utils.cpp \
+    src/Core/App/app.cpp \
     src/UI/CodeEditor/Components/codeeditor.cpp \
     src/UI/CodeEditor/Components/highlighter.cpp \
     src/UI/CodeEditor/Components/interactivetextedit.cpp \
@@ -50,8 +53,10 @@ SOURCES += \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/UtilsUI/utilsui.cpp \
     src/UI/Dialogs/WaitDialog/waitdialog.cpp \
+    src/UI/WaitDialogMgr/waitdialogmgr.cpp \
     src/main.cpp
 HEADERS += \
+    src/Core/Logger/logger.h \
     src/Core/OCLWrapper/oclwrapper.h \
     src/Core/Processing/Kernels/custom.h \
     src/Core/Processing/Kernels/emboss.h \
@@ -72,7 +77,9 @@ HEADERS += \
     src/Core/Threads/imgloader.h \
     src/Core/Threads/processconv2D.h \
     src/Core/Threads/threads.h \
+    src/Core/Threads/virtualthread.h \
     src/Core/Utils/utils.h \
+    src/Core/App/app.h \
     src/UI/CodeEditor/Components/codeeditor.h \
     src/UI/CodeEditor/Components/highlighter.h \
     src/UI/CodeEditor/Components/interactivetextedit.h \
@@ -93,7 +100,8 @@ HEADERS += \
     src/UI/MainWindow/mainwindow.h \
     src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \
     src/UI/UtilsUI/utilsui.h \
-    src/UI/Dialogs/WaitDialog/waitdialog.h
+    src/UI/Dialogs/WaitDialog/waitdialog.h \
+    src/UI/WaitDialogMgr/waitdialogmgr.h
 
 INCLUDEPATH += \
     libs/include/ \

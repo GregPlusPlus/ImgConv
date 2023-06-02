@@ -16,20 +16,32 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "processconv2D.h"
+#include "waitdialogmgr.h"
 
-Threads::Conv2D::Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
-    : VirtualThread{}, m_ocl{ocl}, m_original{original}, m_mat{mat} {
+WaitDialogMgr::WaitDialogMgr(QObject *parent)
+    : QObject{parent} {
 
 }
 
-void Threads::Conv2D::run() {
-    QImage processed;
+WaitDialogMgr::~WaitDialogMgr() {
+    for(WaitDialog *dialog : m_waitDialogs) {
+        delete dialog;
+    }
+}
 
-    QElapsedTimer tm;
-    tm.start();
+void WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QString &msg) {
+    WaitDialog *dialog = new WaitDialog(msg);
+    dialog->show();
 
-    bool res = Processing::Algorithms::conv2D(m_ocl, m_original, processed, m_mat);
+    m_waitDialogs.insert(uuid, dialog);
+}
 
-    emit finished(processed, tm.elapsed(), res);
+void WaitDialogMgr::closeDialog(const QUuid &uuid) {
+    WaitDialog *dialog = m_waitDialogs.value(uuid, nullptr);
+
+    if(dialog) {
+        m_waitDialogs.remove(uuid);
+
+        delete dialog;
+    }
 }

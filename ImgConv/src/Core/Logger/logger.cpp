@@ -16,20 +16,25 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "processconv2D.h"
+#include "logger.h"
 
-Threads::Conv2D::Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
-    : VirtualThread{}, m_ocl{ocl}, m_original{original}, m_mat{mat} {
+Logger::Logger(QObject *parent)
+    : QObject{parent} {
 
 }
 
-void Threads::Conv2D::run() {
-    QImage processed;
+void Logger::logInfo(const QString &str) {
+    emit outputLogInfo(str);
+}
 
-    QElapsedTimer tm;
-    tm.start();
+void Logger::logOutput(const QString &str) {
+    emit outputLogOutput(str);
+}
 
-    bool res = Processing::Algorithms::conv2D(m_ocl, m_original, processed, m_mat);
+void Logger::logError(const QString &str) {
+    emit outputLogError(str);
+}
 
-    emit finished(processed, tm.elapsed(), res);
+void Logger::criticalError(const QString &str) {
+    emit showCriticalError(str);
 }

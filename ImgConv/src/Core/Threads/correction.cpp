@@ -19,7 +19,7 @@
 #include "correction.h"
 
 Threads::Correction::Correction(OCLWrapper *ocl, const QImage &original, const Processing::Algorithms::Histogram &cdf)
-    : QObject(), QRunnable(), m_cdf{cdf}, m_ocl{ocl}, m_original{original} {
+    : VirtualThread{}, m_cdf{cdf}, m_ocl{ocl}, m_original{original} {
 
 }
 

@@ -19,19 +19,16 @@
 #ifndef HISTOGRAM_H
 #define HISTOGRAM_H
 
-#include <QRunnable>
-#include <QObject>
-
-#include <QRunnable>
 #include <QImage>
 #include <QElapsedTimer>
 #include <QVector>
 
+#include "virtualthread.h"
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/processing.h"
 
 namespace Threads {
-class Histogram : public QObject, public QRunnable
+class Histogram : public VirtualThread
 {
     Q_OBJECT
 
