@@ -41,9 +41,6 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed);
     connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected);
 
-    connect(m_coreApp, &Logger::outputLogInfo, mw_logPanel, &LogPanel::logInfo);
-    connect(m_coreApp, &Logger::outputLogOutput, mw_logPanel, &LogPanel::logOutput);
-    connect(m_coreApp, &Logger::outputLogError, mw_logPanel, &LogPanel::logError);
     connect(m_coreApp, &Logger::showCriticalError, this, [this](const QString &str) {
         QMessageBox::critical(this, tr("Critical error"), str);
     });
@@ -361,6 +358,7 @@ void MainWindow::buildUI() {
 
 void MainWindow::buildPanels() {
     mw_logPanel = new LogPanel(this);
+    mw_logPanel->addLogger(m_coreApp);
     addDockWidget(Qt::BottomDockWidgetArea, mw_logPanel);
 
     mw_imgCorrectionPanel = new ImageCorrectionPanel(this);

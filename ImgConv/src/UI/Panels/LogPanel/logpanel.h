@@ -23,8 +23,10 @@
 #include <QTabWidget>
 #include <QTextEdit>
 #include <QPushButton>
+#include <QVector>
 
 #include "logwidget.h"
+#include "Core/Logger/logger.h"
 
 class LogPanel : public QDockWidget
 {
@@ -37,6 +39,7 @@ public slots:
     void logInfo(const QString &str);
     void logOutput(const QString &str);
     void logError(const QString &str);
+    void addLogger(Logger *logger);
 
 private slots:
     void clear();
