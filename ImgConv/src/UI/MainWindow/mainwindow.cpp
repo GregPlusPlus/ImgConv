@@ -93,7 +93,7 @@ void MainWindow::logProcessFinished(qint64 elapsedTime) {
                         .arg(pixPerSec);
 
     mw_labelElapsedTime->setText(logStr);
-    mw_logPanel->logOutput(logStr);
+    m_coreApp->logOutput(logStr);
 }
 
 void MainWindow::showOriginalImage() {
@@ -179,7 +179,7 @@ void MainWindow::openImage() {
 
     connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog, fn](QImage img, qint64 et) {
         mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
-        mw_logPanel->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
+        m_coreApp->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
 
         m_coreApp->setOriginalImage(img);
 
@@ -214,7 +214,7 @@ void MainWindow::createImage() {
     QImage img(settings.width, settings.height, QImage::Format_RGB888);
     img.fill(settings.fillColor);
 
-    mw_logPanel->logInfo(tr("Created image of size %1x%2.").arg(settings.width).arg(settings.height));
+    m_coreApp->logInfo(tr("Created image of size %1x%2.").arg(settings.width).arg(settings.height));
 
     m_coreApp->setOriginalImage(img);
 }
@@ -234,7 +234,7 @@ void MainWindow::exportProcessedImage() {
     QPixmap pix = QPixmap::fromImage(m_coreApp->processedImage());
     pix.save(fn);
 
-    mw_logPanel->logInfo(tr("[%1] Image saved.").arg(fn));
+    m_coreApp->logInfo(tr("[%1] Image saved.").arg(fn));
 }
 
 void MainWindow::filterSelected(int index) {
@@ -344,7 +344,7 @@ void MainWindow::buildMenus() {
 
 void MainWindow::displayDeviceName() {
     mw_labelDevice->setText(m_coreApp->ocl()->getDeviceName());
-    mw_logPanel->logInfo(tr("Selected device : %1").arg(m_coreApp->ocl()->getDeviceName()));
+    m_coreApp->logInfo(tr("Selected device : %1").arg(m_coreApp->ocl()->getDeviceName()));
 }
 
 void MainWindow::buildUI() {
