@@ -27,7 +27,7 @@
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/processing.h"
 
-namespace Threads {
+namespace Core::Threads {
 class Histogram : public VirtualThread
 {
     Q_OBJECT

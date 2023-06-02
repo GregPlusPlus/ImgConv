@@ -8,6 +8,7 @@
 
 #include "UI/Dialogs/WaitDialog/waitdialog.h"
 
+namespace UI {
 class WaitDialogMgr : public QObject
 {
     Q_OBJECT
@@ -22,8 +23,9 @@ public slots:
 signals:
 
 private:
-    QMap<QUuid, WaitDialog*> m_waitDialogs;
+    QMap<QUuid, Dialogs::WaitDialog*> m_waitDialogs;
 
 };
+}
 
 #endif // WAITDIALOGMGR_H

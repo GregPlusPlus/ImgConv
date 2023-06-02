@@ -22,6 +22,7 @@
 #include <QTextEdit>
 #include <QScrollBar>
 
+namespace UI {
 class LogWidget : public QTextEdit
 {
     Q_OBJECT
@@ -31,5 +32,6 @@ public:
 public slots:
     void log(const QString &str);
 };
+}
 
 #endif // LOGWIDGET_H

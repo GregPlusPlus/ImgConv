@@ -27,7 +27,7 @@
 
 #include <QDebug>
 
-namespace ConvKernels {
+namespace Core::Processing::ConvKernels {
 class ConvKenrelSetting : public QObject
 {
     Q_OBJECT

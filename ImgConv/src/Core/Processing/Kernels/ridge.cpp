@@ -18,12 +18,14 @@
 
 #include "ridge.h"
 
-ConvKernels::Ridge::Ridge(QObject *parent)
+using namespace Core::Processing::ConvKernels;
+
+Ridge::Ridge(QObject *parent)
     : ConvKernel{parent} {
 
 }
 
-QVector<QVector<float> > ConvKernels::Ridge::getMat() const {
+QVector<QVector<float> > Ridge::getMat() const {
     static QVector<QVector<float>> k = {
         {-1, -1, -1},
         {-1,  8, -1},
@@ -33,15 +35,15 @@ QVector<QVector<float> > ConvKernels::Ridge::getMat() const {
     return k;
 }
 
-float ConvKernels::Ridge::getScalar() const {
+float Ridge::getScalar() const {
     return 1.f;
 }
 
-QString ConvKernels::Ridge::getName() const {
+QString Ridge::getName() const {
     return tr("Ridge");
 }
 
-QString ConvKernels::Ridge::getDescription() {
+QString Ridge::getDescription() {
     return tr("Applies an <i>Ridge</i> effect (a kind of edge-detection effect).<br><br>" \
               "This effect doesn't have any parameters to tweak.");
 }

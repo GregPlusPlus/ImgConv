@@ -27,6 +27,7 @@
 
 #include <QHBoxLayout>
 
+namespace UI {
 class FileNamePicker : public QWidget
 {
     Q_OBJECT
@@ -48,5 +49,6 @@ private:
     QPushButton *mw_browse;
 
 };
+}
 
 #endif // FILENAMEPICKER_H

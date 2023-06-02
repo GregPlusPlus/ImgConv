@@ -18,6 +18,8 @@
 
 #include "logpanel.h"
 
+using namespace UI::Panels;
+
 LogPanel::LogPanel(QWidget *parent)
     : QDockWidget(tr("Logs"), parent) {
 
@@ -58,10 +60,10 @@ void LogPanel::logError(const QString &str) {
     mw_tabs->setCurrentWidget(mw_errors);
 }
 
-void LogPanel::addLogger(Logger *logger){
-    connect(logger, &Logger::outputLogInfo, this, &LogPanel::logInfo);
-    connect(logger, &Logger::outputLogOutput, this, &LogPanel::logOutput);
-    connect(logger, &Logger::outputLogError, this, &LogPanel::logError);
+void LogPanel::addLogger(Core::Logger *logger){
+    connect(logger, &Core::Logger::outputLogInfo, this, &LogPanel::logInfo);
+    connect(logger, &Core::Logger::outputLogOutput, this, &LogPanel::logOutput);
+    connect(logger, &Core::Logger::outputLogError, this, &LogPanel::logError);
 }
 
 void LogPanel::clear() {

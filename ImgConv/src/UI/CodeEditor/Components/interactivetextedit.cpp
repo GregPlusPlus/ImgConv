@@ -18,6 +18,8 @@
 
 #include "interactivetextedit.h"
 
+using namespace UI::CodeEditorComponents;
+
 InteractiveTextEdit::InteractiveTextEdit(QWidget *parent)
     : QPlainTextEdit{parent} {
 }

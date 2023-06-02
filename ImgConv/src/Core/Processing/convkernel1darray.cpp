@@ -18,6 +18,8 @@
 
 #include "convkernel1darray.h"
 
+using namespace Core::Processing;
+
 ConvKernel1DArray::ConvKernel1DArray(const QVector<QVector<float> > &k) {
     m_s = k.size() * k[0].size();
     m_k = new float[m_s];

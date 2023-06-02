@@ -23,7 +23,7 @@
 #include <QRunnable>
 #include <QUuid>
 
-namespace Threads {
+namespace Core::Threads {
 class VirtualThread : public QObject, public QRunnable
 {
     Q_OBJECT

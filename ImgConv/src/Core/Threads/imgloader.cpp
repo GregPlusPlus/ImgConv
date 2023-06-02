@@ -18,12 +18,14 @@
 
 #include "imgloader.h"
 
-Threads::ImgLoader::ImgLoader(const QString &fn)
+using namespace Core::Threads;
+
+ImgLoader::ImgLoader(const QString &fn)
     : VirtualThread{}, m_fn{fn} {
 
 }
 
-void Threads::ImgLoader::run() {
+void ImgLoader::run() {
     QElapsedTimer tm;
     tm.start();
 

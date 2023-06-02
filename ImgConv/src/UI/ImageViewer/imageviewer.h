@@ -29,6 +29,7 @@
 #include <QWheelEvent>
 #include <QResizeEvent>
 
+namespace UI {
 class ImageViewer : public QWidget
 {
     Q_OBJECT
@@ -76,5 +77,6 @@ protected:
     virtual void resizeEvent(QResizeEvent *event) override;
 
 };
+}
 
 #endif // IMAGEVIEWER_H

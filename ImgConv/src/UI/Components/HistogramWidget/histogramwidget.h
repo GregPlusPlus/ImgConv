@@ -32,18 +32,19 @@
 
 #include "src/Core/Processing/processing.h"
 
+namespace UI::Components {
 class HistogramWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit HistogramWidget(const QString &title, QWidget *parent = nullptr);
 
-    Processing::Algorithms::Histogram histogram() const;
+    Core::Processing::Algorithms::Histogram histogram() const;
 
     QString title() const;
 
 public slots:
-    void setHistogram(const Processing::Algorithms::Histogram &newHistogram);
+    void setHistogram(const Core::Processing::Algorithms::Histogram &newHistogram);
     void setTitle(const QString &title);
     void clear();
 
@@ -63,7 +64,7 @@ private:
     size_t X2Val(int X);
 
 private:
-    Processing::Algorithms::Histogram m_histogram;
+    Core::Processing::Algorithms::Histogram m_histogram;
     QString m_title;
 
     QVector<size_t> m_RGBmax;
@@ -77,5 +78,6 @@ protected:
     void enterEvent(QEnterEvent *event) override;
     void leaveEvent(QEvent *event) override;
 };
+}
 
 #endif // HISTOGRAMWIDGET_H

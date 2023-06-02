@@ -23,6 +23,7 @@
 
 #include "interactivetextedit.h"
 
+namespace UI::CodeEditorComponents {
 class InteractiveTextEdit;
 
 class KeyCompletion : public QObject {
@@ -43,5 +44,6 @@ private:
 private:
     InteractiveTextEdit *mw_textEdit;
 };
+}
 
 #endif // KEYCOMPLETION_H

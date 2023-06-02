@@ -1,10 +1,3 @@
-#ifndef IMAGEVIEWERCONTAINER_H
-#define IMAGEVIEWERCONTAINER_H
-
-#include <QWidget>
-#include <QPushButton>
-#include <QStatusBar>
-
 /**
  ** This file is part of the ImgConv project.
  ** Copyright 2022-2023 Grégoire BOST <bostgregoire@gmail.com>.
@@ -23,10 +16,18 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
+#ifndef IMAGEVIEWERCONTAINER_H
+#define IMAGEVIEWERCONTAINER_H
+
+#include <QWidget>
+#include <QPushButton>
+#include <QStatusBar>
+
 #include <QVBoxLayout>
 
 #include "imageviewer.h"
 
+namespace UI {
 class ImageViewerContainer : public QWidget
 {
     Q_OBJECT
@@ -51,5 +52,6 @@ private:
     ImageViewer *mw_viewer;
 
 };
+}
 
 #endif // IMAGEVIEWERCONTAINER_H

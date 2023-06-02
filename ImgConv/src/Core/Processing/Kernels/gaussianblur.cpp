@@ -20,7 +20,9 @@
 
 #include <cmath>
 
-ConvKernels::GaussianBlur::GaussianBlur(QObject *parent)
+using namespace Core::Processing::ConvKernels;
+
+GaussianBlur::GaussianBlur(QObject *parent)
     : ConvKernels::ConvKernel{parent}{
     m_sizeSetting = new ConvKenrelSetting(tr("Size"),
                         true, 1,
@@ -43,19 +45,19 @@ ConvKernels::GaussianBlur::GaussianBlur(QObject *parent)
     settingChanged();
 }
 
-QVector<QVector<float> > ConvKernels::GaussianBlur::getMat() const {
+QVector<QVector<float> > GaussianBlur::getMat() const {
     return m_k;
 }
 
-float ConvKernels::GaussianBlur::getScalar() const {
+float GaussianBlur::getScalar() const {
     return m_s;
 }
 
-QString ConvKernels::GaussianBlur::getName() const {
+QString GaussianBlur::getName() const {
     return tr("Gaussian blur");
 }
 
-QString ConvKernels::GaussianBlur::getDescription() {
+QString GaussianBlur::getDescription() {
     return tr("Applies a gaussian blur effect.<br>" \
               "<ul>" \
               "<li><strong>Size : </strong>The size of the blur effect.</li>" \
@@ -63,7 +65,7 @@ QString ConvKernels::GaussianBlur::getDescription() {
               "</ul>");
 }
 
-void ConvKernels::GaussianBlur::settingChanged() {
+void GaussianBlur::settingChanged() {
     size_t kSize = m_sizeSetting->val() * 2;
 
     if((kSize % 2) == 0) {

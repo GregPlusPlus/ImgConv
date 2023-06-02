@@ -18,12 +18,14 @@
 
 #include "unsharpmasking.h"
 
-ConvKernels::UnsharpMasking::UnsharpMasking(QObject *parent)
+using namespace Core::Processing::ConvKernels;
+
+UnsharpMasking::UnsharpMasking(QObject *parent)
     : ConvKernel{parent} {
 
 }
 
-QVector<QVector<float> > ConvKernels::UnsharpMasking::getMat() const {
+QVector<QVector<float> > UnsharpMasking::getMat() const {
     static QVector<QVector<float>> k = {
         {1,  4,    6,  4, 1},
         {4, 16,   24, 16, 4},
@@ -35,15 +37,15 @@ QVector<QVector<float> > ConvKernels::UnsharpMasking::getMat() const {
     return k;
 }
 
-float ConvKernels::UnsharpMasking::getScalar() const {
+float UnsharpMasking::getScalar() const {
     return -1.f/256.f;
 }
 
-QString ConvKernels::UnsharpMasking::getName() const {
+QString UnsharpMasking::getName() const {
     return tr("Unsharp masking");
 }
 
-QString ConvKernels::UnsharpMasking::getDescription() {
+QString UnsharpMasking::getDescription() {
     return tr("Applies the <i>Unsharp Masking (USM)</i> effect. This effect increases the edge's contrast, " \
               "and is an improved version of the <i>Sharpen</i> effect.<br><br>" \
               "This effect doesn't have any parameters to tweak.");

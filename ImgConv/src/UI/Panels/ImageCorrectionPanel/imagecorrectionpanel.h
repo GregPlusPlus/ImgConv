@@ -28,6 +28,7 @@
 #include "src/Core/Processing/processing.h"
 #include "UI/Components/HistogramWidget/histogramwidget.h"
 
+namespace UI::Panels {
 class ImageCorrectionPanel : public QDockWidget
 {
     Q_OBJECT
@@ -41,13 +42,13 @@ public:
 public:
     ImageCorrectionPanel(QWidget *parent = nullptr);
 
-    Processing::Algorithms::Histogram originalImageHistogram();
-    Processing::Algorithms::Histogram processedImageHistogram();
+    Core::Processing::Algorithms::Histogram originalImageHistogram();
+    Core::Processing::Algorithms::Histogram processedImageHistogram();
 
 public slots:
-    void displayHistogram(const Processing::Algorithms::Histogram &histogram, ImageCorrectionPanel::HistogramRole role);
-    void setOriginalImageHistogram(const Processing::Algorithms::Histogram &histogram);
-    void setProcessedImageHistogram(const Processing::Algorithms::Histogram &histogram);
+    void displayHistogram(const Core::Processing::Algorithms::Histogram &histogram, ImageCorrectionPanel::HistogramRole role);
+    void setOriginalImageHistogram(const Core::Processing::Algorithms::Histogram &histogram);
+    void setProcessedImageHistogram(const Core::Processing::Algorithms::Histogram &histogram);
     void clearOriginalImageHistogram();
     void clearProcessedImageHistogram();
 
@@ -70,10 +71,11 @@ private:
     QPushButton *mw_invertColorsButton;
     QPushButton *mw_histogramEqualizationButton;
 
-    HistogramWidget *mw_originalImageHistogram;
-    HistogramWidget *mw_processedImageHistogram;
-    HistogramWidget *mw_originalImageCDF;
-    HistogramWidget *mw_processedImageCDF;
+    Components::HistogramWidget *mw_originalImageHistogram;
+    Components::HistogramWidget *mw_processedImageHistogram;
+    Components::HistogramWidget *mw_originalImageCDF;
+    Components::HistogramWidget *mw_processedImageCDF;
 };
+}
 
 #endif // IMAGECORRECTIONPANEL_H

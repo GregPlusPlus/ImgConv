@@ -18,16 +18,18 @@
 
 #include "virtualthread.h"
 
-Threads::VirtualThread::VirtualThread()
+using namespace Core::Threads;
+
+VirtualThread::VirtualThread()
     : QObject{}, QRunnable{} {
 
     m_uuid = QUuid::createUuid();
 }
 
-Threads::VirtualThread::~VirtualThread() {
+VirtualThread::~VirtualThread() {
 
 }
 
-QUuid Threads::VirtualThread::getUUID() {
+QUuid VirtualThread::getUUID() {
     return m_uuid;
 }

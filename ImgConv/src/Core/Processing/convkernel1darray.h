@@ -24,9 +24,10 @@
 
 #include <QDebug>
 
+namespace Core::Processing {
 class ConvKernel1DArray : public QObject
 {
-    Q_OBJECT
+Q_OBJECT
 public:
     explicit ConvKernel1DArray(const QVector<QVector<float>> &k);
     virtual ~ConvKernel1DArray();
@@ -43,5 +44,6 @@ private:
     size_t m_s;
 
 };
+}
 
 #endif // CONVKERNEL1DARRAY_H

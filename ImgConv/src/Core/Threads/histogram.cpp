@@ -18,12 +18,14 @@
 
 #include "histogram.h"
 
-Threads::Histogram::Histogram(OCLWrapper *ocl, const QImage &original)
+using namespace Core::Threads;
+
+Histogram::Histogram(OCLWrapper *ocl, const QImage &original)
     : VirtualThread{}, m_ocl{ocl}, m_original{original} {
 
 }
 
-void Threads::Histogram::run() {
+void Histogram::run() {
     Processing::Algorithms::Histogram hist;
 
     QElapsedTimer tm;

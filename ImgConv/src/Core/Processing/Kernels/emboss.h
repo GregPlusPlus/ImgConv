@@ -19,9 +19,9 @@
 #ifndef EMBOSS_H
 #define EMBOSS_H
 
-#include "kernels.h"
+#include "Core/Processing/convkernel.h"
 
-namespace ConvKernels {
+namespace Core::Processing::ConvKernels {
 class Emboss : public ConvKernel {
     Q_OBJECT
 public:

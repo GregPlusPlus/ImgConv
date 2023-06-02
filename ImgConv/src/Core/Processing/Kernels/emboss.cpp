@@ -18,7 +18,9 @@
 
 #include "emboss.h"
 
-ConvKernels::Emboss::Emboss(QObject *parent)
+using namespace Core::Processing::ConvKernels;
+
+Emboss::Emboss(QObject *parent)
     : ConvKernel{parent} {
     m_sizeSetting = new ConvKenrelSetting(tr("Size"),
                         true, 1,
@@ -41,19 +43,19 @@ ConvKernels::Emboss::Emboss(QObject *parent)
     settingChanged();
 }
 
-QVector<QVector<float> > ConvKernels::Emboss::getMat() const {
+QVector<QVector<float> > Emboss::getMat() const {
     return m_k;
 }
 
-float ConvKernels::Emboss::getScalar() const {
+float Emboss::getScalar() const {
     return m_s;
 }
 
-QString ConvKernels::Emboss::getName() const {
+QString Emboss::getName() const {
     return tr("Emboss");
 }
 
-QString ConvKernels::Emboss::getDescription() {
+QString Emboss::getDescription() {
     return tr("Applies an <i>Emboss</i> effect.<br>" \
               "<ul>" \
               "<li><strong>Size : </strong>The \"witdh\" of the emboss effect along the edges. The bigger the number, the stronger the effect.</li>" \
@@ -61,7 +63,7 @@ QString ConvKernels::Emboss::getDescription() {
               "</ul>");
 }
 
-void ConvKernels::Emboss::settingChanged() {
+void Emboss::settingChanged() {
     size_t kSize = m_sizeSetting->val() * 2;
 
     if((kSize % 2) == 0) {

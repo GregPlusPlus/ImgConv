@@ -18,14 +18,16 @@
 
 #include "codeeditorcontainer.h"
 
+using namespace UI;
+
 CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     QWidget{parent} {
 
-    mw_editor = new CodeEditor(this);
+    mw_editor = new CodeEditorComponents::CodeEditor(this);
     mw_editor->setUseSpacesAsTab(true);
-    m_keyCompletion = new KeyCompletion(mw_editor);
-    m_highlighter = new Highlighter(mw_editor->document());
-    connect(mw_editor, &CodeEditor::textChanged, [=]() {
+    m_keyCompletion = new CodeEditorComponents::KeyCompletion(mw_editor);
+    m_highlighter = new CodeEditorComponents::Highlighter(mw_editor->document());
+    connect(mw_editor, &CodeEditorComponents::CodeEditor::textChanged, [=]() {
         setSaved(false);
     });
 
@@ -52,9 +54,9 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_saveMenu->addAction(QIcon(":/icons/disk-rename.png"), tr("Save as"), tr("Ctrl+Shift+S"), this, &CodeEditorContainter::saveAsFile);
 
     mw_toolBar->addWidget(mw_generateTemplateButton);
-    UtilsUI::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/tick-button.png"), tr("Apply"), tr("F9"), this, &CodeEditorContainter::applyFile));
+    UI::Utils::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/tick-button.png"), tr("Apply"), tr("F9"), this, &CodeEditorContainter::applyFile));
     mw_toolBar->addSeparator();
-    UtilsUI::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), tr("Ctrl+Shift+O"), this, &CodeEditorContainter::openFile));
+    UI::Utils::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), tr("Ctrl+Shift+O"), this, &CodeEditorContainter::openFile));
     mw_toolBar->addWidget(mw_saveButton);
     mw_toolBar->addSeparator();
     mw_toolBar->addAction(QIcon(":/icons/arrow-curve-180-left.png"), tr("Undo"), mw_editor, &QPlainTextEdit::undo);

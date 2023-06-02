@@ -32,6 +32,7 @@
 #include "Core/Utils/utils.h"
 #include "UI/FilterSettingsWidget/filtersettingswidget.h"
 
+namespace UI::Panels {
 class FilterSettingsDock : public QDockWidget
 {
     Q_OBJECT
@@ -39,10 +40,10 @@ public:
     explicit FilterSettingsDock(QWidget *parent = 0);
 
 public slots:
-    void setConvKernel(ConvKernels::ConvKernel *k);
+    void setConvKernel(Core::Processing::ConvKernels::ConvKernel *k);
 
 private slots:
-    void updateDescription(ConvKernels::ConvKernel *k);
+    void updateDescription(Core::Processing::ConvKernels::ConvKernel *k);
     void resetSettings();
     void exportMatrix();
 
@@ -57,8 +58,9 @@ private:
     QVBoxLayout *m_settingsLayout = nullptr;
 
 private:
-    ConvKernels::ConvKernel *m_k;
+    Core::Processing::ConvKernels::ConvKernel *m_k;
     QList<FilterSettingsWidget*> m_FilterSettingsWidgets;
 };
+}
 
 #endif // FILTERSETTINGSDOCK_H

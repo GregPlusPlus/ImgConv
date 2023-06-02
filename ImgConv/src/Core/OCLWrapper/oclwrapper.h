@@ -31,6 +31,7 @@
 
 #include <CL/cl.h>
 
+namespace Core {
 class OCLWrapper : public QObject {
     Q_OBJECT
 
@@ -84,5 +85,6 @@ private:
 
     bool m_isRunning = false;
 };
+}
 
 #endif // OCLWRAPPER_H

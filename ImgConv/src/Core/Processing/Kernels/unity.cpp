@@ -18,7 +18,9 @@
 
 #include "unity.h"
 
-ConvKernels::Unity::Unity(QObject *parent)
+using namespace Core::Processing::ConvKernels;
+
+Unity::Unity(QObject *parent)
     : ConvKernels::ConvKernel{parent} {
     m_scalar = new ConvKenrelSetting(tr("Gain"),
                         true, 0.f,
@@ -29,7 +31,7 @@ ConvKernels::Unity::Unity(QObject *parent)
     addSetting(m_scalar);
 }
 
-QVector<QVector<float> > ConvKernels::Unity::getMat() const {
+QVector<QVector<float> > Unity::getMat() const {
     static QVector<QVector<float>> k = {
         {1}
     };
@@ -37,15 +39,15 @@ QVector<QVector<float> > ConvKernels::Unity::getMat() const {
     return k;
 }
 
-float ConvKernels::Unity::getScalar() const {
+float Unity::getScalar() const {
     return m_scalar->valF();
 }
 
-QString ConvKernels::Unity::getName() const {
+QString Unity::getName() const {
     return tr("Unity kernel");
 }
 
-QString ConvKernels::Unity::getDescription() {
+QString Unity::getDescription() {
     return tr("Applies a Unity convolution matrix." \
               "<ul>" \
               "<li><strong>Gain : </strong>Adjust the gain of the image.</li>" \

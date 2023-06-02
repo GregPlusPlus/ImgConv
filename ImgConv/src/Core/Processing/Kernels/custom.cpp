@@ -18,7 +18,9 @@
 
 #include "custom.h"
 
-ConvKernels::Custom::Custom(QObject *parent)
+using namespace Core::Processing::ConvKernels;
+
+Custom::Custom(QObject *parent)
     : ConvKernel{parent} {
     m_kernelFileSetting = new ConvKenrelSetting(tr("Kernel"), tr("Open kernel as image file"),
                                                 tr("CSV file (*.csv *.txt);;" \
@@ -37,19 +39,19 @@ ConvKernels::Custom::Custom(QObject *parent)
     addSetting(m_normalizeSetting);
 }
 
-QVector<QVector<float> > ConvKernels::Custom::getMat() const {
+QVector<QVector<float> > Custom::getMat() const {
     return m_k;
 }
 
-float ConvKernels::Custom::getScalar() const {
+float Custom::getScalar() const {
     return m_s;
 }
 
-QString ConvKernels::Custom::getName() const {
+QString Custom::getName() const {
     return tr("Custom kernel");
 }
 
-QString ConvKernels::Custom::getDescription() {
+QString Custom::getDescription() {
     return tr("Allows to load a custom convolution kernel matrix from a CSV or an image file.<br>" \
               "<ul>" \
               "<li><strong>Kernel : </strong>The file to be loaded as a kernel.</li>" \
@@ -63,11 +65,11 @@ QString ConvKernels::Custom::getDescription() {
               "</ul>");
 }
 
-void ConvKernels::Custom::select() {
+void Custom::select() {
     updateFilter();
 }
 
-void ConvKernels::Custom::importMatrix() {
+void Custom::importMatrix() {
     QString fn = m_kernelFileSetting->valS();
 
     if(fn.isEmpty()) {
@@ -106,7 +108,7 @@ void ConvKernels::Custom::importMatrix() {
     }
 }
 
-void ConvKernels::Custom::updateFilter() {
+void Custom::updateFilter() {
     float s = 1.f;
 
     importMatrix();
@@ -118,7 +120,7 @@ void ConvKernels::Custom::updateFilter() {
     m_s = s;
 }
 
-QStringList ConvKernels::Custom::supportedImgFilesList() {
+QStringList Custom::supportedImgFilesList() {
     static QStringList supportedImgFiles = {
         "png", "jpg", "jpeg", "bmp", "gif"
     };
@@ -126,7 +128,7 @@ QStringList ConvKernels::Custom::supportedImgFilesList() {
     return supportedImgFiles;
 }
 
-QString ConvKernels::Custom::generateSupportedImgFilesStringFilter() {
+QString Custom::generateSupportedImgFilesStringFilter() {
     QString str;
     QStringList formats = supportedImgFilesList();
 

@@ -27,7 +27,7 @@
 #include "Core/Processing/convkernel.h"
 #include "Core/Utils/utils.h"
 
-namespace ConvKernels {
+namespace Core::Processing::ConvKernels {
 class Custom : public ConvKernel {
     Q_OBJECT
 public:

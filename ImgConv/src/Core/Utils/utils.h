@@ -27,7 +27,7 @@
 
 #include <QRegularExpression>
 
-namespace Utils {
+namespace Core::Utils {
     void scaleMatrix(QVector<QVector<float>> &v, float c);
     void imageToMatrix(QVector<QVector<float>> &m, QImage &i);
     bool CSVToMatrix(QVector<QVector<float>> &m, QString &in);
