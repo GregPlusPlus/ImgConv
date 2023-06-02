@@ -28,6 +28,7 @@ SOURCES += \
     src/Core/Processing/processing.cpp \
     src/Core/Threads/correction.cpp \
     src/Core/Threads/histogram.cpp \
+    src/Core/Threads/imgexport.cpp \
     src/Core/Threads/imgloader.cpp \
     src/Core/Threads/processconv2D.cpp \
     src/Core/Threads/virtualthread.cpp \
@@ -74,6 +75,7 @@ HEADERS += \
     src/Core/Processing/processing.h \
     src/Core/Threads/correction.h \
     src/Core/Threads/histogram.h \
+    src/Core/Threads/imgexport.h \
     src/Core/Threads/imgloader.h \
     src/Core/Threads/processconv2D.h \
     src/Core/Threads/threads.h \

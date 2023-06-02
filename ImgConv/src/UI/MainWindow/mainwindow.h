@@ -76,10 +76,10 @@ private slots:
     void startImageCorrection(const QString &kernelPath);
     void openImage();
     void createImage();
-    void exportProcessedImage();
+    void exportProcessedImage(bool closeWhenFinished = false);
     void filterSelected(int index);
     void showAboutDialog();
-    void saveOnExit();
+    bool saveOnExit();
     void buildMenus();
     void displayDeviceName();
     void buildUI();

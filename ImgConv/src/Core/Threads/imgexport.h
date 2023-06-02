@@ -16,13 +16,31 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef THREADS_H
-#define THREADS_H
+#ifndef IMGEXPORT_H
+#define IMGEXPORT_H
 
-#include "imgloader.h"
-#include "imgexport.h"
-#include "processconv2D.h"
-#include "histogram.h"
-#include "correction.h"
+#include <QImage>
+#include <QPixmap>
+#include <QElapsedTimer>
 
-#endif // THREADS_H
+#include "virtualthread.h"
+
+namespace Core::Threads {
+class ImgExport : public VirtualThread
+{
+    Q_OBJECT
+public:
+    ImgExport(const QString &fn, const QImage &img);
+
+    void run() override;
+
+signals:
+    void exported(qint64 et);
+
+private:
+    QString m_fn;
+    QImage m_img;
+};
+}
+
+#endif // IMGEXPORT_H
