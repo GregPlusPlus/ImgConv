@@ -18,6 +18,8 @@
 
 #include "buttoncolorpicker.h"
 
+using namespace UI::Components;
+
 ButtonColorPicker::ButtonColorPicker(QColor defaultColor, QWidget *parent)
     : QPushButton{parent} {
     setText(tr("Pick color"));

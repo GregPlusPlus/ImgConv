@@ -18,6 +18,8 @@
 
 #include "oclwrapper.h"
 
+using namespace Core;
+
 OCLWrapper::OCLWrapper(const Device &d, QObject *parent)
     : QObject{parent}, m_device{d} {
 

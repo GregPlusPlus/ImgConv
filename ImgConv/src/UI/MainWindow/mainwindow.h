@@ -54,7 +54,7 @@
 
 #include "Core/App/app.h"
 
-
+namespace UI {
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -66,13 +66,13 @@ private slots:
     void connectCoreApp();
     void processError();
     void conv2DDone(const QUuid &pid, qint64 elapsedTime);
-    void histogramComputed(const QUuid &pid, qint64 elapsedTime, const Processing::Algorithms::Histogram &histogram);
+    void histogramComputed(const QUuid &pid, qint64 elapsedTime, const Core::Processing::Algorithms::Histogram &histogram);
     void imageCorrected(const QUuid &pid, qint64 elapsedTime);
     void logProcessFinished(qint64 elapsedTime);
     void showOriginalImage();
     void showProcessedImage();
     void startConv2D();
-    void startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole);
+    void startComputeHistogram(const QImage &img, Panels::ImageCorrectionPanel::HistogramRole histRole);
     void startImageCorrection(const QString &kernelPath);
     void openImage();
     void createImage();
@@ -94,9 +94,9 @@ private:
     ImageViewerContainer *mw_processedImgView;
     CodeEditorContainter *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
-    FilterSettingsDock *mw_dockFilterSettings;
-    LogPanel *mw_logPanel;
-    ImageCorrectionPanel *mw_imgCorrectionPanel;
+    Panels::FilterSettingsDock *mw_dockFilterSettings;
+    Panels::LogPanel *mw_logPanel;
+    Panels::ImageCorrectionPanel *mw_imgCorrectionPanel;
     QLabel *mw_labelDevice;
     QLabel *mw_labelImgInfo;
     QLabel *mw_labelElapsedTime;
@@ -119,10 +119,12 @@ private:
 private:
     Core::App *m_coreApp;
 
-    ImageCorrectionPanel::HistogramRole m_histRole;
+    Panels::ImageCorrectionPanel::HistogramRole m_histRole;
     WaitDialogMgr m_waitDialogMgr;
 
 protected:
     void closeEvent(QCloseEvent *ev);
 };
+}
+
 #endif // MAINWINDOW_H

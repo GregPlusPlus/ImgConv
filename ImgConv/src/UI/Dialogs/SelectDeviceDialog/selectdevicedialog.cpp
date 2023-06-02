@@ -18,7 +18,9 @@
 
 #include "selectdevicedialog.h"
 
-SelectDeviceDialog::SelectDeviceDialog(QList<OCLWrapper::Device> devices)
+using namespace UI::Dialogs;
+
+SelectDeviceDialog::SelectDeviceDialog(QList<Core::OCLWrapper::Device> devices)
     : m_devices{devices} {
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 
@@ -28,7 +30,7 @@ SelectDeviceDialog::SelectDeviceDialog(QList<OCLWrapper::Device> devices)
     m_layout = new QFormLayout;
 
     mw_combo = new QComboBox(this);
-    for(const OCLWrapper::Device &d : m_devices) {
+    for(const Core::OCLWrapper::Device &d : m_devices) {
         mw_combo->addItem(d.name);
     }
 
@@ -46,6 +48,6 @@ SelectDeviceDialog::SelectDeviceDialog(QList<OCLWrapper::Device> devices)
     setLayout(m_layout);
 }
 
-OCLWrapper::Device SelectDeviceDialog::getDevice() {
+Core::OCLWrapper::Device SelectDeviceDialog::getDevice() {
     return m_devices.at(mw_combo->currentIndex());
 }

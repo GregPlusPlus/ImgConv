@@ -18,6 +18,8 @@
 
 #include "imageviewercontainer.h"
 
+using namespace UI;
+
 ImageViewerContainer::ImageViewerContainer(const QString &title, QWidget *parent)
     : QWidget{parent} {
 

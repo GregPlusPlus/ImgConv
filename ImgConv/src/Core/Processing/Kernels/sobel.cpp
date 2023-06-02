@@ -18,12 +18,14 @@
 
 #include "sobel.h"
 
-ConvKernels::Sobel::Sobel(QObject *parent)
+using namespace Core::Processing::ConvKernels;
+
+Sobel::Sobel(QObject *parent)
     : ConvKernel{parent} {
     setSourceFilePath(":/ocl/sobel.cl");
 }
 
-QVector<QVector<float> > ConvKernels::Sobel::getMat() const {
+QVector<QVector<float> > Sobel::getMat() const {
     static QVector<QVector<float>> k = {
         {0, 0, 0},
         {0, 0, 0},
@@ -33,15 +35,15 @@ QVector<QVector<float> > ConvKernels::Sobel::getMat() const {
     return k;
 }
 
-float ConvKernels::Sobel::getScalar() const {
+float Sobel::getScalar() const {
     return 1.f;
 }
 
-QString ConvKernels::Sobel::getName() const {
+QString Sobel::getName() const {
     return tr("Sobel");
 }
 
-QString ConvKernels::Sobel::getDescription() {
+QString Sobel::getDescription() {
     return tr("Applies an <i>Sobel</i> effect (a kind of edge-detection effect).<br><br>" \
               "This effect doesn't have any parameters to tweak.<br><br>" \
               "<strong>Note :</strong>The convolution matrices are harcoded in <i>:/ocl/sobel.cl</i> " \

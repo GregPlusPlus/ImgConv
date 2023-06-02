@@ -25,7 +25,7 @@
 
 #include "virtualthread.h"
 
-namespace Threads {
+namespace Core::Threads {
 class ImgLoader : public VirtualThread
 {
     Q_OBJECT

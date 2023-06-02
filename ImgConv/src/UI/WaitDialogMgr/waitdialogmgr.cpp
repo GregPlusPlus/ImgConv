@@ -18,26 +18,28 @@
 
 #include "waitdialogmgr.h"
 
+using namespace UI;
+
 WaitDialogMgr::WaitDialogMgr(QObject *parent)
     : QObject{parent} {
 
 }
 
 WaitDialogMgr::~WaitDialogMgr() {
-    for(WaitDialog *dialog : m_waitDialogs) {
+    for(Dialogs::WaitDialog *dialog : m_waitDialogs) {
         delete dialog;
     }
 }
 
 void WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QString &msg) {
-    WaitDialog *dialog = new WaitDialog(msg);
+    Dialogs::WaitDialog *dialog = new Dialogs::WaitDialog(msg);
     dialog->show();
 
     m_waitDialogs.insert(uuid, dialog);
 }
 
 void WaitDialogMgr::closeDialog(const QUuid &uuid) {
-    WaitDialog *dialog = m_waitDialogs.value(uuid, nullptr);
+    Dialogs::WaitDialog *dialog = m_waitDialogs.value(uuid, nullptr);
 
     if(dialog) {
         m_waitDialogs.remove(uuid);

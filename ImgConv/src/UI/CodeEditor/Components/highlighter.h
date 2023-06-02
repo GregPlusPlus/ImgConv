@@ -55,6 +55,7 @@
 #include <QTextCharFormat>
 #include <QRegularExpression>
 
+namespace UI::CodeEditorComponents {
 class Highlighter : public QSyntaxHighlighter {
     Q_OBJECT
 
@@ -86,5 +87,6 @@ private:
     QTextCharFormat functionFormat;
     QTextCharFormat flowCtrlFormat;
 };
+}
 
 #endif // HIGHLIGHTER_H

@@ -26,6 +26,7 @@
 #include <QPixmap>
 #include <QPainter>
 
+namespace UI::Components {
 class ButtonColorPicker : public QPushButton
 {
     Q_OBJECT
@@ -45,5 +46,6 @@ private:
 private:
     QColor m_selectedColor;
 };
+}
 
 #endif // BUTTONCOLORPICKER_H

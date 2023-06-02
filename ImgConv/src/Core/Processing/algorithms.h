@@ -24,9 +24,7 @@
 
 #include <QImage>
 
-namespace Processing {
-namespace Algorithms {
-
+namespace Core::Processing::Algorithms {
 class Histogram {
 
 public:
@@ -92,7 +90,6 @@ public:
     bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
     bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist);
     bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histogram &cdf);
-}
 }
 
 #endif // ALGORITHMS_H

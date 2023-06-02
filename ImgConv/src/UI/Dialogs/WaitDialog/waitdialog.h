@@ -24,6 +24,7 @@
 #include <QHBoxLayout>
 #include <QMovie>
 
+namespace UI::Dialogs {
 class WaitDialog : public QDialog
 {
     Q_OBJECT
@@ -43,5 +44,6 @@ private:
 private:
     QMovie *m_spinner;
 };
+}
 
 #endif // WAITDIALOG_H

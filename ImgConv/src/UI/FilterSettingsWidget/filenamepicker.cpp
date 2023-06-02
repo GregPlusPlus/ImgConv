@@ -18,6 +18,8 @@
 
 #include "filenamepicker.h"
 
+using namespace UI;
+
 FileNamePicker::FileNamePicker(const QString &title, const QString &filters, QWidget *parent)
     : QWidget{parent} {
     setContentsMargins(0, 0, 0, 0);
@@ -30,7 +32,7 @@ FileNamePicker::FileNamePicker(const QString &title, const QString &filters, QWi
 
     mw_browse = new QPushButton(tr("..."), this);
     mw_browse->setMaximumWidth(40);
-    connect(mw_browse, &QPushButton::clicked, [=]() {
+    connect(mw_browse, &QPushButton::clicked, this, [=]() {
         QString fn = QFileDialog::getOpenFileName(this, title, QString(), filters);
         if(!fn.isEmpty()) {
             setFileName(fn);

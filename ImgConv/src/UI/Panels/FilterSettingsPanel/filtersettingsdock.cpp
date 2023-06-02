@@ -18,6 +18,8 @@
 
 #include "filtersettingsdock.h"
 
+using namespace UI::Panels;
+
 FilterSettingsDock::FilterSettingsDock(QWidget *parent)
     : QDockWidget(tr("Filter settings"), parent) {
     setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
@@ -58,7 +60,7 @@ FilterSettingsDock::FilterSettingsDock(QWidget *parent)
     setWidget(mw_splitter);
 }
 
-void FilterSettingsDock::setConvKernel(ConvKernels::ConvKernel *k) {
+void FilterSettingsDock::setConvKernel(Core::Processing::ConvKernels::ConvKernel *k) {
     m_k = k;
 
     for(FilterSettingsWidget *w : m_FilterSettingsWidgets) {
@@ -70,7 +72,7 @@ void FilterSettingsDock::setConvKernel(ConvKernels::ConvKernel *k) {
 
     m_FilterSettingsWidgets.clear();
 
-    for(ConvKernels::ConvKenrelSetting *s : k->settings()) {
+    for(Core::Processing::ConvKernels::ConvKenrelSetting *s : k->settings()) {
         FilterSettingsWidget *w = new FilterSettingsWidget(s, mw_containerSettings);
         w->show();
         m_FilterSettingsWidgets.append(w);
@@ -80,7 +82,7 @@ void FilterSettingsDock::setConvKernel(ConvKernels::ConvKernel *k) {
     updateDescription(k);
 }
 
-void FilterSettingsDock::updateDescription(ConvKernels::ConvKernel *k) {
+void FilterSettingsDock::updateDescription(Core::Processing::ConvKernels::ConvKernel *k) {
     mw_descriptionField->setText(tr("<h2>%1</h2><hr>%2").arg(k->getName()).arg(k->getDescription()));
 }
 
@@ -93,7 +95,7 @@ void FilterSettingsDock::resetSettings() {
 }
 
 void FilterSettingsDock::exportMatrix() {
-    QString csv = Utils::matrixToCSVString(m_k->getMat());
+    QString csv = Core::Utils::matrixToCSVString(m_k->getMat());
 
     QString fn = QFileDialog::getSaveFileName(this, tr("Save Convolution matrix..."),
                                       QString(), tr("CSV File (*.csv);;All files (*.*)"));

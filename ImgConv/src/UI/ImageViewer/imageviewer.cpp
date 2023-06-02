@@ -18,6 +18,8 @@
 
 #include "imageviewer.h"
 
+using namespace UI;
+
 ImageViewer::ImageViewer(const QString &title, QWidget *parent)
     : QWidget{parent}, m_title{title} {
     setMouseTracking(true);

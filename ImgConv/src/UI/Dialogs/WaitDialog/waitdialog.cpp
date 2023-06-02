@@ -18,6 +18,8 @@
 
 #include "waitdialog.h"
 
+using namespace UI::Dialogs;
+
 WaitDialog::WaitDialog(const QString &text) {
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |
                    Qt::WindowTitleHint | Qt::Tool |

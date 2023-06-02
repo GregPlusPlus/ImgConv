@@ -18,12 +18,14 @@
 
 #include "correction.h"
 
-Threads::Correction::Correction(OCLWrapper *ocl, const QImage &original, const Processing::Algorithms::Histogram &cdf)
+using namespace Core::Threads;
+
+Correction::Correction(OCLWrapper *ocl, const QImage &original, const Processing::Algorithms::Histogram &cdf)
     : VirtualThread{}, m_cdf{cdf}, m_ocl{ocl}, m_original{original} {
 
 }
 
-void Threads::Correction::run() {
+void Correction::run() {
     QImage corrected;
 
     QElapsedTimer tm;

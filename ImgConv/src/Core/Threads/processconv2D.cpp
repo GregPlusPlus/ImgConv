@@ -18,12 +18,14 @@
 
 #include "processconv2D.h"
 
-Threads::Conv2D::Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
+using namespace Core::Threads;
+
+Conv2D::Conv2D(OCLWrapper *ocl, const QImage &original, const QVector<QVector<float> > &mat)
     : VirtualThread{}, m_ocl{ocl}, m_original{original}, m_mat{mat} {
 
 }
 
-void Threads::Conv2D::run() {
+void Conv2D::run() {
     QImage processed;
 
     QElapsedTimer tm;

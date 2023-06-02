@@ -18,7 +18,7 @@
 
 #include "app.h"
 
-namespace Core{
+using namespace Core;
 
 App::App(QObject *parent)
     : Logger{parent} {
@@ -26,7 +26,9 @@ App::App(QObject *parent)
 }
 
 App::~App() {
-
+    if(m_ocl) {
+        delete m_ocl;
+    }
 }
 
 bool App::init() {
@@ -94,7 +96,7 @@ bool App::createOCLProgram(const QString &fn, const QString &options) {
     return true;
 }
 
-QUuid App::startConv2DProcess(ConvKernels::ConvKernel *k) {
+QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
     if(m_ocl->isRunning()) {
         logInfo(tr("Kernel already running ! Please wait."));
 
@@ -263,7 +265,7 @@ void App::setProcessedImage(const QImage &newProcessedImage) {
     emit processedImageChanged();
 }
 
-ConvKernels::ConvKernel *App::getConvKernelAt(qsizetype i) const {
+Processing::ConvKernels::ConvKernel *App::getConvKernelAt(qsizetype i) const {
     return m_convKernels.at(i);
 }
 
@@ -273,7 +275,7 @@ void App::setOriginalImage(const QImage &image) {
     emit originalImageChanged();
 }
 
-QList<ConvKernels::ConvKernel *> App::convKernels() const {
+QList<Processing::ConvKernels::ConvKernel *> App::convKernels() const {
     return m_convKernels;
 }
 
@@ -291,5 +293,4 @@ QImage App::processedImage() const {
 
 QImage App::originalImage() const {
     return m_originalImage;
-}
 }

@@ -18,6 +18,8 @@
 
 #include "imagecorrectionpanel.h"
 
+using namespace UI::Panels;
+
 ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
     : QDockWidget{parent} {
 
@@ -36,10 +38,10 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
     m_layout->addWidget(mw_radioCDF, 0, 1, 1, 1);
     connect(mw_radioCDF, &QRadioButton::toggled, this, &ImageCorrectionPanel::displayHistCDF);
 
-    mw_originalImageHistogram = new HistogramWidget(tr("Original image histogram"), this);
-    mw_processedImageHistogram = new HistogramWidget(tr("Processed image histogram"), this);
-    mw_originalImageCDF = new HistogramWidget(tr("Original image CDF"), this);
-    mw_processedImageCDF = new HistogramWidget(tr("Processed image CDF"), this);
+    mw_originalImageHistogram = new Components::HistogramWidget(tr("Original image histogram"), this);
+    mw_processedImageHistogram = new Components::HistogramWidget(tr("Processed image histogram"), this);
+    mw_originalImageCDF = new Components::HistogramWidget(tr("Original image CDF"), this);
+    mw_processedImageCDF = new Components::HistogramWidget(tr("Processed image CDF"), this);
 
     mw_convertGrayscaleButton = new QPushButton(tr("Convert to grayscale"), this);
     connect(mw_convertGrayscaleButton, &QPushButton::clicked, this, &ImageCorrectionPanel::convertToGrayscale);
@@ -59,15 +61,15 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
     mw_radioHistogram->toggle();
 }
 
-Processing::Algorithms::Histogram ImageCorrectionPanel::originalImageHistogram() {
+Core::Processing::Algorithms::Histogram ImageCorrectionPanel::originalImageHistogram() {
     return mw_originalImageHistogram->histogram();
 }
 
-Processing::Algorithms::Histogram ImageCorrectionPanel::processedImageHistogram() {
+Core::Processing::Algorithms::Histogram ImageCorrectionPanel::processedImageHistogram() {
     return mw_processedImageHistogram->histogram();
 }
 
-void ImageCorrectionPanel::displayHistogram(const Processing::Algorithms::Histogram &histogram, ImageCorrectionPanel::HistogramRole role) {
+void ImageCorrectionPanel::displayHistogram(const Core::Processing::Algorithms::Histogram &histogram, ImageCorrectionPanel::HistogramRole role) {
     switch(role) {
     case OriginalImageHistogram:
         setOriginalImageHistogram(histogram);
@@ -80,12 +82,12 @@ void ImageCorrectionPanel::displayHistogram(const Processing::Algorithms::Histog
     }
 }
 
-void ImageCorrectionPanel::setOriginalImageHistogram(const Processing::Algorithms::Histogram &histogram) {
+void ImageCorrectionPanel::setOriginalImageHistogram(const Core::Processing::Algorithms::Histogram &histogram) {
     mw_originalImageHistogram->setHistogram(histogram);
     mw_originalImageCDF->setHistogram(histogram.getCDF());
 }
 
-void ImageCorrectionPanel::setProcessedImageHistogram(const Processing::Algorithms::Histogram &histogram) {
+void ImageCorrectionPanel::setProcessedImageHistogram(const Core::Processing::Algorithms::Histogram &histogram) {
     mw_processedImageHistogram->setHistogram(histogram);
     mw_processedImageCDF->setHistogram(histogram.getCDF());
 }

@@ -20,14 +20,15 @@
 
 // FROM : https://stackoverflow.com/questions/42607554/show-shortcut-in-tooltip-of-qtoolbar
 
+namespace UI::Utils {
 /* guesses a descriptive text from a text suited for a menu entry
    This is equivalent to QActions internal qt_strippedText()
 */
-QString UtilsUI::strippedActionText(QString s) {
+QString strippedActionText(QString s) {
     s.remove( QString::fromLatin1("...") );
     for (int i = 0; i < s.size(); ++i) {
         if (s.at(i) == QLatin1Char('&'))
-        s.remove(i, 1);
+            s.remove(i, 1);
     }
     return s.trimmed();
 }
@@ -37,7 +38,7 @@ QString UtilsUI::strippedActionText(QString s) {
    This provides consistent behavior both with default and custom tooltips
    when used in combination with removeShortcutToToolTip()
 */
-void UtilsUI::addShortcutToToolTip(QAction *action) {
+void addShortcutToToolTip(QAction *action) {
     if (!action->shortcut().isEmpty()) {
         QString tooltip = action->property("tooltipBackup").toString();
         if (tooltip.isEmpty()) {
@@ -67,4 +68,5 @@ void UtilsUI::addShortcutToToolTip(QAction *action) {
 void removeShortcutFromToolTip(QAction *action) {
     action->setToolTip(action->property("tooltipBackup").toString());
     action->setProperty("tooltipBackup", QVariant());
+}
 }

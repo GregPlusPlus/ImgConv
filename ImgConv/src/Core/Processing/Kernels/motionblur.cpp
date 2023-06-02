@@ -18,7 +18,9 @@
 
 #include "motionblur.h"
 
-ConvKernels::MotionBlur::MotionBlur(QObject *parent)
+using namespace Core::Processing::ConvKernels;
+
+MotionBlur::MotionBlur(QObject *parent)
     : ConvKernel{parent} {
     m_sizeSetting = new ConvKenrelSetting(tr("Size"),
                         true, 1,
@@ -41,19 +43,19 @@ ConvKernels::MotionBlur::MotionBlur(QObject *parent)
     settingChanged();
 }
 
-QVector<QVector<float> > ConvKernels::MotionBlur::getMat() const {
+QVector<QVector<float> > MotionBlur::getMat() const {
     return m_k;
 }
 
-float ConvKernels::MotionBlur::getScalar() const {
+float MotionBlur::getScalar() const {
     return m_s;
 }
 
-QString ConvKernels::MotionBlur::getName() const {
+QString MotionBlur::getName() const {
     return tr("Motion blur");
 }
 
-QString ConvKernels::MotionBlur::getDescription() {
+QString MotionBlur::getDescription() {
     return tr("Applies a <i>Motion Blur</i> effect.<br>" \
               "This effect mimics a camera's shutter exposure time on moving objects." \
               "<ul>" \
@@ -63,7 +65,7 @@ QString ConvKernels::MotionBlur::getDescription() {
               "</ul>");
 }
 
-void ConvKernels::MotionBlur::settingChanged() {
+void MotionBlur::settingChanged() {
     size_t kSize = m_sizeSetting->val() * 2;
 
     if((kSize % 2) == 0) {

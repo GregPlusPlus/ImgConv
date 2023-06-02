@@ -31,11 +31,11 @@
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Utils/utils.h"
 
-namespace Processing {
+namespace Core::Processing {
     QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize);
     QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize);
     QString createOCLProgramOptionsCorrection(const QSize &imgSize);
     void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
-};
+}
 
 #endif // PROCESSING_H

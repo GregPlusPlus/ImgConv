@@ -18,6 +18,8 @@
 
 #include "logwidget.h"
 
+using namespace UI;
+
 LogWidget::LogWidget(QWidget *parent)
     : QTextEdit{parent} {
 

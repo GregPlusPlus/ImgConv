@@ -29,6 +29,7 @@
 
 #include "UI/Components/ButtonColorPicker/buttoncolorpicker.h"
 
+namespace UI::Dialogs {
 class CreateImageDialog : public QDialog
 {
     Q_OBJECT
@@ -54,8 +55,9 @@ private:
 
     QLineEdit *mw_inputW;
     QLineEdit *mw_inputH;
-    ButtonColorPicker *mw_buttonColorPicker;
+    Components::ButtonColorPicker*mw_buttonColorPicker;
 
 };
+}
 
 #endif // CREATEIMAGEDIALOG_H

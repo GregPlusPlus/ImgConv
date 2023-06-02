@@ -18,7 +18,7 @@
 
 #include "convkernel.h"
 
-using namespace ConvKernels;
+using namespace Core::Processing::ConvKernels;
 
 ConvKernel::ConvKernel(QObject *parent)
     : QObject{parent} {

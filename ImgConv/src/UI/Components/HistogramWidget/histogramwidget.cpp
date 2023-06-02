@@ -18,6 +18,8 @@
 
 #include "histogramwidget.h"
 
+using namespace UI::Components;
+
 HistogramWidget::HistogramWidget(const QString &title, QWidget *parent)
     : QWidget{parent} {
 
@@ -30,11 +32,11 @@ HistogramWidget::HistogramWidget(const QString &title, QWidget *parent)
     setTitle(title);
 }
 
-Processing::Algorithms::Histogram HistogramWidget::histogram() const {
+Core::Processing::Algorithms::Histogram HistogramWidget::histogram() const {
     return m_histogram;
 }
 
-void HistogramWidget::setHistogram(const Processing::Algorithms::Histogram &histogram) {
+void HistogramWidget::setHistogram(const Core::Processing::Algorithms::Histogram &histogram) {
     m_histogram = histogram;
 
     m_RGBmax = m_histogram.getMax();

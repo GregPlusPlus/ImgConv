@@ -18,7 +18,9 @@
 
 #include "sharpen.h"
 
-ConvKernels::Sharpen::Sharpen(QObject *parent)
+using namespace Core::Processing::ConvKernels;
+
+Sharpen::Sharpen(QObject *parent)
     : ConvKernel{parent} {
     m_strengthSetting = new ConvKenrelSetting(tr("Contour strength"),
                         true, 1,
@@ -41,19 +43,19 @@ ConvKernels::Sharpen::Sharpen(QObject *parent)
     settingChanged();
 }
 
-QVector<QVector<float> > ConvKernels::Sharpen::getMat() const {
+QVector<QVector<float> > Sharpen::getMat() const {
     return m_k;
 }
 
-float ConvKernels::Sharpen::getScalar() const {
+float Sharpen::getScalar() const {
     return m_s;
 }
 
-QString ConvKernels::Sharpen::getName() const {
+QString Sharpen::getName() const {
     return tr("Sharpen");
 }
 
-QString ConvKernels::Sharpen::getDescription() {
+QString Sharpen::getDescription() {
     return tr("Applies a <i>Sharpen</i> effect. This effect increases the edge's contrast.<br>" \
               "<ul>" \
               "<li><strong>Contour strength : </strong>How strong the effect is. As the contrast increases, the noise does as well.</li>" \
@@ -61,7 +63,7 @@ QString ConvKernels::Sharpen::getDescription() {
               "</ul>");
 }
 
-void ConvKernels::Sharpen::settingChanged() {
+void Sharpen::settingChanged() {
     size_t kSize = m_strengthSetting->val() * 2;
 
     if((kSize % 2) == 0) {

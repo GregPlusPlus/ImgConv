@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    MainWindow w(&coreApp);
-    w.show();
+    UI::MainWindow window(&coreApp);
+    window.show();
 
     return a.exec();
 }

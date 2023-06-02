@@ -18,7 +18,8 @@
 
 #include "Core/Processing/processing.h"
 
-void Processing::registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent) {
+namespace Core::Processing {
+void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent) {
     l->append(new ConvKernels::GaussianBlur(parent));
     l->append(new ConvKernels::Emboss(parent));
     l->append(new ConvKernels::Ridge(parent));
@@ -30,7 +31,7 @@ void Processing::registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObjec
     l->append(new ConvKernels::Custom(parent));
 }
 
-QString Processing::createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize) {
+QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize) {
     return QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED=\"{%5, %6, %7, %8}\" -I%9")
                     .arg(imgSize.width())
                     .arg(imgSize.height())
@@ -43,16 +44,17 @@ QString Processing::createOCLProgramOptionsConv2D(const QSize &imgSize, const QS
                     .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
 }
 
-QString Processing::createOCLProgramOptionsComputeHistogram(const QSize &imgSize) {
+QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize) {
     return QString("-DW=%1 -DH=%2 -I%3")
                     .arg(imgSize.width())
                     .arg(imgSize.height())
                     .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
 }
 
-QString Processing::createOCLProgramOptionsCorrection(const QSize &imgSize) {
+QString createOCLProgramOptionsCorrection(const QSize &imgSize) {
     return QString("-DW=%1 -DH=%2 -I%3")
                     .arg(imgSize.width())
                     .arg(imgSize.height())
                     .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
+}
 }

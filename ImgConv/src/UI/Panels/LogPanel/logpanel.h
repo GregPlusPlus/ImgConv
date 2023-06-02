@@ -28,6 +28,7 @@
 #include "logwidget.h"
 #include "Core/Logger/logger.h"
 
+namespace UI::Panels {
 class LogPanel : public QDockWidget
 {
     Q_OBJECT
@@ -39,7 +40,7 @@ public slots:
     void logInfo(const QString &str);
     void logOutput(const QString &str);
     void logError(const QString &str);
-    void addLogger(Logger *logger);
+    void addLogger(Core::Logger *logger);
 
 private slots:
     void clear();
@@ -51,5 +52,6 @@ private:
     LogWidget *mw_errors;
     QPushButton *mw_clear;
 };
+}
 
 #endif // LOGPANEL_H

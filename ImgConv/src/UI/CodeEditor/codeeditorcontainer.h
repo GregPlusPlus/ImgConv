@@ -40,6 +40,7 @@
 #include "Components/highlighter.h"
 #include "UI/UtilsUI/utilsui.h"
 
+namespace UI {
 class CodeEditorContainter : public QWidget {
     Q_OBJECT
 public:
@@ -72,14 +73,15 @@ private:
     QLabel *mw_fileName;
     QLabel *mw_saved;
 
-    CodeEditor *mw_editor;
-    KeyCompletion *m_keyCompletion;
-    Highlighter *m_highlighter;
+    CodeEditorComponents::CodeEditor *mw_editor;
+    CodeEditorComponents::KeyCompletion *m_keyCompletion;
+    CodeEditorComponents::Highlighter *m_highlighter;
 
     QVBoxLayout *m_layout;
 
     QString m_fileName;
     bool m_saved = true;
 };
+}
 
 #endif // CODEEDITORCONTAINER_H

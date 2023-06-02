@@ -44,19 +44,19 @@ public:
 
     QList<OCLWrapper::Device> devices() const;
 
-    QList<ConvKernels::ConvKernel *> convKernels() const;
+    QList<Processing::ConvKernels::ConvKernel *> convKernels() const;
 
     void setOriginalImage(const QImage &img);
     void setProcessedImage(const QImage &img);
 
-    ConvKernels::ConvKernel *getConvKernelAt(qsizetype i) const;
+    Processing::ConvKernels::ConvKernel *getConvKernelAt(qsizetype i) const;
 
 public slots:
     bool init();
     void initOpenCL(const OCLWrapper::Device &device);
     bool createOCLProgram(const QString &fn, const QString &options);
 
-    QUuid startConv2DProcess(ConvKernels::ConvKernel *k);
+    QUuid startConv2DProcess(Processing::ConvKernels::ConvKernel *k);
     QUuid startComputeHistogram(const QImage &img);
     QUuid startImageCorrection(const QString &kernelPath, const Processing::Algorithms::Histogram &hist);
 
@@ -77,7 +77,7 @@ private:
     QList<OCLWrapper::Device> m_devices;
     QImage m_originalImage;
     QImage m_processedImage;
-    QList<ConvKernels::ConvKernel*> m_convKernels;
+    QList<Processing::ConvKernels::ConvKernel*> m_convKernels;
 
 };
 }

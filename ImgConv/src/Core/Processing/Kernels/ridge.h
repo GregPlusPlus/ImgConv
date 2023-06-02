@@ -21,7 +21,7 @@
 
 #include "Core/Processing/convkernel.h"
 
-namespace ConvKernels {
+namespace Core::Processing::ConvKernels {
 class Ridge : public ConvKernel {
     Q_OBJECT
 public:

@@ -27,6 +27,7 @@
 
 #include "keycompletion.h"
 
+namespace UI::CodeEditorComponents {
 class KeyCompletion;
 
 class InteractiveTextEdit : public QPlainTextEdit {
@@ -67,5 +68,6 @@ private:
     qsizetype m_useSpacesAsTab = false;
     quint8 m_tabSpaceCount = 4;
 };
+}
 
 #endif // INTERACTIVETEXTEDIT_H

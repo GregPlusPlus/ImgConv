@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QTextBlock>
 
+using namespace UI::CodeEditorComponents;
+
 //![constructor]
 
 CodeEditor::CodeEditor(QWidget *parent) : InteractiveTextEdit(parent)

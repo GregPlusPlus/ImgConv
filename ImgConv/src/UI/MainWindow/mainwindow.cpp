@@ -18,6 +18,8 @@
 
 #include "mainwindow.h"
 
+using namespace UI;
+
 MainWindow::MainWindow(Core::App *coreApp)
     : QMainWindow{}, m_coreApp{coreApp} {
     setWindowIcon(QIcon(":/icons/icon.png"));
@@ -41,7 +43,7 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed);
     connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected);
 
-    connect(m_coreApp, &Logger::showCriticalError, this, [this](const QString &str) {
+    connect(m_coreApp, &Core::Logger::showCriticalError, this, [this](const QString &str) {
         QMessageBox::critical(this, tr("Critical error"), str);
     });
 }
@@ -61,7 +63,7 @@ void MainWindow::conv2DDone(const QUuid &pid, qint64 elapsedTime) {
     m_waitDialogMgr.closeDialog(pid);
 }
 
-void MainWindow::histogramComputed(const QUuid &pid, qint64 elapsedTime, const Processing::Algorithms::Histogram &histogram) {
+void MainWindow::histogramComputed(const QUuid &pid, qint64 elapsedTime, const Core::Processing::Algorithms::Histogram &histogram) {
     Q_UNUSED(elapsedTime)
 
     mw_imgCorrectionPanel->displayHistogram(histogram, m_histRole);
@@ -109,7 +111,7 @@ void MainWindow::showOriginalImage() {
     mw_imgCorrectionPanel->clearOriginalImageHistogram();
     mw_imgCorrectionPanel->clearProcessedImageHistogram();
 
-    startComputeHistogram(m_coreApp->originalImage(), ImageCorrectionPanel::OriginalImageHistogram);
+    startComputeHistogram(m_coreApp->originalImage(), Panels::ImageCorrectionPanel::OriginalImageHistogram);
 }
 
 void MainWindow::showProcessedImage() {
@@ -118,7 +120,7 @@ void MainWindow::showProcessedImage() {
 
     mw_imgCorrectionPanel->clearProcessedImageHistogram();
 
-    startComputeHistogram(m_coreApp->processedImage(), ImageCorrectionPanel::ProcessedImageHistogram);
+    startComputeHistogram(m_coreApp->processedImage(), Panels::ImageCorrectionPanel::ProcessedImageHistogram);
 }
 
 void MainWindow::startConv2D() {
@@ -136,7 +138,7 @@ void MainWindow::startConv2D() {
     m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."));
 }
 
-void MainWindow::startComputeHistogram(const QImage &img, ImageCorrectionPanel::HistogramRole histRole) {
+void MainWindow::startComputeHistogram(const QImage &img, Panels::ImageCorrectionPanel::HistogramRole histRole) {
     m_histRole = histRole;
 
     QUuid pid = m_coreApp->startComputeHistogram(img);
@@ -174,10 +176,10 @@ void MainWindow::openImage() {
         return;
     }
 
-    WaitDialog *dialog = new WaitDialog(tr("Opening image..."));
-    Threads::ImgLoader *imgLoader = new Threads::ImgLoader(fn);
+    Dialogs::WaitDialog *dialog = new Dialogs::WaitDialog(tr("Opening image..."));
+    Core::Threads::ImgLoader *imgLoader = new Core::Threads::ImgLoader(fn);
 
-    connect(imgLoader, &Threads::ImgLoader::loaded, this, [this, dialog, fn](QImage img, qint64 et) {
+    connect(imgLoader, &Core::Threads::ImgLoader::loaded, this, [this, dialog, fn](QImage img, qint64 et) {
         mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
         m_coreApp->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
 
@@ -198,14 +200,14 @@ void MainWindow::openImage() {
 }
 
 void MainWindow::createImage() {
-    CreateImageDialog *dialog = new CreateImageDialog(this);
+    Dialogs::CreateImageDialog *dialog = new Dialogs::CreateImageDialog(this);
     dialog->exec();
 
     if(dialog->result() != QMessageBox::Accepted) {
         return;
     }
 
-    CreateImageDialog::ImageSettings_t settings = dialog->getImageSettings();
+    Dialogs::CreateImageDialog::ImageSettings_t settings = dialog->getImageSettings();
 
     if((settings.width == 0) || (settings.height == 0)) {
         return;
@@ -238,7 +240,7 @@ void MainWindow::exportProcessedImage() {
 }
 
 void MainWindow::filterSelected(int index) {
-    ConvKernels::ConvKernel *k = m_coreApp->getConvKernelAt(index);
+    Core::Processing::ConvKernels::ConvKernel *k = m_coreApp->getConvKernelAt(index);
     k->select();
 
     mw_dockFilterSettings->setConvKernel(k);
@@ -276,7 +278,7 @@ void MainWindow::buildKernelComboBox() {
     mw_convKernelComboBox = new QComboBox(this);
     connect(mw_convKernelComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::filterSelected);
 
-    for(ConvKernels::ConvKernel *k : m_coreApp->convKernels()) {
+    for(Core::Processing::ConvKernels::ConvKernel *k : m_coreApp->convKernels()) {
         mw_convKernelComboBox->addItem(k->getName());
     }
 }
@@ -289,7 +291,7 @@ void MainWindow::buildMenus() {
     m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportProcessedImage);
     mw_fileMenu->addSeparator();
     m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
-        SelectDeviceDialog dialog(m_coreApp->devices());
+        Dialogs::SelectDeviceDialog dialog(m_coreApp->devices());
         if(dialog.exec() == QDialog::Accepted) {
             m_coreApp->initOpenCL(dialog.getDevice());
             displayDeviceName();
@@ -316,7 +318,7 @@ void MainWindow::buildMenus() {
     });
 
     m_openCLDevices = mw_helpMenu->addAction(tr("Open&CL Devices"), this, [this]() {
-        QMessageBox::information(this, tr("OpenCL Devices"), OCLWrapper::getDevicesInfoStr());
+        QMessageBox::information(this, tr("OpenCL Devices"), Core::OCLWrapper::getDevicesInfoStr());
     });
 
     mw_toolBar = new QToolBar(tr("Tools"), this);
@@ -357,22 +359,22 @@ void MainWindow::buildUI() {
 }
 
 void MainWindow::buildPanels() {
-    mw_logPanel = new LogPanel(this);
+    mw_logPanel = new Panels::LogPanel(this);
     mw_logPanel->addLogger(m_coreApp);
     addDockWidget(Qt::BottomDockWidgetArea, mw_logPanel);
 
-    mw_imgCorrectionPanel = new ImageCorrectionPanel(this);
+    mw_imgCorrectionPanel = new Panels::ImageCorrectionPanel(this);
     addDockWidget(Qt::RightDockWidgetArea, mw_imgCorrectionPanel);
 
-    connect(mw_imgCorrectionPanel, &ImageCorrectionPanel::convertToGrayscale, this, [=]() {
+    connect(mw_imgCorrectionPanel, &Panels::ImageCorrectionPanel::convertToGrayscale, this, [=]() {
         startImageCorrection(":/ocl/convertGrayscale.cl");
     });
 
-    connect(mw_imgCorrectionPanel, &ImageCorrectionPanel::invertColors, this, [=]() {
+    connect(mw_imgCorrectionPanel, &Panels::ImageCorrectionPanel::invertColors, this, [=]() {
         startImageCorrection(":/ocl/invertColors.cl");
     });
 
-    connect(mw_imgCorrectionPanel, &ImageCorrectionPanel::equalizeHistogram, this, [=]() {
+    connect(mw_imgCorrectionPanel, &Panels::ImageCorrectionPanel::equalizeHistogram, this, [=]() {
         startImageCorrection(":/ocl/equalizeHistogram.cl");
     });
 }
@@ -398,7 +400,7 @@ void MainWindow::buildView() {
 }
 
 void MainWindow::buildFilterSettingsView() {
-    mw_dockFilterSettings = new FilterSettingsDock(this);
+    mw_dockFilterSettings = new Panels::FilterSettingsDock(this);
 
     addDockWidget(Qt::LeftDockWidgetArea, mw_dockFilterSettings);
 }

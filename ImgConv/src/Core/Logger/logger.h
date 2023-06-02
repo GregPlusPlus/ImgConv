@@ -21,6 +21,7 @@
 
 #include <QObject>
 
+namespace Core {
 class Logger : public QObject
 {
     Q_OBJECT
@@ -41,5 +42,6 @@ signals:
 
     void showCriticalError(const QString &str);
 };
+}
 
 #endif // LOGGER_H

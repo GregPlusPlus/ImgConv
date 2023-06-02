@@ -18,6 +18,8 @@
 
 #include "createimagedialog.h"
 
+using namespace UI::Dialogs;
+
 CreateImageDialog::CreateImageDialog(QWidget *parent)
     : QDialog{parent} {
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
@@ -39,7 +41,7 @@ CreateImageDialog::CreateImageDialog(QWidget *parent)
     mw_inputH = new QLineEdit(this);
     mw_inputH->setValidator(new QIntValidator(0, 100E3, this));
 
-    mw_buttonColorPicker = new ButtonColorPicker(Qt::white, this);
+    mw_buttonColorPicker = new Components::ButtonColorPicker(Qt::white, this);
 
     m_layout->addRow(tr("Width :"), mw_inputW);
     m_layout->addRow(tr("Height :"), mw_inputH);

@@ -18,7 +18,8 @@
 
 #include "algorithms.h"
 
-bool Processing::Algorithms::conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k) {
+namespace Core::Processing::Algorithms {
+bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k) {
     int imgW = in.width();
     int imgH = in.height();
     size_t inSize = in.sizeInBytes();
@@ -87,7 +88,7 @@ bool Processing::Algorithms::conv2D(OCLWrapper *ocl, const QImage &in, QImage &o
     return true;
 }
 
-bool Processing::Algorithms::computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
+bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
     const size_t inSize = in.sizeInBytes();
     const size_t numberOfLevels = 256;
     const size_t histBuffSize = numberOfLevels * sizeof(size_t);
@@ -187,7 +188,7 @@ bool Processing::Algorithms::computeHistogram(OCLWrapper *ocl, const QImage &in,
     return true;
 }
 
-bool Processing::Algorithms::applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histogram &cdf) {
+bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histogram &cdf) {
     int imgW = in.width();
     int imgH = in.height();
     size_t inSize = in.sizeInBytes();
@@ -283,4 +284,5 @@ bool Processing::Algorithms::applyCorrection(OCLWrapper *ocl, const QImage &in, 
     ocl->releaseAll();
 
     return true;
+}
 }

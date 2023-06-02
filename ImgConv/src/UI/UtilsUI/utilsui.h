@@ -23,7 +23,7 @@
 #include <QAction>
 #include <QToolTip>
 
-namespace UtilsUI {
+namespace UI::Utils {
     QString strippedActionText(QString s);
     void addShortcutToToolTip(QAction *action);
 }

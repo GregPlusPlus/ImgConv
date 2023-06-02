@@ -18,6 +18,8 @@
 
 #include "logger.h"
 
+using namespace Core;
+
 Logger::Logger(QObject *parent)
     : QObject{parent} {
 

@@ -18,7 +18,8 @@
 
 #include "utils.h"
 
-void Utils::scaleMatrix(QVector<QVector<float>> &v, float c) {
+namespace Core::Utils {
+void scaleMatrix(QVector<QVector<float>> &v, float c) {
     for(QVector<float> &l : v) {
         for(float &e : l) {
             e = e * c;
@@ -26,7 +27,7 @@ void Utils::scaleMatrix(QVector<QVector<float>> &v, float c) {
     }
 }
 
-void Utils::imageToMatrix(QVector<QVector<float>> &m, QImage &i) {
+void imageToMatrix(QVector<QVector<float>> &m, QImage &i) {
     m.resize(i.height());
 
     for(int y = 0; y < i.height(); y ++) {
@@ -39,7 +40,7 @@ void Utils::imageToMatrix(QVector<QVector<float>> &m, QImage &i) {
     }
 }
 
-float Utils::matrixSumCoef(const QVector<QVector<float>> &m) {
+float matrixSumCoef(const QVector<QVector<float>> &m) {
     float s = 0;
 
     for(const QVector<float> &l : m) {
@@ -51,7 +52,7 @@ float Utils::matrixSumCoef(const QVector<QVector<float>> &m) {
     return s;
 }
 
-QString Utils::matrixToBoxString(const QVector<QVector<float> > &mat) {
+QString matrixToBoxString(const QVector<QVector<float> > &mat) {
     QString str;
 
     QVector<int> maxColLen(mat[0].size());
@@ -120,7 +121,7 @@ QString Utils::matrixToBoxString(const QVector<QVector<float> > &mat) {
     return str;
 }
 
-QString Utils::matrixToCSVString(const QVector<QVector<float>> &mat) {
+QString matrixToCSVString(const QVector<QVector<float>> &mat) {
     QString str;
 
     for(int i = 0; i < mat.size(); i ++) {
@@ -142,7 +143,7 @@ QString Utils::matrixToCSVString(const QVector<QVector<float>> &mat) {
     return str;
 }
 
-bool Utils::CSVToMatrix(QVector<QVector<float>> &m, QString &in) {
+bool CSVToMatrix(QVector<QVector<float>> &m, QString &in) {
     static QRegularExpression regex("\\s*,\\s*");
 
     qsizetype prevLineLength = 0;
@@ -179,4 +180,5 @@ bool Utils::CSVToMatrix(QVector<QVector<float>> &m, QString &in) {
     m = mat;
 
     return true;
+}
 }
