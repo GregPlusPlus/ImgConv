@@ -221,7 +221,7 @@ void MainWindow::createImage() {
     m_coreApp->setOriginalImage(img);
 }
 
-void MainWindow::exportProcessedImage() {
+void MainWindow::exportProcessedImage(bool closeWhenFinished) {
     if(m_coreApp->processedImage().isNull()) {
         return;
     }
@@ -233,10 +233,22 @@ void MainWindow::exportProcessedImage() {
         return;
     }
 
-    QPixmap pix = QPixmap::fromImage(m_coreApp->processedImage());
-    pix.save(fn);
+    Dialogs::WaitDialog *dialog = new Dialogs::WaitDialog(tr("Exporting image..."));
+    Core::Threads::ImgExport *imgExport = new Core::Threads::ImgExport(fn, m_coreApp->processedImage());
 
-    m_coreApp->logInfo(tr("[%1] Image saved.").arg(fn));
+    connect(imgExport, &Core::Threads::ImgExport::exported, this, [this, dialog, fn, closeWhenFinished](qint64 et) {
+        m_coreApp->logInfo(tr("[%1] Image saved in %2 ms.").arg(fn).arg(et));
+
+        delete dialog;
+
+        if(closeWhenFinished) {
+            close();
+        }
+    });
+
+    dialog->show();
+
+    QThreadPool::globalInstance()->start(imgExport);
 }
 
 void MainWindow::filterSelected(int index) {
@@ -261,17 +273,27 @@ void MainWindow::showAboutDialog() {
                        .arg(LGPL_STR));
 }
 
-void MainWindow::saveOnExit() {
+bool MainWindow::saveOnExit() {
+    static bool firstCall = true;
+
+    if(!firstCall) {
+        return false;
+    }
+
     if(m_coreApp->processedImage().isNull()) {
-        return;
+        return false;
     }
 
     if(QMessageBox::question(this, tr("Unsaved file"), tr("Save processed image before closing ?"),
                              QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) {
-        return;
+        return false;
     }
 
-    exportProcessedImage();
+    exportProcessedImage(true);
+
+    firstCall = false;
+
+    return true;
 }
 
 void MainWindow::buildKernelComboBox() {
@@ -411,7 +433,11 @@ void MainWindow::closeEvent(QCloseEvent *ev) {
         return;
     }
 
-    saveOnExit();
+    if(saveOnExit()) {
+        ev->ignore();
+
+        return;
+    }
 
     ev->accept();
 }
