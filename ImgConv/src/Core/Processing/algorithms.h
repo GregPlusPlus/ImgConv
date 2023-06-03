@@ -77,6 +77,10 @@ public:
     Processing::Algorithms::Histogram getCDF() const {
         Algorithms::Histogram cdf = *this;
 
+        if(!isValid()) {
+            return Histogram();
+        }
+
         for(size_t i = 1; i < 256; i ++) {
             cdf.r[i] = cdf.r[i] + cdf.r[i - 1];
             cdf.g[i] = cdf.g[i] + cdf.g[i - 1];
@@ -84,6 +88,10 @@ public:
         }
 
         return cdf;
+    }
+
+    bool isValid() const {
+        return ((r.size() == 256) && (g.size() == 256) && (b.size() == 256));
     }
 };
 
