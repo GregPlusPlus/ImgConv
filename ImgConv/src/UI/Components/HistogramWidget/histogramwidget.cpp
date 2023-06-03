@@ -169,7 +169,7 @@ void HistogramWidget::paintEvent(QPaintEvent *event) {
     p.drawRect(rect());
     p.drawLine(0, plottingHeight(), width(), plottingHeight());
 
-    if(m_histogram.r.isEmpty() || m_histogram.g.isEmpty() || m_histogram.b.isEmpty()) {
+    if(!m_histogram.isValid()) {
         drawTitle(p);
         drawDefaultText(p);
         return;

@@ -208,6 +208,12 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
         return QUuid();
     }
 
+    if(!hist.isValid()) {
+        logError(tr("Invalid histogram."));
+
+        return QUuid();
+    }
+
     QString options = Processing::createOCLProgramOptionsCorrection(m_originalImage.size());
 
     logOutput(tr("\n[%1] Creating program - opts. : `%2`")
