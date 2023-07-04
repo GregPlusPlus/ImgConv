@@ -27,14 +27,22 @@
 namespace UI::Dialogs {
 class WaitDialog : public QDialog
 {
+public:
+    enum Flags {
+        None            = 0x00,
+        ShowProgress    = 0x01,
+        Cancelable      = 0x02
+    };
+
     Q_OBJECT
 public:
-    WaitDialog(const QString &text);
+    WaitDialog(const QString &text, Flags flags = None);
 
     QString text() const;
 
 public slots:
     void setText(const QString &text);
+    void updateProgress(size_t percentage);
 
 private:
     QHBoxLayout *m_layout;
@@ -42,6 +50,7 @@ private:
     QLabel *mw_textLabel;
 
 private:
+    Flags m_flags;
     QMovie *m_spinner;
 };
 }

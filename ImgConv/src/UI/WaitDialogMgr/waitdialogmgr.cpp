@@ -47,3 +47,11 @@ void WaitDialogMgr::closeDialog(const QUuid &uuid) {
         delete dialog;
     }
 }
+
+void WaitDialogMgr::updateDialogProgress(const QUuid &uuid, size_t percentage) {
+    Dialogs::WaitDialog *dialog = m_waitDialogs.value(uuid, nullptr);
+
+    if(dialog) {
+        dialog->updateProgress(percentage);
+    }
+}

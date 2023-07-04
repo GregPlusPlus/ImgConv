@@ -20,7 +20,9 @@
 
 using namespace UI::Dialogs;
 
-WaitDialog::WaitDialog(const QString &text) {
+WaitDialog::WaitDialog(const QString &text, Flags flags)
+    : QDialog{}, m_flags{flags} {
+
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |
                    Qt::WindowTitleHint | Qt::Tool |
                    Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
@@ -52,4 +54,8 @@ QString WaitDialog::text() const {
 
 void WaitDialog::setText(const QString &text) {
     mw_textLabel->setText(text);
+}
+
+void WaitDialog::updateProgress(size_t percentage) {
+    qDebug() << mw_textLabel->text() << percentage;
 }

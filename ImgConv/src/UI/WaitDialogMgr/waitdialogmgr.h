@@ -19,6 +19,7 @@ public:
 public slots:
     void createWaitDialog(const QUuid &uuid, const QString &msg);
     void closeDialog(const QUuid &uuid);
+    void updateDialogProgress(const QUuid &uuid, size_t percentage);
 
 signals:
 
