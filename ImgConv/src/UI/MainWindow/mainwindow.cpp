@@ -167,7 +167,7 @@ void MainWindow::startImageCorrection(const QString &kernelPath) {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."));
+    m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."), Dialogs::WaitDialog::Flags::ShowProgress);
 }
 
 void MainWindow::openImage() {
