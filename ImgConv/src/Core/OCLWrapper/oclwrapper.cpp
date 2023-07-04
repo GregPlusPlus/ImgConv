@@ -252,8 +252,18 @@ void OCLWrapper::runKernel(QSize s) {
     for(size_t i = 0; i < 10; i ++) {
         global_item_offset[1] = i * ((size_t)s.height() / 10);
 
+        if(i == 9) {
+            global_item_size[1] += ((size_t)s.height() % 10);
+        }
+
         for(size_t j = 0; j < 10; j ++) {
             global_item_offset[0] = j * ((size_t)s.width() / 10);
+
+            if(j == 9) {
+                global_item_size[0] += ((size_t)s.width() % 10);
+            } else {
+                global_item_size[0] = ((size_t)s.width() / 10);
+            }
 
             m_ret = clEnqueueNDRangeKernel(m_command_queue, m_kernel, 2, global_item_offset,
                                            global_item_size, NULL, 0, NULL, NULL);
