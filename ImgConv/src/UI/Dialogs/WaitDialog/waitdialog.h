@@ -21,7 +21,10 @@
 
 #include <QDialog>
 #include <QLabel>
-#include <QHBoxLayout>
+#include <QProgressBar>
+
+#include <QGridLayout>
+
 #include <QMovie>
 
 namespace UI::Dialogs {
@@ -45,9 +48,10 @@ public slots:
     void updateProgress(size_t percentage);
 
 private:
-    QHBoxLayout *m_layout;
+    QGridLayout *m_layout;
     QLabel *mw_spinnerLabel;
     QLabel *mw_textLabel;
+    QProgressBar *mw_progressBar;
 
 private:
     Flags m_flags;
