@@ -244,21 +244,38 @@ void OCLWrapper::setKernelArg(size_t i, size_t bs, const uint8_t *b) {
 }
 
 void OCLWrapper::runKernel(QSize s) {
-    size_t global_item_size[2] = {(size_t)s.width(), (size_t)s.height()};
-    //size_t local_item_size[2] = {1, 1};
+    size_t global_item_size[2] = {(size_t)s.width() / 10, (size_t)s.height() / 10};
+    size_t global_item_offset[2] = {0, 0};
 
     m_isRunning = true;
 
-    m_ret = clEnqueueNDRangeKernel(m_command_queue, m_kernel, 2, NULL,
-            global_item_size, /*local_item_size*/NULL, 0, NULL, NULL);
+    for(size_t i = 0; i < 10; i ++) {
+        global_item_offset[1] = i * ((size_t)s.height() / 10);
 
-    if(m_ret != CL_SUCCESS) {
-        m_isRunning = false;
+        for(size_t j = 0; j < 10; j ++) {
+            global_item_offset[0] = j * ((size_t)s.width() / 10);
 
-        return;
+            m_ret = clEnqueueNDRangeKernel(m_command_queue, m_kernel, 2, global_item_offset,
+                                           global_item_size, NULL, 0, NULL, NULL);
+
+            if(m_ret != CL_SUCCESS) {
+                m_isRunning = false;
+
+                return;
+            }
+
+            m_ret = clFinish(m_command_queue);
+
+            if(m_ret != CL_SUCCESS) {
+                m_isRunning = false;
+
+                return;
+            }
+
+            emit progress((i * 10) + j + 1);
+        }
     }
 
-    m_ret = clFinish(m_command_queue);
     m_isRunning = false;
 }
 
