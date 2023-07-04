@@ -72,6 +72,8 @@ signals:
     void createOCLProgramError();
     void processError();
 
+    void processProgress(const QUuid &pid, size_t percentage);
+
 private:
     OCLWrapper *m_ocl = nullptr;
     QList<OCLWrapper::Device> m_devices;

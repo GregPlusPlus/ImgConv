@@ -20,26 +20,39 @@
 
 using namespace UI::Dialogs;
 
-WaitDialog::WaitDialog(const QString &text) {
+WaitDialog::WaitDialog(const QString &text, Flags flags)
+    : QDialog{}, m_flags{flags} {
+
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |
                    Qt::WindowTitleHint | Qt::Tool |
                    Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
     setWindowTitle(tr("Work in progress"));
     setWindowIcon(QIcon(":/icons/hourglass.png"));
 
-    m_layout = new QHBoxLayout;
+    m_layout = new QGridLayout;
 
     mw_spinnerLabel = new QLabel(this);
     mw_textLabel = new QLabel(this);
 
-    m_layout->addWidget(mw_spinnerLabel);
+    m_layout->addWidget(mw_spinnerLabel, 0, 0);
 
     QMovie *mv = new QMovie(":/icons/spinner.gif", "gif", this);
     mv->setScaledSize(QSize(30, 30));
     mv->start();
     mw_spinnerLabel->setMovie(mv);
 
-    m_layout->addWidget(mw_textLabel);
+    m_layout->addWidget(mw_textLabel, 0, 1);
+
+    mw_progressBar = new QProgressBar(this);
+    mw_progressBar->setRange(0, 100);
+    mw_progressBar->setValue(0);
+    mw_progressBar->hide();
+
+    if(m_flags & Flags::ShowProgress) {
+        mw_progressBar->show();
+
+        m_layout->addWidget(mw_progressBar, 1, 0, 1, 2);
+    }
 
     setText(text);
 
@@ -52,4 +65,8 @@ QString WaitDialog::text() const {
 
 void WaitDialog::setText(const QString &text) {
     mw_textLabel->setText(text);
+}
+
+void WaitDialog::updateProgress(size_t percentage) {
+    mw_progressBar->setValue(percentage);
 }

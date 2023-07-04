@@ -132,22 +132,31 @@ QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
 
     logConvMatrix(mat);
 
-    logOutput(tr("Running kernel..."));
-
     Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_originalImage, mat);
     QUuid pid = process->getUUID();
 
-    connect(process, &Threads::Conv2D::finished, this, [this, pid](const QImage &img, qint64 et, bool res) {
+    std::unique_ptr<QMetaObject::Connection> pconn{new QMetaObject::Connection};
+    QMetaObject::Connection &conn = *pconn;
+
+    conn = connect(m_ocl, &OCLWrapper::progress, this, [this, pid](size_t percentage) {
+        emit processProgress(pid, percentage);
+    });
+
+    connect(process, &Threads::Conv2D::finished, this, [this, pid, conn](const QImage &img, qint64 et, bool res) {
         if(!res) {
+            disconnect(conn);
             emit processError();
             emit conv2DDone(pid, et);
 
             return;
         }
 
+        disconnect(conn);
         setProcessedImage(img);
         emit conv2DDone(pid, et);
     }, Qt::QueuedConnection);
+
+    logOutput(tr("%1 - Running kernel ...").arg(pid.toString(QUuid::WithBraces)));
 
     QThreadPool::globalInstance()->start(process);
 
@@ -228,21 +237,30 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
         return QUuid();
     }
 
-    logOutput(tr("Running kernel..."));
-
     Threads::Correction *process = new Threads::Correction(m_ocl, m_originalImage, hist);
     QUuid pid = process->getUUID();
 
-    connect(process, &Threads::Correction::finished, this, [this, pid](const QImage &img, qint64 et, bool res) {
+    std::unique_ptr<QMetaObject::Connection> pconn{new QMetaObject::Connection};
+    QMetaObject::Connection &conn = *pconn;
+
+    conn = connect(m_ocl, &OCLWrapper::progress, this, [this, pid](size_t percentage) {
+        emit processProgress(pid, percentage);
+    });
+
+    connect(process, &Threads::Correction::finished, this, [this, pid, conn](const QImage &img, qint64 et, bool res) {
         if(!res) {
+            disconnect(conn);
             emit processError();
             emit imageCorrectionDone(pid, et);
             return;
         }
 
+        disconnect(conn);
         setProcessedImage(img);
         emit imageCorrectionDone(pid, et);
     }, Qt::QueuedConnection);
+
+    logOutput(tr("%1 - Running kernel ...").arg(pid.toString(QUuid::WithBraces)));
 
     QThreadPool::globalInstance()->start(process);
 

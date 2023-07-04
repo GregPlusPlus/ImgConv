@@ -43,6 +43,8 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed);
     connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected);
 
+    connect(m_coreApp, &Core::App::processProgress, &m_waitDialogMgr, &WaitDialogMgr::updateDialogProgress);
+
     connect(m_coreApp, &Core::Logger::showCriticalError, this, [this](const QString &str) {
         QMessageBox::critical(this, tr("Critical error"), str);
     });
@@ -53,7 +55,7 @@ void MainWindow::processError() {
 }
 
 void MainWindow::conv2DDone(const QUuid &pid, qint64 elapsedTime) {
-    logProcessFinished(elapsedTime);
+    logProcessFinished(pid, elapsedTime);
 
     m_openFileAction->setDisabled(false);
     m_createImageAction->setDisabled(false);
@@ -77,7 +79,7 @@ void MainWindow::histogramComputed(const QUuid &pid, qint64 elapsedTime, const C
 }
 
 void MainWindow::imageCorrected(const QUuid &pid, qint64 elapsedTime) {
-    logProcessFinished(elapsedTime);
+    logProcessFinished(pid, elapsedTime);
 
     m_openFileAction->setDisabled(false);
     m_createImageAction->setDisabled(false);
@@ -87,10 +89,11 @@ void MainWindow::imageCorrected(const QUuid &pid, qint64 elapsedTime) {
     m_waitDialogMgr.closeDialog(pid);
 }
 
-void MainWindow::logProcessFinished(qint64 elapsedTime) {
+void MainWindow::logProcessFinished(const QUuid &pid, qint64 elapsedTime) {
     float pixPerSec = 1000.f * (m_coreApp->originalImage().size().width() * m_coreApp->originalImage().size().height()) / elapsedTime;
 
-    QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
+    QString logStr = tr("%1 - Processing done in %2 ms. Approx %3 px/sec.")
+                        .arg(pid.toString(QUuid::WithBraces))
                         .arg(elapsedTime)
                         .arg(pixPerSec);
 
@@ -135,7 +138,7 @@ void MainWindow::startConv2D() {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."));
+    m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."), Dialogs::WaitDialog::Flags::ShowProgress);
 }
 
 void MainWindow::startComputeHistogram(const QImage &img, Panels::ImageCorrectionPanel::HistogramRole histRole) {
@@ -165,7 +168,7 @@ void MainWindow::startImageCorrection(const QString &kernelPath) {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."));
+    m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."), Dialogs::WaitDialog::Flags::ShowProgress);
 }
 
 void MainWindow::openImage() {

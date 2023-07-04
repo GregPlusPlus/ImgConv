@@ -72,6 +72,7 @@ public slots:
     void runKernel(QSize s);
 
 signals:
+    void progress(size_t percentage);
 
 private:
     Device m_device;

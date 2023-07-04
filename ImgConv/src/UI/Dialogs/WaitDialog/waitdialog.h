@@ -21,27 +21,40 @@
 
 #include <QDialog>
 #include <QLabel>
-#include <QHBoxLayout>
+#include <QProgressBar>
+
+#include <QGridLayout>
+
 #include <QMovie>
 
 namespace UI::Dialogs {
 class WaitDialog : public QDialog
 {
+public:
+    enum Flags {
+        None            = 0x00,
+        ShowProgress    = 0x01,
+        Cancelable      = 0x02
+    };
+
     Q_OBJECT
 public:
-    WaitDialog(const QString &text);
+    WaitDialog(const QString &text, Flags flags = None);
 
     QString text() const;
 
 public slots:
     void setText(const QString &text);
+    void updateProgress(size_t percentage);
 
 private:
-    QHBoxLayout *m_layout;
+    QGridLayout *m_layout;
     QLabel *mw_spinnerLabel;
     QLabel *mw_textLabel;
+    QProgressBar *mw_progressBar;
 
 private:
+    Flags m_flags;
     QMovie *m_spinner;
 };
 }

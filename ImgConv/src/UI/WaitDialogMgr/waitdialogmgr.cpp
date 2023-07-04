@@ -31,8 +31,8 @@ WaitDialogMgr::~WaitDialogMgr() {
     }
 }
 
-void WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QString &msg) {
-    Dialogs::WaitDialog *dialog = new Dialogs::WaitDialog(msg);
+void WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QString &msg, Dialogs::WaitDialog::Flags flags) {
+    Dialogs::WaitDialog *dialog = new Dialogs::WaitDialog(msg, flags);
     dialog->show();
 
     m_waitDialogs.insert(uuid, dialog);
@@ -45,5 +45,13 @@ void WaitDialogMgr::closeDialog(const QUuid &uuid) {
         m_waitDialogs.remove(uuid);
 
         delete dialog;
+    }
+}
+
+void WaitDialogMgr::updateDialogProgress(const QUuid &uuid, size_t percentage) {
+    Dialogs::WaitDialog *dialog = m_waitDialogs.value(uuid, nullptr);
+
+    if(dialog) {
+        dialog->updateProgress(percentage);
     }
 }
