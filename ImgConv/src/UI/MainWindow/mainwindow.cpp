@@ -55,7 +55,7 @@ void MainWindow::processError() {
 }
 
 void MainWindow::conv2DDone(const QUuid &pid, qint64 elapsedTime) {
-    logProcessFinished(elapsedTime);
+    logProcessFinished(pid, elapsedTime);
 
     m_openFileAction->setDisabled(false);
     m_createImageAction->setDisabled(false);
@@ -79,7 +79,7 @@ void MainWindow::histogramComputed(const QUuid &pid, qint64 elapsedTime, const C
 }
 
 void MainWindow::imageCorrected(const QUuid &pid, qint64 elapsedTime) {
-    logProcessFinished(elapsedTime);
+    logProcessFinished(pid, elapsedTime);
 
     m_openFileAction->setDisabled(false);
     m_createImageAction->setDisabled(false);
@@ -89,10 +89,11 @@ void MainWindow::imageCorrected(const QUuid &pid, qint64 elapsedTime) {
     m_waitDialogMgr.closeDialog(pid);
 }
 
-void MainWindow::logProcessFinished(qint64 elapsedTime) {
+void MainWindow::logProcessFinished(const QUuid &pid, qint64 elapsedTime) {
     float pixPerSec = 1000.f * (m_coreApp->originalImage().size().width() * m_coreApp->originalImage().size().height()) / elapsedTime;
 
-    QString logStr = tr("Processing done in %1 ms. - Approx %2 px/sec.")
+    QString logStr = tr("%1 - Processing done in %2 ms. Approx %3 px/sec.")
+                        .arg(pid.toString(QUuid::WithBraces))
                         .arg(elapsedTime)
                         .arg(pixPerSec);
 

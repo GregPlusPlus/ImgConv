@@ -68,7 +68,7 @@ private slots:
     void conv2DDone(const QUuid &pid, qint64 elapsedTime);
     void histogramComputed(const QUuid &pid, qint64 elapsedTime, const Core::Processing::Algorithms::Histogram &histogram);
     void imageCorrected(const QUuid &pid, qint64 elapsedTime);
-    void logProcessFinished(qint64 elapsedTime);
+    void logProcessFinished(const QUuid &pid, qint64 elapsedTime);
     void showOriginalImage();
     void showProcessedImage();
     void startConv2D();

@@ -132,8 +132,6 @@ QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
 
     logConvMatrix(mat);
 
-    logOutput(tr("Running kernel..."));
-
     Threads::Conv2D *process = new Threads::Conv2D(m_ocl, m_originalImage, mat);
     QUuid pid = process->getUUID();
 
@@ -157,6 +155,8 @@ QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
         setProcessedImage(img);
         emit conv2DDone(pid, et);
     }, Qt::QueuedConnection);
+
+    logOutput(tr("%1 - Running kernel ...").arg(pid.toString(QUuid::WithBraces)));
 
     QThreadPool::globalInstance()->start(process);
 
@@ -237,8 +237,6 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
         return QUuid();
     }
 
-    logOutput(tr("Running kernel..."));
-
     Threads::Correction *process = new Threads::Correction(m_ocl, m_originalImage, hist);
     QUuid pid = process->getUUID();
 
@@ -261,6 +259,8 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
         setProcessedImage(img);
         emit imageCorrectionDone(pid, et);
     }, Qt::QueuedConnection);
+
+    logOutput(tr("%1 - Running kernel ...").arg(pid.toString(QUuid::WithBraces)));
 
     QThreadPool::globalInstance()->start(process);
 
