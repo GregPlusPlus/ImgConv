@@ -31,7 +31,7 @@ WaitDialogMgr::~WaitDialogMgr() {
     }
 }
 
-void WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QString &msg, Dialogs::WaitDialog::Flags flags) {
+void WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QString &msg, int flags) {
     Dialogs::WaitDialog *dialog = new Dialogs::WaitDialog(msg, flags);
     dialog->show();
 
