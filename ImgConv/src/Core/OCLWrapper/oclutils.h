@@ -16,30 +16,20 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PROCESSING_H
-#define PROCESSING_H
 
-#include <QPixmap>
-#include <QImage>
-#include <QRandomGenerator>
-#include <QCoreApplication>
+#ifndef OCLUTILS_H
+#define OCLUTILS_H
 
-#include "Core/Processing/convkernel.h"
-#include "Core/Processing/Kernels/kernels.h"
-#include "Core/Processing/convkernel1darray.h"
-#include "Core/Processing/algorithms.h"
-#include "Core/OCLWrapper/oclwrapper.h"
-#include "Core/Utils/utils.h"
+#include <QString>
+#include <QList>
 
-namespace Core::Processing {
-    struct Options {
-        size_t chunkFactor;
-    };
+#include <CL/cl.h>
 
-    QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize);
-    QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize);
-    QString createOCLProgramOptionsCorrection(const QSize &imgSize);
-    void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
+#include "oclwrapper.h"
+
+namespace Core::OCLUtils {
+QString getDevicesInfoStr();
+QList<OCLWrapper::Device> getDevices();
 }
 
-#endif // PROCESSING_H
+#endif // OCLUTILS_H

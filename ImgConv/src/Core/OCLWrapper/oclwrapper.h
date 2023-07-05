@@ -52,10 +52,10 @@ public:
 
     cl_int ret() const;
 
-    static QString getDevicesInfoStr();
-    static QList<Device> getDevices();
-
     bool isRunning() const;
+
+    size_t getChunkFactor() const;
+    void setChunkFactor(size_t chunkFactor);
 
 public slots:
     void createProgramFromSource(const QString &s, const QString &kname, const QString &options);
@@ -85,6 +85,7 @@ private:
     QList<cl_mem> m_buffers;
 
     bool m_isRunning = false;
+    size_t m_chunkFactor = 10;
 };
 }
 

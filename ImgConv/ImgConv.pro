@@ -12,6 +12,7 @@ DEFINES += GIT_VERSION='"\\\"$(shell git describe --always)\\\""'
 
 SOURCES += \
     src/Core/Logger/logger.cpp \
+    src/Core/OCLWrapper/oclutils.cpp \
     src/Core/OCLWrapper/oclwrapper.cpp \
     src/Core/Processing/Kernels/custom.cpp \
     src/Core/Processing/Kernels/emboss.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
     src/UI/Components/ButtonColorPicker/buttoncolorpicker.cpp \
     src/UI/Components/HistogramWidget/histogramwidget.cpp \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.cpp \
+    src/UI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp \
     src/UI/FilterSettingsWidget/filenamepicker.cpp \
     src/UI/Panels/FilterSettingsPanel/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
@@ -58,6 +60,7 @@ SOURCES += \
     src/main.cpp
 HEADERS += \
     src/Core/Logger/logger.h \
+    src/Core/OCLWrapper/oclutils.h \
     src/Core/OCLWrapper/oclwrapper.h \
     src/Core/Processing/Kernels/custom.h \
     src/Core/Processing/Kernels/emboss.h \
@@ -90,6 +93,7 @@ HEADERS += \
     src/UI/Components/ButtonColorPicker/buttoncolorpicker.h \
     src/UI/Components/HistogramWidget/histogramwidget.h \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.h \
+    src/UI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h \
     src/UI/FilterSettingsWidget/filenamepicker.h \
     src/UI/Panels/FilterSettingsPanel/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \

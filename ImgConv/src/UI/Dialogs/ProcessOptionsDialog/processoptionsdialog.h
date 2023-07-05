@@ -16,30 +16,34 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PROCESSING_H
-#define PROCESSING_H
 
-#include <QPixmap>
-#include <QImage>
-#include <QRandomGenerator>
-#include <QCoreApplication>
+#ifndef PROCESSOPTIONSDIALOG_H
+#define PROCESSOPTIONSDIALOG_H
 
-#include "Core/Processing/convkernel.h"
-#include "Core/Processing/Kernels/kernels.h"
-#include "Core/Processing/convkernel1darray.h"
-#include "Core/Processing/algorithms.h"
-#include "Core/OCLWrapper/oclwrapper.h"
-#include "Core/Utils/utils.h"
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QSpinBox>
 
-namespace Core::Processing {
-    struct Options {
-        size_t chunkFactor;
-    };
+#include <QFormLayout>
 
-    QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize);
-    QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize);
-    QString createOCLProgramOptionsCorrection(const QSize &imgSize);
-    void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
+#include "Core/Processing/processing.h"
+
+namespace UI::Dialogs {
+class ProcessOptionsDialog : public QDialog
+{
+    Q_OBJECT
+public:
+    ProcessOptionsDialog(Core::Processing::Options *options, QWidget *parent = nullptr);
+
+private:
+    QFormLayout *m_layout;
+
+    QDialogButtonBox *mw_buttonBox;
+
+    QSpinBox *mw_chunkFactor;
+private:
+    Core::Processing::Options *m_options = nullptr;
+};
 }
 
-#endif // PROCESSING_H
+#endif // PROCESSOPTIONSDIALOG_H
