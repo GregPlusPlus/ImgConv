@@ -32,5 +32,6 @@
         <file>ocl/invertColors.cl</file>
         <file>icons/information-balloon.png</file>
         <file>ocl/equalizeHistogram.cl</file>
+        <file>icons/gear.png</file>
     </qresource>
 </RCC>

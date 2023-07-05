@@ -43,6 +43,7 @@ SOURCES += \
     src/UI/Components/ButtonColorPicker/buttoncolorpicker.cpp \
     src/UI/Components/HistogramWidget/histogramwidget.cpp \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.cpp \
+    src/UI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp \
     src/UI/FilterSettingsWidget/filenamepicker.cpp \
     src/UI/Panels/FilterSettingsPanel/filtersettingsdock.cpp \
     src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
@@ -92,6 +93,7 @@ HEADERS += \
     src/UI/Components/ButtonColorPicker/buttoncolorpicker.h \
     src/UI/Components/HistogramWidget/histogramwidget.h \
     src/UI/Dialogs/CreateImageDialog/createimagedialog.h \
+    src/UI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h \
     src/UI/FilterSettingsWidget/filenamepicker.h \
     src/UI/Panels/FilterSettingsPanel/filtersettingsdock.h \
     src/UI/FilterSettingsWidget/filtersettingswidget.h \

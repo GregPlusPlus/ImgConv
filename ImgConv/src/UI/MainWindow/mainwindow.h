@@ -50,6 +50,7 @@
 #include "UI/WaitDialogMgr/waitdialogmgr.h"
 #include "UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/Dialogs/CreateImageDialog/createimagedialog.h"
+#include "UI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h"
 #include "UI/CodeEditor/codeeditorcontainer.h"
 
 #include "Core/App/app.h"
@@ -78,6 +79,7 @@ private slots:
     void createImage();
     void exportProcessedImage(bool closeWhenFinished = false);
     void filterSelected(int index);
+    void chooseProcessingOptions();
     void showAboutDialog();
     bool saveOnExit();
     void buildMenus();
@@ -109,6 +111,7 @@ private:
     QAction *m_exportAction;
     QAction *m_selectDeviceAction;
     QAction *m_exitAction;
+    QAction *m_processOptionsAction;
     QAction *m_reloadKernelAction;
     QAction *m_runAction;
     QAction *m_backfeedAction;
@@ -121,6 +124,9 @@ private:
 
     Panels::ImageCorrectionPanel::HistogramRole m_histRole;
     WaitDialogMgr m_waitDialogMgr;
+
+private:
+    Core::Processing::Options m_processingOptions;
 
 protected:
     void closeEvent(QCloseEvent *ev);

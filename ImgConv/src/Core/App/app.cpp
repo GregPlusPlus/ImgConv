@@ -119,6 +119,9 @@ QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
     logOutput(tr("\n[%1] Creating program - opts. : `%2`")
                     .arg(k->getSourceFilePath())
                     .arg(options));
+    logOutput(tr("\nChunk size : %1x%2 px.")
+                    .arg(m_originalImage.width() / m_ocl->getChunkFactor())
+                    .arg(m_originalImage.height() / m_ocl->getChunkFactor()));
 
     if(!createOCLProgram(k->getSourceFilePath(), options)) {
         return QUuid();
@@ -228,6 +231,9 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
     logOutput(tr("\n[%1] Creating program - opts. : `%2`")
                     .arg(kernelPath)
                     .arg(options));
+    logOutput(tr("\nChunk size : %1x%2 px.")
+                    .arg(m_originalImage.width() / m_ocl->getChunkFactor())
+                    .arg(m_originalImage.height() / m_ocl->getChunkFactor()));
 
     if(!createOCLProgram(kernelPath, options)) {
         return QUuid();

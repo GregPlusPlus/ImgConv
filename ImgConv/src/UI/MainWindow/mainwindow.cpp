@@ -261,6 +261,19 @@ void MainWindow::filterSelected(int index) {
     mw_dockFilterSettings->setConvKernel(k);
 }
 
+void MainWindow::chooseProcessingOptions() {
+    m_processingOptions.chunkFactor = m_coreApp->ocl()->getChunkFactor();
+
+    Dialogs::ProcessOptionsDialog dialog(&m_processingOptions, this);
+    dialog.exec();
+
+    if(dialog.result() != QMessageBox::Accepted) {
+        return;
+    }
+
+    m_coreApp->ocl()->setChunkFactor(m_processingOptions.chunkFactor);
+}
+
 void MainWindow::showAboutDialog() {
     QMessageBox::about(this, tr("About this program"),
                        tr("<h1>%1</h1> " \
@@ -326,6 +339,8 @@ void MainWindow::buildMenus() {
     m_exitAction = mw_fileMenu->addAction(QIcon(":/icons/door-open-in.png"), tr("&Exit"), tr("Ctrl+W"), this, [](){qApp->exit();});
 
     mw_processMenu = menuBar()->addMenu(tr("&Process"));
+    m_processOptionsAction = mw_processMenu->addAction(QIcon(":/icons/gear.png"), tr("Process &options"), this, &MainWindow::chooseProcessingOptions);
+    mw_processMenu->addSeparator();
     m_reloadKernelAction = mw_processMenu->addAction(QIcon(":/icons/arrow-circle-double.png"), tr("Reload current &kernel"), tr("F5"), this, [this]() {
         filterSelected(mw_convKernelComboBox->currentIndex());
     });
