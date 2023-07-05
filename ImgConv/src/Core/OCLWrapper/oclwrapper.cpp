@@ -244,25 +244,26 @@ void OCLWrapper::setKernelArg(size_t i, size_t bs, const uint8_t *b) {
 }
 
 void OCLWrapper::runKernel(QSize s) {
-    size_t global_item_size[2] = {(size_t)s.width() / 10, (size_t)s.height() / 10};
+    size_t global_item_size[2] = {(size_t)s.width() / getChunkFactor(),
+                                  (size_t)s.height() / getChunkFactor()};
     size_t global_item_offset[2] = {0, 0};
 
     m_isRunning = true;
 
-    for(size_t i = 0; i < 10; i ++) {
-        global_item_offset[1] = i * ((size_t)s.height() / 10);
+    for(size_t i = 0; i < getChunkFactor(); i ++) {
+        global_item_offset[1] = i * ((size_t)s.height() / getChunkFactor());
 
         if(i == 9) {
-            global_item_size[1] += ((size_t)s.height() % 10);
+            global_item_size[1] += ((size_t)s.height() % getChunkFactor());
         }
 
-        for(size_t j = 0; j < 10; j ++) {
-            global_item_offset[0] = j * ((size_t)s.width() / 10);
+        for(size_t j = 0; j < getChunkFactor(); j ++) {
+            global_item_offset[0] = j * ((size_t)s.width() / getChunkFactor());
 
             if(j == 9) {
-                global_item_size[0] += ((size_t)s.width() % 10);
+                global_item_size[0] += ((size_t)s.width() % getChunkFactor());
             } else {
-                global_item_size[0] = ((size_t)s.width() / 10);
+                global_item_size[0] = ((size_t)s.width() / getChunkFactor());
             }
 
             m_ret = clEnqueueNDRangeKernel(m_command_queue, m_kernel, 2, global_item_offset,
@@ -282,11 +283,21 @@ void OCLWrapper::runKernel(QSize s) {
                 return;
             }
 
-            emit progress((i * 10) + j + 1);
+            emit progress(100 * (((i * getChunkFactor()) + j + 1) / (float)(getChunkFactor() * getChunkFactor())));
         }
     }
 
     m_isRunning = false;
+}
+
+size_t OCLWrapper::getChunkFactor() const {
+    return m_chunkFactor;
+}
+
+void OCLWrapper::setChunkFactor(size_t chunkSize) {
+    if(!isRunning()) {
+        m_chunkFactor = chunkSize;
+    }
 }
 
 bool OCLWrapper::isRunning() const {
@@ -295,122 +306,4 @@ bool OCLWrapper::isRunning() const {
 
 cl_int OCLWrapper::ret() const {
     return m_ret;
-}
-
-QString OCLWrapper::getDevicesInfoStr() {
-    QString str;
-
-    char* value;
-    size_t valueSize;
-    cl_uint platformCount;
-    cl_platform_id* platforms;
-    cl_uint deviceCount;
-    cl_device_id* devices;
-    cl_uint maxComputeUnits;
-
-    clGetPlatformIDs(0, NULL, &platformCount);
-    platforms = new cl_platform_id[platformCount];
-    clGetPlatformIDs(platformCount, platforms, NULL);
-
-    for(cl_uint i = 0; i < platformCount; i ++) {
-
-        clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, 0, NULL, &valueSize);
-        value = new char[valueSize];
-        clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, valueSize, value, NULL);
-        str += tr("%1. Platform: %2\n").arg(i+1).arg(value);
-        delete[] value;
-
-        clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 0, NULL, &deviceCount);
-        devices = new cl_device_id[deviceCount];
-        clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, deviceCount, devices, NULL);
-
-        for(cl_uint j = 0; j < deviceCount; j ++) {
-
-            // Print device name
-            clGetDeviceInfo(devices[j], CL_DEVICE_NAME, 0, NULL, &valueSize);
-            value = new char[valueSize];
-            clGetDeviceInfo(devices[j], CL_DEVICE_NAME, valueSize, value, NULL);
-            str += tr("  %1. Device: %2\n").arg(j+1).arg(value);
-            delete[] value;
-
-            // Print hardware device version
-            clGetDeviceInfo(devices[j], CL_DEVICE_VERSION, 0, NULL, &valueSize);
-            value = new char[valueSize];
-            clGetDeviceInfo(devices[j], CL_DEVICE_VERSION, valueSize, value, NULL);
-            str += tr("    %1.1 Hardware version: %2\n").arg(j+1).arg(value);
-            delete[] value;
-
-            // Print software driver version
-            clGetDeviceInfo(devices[j], CL_DRIVER_VERSION, 0, NULL, &valueSize);
-            value = new char[valueSize];
-            clGetDeviceInfo(devices[j], CL_DRIVER_VERSION, valueSize, value, NULL);
-            str += tr("    %1.2 Software version: %2\n").arg(j+1).arg(value);
-            delete[] value;
-
-            // Print c version supported by compiler for device
-            clGetDeviceInfo(devices[j], CL_DEVICE_OPENCL_C_VERSION, 0, NULL, &valueSize);
-            value = new char[valueSize];
-            clGetDeviceInfo(devices[j], CL_DEVICE_OPENCL_C_VERSION, valueSize, value, NULL);
-            str += tr("    %1.3 OpenCL C version: %2\n").arg(j+1).arg(value);
-            delete[] value;
-
-            // Print parallel compute units
-            clGetDeviceInfo(devices[j], CL_DEVICE_MAX_COMPUTE_UNITS,
-                    sizeof(maxComputeUnits), &maxComputeUnits, NULL);
-            str += tr("    %1.4 Parallel compute units: %2\n").arg(j+1).arg(maxComputeUnits);
-
-        }
-
-        str += '\n';
-
-        delete[] devices;
-    }
-
-    delete[] platforms;
-
-    return str;
-}
-
-QList<OCLWrapper::Device> OCLWrapper::getDevices() {
-    QList<OCLWrapper::Device> list;
-
-    char* value;
-    size_t valueSize;
-    cl_uint platformCount;
-    cl_platform_id* platforms;
-    cl_uint deviceCount;
-    cl_device_id* devices;
-
-    clGetPlatformIDs(0, NULL, &platformCount);
-    platforms = new cl_platform_id[platformCount];
-    clGetPlatformIDs(platformCount, platforms, NULL);
-
-    for(cl_uint i = 0; i < platformCount; i ++) {
-
-        clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 0, NULL, &deviceCount);
-        devices = new cl_device_id[deviceCount];
-        clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, deviceCount, devices, NULL);
-
-        for(cl_uint j = 0; j < deviceCount; j ++) {
-
-            OCLWrapper::Device device;
-
-            device.device = devices[j];
-            device.platform = platforms[i];
-
-            clGetDeviceInfo(devices[j], CL_DEVICE_NAME, 0, NULL, &valueSize);
-            value = new char[valueSize];
-            clGetDeviceInfo(devices[j], CL_DEVICE_NAME, valueSize, value, NULL);
-            device.name = value;
-            delete[] value;
-
-            list.append(device);
-        }
-
-        delete[] devices;
-    }
-
-    delete[] platforms;
-
-    return list;
 }

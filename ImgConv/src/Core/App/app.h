@@ -20,6 +20,7 @@
 #define APP_H
 
 #include "Core/OCLWrapper/oclwrapper.h"
+#include "Core/OCLWrapper/oclutils.h"
 #include "Core/Processing/processing.h"
 #include "Core/Threads/threads.h"
 #include "Core/Utils/utils.h"

@@ -32,7 +32,7 @@ App::~App() {
 }
 
 bool App::init() {
-    m_devices = OCLWrapper::getDevices();
+    m_devices = OCLUtils::getDevices();
 
     if(m_devices.count() == 0) {
         emit showCriticalError(tr("No OpenCL compatible device found !"));

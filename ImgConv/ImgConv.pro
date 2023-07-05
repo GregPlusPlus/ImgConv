@@ -12,6 +12,7 @@ DEFINES += GIT_VERSION='"\\\"$(shell git describe --always)\\\""'
 
 SOURCES += \
     src/Core/Logger/logger.cpp \
+    src/Core/OCLWrapper/oclutils.cpp \
     src/Core/OCLWrapper/oclwrapper.cpp \
     src/Core/Processing/Kernels/custom.cpp \
     src/Core/Processing/Kernels/emboss.cpp \
@@ -58,6 +59,7 @@ SOURCES += \
     src/main.cpp
 HEADERS += \
     src/Core/Logger/logger.h \
+    src/Core/OCLWrapper/oclutils.h \
     src/Core/OCLWrapper/oclwrapper.h \
     src/Core/Processing/Kernels/custom.h \
     src/Core/Processing/Kernels/emboss.h \
