@@ -138,8 +138,12 @@ void MainWindow::startConv2D() {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."),
-                                     Dialogs::WaitDialog::Flags::ShowProgress | Dialogs::WaitDialog::Flags::Cancelable);
+    Dialogs::WaitDialog *dialog = m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."),
+                                                                    Dialogs::WaitDialog::Flags::ShowProgress |
+                                                                    Dialogs::WaitDialog::Flags::Cancelable);
+
+    connect(dialog, &Dialogs::WaitDialog::cancelProcess, m_coreApp->ocl(), &Core::OCLWrapper::requestKernelCancelation);
+    connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCancelationRequested, dialog, &Dialogs::WaitDialog::cancelProgressPending);
 }
 
 void MainWindow::startComputeHistogram(const QImage &img, Panels::ImageCorrectionPanel::HistogramRole histRole) {
