@@ -34,7 +34,7 @@ public:
     ~WaitDialogMgr();
 
 public slots:
-    void createWaitDialog(const QUuid &uuid, const QString &msg, int flags = Dialogs::WaitDialog::Flags::None);
+    Dialogs::WaitDialog* createWaitDialog(const QUuid &uuid, const QString &msg, int flags = Dialogs::WaitDialog::Flags::None);
     void closeDialog(const QUuid &uuid);
     void updateDialogProgress(const QUuid &uuid, size_t percentage);
 
