@@ -44,7 +44,7 @@ WaitDialog::WaitDialog(const QString &text, int flags)
     m_layout->addWidget(mw_textLabel, 0, 1);
 
     mw_cancelButton = new QPushButton(QIcon(":/icons/control-stop-square-red.png"), QString(), this);
-    mw_cancelButton->setToolTip(tr("Abort process"));
+    mw_cancelButton->setToolTip(tr("Cancel process"));
     mw_cancelButton->setFlat(true);
     mw_cancelButton->hide();
 
@@ -89,4 +89,9 @@ void WaitDialog::setText(const QString &text) {
 
 void WaitDialog::updateProgress(size_t percentage) {
     mw_progressBar->setValue(percentage);
+}
+
+void WaitDialog::cancelProgressPending() {
+    mw_cancelButton->setEnabled(false);
+    mw_cancelButton->setToolTip(tr("Canceling process..."));
 }

@@ -47,6 +47,7 @@ public:
 public slots:
     void setText(const QString &text);
     void updateProgress(size_t percentage);
+    void cancelProgressPending();
 
 signals:
     void cancelProcess();
