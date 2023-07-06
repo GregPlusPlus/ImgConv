@@ -57,6 +57,9 @@ public:
     size_t getChunkFactor() const;
     void setChunkFactor(size_t chunkFactor);
 
+    bool cancelRequested() const;
+    void requestKernelCancelation();
+
 public slots:
     void createProgramFromSource(const QString &s, const QString &kname, const QString &options);
     QFileDevice::FileError createProgramFromFile(const QString &fn, const QString &kname, const QString &options);
@@ -73,6 +76,8 @@ public slots:
 
 signals:
     void progress(size_t percentage);
+    void kernelCanceled();
+    void kernelCancelationRequested();
 
 private:
     Device m_device;
@@ -85,6 +90,7 @@ private:
     QList<cl_mem> m_buffers;
 
     bool m_isRunning = false;
+    bool m_cancelRequested = false;
     size_t m_chunkFactor = 10;
 };
 }

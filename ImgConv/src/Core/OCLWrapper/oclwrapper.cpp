@@ -284,10 +284,31 @@ void OCLWrapper::runKernel(QSize s) {
             }
 
             emit progress(100 * (((i * getChunkFactor()) + j + 1) / (float)(getChunkFactor() * getChunkFactor())));
+
+            if(m_cancelRequested) {
+                m_cancelRequested = false;
+                m_isRunning = false;
+
+                emit kernelCanceled();
+
+                return;
+            }
         }
     }
 
     m_isRunning = false;
+}
+
+bool OCLWrapper::cancelRequested() const {
+    return m_cancelRequested;
+}
+
+void OCLWrapper::requestKernelCancelation() {
+    if(m_isRunning) {
+        m_cancelRequested = true;
+
+        emit kernelCancelationRequested();
+    }
 }
 
 size_t OCLWrapper::getChunkFactor() const {
