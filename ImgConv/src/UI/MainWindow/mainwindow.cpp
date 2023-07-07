@@ -341,8 +341,10 @@ void MainWindow::buildMenus() {
     m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
         Dialogs::SelectDeviceDialog dialog(m_coreApp->devices());
         if(dialog.exec() == QDialog::Accepted) {
-            m_coreApp->initOpenCL(dialog.getDevice());
-            displayDeviceName();
+            if(!m_coreApp->ocl()->isRunning()) {
+                m_coreApp->initOpenCL(dialog.getDevice());
+                displayDeviceName();
+            }
         }
     });
     mw_fileMenu->addSeparator();
