@@ -22,6 +22,7 @@
 #include <QDialog>
 #include <QLabel>
 #include <QProgressBar>
+#include <QPushButton>
 
 #include <QGridLayout>
 
@@ -39,22 +40,27 @@ public:
 
     Q_OBJECT
 public:
-    WaitDialog(const QString &text, Flags flags = None);
+    WaitDialog(const QString &text, int flags = None);
 
     QString text() const;
 
 public slots:
     void setText(const QString &text);
     void updateProgress(size_t percentage);
+    void cancelProgressPending();
+
+signals:
+    void cancelProcess();
 
 private:
     QGridLayout *m_layout;
     QLabel *mw_spinnerLabel;
     QLabel *mw_textLabel;
+    QPushButton *mw_cancelButton;
     QProgressBar *mw_progressBar;
 
 private:
-    Flags m_flags;
+    int m_flags;
     QMovie *m_spinner;
 };
 }

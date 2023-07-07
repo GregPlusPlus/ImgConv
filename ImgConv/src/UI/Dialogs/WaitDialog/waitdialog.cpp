@@ -20,7 +20,7 @@
 
 using namespace UI::Dialogs;
 
-WaitDialog::WaitDialog(const QString &text, Flags flags)
+WaitDialog::WaitDialog(const QString &text, int flags)
     : QDialog{}, m_flags{flags} {
 
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |
@@ -43,15 +43,35 @@ WaitDialog::WaitDialog(const QString &text, Flags flags)
 
     m_layout->addWidget(mw_textLabel, 0, 1);
 
+    mw_cancelButton = new QPushButton(QIcon(":/icons/control-stop-square-red.png"), QString(), this);
+    mw_cancelButton->setToolTip(tr("Cancel process"));
+    mw_cancelButton->setFlat(true);
+    mw_cancelButton->hide();
+
     mw_progressBar = new QProgressBar(this);
     mw_progressBar->setRange(0, 100);
     mw_progressBar->setValue(0);
     mw_progressBar->hide();
 
+    connect(mw_cancelButton, &QPushButton::clicked, this, &WaitDialog::cancelProcess);
+
     if(m_flags & Flags::ShowProgress) {
         mw_progressBar->show();
 
-        m_layout->addWidget(mw_progressBar, 1, 0, 1, 2);
+        if(m_flags & Flags::Cancelable) {
+            mw_cancelButton->show();
+
+            m_layout->addWidget(mw_cancelButton, 1, 0, 1, 1);
+            m_layout->addWidget(mw_progressBar, 1, 1, 1, 1);
+        } else {
+            m_layout->addWidget(mw_progressBar, 1, 0, 1, 2);
+        }
+    } else {
+        if(m_flags & Flags::Cancelable) {
+            mw_cancelButton->show();
+
+            m_layout->addWidget(mw_cancelButton, 0, 2);
+        }
     }
 
     setText(text);
@@ -69,4 +89,9 @@ void WaitDialog::setText(const QString &text) {
 
 void WaitDialog::updateProgress(size_t percentage) {
     mw_progressBar->setValue(percentage);
+}
+
+void WaitDialog::cancelProgressPending() {
+    mw_cancelButton->setEnabled(false);
+    mw_cancelButton->setToolTip(tr("Canceling process..."));
 }

@@ -44,6 +44,9 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected);
 
     connect(m_coreApp, &Core::App::processProgress, &m_waitDialogMgr, &WaitDialogMgr::updateDialogProgress);
+    connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCanceled, this, [this]() {
+        m_coreApp->logOutput(tr("Kernel canceled"));
+    });
 
     connect(m_coreApp, &Core::Logger::showCriticalError, this, [this](const QString &str) {
         QMessageBox::critical(this, tr("Critical error"), str);
@@ -138,7 +141,12 @@ void MainWindow::startConv2D() {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."), Dialogs::WaitDialog::Flags::ShowProgress);
+    Dialogs::WaitDialog *dialog = m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."),
+                                                                    Dialogs::WaitDialog::Flags::ShowProgress |
+                                                                    Dialogs::WaitDialog::Flags::Cancelable);
+
+    connect(dialog, &Dialogs::WaitDialog::cancelProcess, m_coreApp->ocl(), &Core::OCLWrapper::requestKernelCancelation);
+    connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCancelationRequested, dialog, &Dialogs::WaitDialog::cancelProgressPending);
 }
 
 void MainWindow::startComputeHistogram(const QImage &img, Panels::ImageCorrectionPanel::HistogramRole histRole) {
@@ -168,7 +176,12 @@ void MainWindow::startImageCorrection(const QString &kernelPath) {
     m_runAction->setDisabled(true);
     m_selectDeviceAction->setDisabled(true);
 
-    m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."), Dialogs::WaitDialog::Flags::ShowProgress);
+    Dialogs::WaitDialog *dialog = m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."),
+                                                                    Dialogs::WaitDialog::Flags::ShowProgress |
+                                                                    Dialogs::WaitDialog::Flags::Cancelable);
+
+    connect(dialog, &Dialogs::WaitDialog::cancelProcess, m_coreApp->ocl(), &Core::OCLWrapper::requestKernelCancelation);
+    connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCancelationRequested, dialog, &Dialogs::WaitDialog::cancelProgressPending);
 }
 
 void MainWindow::openImage() {
@@ -331,8 +344,10 @@ void MainWindow::buildMenus() {
     m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
         Dialogs::SelectDeviceDialog dialog(m_coreApp->devices());
         if(dialog.exec() == QDialog::Accepted) {
-            m_coreApp->initOpenCL(dialog.getDevice());
-            displayDeviceName();
+            if(!m_coreApp->ocl()->isRunning()) {
+                m_coreApp->initOpenCL(dialog.getDevice());
+                displayDeviceName();
+            }
         }
     });
     mw_fileMenu->addSeparator();
