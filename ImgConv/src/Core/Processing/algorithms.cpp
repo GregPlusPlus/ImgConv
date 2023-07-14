@@ -20,9 +20,10 @@
 
 namespace Core::Processing::Algorithms {
 bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k) {
-    int imgW = in.width();
-    int imgH = in.height();
-    size_t inSize = in.sizeInBytes();
+    const QSize imgSize = in.size();
+    const size_t buffRGB888Size = in.width() * in.height() * 3;
+
+    const uint8_t *inImgBuff = Utils::imageToArray(in);
 
     ocl->releaseAll();
 
@@ -30,16 +31,16 @@ bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVecto
     ConvKernel1DArray kernel1DArray(k);
 
     // Output buffer
-    uint8_t *outImg = nullptr;
+    uint8_t *outImgBuff = nullptr;
     size_t outSize = 0;
 
     // Create INPUT RGB buffer
-    if(ocl->addBuffer(inSize, CL_MEM_READ_ONLY) < 0) {
+    if(ocl->addBuffer(buffRGB888Size, CL_MEM_READ_ONLY) < 0) {
         return false;
     }
 
     // Create OUTPUT RGB buffer
-    if(ocl->addBuffer(inSize, CL_MEM_READ_WRITE) < 0) {
+    if(ocl->addBuffer(buffRGB888Size, CL_MEM_READ_WRITE) < 0) {
         return false;
     }
 
@@ -49,7 +50,7 @@ bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVecto
     }
 
     // Write INPUT buffer
-    if(!ocl->writeBuffer(0, in.bits(), inSize)) {
+    if(!ocl->writeBuffer(0, inImgBuff, buffRGB888Size)) {
         return false;
     }
 
@@ -75,13 +76,15 @@ bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVecto
     }
 
     // Read OUTPUT buffer
-    if(!ocl->readBuffer(1, &outImg, &outSize)) {
+    if(!ocl->readBuffer(1, &outImgBuff, &outSize)) {
         return false;
     }
 
     // Convert back buffer to image
-    out = QImage((const uchar *)outImg, imgW, imgH, QImage::Format_RGB888).copy();
-    delete[] outImg;
+    out = Utils::arrayToImage(outImgBuff, imgSize);
+
+    delete[] outImgBuff;
+    delete[] inImgBuff;
 
     ocl->releaseAll();
 
@@ -89,14 +92,16 @@ bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVecto
 }
 
 bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
-    const size_t inSize = in.sizeInBytes();
+    const size_t buffRGB888Size = in.width() * in.height() * 3;
     const size_t numberOfLevels = 256;
     const size_t histBuffSize = numberOfLevels * sizeof(size_t);
+
+    const uint8_t *inImgBuff = Utils::imageToArray(in);
 
     ocl->releaseAll();
 
     // Create INPUT RGB buffer
-    if(ocl->addBuffer(inSize, CL_MEM_READ_ONLY) < 0) {
+    if(ocl->addBuffer(buffRGB888Size, CL_MEM_READ_ONLY) < 0) {
         return false;
     }
 
@@ -131,7 +136,7 @@ bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
     }
 
     // Write INPUT buffer
-    if(!ocl->writeBuffer(0, in.bits(), inSize)) {
+    if(!ocl->writeBuffer(0, inImgBuff, buffRGB888Size)) {
         return false;
     }
 
@@ -182,6 +187,7 @@ bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
     delete[] histBuffer[0];
     delete[] histBuffer[1];
     delete[] histBuffer[2];
+    delete[] inImgBuff;
 
     ocl->releaseAll();
 
@@ -189,21 +195,22 @@ bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
 }
 
 bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histogram &cdf) {
-    int imgW = in.width();
-    int imgH = in.height();
-    size_t inSize = in.sizeInBytes();
+    const QSize imgSize = in.size();
+    const size_t buffRGB888Size = in.width() * in.height() * 3;
 
     const size_t numberOfLevels = 256;
     const size_t cdfBuffSize = numberOfLevels * sizeof(size_t);
 
+    uint8_t *inImgBuff = Utils::imageToArray(in);
+
     ocl->releaseAll();
 
     // Output buffer
-    uint8_t *outImg = nullptr;
+    uint8_t *outImgBuff = nullptr;
     size_t outSize = 0;
 
     // Create INPUT RGB buffer
-    if(ocl->addBuffer(inSize, CL_MEM_READ_ONLY) < 0) {
+    if(ocl->addBuffer(buffRGB888Size, CL_MEM_READ_ONLY) < 0) {
         return false;
     }
 
@@ -223,12 +230,12 @@ bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histo
     }
 
     // Create OUTPUT RGB buffer
-    if(ocl->addBuffer(inSize, CL_MEM_READ_WRITE) < 0) {
+    if(ocl->addBuffer(buffRGB888Size, CL_MEM_READ_WRITE) < 0) {
         return false;
     }
 
     // Write INPUT buffer
-    if(!ocl->writeBuffer(0, in.bits(), inSize)) {
+    if(!ocl->writeBuffer(0, inImgBuff, buffRGB888Size)) {
         return false;
     }
 
@@ -273,13 +280,15 @@ bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histo
     }
 
     // Read OUTPUT buffer
-    if(!ocl->readBuffer(4, &outImg, &outSize)) {
+    if(!ocl->readBuffer(4, &outImgBuff, &outSize)) {
         return false;
     }
 
     // Convert back buffer to image
-    out = QImage((const uchar *)outImg, imgW, imgH, QImage::Format_RGB888).copy();
-    delete[] outImg;
+    out = Utils::arrayToImage(outImgBuff, imgSize);
+
+    delete[] outImgBuff;
+    delete[] inImgBuff;
 
     ocl->releaseAll();
 

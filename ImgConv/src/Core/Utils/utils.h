@@ -28,6 +28,8 @@
 #include <QRegularExpression>
 
 namespace Core::Utils {
+    uint8_t *imageToArray(const QImage &img);
+    QImage arrayToImage(const uint8_t *array, const QSize &size);
     void scaleMatrix(QVector<QVector<float>> &v, float c);
     void imageToMatrix(QVector<QVector<float>> &m, QImage &i);
     bool CSVToMatrix(QVector<QVector<float>> &m, QString &in);
