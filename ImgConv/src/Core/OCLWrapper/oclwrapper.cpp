@@ -253,14 +253,14 @@ void OCLWrapper::runKernel(QSize s) {
     for(size_t i = 0; i < getChunkFactor(); i ++) {
         global_item_offset[1] = i * ((size_t)s.height() / getChunkFactor());
 
-        if(i == 9) {
+        if(i == (getChunkFactor() - 1)) {
             global_item_size[1] += ((size_t)s.height() % getChunkFactor());
         }
 
         for(size_t j = 0; j < getChunkFactor(); j ++) {
             global_item_offset[0] = j * ((size_t)s.width() / getChunkFactor());
 
-            if(j == 9) {
+            if(j == (getChunkFactor() - 1)) {
                 global_item_size[0] += ((size_t)s.width() % getChunkFactor());
             } else {
                 global_item_size[0] = ((size_t)s.width() / getChunkFactor());
