@@ -21,8 +21,15 @@
 
 #include <QApplication>
 
+#include <QTranslator>
+
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+
+    QTranslator translator;
+    if (translator.load(QLocale::system(), "ImgConv", "_", ":/translations")) {
+        a.installTranslator(&translator);
+    }
 
     Core::App coreApp;
 
