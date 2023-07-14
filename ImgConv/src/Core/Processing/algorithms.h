@@ -21,6 +21,7 @@
 
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Processing/convkernel1darray.h"
+#include "Core/Utils/utils.h"
 
 #include <QImage>
 
