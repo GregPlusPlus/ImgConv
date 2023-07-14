@@ -33,7 +33,7 @@ ImageCorrectionPanel::ImageCorrectionPanel(QWidget *parent)
     connect(mw_radioHistogram, &QRadioButton::toggled, this, &ImageCorrectionPanel::displayHistCDF);
     m_layout->addWidget(mw_radioHistogram, 0, 0, 1, 1);
 
-    mw_radioCDF = new QRadioButton("CDF", this);
+    mw_radioCDF = new QRadioButton(tr("CDF"), this);
     mw_radioCDF->setToolTip(tr("Cumulative Distribution Frequency"));
     m_layout->addWidget(mw_radioCDF, 0, 1, 1, 1);
     connect(mw_radioCDF, &QRadioButton::toggled, this, &ImageCorrectionPanel::displayHistCDF);

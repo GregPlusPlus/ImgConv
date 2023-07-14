@@ -124,3 +124,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     rc/rc.qrc
+
+TRANSLATIONS += \
+    rc/translations/ImgConv_fr.ts
+
+ CODECFORSRC     = UTF-8
