@@ -46,7 +46,11 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::processProgress, &m_waitDialogMgr, &WaitDialogMgr::updateDialogProgress);
     connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCanceled, this, [this]() {
         m_coreApp->logOutput(tr("Kernel canceled"));
-    });
+
+        if(m_closeAfterKernelCanceled) {
+            close();
+        }
+    }, Qt::QueuedConnection);
 
     connect(m_coreApp, &Core::Logger::showCriticalError, this, [this](const QString &str) {
         QMessageBox::critical(this, tr("Critical error"), str);
@@ -463,6 +467,15 @@ void MainWindow::buildFilterSettingsView() {
 void MainWindow::closeEvent(QCloseEvent *ev) {
     if(m_coreApp->ocl()->isRunning()) {
         ev->ignore();
+
+        if(QMessageBox::question(this, tr("Cancel work in progress"), tr("A kernel is currently running. \nDo you want to abort it then close the propgram ?"),
+                                 QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+
+            m_coreApp->ocl()->requestKernelCancelation();
+
+            m_closeAfterKernelCanceled = true;
+        }
+
         return;
     }
 

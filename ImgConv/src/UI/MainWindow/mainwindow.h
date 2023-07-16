@@ -127,6 +127,7 @@ private:
 
 private:
     Core::Processing::Options m_processingOptions;
+    bool m_closeAfterKernelCanceled = false;
 
 protected:
     void closeEvent(QCloseEvent *ev);
