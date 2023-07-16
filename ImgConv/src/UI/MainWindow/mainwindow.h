@@ -89,6 +89,9 @@ private slots:
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
+    void setCloseAfterKernelCanceled();
+    void clearCloseAfterKernelCanceled();
+    bool getCloseAfterKernelCanceled();
 
 private:
     QTabWidget *mw_tabWidget;
@@ -127,9 +130,11 @@ private:
 
 private:
     Core::Processing::Options m_processingOptions;
+    bool m_closeAfterKernelCanceled = false;
 
 protected:
     void closeEvent(QCloseEvent *ev);
+    void changeEvent(QEvent *ev);
 };
 }
 
