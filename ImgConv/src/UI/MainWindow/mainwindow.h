@@ -89,6 +89,9 @@ private slots:
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
+    void setCloseAfterKernelCanceled();
+    void clearCloseAfterKernelCanceled();
+    bool getCloseAfterKernelCanceled();
 
 private:
     QTabWidget *mw_tabWidget;

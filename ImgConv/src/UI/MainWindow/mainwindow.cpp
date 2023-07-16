@@ -47,8 +47,8 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCanceled, this, [this]() {
         m_coreApp->logOutput(tr("Kernel canceled"));
 
-        if(m_closeAfterKernelCanceled) {
-            m_closeAfterKernelCanceled = false;
+        if(getCloseAfterKernelCanceled()) {
+            clearCloseAfterKernelCanceled();
 
             close();
         }
@@ -344,6 +344,18 @@ void MainWindow::buildKernelComboBox() {
     }
 }
 
+void MainWindow::setCloseAfterKernelCanceled() {
+    m_closeAfterKernelCanceled = true;
+}
+
+void MainWindow::clearCloseAfterKernelCanceled() {
+    m_closeAfterKernelCanceled = false;
+}
+
+bool MainWindow::getCloseAfterKernelCanceled() {
+    return m_closeAfterKernelCanceled;
+}
+
 void MainWindow::buildMenus() {
     mw_fileMenu = menuBar()->addMenu(tr("&File"));
 
@@ -481,7 +493,7 @@ void MainWindow::closeEvent(QCloseEvent *ev) {
 
             m_coreApp->ocl()->requestKernelCancelation();
 
-            m_closeAfterKernelCanceled = true;
+            setCloseAfterKernelCanceled();
         }
 
         return;
