@@ -39,6 +39,7 @@ public slots:
     void updateDialogProgress(const QUuid &uuid, size_t percentage);
     void hideAll();
     void showAll();
+    qsizetype getNumberOfOpenDialogs();
 
 signals:
 

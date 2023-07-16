@@ -69,3 +69,7 @@ void WaitDialogMgr::showAll() {
         dialog->show();
     }
 }
+
+qsizetype WaitDialogMgr::getNumberOfOpenDialogs() {
+    return m_waitDialogs.size();
+}
