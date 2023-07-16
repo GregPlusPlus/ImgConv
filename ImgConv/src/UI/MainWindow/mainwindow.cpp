@@ -196,10 +196,10 @@ void MainWindow::openImage() {
         return;
     }
 
-    Dialogs::WaitDialog *dialog = new Dialogs::WaitDialog(tr("Opening image..."));
     Core::Threads::ImgLoader *imgLoader = new Core::Threads::ImgLoader(fn);
+    QUuid pid = imgLoader->getUUID();
 
-    connect(imgLoader, &Core::Threads::ImgLoader::loaded, this, [this, dialog, fn](QImage img, qint64 et) {
+    connect(imgLoader, &Core::Threads::ImgLoader::loaded, this, [this, fn, pid](QImage img, qint64 et) {
         mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
         m_coreApp->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
 
@@ -208,13 +208,16 @@ void MainWindow::openImage() {
         m_openFileAction->setDisabled(false);
         m_createImageAction->setDisabled(false);
         m_runAction->setDisabled(false);
-        delete dialog;
+
+        m_waitDialogMgr.closeDialog(pid);
     });
 
     m_openFileAction->setDisabled(true);
     m_createImageAction->setDisabled(true);
     m_runAction->setDisabled(true);
-    dialog->show();
+
+    m_waitDialogMgr.createWaitDialog(pid, tr("Opening image..."),
+                                        Dialogs::WaitDialog::Flags::None);
 
     QThreadPool::globalInstance()->start(imgLoader);
 }
