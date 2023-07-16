@@ -131,6 +131,7 @@ private:
 
 protected:
     void closeEvent(QCloseEvent *ev);
+    void changeEvent(QEvent *ev);
 };
 }
 

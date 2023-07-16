@@ -487,3 +487,13 @@ void MainWindow::closeEvent(QCloseEvent *ev) {
 
     ev->accept();
 }
+
+void MainWindow::changeEvent(QEvent *ev) {
+    if(ev->type() == QEvent::WindowStateChange) {
+        if(isMinimized()) {
+            m_waitDialogMgr.hideAll();
+        } else if(isVisible()) {
+            m_waitDialogMgr.showAll();
+        }
+    }
+}

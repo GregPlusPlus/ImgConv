@@ -57,3 +57,15 @@ void WaitDialogMgr::updateDialogProgress(const QUuid &uuid, size_t percentage) {
         dialog->updateProgress(percentage);
     }
 }
+
+void WaitDialogMgr::hideAll() {
+    for(Dialogs::WaitDialog *dialog : m_waitDialogs) {
+        dialog->hide();
+    }
+}
+
+void WaitDialogMgr::showAll() {
+    for(Dialogs::WaitDialog *dialog : m_waitDialogs) {
+        dialog->show();
+    }
+}
