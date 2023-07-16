@@ -256,20 +256,21 @@ void MainWindow::exportProcessedImage(bool closeWhenFinished) {
         return;
     }
 
-    Dialogs::WaitDialog *dialog = new Dialogs::WaitDialog(tr("Exporting image..."));
     Core::Threads::ImgExport *imgExport = new Core::Threads::ImgExport(fn, m_coreApp->processedImage());
+    QUuid pid = imgExport->getUUID();
 
-    connect(imgExport, &Core::Threads::ImgExport::exported, this, [this, dialog, fn, closeWhenFinished](qint64 et) {
+    connect(imgExport, &Core::Threads::ImgExport::exported, this, [this, fn, pid, closeWhenFinished](qint64 et) {
         m_coreApp->logInfo(tr("[%1] Image saved in %2 ms.").arg(fn).arg(et));
 
-        delete dialog;
+        m_waitDialogMgr.closeDialog(pid);
 
         if(closeWhenFinished) {
             close();
         }
     });
 
-    dialog->show();
+    m_waitDialogMgr.createWaitDialog(pid, tr("Exporting image..."),
+                                        Dialogs::WaitDialog::Flags::None);
 
     QThreadPool::globalInstance()->start(imgExport);
 }
