@@ -469,6 +469,8 @@ void MainWindow::buildFilterSettingsView() {
 }
 
 void MainWindow::closeEvent(QCloseEvent *ev) {
+    qsizetype numberOfWaitDialogs = m_waitDialogMgr.getNumberOfOpenDialogs();
+
     if(m_coreApp->ocl()->isRunning()) {
         ev->ignore();
 
@@ -479,6 +481,13 @@ void MainWindow::closeEvent(QCloseEvent *ev) {
 
             m_closeAfterKernelCanceled = true;
         }
+
+        return;
+    } else if(numberOfWaitDialogs) {
+        ev->ignore();
+
+        QMessageBox::warning(this, tr("Process is running"), tr("Cannot close window, %1 proccess still running.")
+                                                                .arg(numberOfWaitDialogs));
 
         return;
     }
