@@ -48,6 +48,8 @@ void MainWindow::connectCoreApp() {
         m_coreApp->logOutput(tr("Kernel canceled"));
 
         if(m_closeAfterKernelCanceled) {
+            m_closeAfterKernelCanceled = false;
+
             close();
         }
     }, Qt::QueuedConnection);
