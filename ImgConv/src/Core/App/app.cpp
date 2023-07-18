@@ -47,7 +47,6 @@ bool App::init() {
     }
 
     initOpenCL(device);
-    Processing::registerConvKernels(&m_convKernels, this);
 
     return true;
 }
@@ -102,6 +101,18 @@ bool App::createOCLProgram(const QString &fn, const QString &options) {
     }
 
     return true;
+}
+
+void App::loadConvKernels() {
+    if(!m_convKernels.isEmpty()) {
+        for(Core::Processing::ConvKernels::ConvKernel *k : m_convKernels) {
+            delete k;
+        }
+
+        m_convKernels.clear();
+    }
+
+    Processing::registerConvKernels(&m_convKernels, this);
 }
 
 QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
