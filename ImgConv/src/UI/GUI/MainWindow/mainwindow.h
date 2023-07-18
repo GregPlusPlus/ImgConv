@@ -54,13 +54,14 @@
 #include "UI/GUI/CodeEditor/codeeditorcontainer.h"
 
 #include "Core/App/app.h"
+#include "Core/Settings/SettingsMgr/settingsmgr.h"
 
 namespace UI::GUI {
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(Core::App *coreApp);
+    MainWindow(Core::App *coreApp, Core::Settings::SettingsMgr *settingsMgr);
     ~MainWindow();
 
 private slots:
@@ -124,6 +125,7 @@ private:
 
 private:
     Core::App *m_coreApp;
+    Core::Settings::SettingsMgr *m_settingsMgr;
 
     Panels::ImageCorrectionPanel::HistogramRole m_histRole;
     WaitDialogMgr m_waitDialogMgr;

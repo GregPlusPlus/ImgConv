@@ -27,6 +27,9 @@ SOURCES += \
     src/Core/Processing/convkernel.cpp \
     src/Core/Processing/convkernel1darray.cpp \
     src/Core/Processing/processing.cpp \
+    src/Core/Settings/Setting/setting.cpp \
+    src/Core/Settings/SettingsMgr/abstractsettingsmgr.cpp \
+    src/Core/Settings/SettingsMgr/settingsmgr.cpp \
     src/Core/Threads/correction.cpp \
     src/Core/Threads/histogram.cpp \
     src/Core/Threads/imgexport.cpp \
@@ -76,6 +79,9 @@ HEADERS += \
     src/Core/Processing/convkernel.h \
     src/Core/Processing/convkernel1darray.h \
     src/Core/Processing/processing.h \
+    src/Core/Settings/Setting/setting.h \
+    src/Core/Settings/SettingsMgr/abstractsettingsmgr.h \
+    src/Core/Settings/SettingsMgr/settingsmgr.h \
     src/Core/Threads/correction.h \
     src/Core/Threads/histogram.h \
     src/Core/Threads/imgexport.h \

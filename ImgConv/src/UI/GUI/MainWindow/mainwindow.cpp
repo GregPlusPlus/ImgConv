@@ -2,8 +2,8 @@
 
 using namespace UI::GUI;
 
-MainWindow::MainWindow(Core::App *coreApp)
-    : QMainWindow{}, m_coreApp{coreApp} {
+MainWindow::MainWindow(Core::App *coreApp, Core::Settings::SettingsMgr *settingsMgr)
+    : QMainWindow{}, m_coreApp{coreApp}, m_settingsMgr{settingsMgr} {
     setWindowIcon(QIcon(":/icons/icon.png"));
     setWindowTitle(APP_NAME);
 

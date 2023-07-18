@@ -18,6 +18,7 @@
 
 #include "UI/GUI/MainWindow/mainwindow.h"
 #include "Core/App/app.h"
+#include "Core/Settings/SettingsMgr/settingsmgr.h"
 
 #include <QApplication>
 
@@ -25,6 +26,10 @@
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+
+    Core::Settings::SettingsMgr settingsMgr;
+    settingsMgr.init();
+    settingsMgr.load();
 
     QTranslator translator;
     if (translator.load(QLocale::system(), "ImgConv", "_", ":/translations")) {
@@ -37,7 +42,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    UI::GUI::MainWindow window(&coreApp);
+    UI::GUI::MainWindow window(&coreApp, &settingsMgr);
     window.show();
 
     return a.exec();
