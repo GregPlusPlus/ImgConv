@@ -66,6 +66,8 @@ public:
     MainWindow(Core::App *coreApp, Core::Settings::SettingsMgr *settingsMgr);
     ~MainWindow();
 
+    bool doReload() const;
+
 private slots:
     void connectCoreApp();
     void processError();
@@ -138,6 +140,7 @@ private:
 private:
     Core::Processing::Options m_processingOptions;
     bool m_closeAfterKernelCanceled = false;
+    bool m_reload = false;
 
 protected:
     void closeEvent(QCloseEvent *ev);

@@ -14,6 +14,11 @@ void setLanguage(QTranslator *translator,
         if(translator->load("ImgConv_" + lang, ":/translations/")) {
             app->installTranslator(translator);
         }
+    } else {
+        bool ok = translator->load("", "");
+        Q_UNUSED(ok)
+
+        app->installTranslator(translator);
     }
 }
 

@@ -341,6 +341,10 @@ bool MainWindow::getCloseAfterKernelCanceled() {
     return m_closeAfterKernelCanceled;
 }
 
+bool MainWindow::doReload() const {
+    return m_reload;
+}
+
 void MainWindow::buildMenus() {
     mw_fileMenu = menuBar()->addMenu(tr("&File"));
 
@@ -441,6 +445,13 @@ void MainWindow::langSelected(bool checked) {
     QAction *a = qobject_cast<QAction*>(sender());
 
     m_settingsMgr->setLang(a->text());
+
+    if(QMessageBox::question(this, tr("Window reload"), tr("The window needs to be reloaded for the language selection to take effect. \nReload now ?"),
+                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+
+        m_reload = true;
+        close();
+    }
 }
 
 void MainWindow::displayDeviceName() {

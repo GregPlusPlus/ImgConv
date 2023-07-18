@@ -40,10 +40,19 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    UI::GUI::MainWindow window(&coreApp, &settingsMgr);
-    window.show();
+    UI::GUI::MainWindow *w = nullptr;
 
-    return a.exec();
+    int ret = EXIT_SUCCESS;
+    do {
+        UI::Utils::setLanguage(&translator, &settingsMgr, &a);
 
-    return 0;
+        UI::GUI::MainWindow window(&coreApp, &settingsMgr);
+        window.show();
+
+        w = &window;
+
+        ret = a.exec();
+    } while(w->doReload());
+
+    return ret;
 }
