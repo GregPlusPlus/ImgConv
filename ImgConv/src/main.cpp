@@ -16,7 +16,9 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "UI/MainWindow/mainwindow.h"
+#include "Core/Settings/SettingsMgr/settingsmgr.h"
+#include "UI/UtilsUI/utilsui.h"
+#include "UI/GUI/MainWindow/mainwindow.h"
 #include "Core/App/app.h"
 
 #include <QApplication>
@@ -24,14 +26,24 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
+    QTranslator translator;
+
+    Core::Settings::SettingsMgr settingsMgr;
+    settingsMgr.init();
+    settingsMgr.load();
+
+    UI::Utils::setLanguage(&translator, &settingsMgr, &a);
+
     Core::App coreApp;
 
     if(!coreApp.init()) {
         exit(EXIT_FAILURE);
     }
 
-    UI::MainWindow window(&coreApp);
+    UI::GUI::MainWindow window(&coreApp, &settingsMgr);
     window.show();
 
     return a.exec();
+
+    return 0;
 }
