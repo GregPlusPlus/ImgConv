@@ -25,6 +25,7 @@
 #include "Core/Threads/threads.h"
 #include "Core/Utils/utils.h"
 #include "Core/Logger/logger.h"
+#include "Core/Settings/SettingsMgr/settingsmgr.h"
 
 #include <QThreadPool>
 #include <QElapsedTimer>
@@ -35,7 +36,7 @@ class App : public Logger
     Q_OBJECT
 
 public:
-    explicit App(QObject *parent = nullptr);
+    explicit App(Settings::SettingsMgr *settingsMgr, QObject *parent = nullptr);
     virtual ~App();
 
     QImage originalImage() const;
@@ -44,6 +45,7 @@ public:
     OCLWrapper *ocl() const;
 
     QList<OCLWrapper::Device> devices() const;
+    OCLWrapper::Device getDeviceByName(const QString &name);
 
     QList<Processing::ConvKernels::ConvKernel *> convKernels() const;
 
@@ -51,6 +53,8 @@ public:
     void setProcessedImage(const QImage &img);
 
     Processing::ConvKernels::ConvKernel *getConvKernelAt(qsizetype i) const;
+
+    Settings::SettingsMgr *settingsMgr() const;
 
 public slots:
     bool init();
@@ -77,6 +81,7 @@ signals:
 
 private:
     OCLWrapper *m_ocl = nullptr;
+    Settings::SettingsMgr *m_settingsMgr;
     QList<OCLWrapper::Device> m_devices;
     QImage m_originalImage;
     QImage m_processedImage;

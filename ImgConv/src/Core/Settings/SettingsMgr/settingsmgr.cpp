@@ -27,8 +27,17 @@ SettingsMgr::SettingsMgr(QObject *parent)
 
 void SettingsMgr::init() {
     registerSetting(new Setting("UI/lang", "default"));
+    registerSetting(new Setting("Core/device", "default", true));
 }
 
 QString SettingsMgr::getLang() {
     return getSetting("UI/lang")->value().toString();
+}
+
+QString SettingsMgr::getDevice() {
+    return getSetting("Core/device")->value().toString();
+}
+
+void SettingsMgr::setDevice(const QString &name) {
+    getSetting("Core/device")->setValue(name);
 }
