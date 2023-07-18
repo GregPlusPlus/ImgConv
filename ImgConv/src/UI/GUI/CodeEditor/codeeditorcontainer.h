@@ -38,7 +38,7 @@
 #include "Components/codeeditor.h"
 #include "Components/keycompletion.h"
 #include "Components/highlighter.h"
-#include "UI/GUI/UtilsUI/utilsui.h"
+#include "UI/GUI/UtilsGUI/utilsgui.h"
 
 namespace UI::GUI {
 class CodeEditorContainter : public QWidget {

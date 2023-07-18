@@ -16,8 +16,8 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef UTILSUI_H
-#define UTILSUI_H
+#ifndef UTILSGUI_H
+#define UTILSGUI_H
 
 #include <QApplication>
 #include <QAction>
@@ -28,4 +28,4 @@ namespace UI::GUI::Utils {
     void addShortcutToToolTip(QAction *action);
 }
 
-#endif // UTILSUI_H
+#endif // UTILSGUI_H

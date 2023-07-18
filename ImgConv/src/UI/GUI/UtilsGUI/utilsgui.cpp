@@ -16,7 +16,7 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "utilsui.h"
+#include "utilsgui.h"
 
 // FROM : https://stackoverflow.com/questions/42607554/show-shortcut-in-tooltip-of-qtoolbar
 

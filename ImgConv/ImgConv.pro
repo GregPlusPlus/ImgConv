@@ -57,8 +57,8 @@ SOURCES += \
     src/UI/GUI/Panels/LogPanel/logwidget.cpp \
     src/UI/GUI/MainWindow/mainwindow.cpp \
     src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
-    src/UI/GUI/UtilsUI/utilsui.cpp \
     src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp \
+    src/UI/GUI/UtilsGUI/utilsgui.cpp \
     src/UI/GUI/WaitDialogMgr/waitdialogmgr.cpp \
     src/main.cpp
 HEADERS += \
@@ -111,8 +111,8 @@ HEADERS += \
     src/UI/GUI/MainWindow/app_strings.h \
     src/UI/GUI/MainWindow/mainwindow.h \
     src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \
-    src/UI/GUI/UtilsUI/utilsui.h \
     src/UI/GUI/Dialogs/WaitDialog/waitdialog.h \
+    src/UI/GUI/UtilsGUI/utilsgui.h \
     src/UI/GUI/WaitDialogMgr/waitdialogmgr.h
 
 INCLUDEPATH += \
