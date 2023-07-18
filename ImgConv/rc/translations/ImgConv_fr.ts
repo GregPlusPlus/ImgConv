@@ -9,18 +9,18 @@
         <translation>Aucun périphérique compatible OpenCl trouvé !</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="57"/>
-        <location filename="../../src/Core/App/app.cpp" line="86"/>
+        <location filename="../../src/Core/App/app.cpp" line="62"/>
+        <location filename="../../src/Core/App/app.cpp" line="93"/>
         <source>OCL backend error (%1)</source>
         <translation>Erreur de backend OCL(%1)</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="70"/>
+        <location filename="../../src/Core/App/app.cpp" line="77"/>
         <source>File error (%1)</source>
         <translation>Erreur de fichier (%1)</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="78"/>
+        <location filename="../../src/Core/App/app.cpp" line="85"/>
         <source>OCL build program error (%1)
 ______________________________
 %2</source>
@@ -29,41 +29,41 @@ ______________________________
 %2</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="101"/>
-        <location filename="../../src/Core/App/app.cpp" line="173"/>
-        <location filename="../../src/Core/App/app.cpp" line="214"/>
+        <location filename="../../src/Core/App/app.cpp" line="120"/>
+        <location filename="../../src/Core/App/app.cpp" line="192"/>
+        <location filename="../../src/Core/App/app.cpp" line="233"/>
         <source>Kernel already running ! Please wait.</source>
         <translation>Un noyau est déjà en cours d&apos;exécution ! Merci d&apos;attendre.</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="119"/>
-        <location filename="../../src/Core/App/app.cpp" line="231"/>
+        <location filename="../../src/Core/App/app.cpp" line="138"/>
+        <location filename="../../src/Core/App/app.cpp" line="250"/>
         <source>
 [%1] Creating program - opts. : `%2`</source>
         <translation>
 [%1] Création du programme - opts. : `%2`</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="122"/>
-        <location filename="../../src/Core/App/app.cpp" line="234"/>
+        <location filename="../../src/Core/App/app.cpp" line="141"/>
+        <location filename="../../src/Core/App/app.cpp" line="253"/>
         <source>
 Chunk size : %1x%2 px.</source>
         <translation>
 Taille de bloc : %1x%2 px.</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="162"/>
-        <location filename="../../src/Core/App/app.cpp" line="269"/>
+        <location filename="../../src/Core/App/app.cpp" line="181"/>
+        <location filename="../../src/Core/App/app.cpp" line="288"/>
         <source>%1 - Running kernel ...</source>
         <translation>%1 - Exécution du noyau ...</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="224"/>
+        <location filename="../../src/Core/App/app.cpp" line="243"/>
         <source>Invalid histogram.</source>
         <translation>Histogramme invalide.</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="279"/>
+        <location filename="../../src/Core/App/app.cpp" line="298"/>
         <source>
 %1x%2 Convolution matrix :
 </source>
@@ -72,7 +72,7 @@ Taille de bloc : %1x%2 px.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="282"/>
+        <location filename="../../src/Core/App/app.cpp" line="301"/>
         <source>Matrix is too large to be printed.</source>
         <translation>La matrice est trop grande pour être affichée.</translation>
     </message>
@@ -728,270 +728,309 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::MainWindow</name>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="48"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="33"/>
         <source>Kernel canceled</source>
         <translation>Noyau abandonné</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="52"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="43"/>
         <source>Critical error</source>
         <translation>Erreur critique</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="57"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="48"/>
         <source>OpenCL error</source>
         <translation>Erreur OpenCL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="57"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="48"/>
         <source>OpenCL backend error</source>
         <translation>Erreur de backend OpenCL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="98"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="89"/>
         <source>%1 - Processing done in %2 ms. Approx %3 px/sec.</source>
         <translation>%1 - Traitement effectué en %2 ms. Environ %3 px/sec.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="112"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="103"/>
         <source>%1x%2 (%3 bytes)</source>
         <translation>%1x%2 (%3 octets)</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="144"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="135"/>
         <source>Processing image...</source>
         <translation>Traitement de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="164"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="155"/>
         <source>Computing histogram...</source>
         <translation>Calcul de l&apos;histogramme...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="179"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="170"/>
         <source>Correcting image...</source>
         <translation>Correction de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="188"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="179"/>
         <source>Open image file</source>
         <translation>Ouvrir unfichier image</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="189"/>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="246"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="180"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="240"/>
         <source>Image files (*.png *.jpg *.jpeg *.bmp *.gif)</source>
         <translation>Fichiers image (*.png *.jpg *.jpeg *.bmp *.gif)</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="195"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="206"/>
         <source>Opening image...</source>
         <translation>Ouverture de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="199"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="190"/>
         <source>Image loaded in %1 ms.</source>
         <translation>Image chargée en %1 ms.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="200"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="191"/>
         <source>[%1] Image loaded in %2 ms.</source>
         <translation>[%1] Image chargée en %2 ms.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="235"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="229"/>
         <source>Created image of size %1x%2.</source>
         <translation>Image de taille %1x%2 créée.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="245"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="239"/>
         <source>Save image file</source>
         <translation>Enregistrer le fichier image</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="252"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="259"/>
         <source>Exporting image...</source>
         <translation>Export de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="256"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="250"/>
         <source>[%1] Image saved in %2 ms.</source>
         <translation>[%1] Image enregistrée en %2 ms.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="291"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="286"/>
         <source>About this program</source>
         <translation>A propos de ce programme</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="292"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="287"/>
         <source>&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;&lt;br&gt;Some icons are provided under a &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; by Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%3&lt;hr&gt;%4</source>
         <translation>&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;&lt;br&gt;Certaines icônes sont fournies sous license &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; par Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%3&lt;hr&gt;%4</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="316"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="311"/>
         <source>Unsaved file</source>
         <translation>Fichier non enregistré</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="316"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="311"/>
         <source>Save processed image before closing ?</source>
         <translation>Enregistrer l&apos;image traitée avant de continuer ?</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="338"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="351"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="340"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="353"/>
         <source>&amp;Open</source>
         <translation>&amp;Ouvrir</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="340"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="353"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="341"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="354"/>
         <source>&amp;Create image</source>
         <translation>&amp;Créer une image</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="341"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="354"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="342"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="355"/>
         <source>&amp;Export processed image</source>
         <translation>&amp;Exporter l&apos;image traitée</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="342"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="355"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="344"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="357"/>
         <source>Select &amp;device</source>
         <translation>Sélectionner le &amp;périphérique</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="354"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="367"/>
         <source>&amp;Exit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="354"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="367"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="356"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="369"/>
         <source>&amp;Process</source>
         <translation>&amp;Traitement</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="357"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="370"/>
         <source>Process &amp;options</source>
         <translation>&amp;Options de traitement</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="359"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="372"/>
         <source>Reload current &amp;kernel</source>
         <translation>&amp;Recharger le noyau courant</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="359"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="372"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="362"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="375"/>
         <source>&amp;Run</source>
         <translation>&amp;Exécuter</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="362"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="375"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="363"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="376"/>
         <source>&amp;Backfeed</source>
         <translation>Rétro-&amp;alimenter</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="363"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="376"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="369"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="382"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="370"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="383"/>
         <source>&amp;About this program</source>
         <translation>&amp;A propos de ce programme</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="371"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="384"/>
+        <source>&amp;Language</source>
+        <translation>&amp;langue</translation>
+    </message>
+    <message>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="386"/>
         <source>About &amp;Qt</source>
         <translation>A propos de &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="375"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="390"/>
         <source>Open&amp;CL Devices</source>
         <translation>Périphériques Open&amp;CL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="376"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="391"/>
         <source>OpenCL Devices</source>
         <translation>Périphériques OpenCL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="379"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="394"/>
         <source>Tools</source>
         <translation>Outils</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="384"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="399"/>
         <source>Filter : </source>
         <translation>Filtre : </translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="404"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="451"/>
+        <source>Window reload</source>
+        <translation>Rechargement de la fenêtre</translation>
+    </message>
+    <message>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="451"/>
+        <source>The window needs to be reloaded for the language selection to take effect. 
+Reload now ?</source>
+        <translation>La fenêtre doit être rechargée pour les paramètres de languent prennent effet. 
+Recharger maintenant ?</translation>
+    </message>
+    <message>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="461"/>
         <source>Selected device : %1</source>
         <translation>Périphérique sélectionné : %1</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="440"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="497"/>
         <source>Original image</source>
         <translation>Image originale</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="441"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="498"/>
         <source>Processed image</source>
         <translation>Image traitée</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="450"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="507"/>
         <source>Original</source>
         <translation>Image originale</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="451"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="508"/>
         <source>Processed</source>
         <translation>Image traitée</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="452"/>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="509"/>
         <source>Code editor</source>
         <translation>Editeur de code</translation>
+    </message>
+    <message>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="529"/>
+        <source>Cancel work in progress</source>
+        <translation>Annuler le travail en cours</translation>
+    </message>
+    <message>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="529"/>
+        <source>A kernel is currently running. 
+Do you want to abort it then close the propgram ?</source>
+        <translation>Un noyau est en cours d&apos;exécution. 
+Voulez-vous l&apos;interrompre et fermer le programme ?</translation>
+    </message>
+    <message>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="541"/>
+        <source>Process is running</source>
+        <translation>Processus en cours</translation>
+    </message>
+    <message>
+        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="541"/>
+        <source>Cannot close window, %1 proccess still running.</source>
+        <translation>Impossible de fermer la fenêtre, %1 processus en cours d&apos;exécution.</translation>
     </message>
 </context>
 <context>

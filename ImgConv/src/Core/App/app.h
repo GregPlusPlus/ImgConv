@@ -60,6 +60,7 @@ public slots:
     bool init();
     void initOpenCL(const OCLWrapper::Device &device);
     bool createOCLProgram(const QString &fn, const QString &options);
+    void loadConvKernels();
 
     QUuid startConv2DProcess(Processing::ConvKernels::ConvKernel *k);
     QUuid startComputeHistogram(const QImage &img);

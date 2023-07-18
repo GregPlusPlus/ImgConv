@@ -321,6 +321,8 @@ bool MainWindow::saveOnExit() {
 }
 
 void MainWindow::buildKernelComboBox() {
+    m_coreApp->loadConvKernels();
+
     mw_convKernelComboBox = new QComboBox(this);
     connect(mw_convKernelComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::filterSelected);
 
@@ -339,6 +341,10 @@ void MainWindow::clearCloseAfterKernelCanceled() {
 
 bool MainWindow::getCloseAfterKernelCanceled() {
     return m_closeAfterKernelCanceled;
+}
+
+bool MainWindow::doReload() const {
+    return m_reload;
 }
 
 void MainWindow::buildMenus() {
@@ -375,6 +381,8 @@ void MainWindow::buildMenus() {
 
     mw_helpMenu = menuBar()->addMenu(tr("&Help"));
     m_aboutAction = mw_helpMenu->addAction(QIcon(":/icons/information-balloon.png"), tr("&About this program"), this, &MainWindow::showAboutDialog);
+    m_langAction = mw_helpMenu->addAction(QIcon(":/icons/edit-language.png"), tr("&Language"));
+    mw_helpMenu->addSeparator();
     m_aboutQtAction = mw_helpMenu->addAction(tr("About &Qt"), this, [this]() {
         QMessageBox::aboutQt(this);
     });
@@ -404,6 +412,48 @@ void MainWindow::buildMenus() {
     statusBar()->addWidget(mw_labelDevice);
     statusBar()->addWidget(mw_labelImgInfo);
     statusBar()->addWidget(mw_labelElapsedTime);
+
+    buildLangMenu();
+}
+
+void MainWindow::buildLangMenu() {
+    QStringList langs = UI::Utils::listLanguages();
+    langs.insert(0, "system");
+    langs.insert(0, "default");
+
+    QMenu *langMenu = new QMenu(this);
+    QActionGroup *actionGroup = new QActionGroup(this);
+    actionGroup->setExclusive(true);
+
+    m_langAction->setMenu(langMenu);
+
+    for(QString l : langs) {
+        QAction *a = langMenu->addAction(l, this, &MainWindow::langSelected);
+        a->setCheckable(true);
+
+        if(m_settingsMgr->getLang() == l) {
+            a->setChecked(true);
+        }
+
+        actionGroup->addAction(a);
+    }
+}
+
+void MainWindow::langSelected(bool checked) {
+    if(!checked) {
+        return;
+    }
+
+    QAction *a = qobject_cast<QAction*>(sender());
+
+    m_settingsMgr->setLang(a->text());
+
+    if(QMessageBox::question(this, tr("Window reload"), tr("The window needs to be reloaded for the language selection to take effect. \nReload now ?"),
+                             QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+
+        m_reload = true;
+        close();
+    }
 }
 
 void MainWindow::displayDeviceName() {
@@ -457,6 +507,9 @@ void MainWindow::buildView() {
     mw_tabWidget->addTab(mw_origImgView, tr("Original"));
     mw_tabWidget->addTab(mw_processedImgView, tr("Processed"));
     mw_tabWidget->addTab(mw_codeEditor, tr("Code editor"));
+
+    m_coreApp->setOriginalImage(QImage());
+    m_coreApp->setProcessedImage(QImage());
 
     setCentralWidget(mw_tabWidget);
 }
