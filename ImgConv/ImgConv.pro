@@ -35,28 +35,28 @@ SOURCES += \
     src/Core/Threads/virtualthread.cpp \
     src/Core/Utils/utils.cpp \
     src/Core/App/app.cpp \
-    src/UI/CodeEditor/Components/codeeditor.cpp \
-    src/UI/CodeEditor/Components/highlighter.cpp \
-    src/UI/CodeEditor/Components/interactivetextedit.cpp \
-    src/UI/CodeEditor/Components/keycompletion.cpp \
-    src/UI/CodeEditor/codeeditorcontainer.cpp \
-    src/UI/Components/ButtonColorPicker/buttoncolorpicker.cpp \
-    src/UI/Components/HistogramWidget/histogramwidget.cpp \
-    src/UI/Dialogs/CreateImageDialog/createimagedialog.cpp \
-    src/UI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp \
-    src/UI/FilterSettingsWidget/filenamepicker.cpp \
-    src/UI/Panels/FilterSettingsPanel/filtersettingsdock.cpp \
-    src/UI/FilterSettingsWidget/filtersettingswidget.cpp \
-    src/UI/ImageViewer/imageviewer.cpp \
-    src/UI/ImageViewer/imageviewercontainer.cpp \
-    src/UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp \
-    src/UI/Panels/LogPanel/logpanel.cpp \
-    src/UI/Panels/LogPanel/logwidget.cpp \
-    src/UI/MainWindow/mainwindow.cpp \
-    src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
-    src/UI/UtilsUI/utilsui.cpp \
-    src/UI/Dialogs/WaitDialog/waitdialog.cpp \
-    src/UI/WaitDialogMgr/waitdialogmgr.cpp \
+    src/UI/GUI/CodeEditor/Components/codeeditor.cpp \
+    src/UI/GUI/CodeEditor/Components/highlighter.cpp \
+    src/UI/GUI/CodeEditor/Components/interactivetextedit.cpp \
+    src/UI/GUI/CodeEditor/Components/keycompletion.cpp \
+    src/UI/GUI/CodeEditor/codeeditorcontainer.cpp \
+    src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.cpp \
+    src/UI/GUI/Components/HistogramWidget/histogramwidget.cpp \
+    src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp \
+    src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp \
+    src/UI/GUI/FilterSettingsWidget/filenamepicker.cpp \
+    src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp \
+    src/UI/GUI/FilterSettingsWidget/filtersettingswidget.cpp \
+    src/UI/GUI/ImageViewer/imageviewer.cpp \
+    src/UI/GUI/ImageViewer/imageviewercontainer.cpp \
+    src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp \
+    src/UI/GUI/Panels/LogPanel/logpanel.cpp \
+    src/UI/GUI/Panels/LogPanel/logwidget.cpp \
+    src/UI/GUI/MainWindow/mainwindow.cpp \
+    src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
+    src/UI/GUI/UtilsUI/utilsui.cpp \
+    src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp \
+    src/UI/GUI/WaitDialogMgr/waitdialogmgr.cpp \
     src/main.cpp
 HEADERS += \
     src/Core/Logger/logger.h \
@@ -85,29 +85,29 @@ HEADERS += \
     src/Core/Threads/virtualthread.h \
     src/Core/Utils/utils.h \
     src/Core/App/app.h \
-    src/UI/CodeEditor/Components/codeeditor.h \
-    src/UI/CodeEditor/Components/highlighter.h \
-    src/UI/CodeEditor/Components/interactivetextedit.h \
-    src/UI/CodeEditor/Components/keycompletion.h \
-    src/UI/CodeEditor/codeeditorcontainer.h \
-    src/UI/Components/ButtonColorPicker/buttoncolorpicker.h \
-    src/UI/Components/HistogramWidget/histogramwidget.h \
-    src/UI/Dialogs/CreateImageDialog/createimagedialog.h \
-    src/UI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h \
-    src/UI/FilterSettingsWidget/filenamepicker.h \
-    src/UI/Panels/FilterSettingsPanel/filtersettingsdock.h \
-    src/UI/FilterSettingsWidget/filtersettingswidget.h \
-    src/UI/ImageViewer/imageviewer.h \
-    src/UI/ImageViewer/imageviewercontainer.h \
-    src/UI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h \
-    src/UI/Panels/LogPanel/logpanel.h \
-    src/UI/Panels/LogPanel/logwidget.h \
-    src/UI/MainWindow/app_strings.h \
-    src/UI/MainWindow/mainwindow.h \
-    src/UI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \
-    src/UI/UtilsUI/utilsui.h \
-    src/UI/Dialogs/WaitDialog/waitdialog.h \
-    src/UI/WaitDialogMgr/waitdialogmgr.h
+    src/UI/GUI/CodeEditor/Components/codeeditor.h \
+    src/UI/GUI/CodeEditor/Components/highlighter.h \
+    src/UI/GUI/CodeEditor/Components/interactivetextedit.h \
+    src/UI/GUI/CodeEditor/Components/keycompletion.h \
+    src/UI/GUI/CodeEditor/codeeditorcontainer.h \
+    src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.h \
+    src/UI/GUI/Components/HistogramWidget/histogramwidget.h \
+    src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.h \
+    src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h \
+    src/UI/GUI/FilterSettingsWidget/filenamepicker.h \
+    src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h \
+    src/UI/GUI/FilterSettingsWidget/filtersettingswidget.h \
+    src/UI/GUI/ImageViewer/imageviewer.h \
+    src/UI/GUI/ImageViewer/imageviewercontainer.h \
+    src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h \
+    src/UI/GUI/Panels/LogPanel/logpanel.h \
+    src/UI/GUI/Panels/LogPanel/logwidget.h \
+    src/UI/GUI/MainWindow/app_strings.h \
+    src/UI/GUI/MainWindow/mainwindow.h \
+    src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \
+    src/UI/GUI/UtilsUI/utilsui.h \
+    src/UI/GUI/Dialogs/WaitDialog/waitdialog.h \
+    src/UI/GUI/WaitDialogMgr/waitdialogmgr.h
 
 INCLUDEPATH += \
     libs/include/ \

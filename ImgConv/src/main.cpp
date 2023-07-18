@@ -16,7 +16,7 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "UI/MainWindow/mainwindow.h"
+#include "UI/GUI/MainWindow/mainwindow.h"
 #include "Core/App/app.h"
 
 #include <QApplication>
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    UI::MainWindow window(&coreApp);
+    UI::GUI::MainWindow window(&coreApp);
     window.show();
 
     return a.exec();
