@@ -16,4 +16,22 @@ void setLanguage(QTranslator *translator,
         }
     }
 }
+
+QStringList listLanguages() {
+    QStringList list;
+
+    QDirIterator it(":translations", QDirIterator::Subdirectories);
+
+    while (it.hasNext()) {
+        QString file = it.next();
+
+        file = file.split("_")[1];
+        file = file.split(".")[0];
+
+        list.append(file);
+    }
+
+    return list;
+}
+
 }
