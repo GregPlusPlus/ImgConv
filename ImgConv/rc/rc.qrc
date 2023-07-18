@@ -35,5 +35,6 @@
         <file>icons/gear.png</file>
         <file>icons/control-stop-square-red.png</file>
         <file>translations/ImgConv_fr.qm</file>
+        <file>icons/edit-language.png</file>
     </qresource>
 </RCC>

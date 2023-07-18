@@ -375,6 +375,8 @@ void MainWindow::buildMenus() {
 
     mw_helpMenu = menuBar()->addMenu(tr("&Help"));
     m_aboutAction = mw_helpMenu->addAction(QIcon(":/icons/information-balloon.png"), tr("&About this program"), this, &MainWindow::showAboutDialog);
+    m_langAction = mw_helpMenu->addAction(QIcon(":/icons/edit-language.png"), tr("&Language"));
+    mw_helpMenu->addSeparator();
     m_aboutQtAction = mw_helpMenu->addAction(tr("About &Qt"), this, [this]() {
         QMessageBox::aboutQt(this);
     });
@@ -404,6 +406,37 @@ void MainWindow::buildMenus() {
     statusBar()->addWidget(mw_labelDevice);
     statusBar()->addWidget(mw_labelImgInfo);
     statusBar()->addWidget(mw_labelElapsedTime);
+
+    buildLangMenu();
+}
+
+void MainWindow::buildLangMenu() {
+    QStringList langs = UI::Utils::listLanguages();
+    langs.insert(0, "system");
+    langs.insert(0, "default");
+
+    QMenu *langMenu = new QMenu(this);
+    QActionGroup *actionGroup = new QActionGroup(this);
+    actionGroup->setExclusive(true);
+
+    m_langAction->setMenu(langMenu);
+
+    for(QString l : langs) {
+        QAction *a = langMenu->addAction(l, this, &MainWindow::langSelected);
+        a->setCheckable(true);
+
+        if(m_settingsMgr->getLang() == l) {
+            a->setChecked(true);
+        }
+
+        actionGroup->addAction(a);
+    }
+}
+
+void MainWindow::langSelected(bool checked) {
+    if(!checked) {
+        return;
+    }
 }
 
 void MainWindow::displayDeviceName() {

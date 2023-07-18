@@ -27,6 +27,7 @@
 #include <QStatusBar>
 #include <QMenu>
 #include <QAction>
+#include <QActionGroup>
 #include <QDialog>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -43,6 +44,7 @@
 
 #include "app_strings.h"
 
+#include "UI/UtilsUI/utilsui.h"
 #include "UI/GUI/ImageViewer/imageviewercontainer.h"
 #include "UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h"
 #include "UI/GUI/Panels/LogPanel/logpanel.h"
@@ -84,6 +86,8 @@ private slots:
     void showAboutDialog();
     bool saveOnExit();
     void buildMenus();
+    void buildLangMenu();
+    void langSelected(bool checked);
     void displayDeviceName();
     void buildUI();
     void buildPanels();
@@ -120,6 +124,7 @@ private:
     QAction *m_runAction;
     QAction *m_backfeedAction;
     QAction *m_aboutAction;
+    QAction *m_langAction;
     QAction *m_aboutQtAction;
     QAction *m_openCLDevices;
 
