@@ -28,6 +28,7 @@ SettingsMgr::SettingsMgr(QObject *parent)
 void SettingsMgr::init() {
     registerSetting(new Setting("UI/lang", "default"));
     registerSetting(new Setting("Core/device", "default", true));
+    registerSetting(new Setting("GUI/windowGeometry", QRect()));
 }
 
 QString SettingsMgr::getLang() {
@@ -40,4 +41,12 @@ QString SettingsMgr::getDevice() {
 
 void SettingsMgr::setDevice(const QString &name) {
     getSetting("Core/device")->setValue(name);
+}
+
+QRect SettingsMgr::getWindowGeometry() {
+    return getSetting("GUI/windowGeometry")->value().toRect();
+}
+
+void SettingsMgr::setWindowGeometry(const QRect &rect) {
+    getSetting("GUI/windowGeometry")->setValue(rect);
 }

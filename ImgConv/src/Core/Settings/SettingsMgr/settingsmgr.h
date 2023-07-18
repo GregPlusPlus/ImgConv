@@ -36,7 +36,8 @@ public:
     QString getDevice();
     void setDevice(const QString &name);
 
-
+    QRect getWindowGeometry();
+    void setWindowGeometry(const QRect &rect);
 };
 }
 
