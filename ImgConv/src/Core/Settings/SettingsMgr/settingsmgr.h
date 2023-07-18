@@ -32,6 +32,7 @@ public:
 
 public:
     QString getLang();
+    void setLang(const QString &lang);
 
     QString getDevice();
     void setDevice(const QString &name);
