@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 
     UI::Utils::setLanguage(&translator, &settingsMgr, &a);
 
-    Core::App coreApp;
+    Core::App coreApp(&settingsMgr);
 
     if(!coreApp.init()) {
         exit(EXIT_FAILURE);

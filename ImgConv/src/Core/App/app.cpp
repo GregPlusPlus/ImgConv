@@ -20,8 +20,8 @@
 
 using namespace Core;
 
-App::App(QObject *parent)
-    : Logger{parent} {
+App::App(Settings::SettingsMgr *settingsMgr, QObject *parent)
+    : Logger{parent}, m_settingsMgr{settingsMgr} {
 
 }
 
@@ -40,7 +40,13 @@ bool App::init() {
         return false;
     }
 
-    initOpenCL(m_devices[0]);
+    OCLWrapper::Device device = getDeviceByName(m_settingsMgr->getDevice());
+
+    if(device.name.isEmpty()) {
+        device = m_devices[0];
+    }
+
+    initOpenCL(device);
     Processing::registerConvKernels(&m_convKernels, this);
 
     return true;
@@ -58,6 +64,8 @@ void App::initOpenCL(const OCLWrapper::Device &device) {
 
         return;
     }
+
+    m_settingsMgr->setDevice(device.name);
 }
 
 bool App::createOCLProgram(const QString &fn, const QString &options) {
@@ -289,6 +297,10 @@ void App::logConvMatrix(const QVector<QVector<float> > &mat) {
     logOutput(str);
 }
 
+Settings::SettingsMgr *App::settingsMgr() const {
+    return m_settingsMgr;
+}
+
 void App::setProcessedImage(const QImage &newProcessedImage) {
     m_processedImage = newProcessedImage;
 
@@ -311,6 +323,18 @@ QList<Processing::ConvKernels::ConvKernel *> App::convKernels() const {
 
 QList<OCLWrapper::Device> App::devices() const {
     return m_devices;
+}
+
+OCLWrapper::Device App::getDeviceByName(const QString &name) {
+    OCLWrapper::Device device;
+
+    for(OCLWrapper::Device d : m_devices) {
+        if(d.name == name) {
+            device = d;
+        }
+    }
+
+    return device;
 }
 
 OCLWrapper *App::ocl() const {

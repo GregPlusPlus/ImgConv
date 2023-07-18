@@ -12,9 +12,12 @@ MainWindow::MainWindow(Core::App *coreApp, Core::Settings::SettingsMgr *settings
     connectCoreApp();
 
     setMinimumSize(QSize(1200, 800));
+
+    setGeometry(m_settingsMgr->getWindowGeometry());
 }
 
 MainWindow::~MainWindow() {
+    m_settingsMgr->setWindowGeometry(geometry());
 }
 
 void MainWindow::connectCoreApp() {
