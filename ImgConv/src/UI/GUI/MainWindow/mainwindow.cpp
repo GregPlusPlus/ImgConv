@@ -437,6 +437,10 @@ void MainWindow::langSelected(bool checked) {
     if(!checked) {
         return;
     }
+
+    QAction *a = qobject_cast<QAction*>(sender());
+
+    m_settingsMgr->setLang(a->text());
 }
 
 void MainWindow::displayDeviceName() {
