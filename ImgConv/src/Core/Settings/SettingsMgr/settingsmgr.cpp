@@ -21,10 +21,14 @@
 using namespace Core::Settings;
 
 SettingsMgr::SettingsMgr(QObject *parent)
-    : AbstractSettingsMgr{"greg", "ImgConv", parent} {
+    : AbstractSettingsMgr{QApplication::applicationDirPath() + "/settings.ini", parent} {
 
 }
 
 void SettingsMgr::init() {
+    registerSetting(new Setting("UI/lang", "default"));
+}
 
+QString SettingsMgr::getLang() {
+    return getSetting("UI/lang")->value().toString();
 }

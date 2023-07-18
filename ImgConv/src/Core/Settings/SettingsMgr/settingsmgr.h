@@ -29,6 +29,9 @@ public:
     explicit SettingsMgr(QObject *parent = nullptr);
 
     void init();
+
+public:
+    QString getLang();
 };
 }
 
