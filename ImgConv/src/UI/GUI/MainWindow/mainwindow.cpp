@@ -506,6 +506,9 @@ void MainWindow::buildView() {
     mw_tabWidget->addTab(mw_processedImgView, tr("Processed"));
     mw_tabWidget->addTab(mw_codeEditor, tr("Code editor"));
 
+    m_coreApp->setOriginalImage(QImage());
+    m_coreApp->setProcessedImage(QImage());
+
     setCentralWidget(mw_tabWidget);
 }
 
