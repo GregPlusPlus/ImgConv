@@ -16,25 +16,23 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
+#include "Core/Settings/SettingsMgr/settingsmgr.h"
+#include "UI/UtilsUI/utilsui.h"
 #include "UI/GUI/MainWindow/mainwindow.h"
 #include "Core/App/app.h"
-#include "Core/Settings/SettingsMgr/settingsmgr.h"
 
 #include <QApplication>
 
-#include <QTranslator>
-
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+
+    QTranslator translator;
 
     Core::Settings::SettingsMgr settingsMgr;
     settingsMgr.init();
     settingsMgr.load();
 
-    QTranslator translator;
-    if (translator.load(QLocale::system(), "ImgConv", "_", ":/translations")) {
-        a.installTranslator(&translator);
-    }
+    UI::Utils::setLanguage(&translator, &settingsMgr, &a);
 
     Core::App coreApp;
 
@@ -46,4 +44,6 @@ int main(int argc, char *argv[]) {
     window.show();
 
     return a.exec();
+
+    return 0;
 }
