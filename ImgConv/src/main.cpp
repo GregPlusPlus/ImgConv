@@ -17,7 +17,7 @@
  **/
 
 #include "Core/Settings/SettingsMgr/settingsmgr.h"
-#include "UI/UtilsUI/utilsui.h"
+#include "UI/UtilsUI/translator.h"
 #include "UI/GUI/MainWindow/mainwindow.h"
 #include "Core/App/app.h"
 
@@ -26,13 +26,12 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    QTranslator translator;
-
     Core::Settings::SettingsMgr settingsMgr;
     settingsMgr.init();
     settingsMgr.load();
 
-    UI::Utils::setLanguage(&translator, &settingsMgr, &a);
+    UI::Utils::Translator translator(&settingsMgr);
+    translator.updateLanguage();
 
     Core::App coreApp(&settingsMgr);
 
@@ -44,8 +43,6 @@ int main(int argc, char *argv[]) {
 
     int ret = EXIT_SUCCESS;
     do {
-        UI::Utils::setLanguage(&translator, &settingsMgr, &a);
-
         UI::GUI::MainWindow window(&coreApp, &settingsMgr);
         window.show();
 

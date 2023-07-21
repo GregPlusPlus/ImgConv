@@ -60,6 +60,7 @@ SOURCES += \
     src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp \
     src/UI/GUI/UtilsGUI/utilsgui.cpp \
     src/UI/GUI/WaitDialogMgr/waitdialogmgr.cpp \
+    src/UI/UtilsUI/translator.cpp \
     src/UI/UtilsUI/utilsui.cpp \
     src/main.cpp
 HEADERS += \
@@ -115,6 +116,7 @@ HEADERS += \
     src/UI/GUI/Dialogs/WaitDialog/waitdialog.h \
     src/UI/GUI/UtilsGUI/utilsgui.h \
     src/UI/GUI/WaitDialogMgr/waitdialogmgr.h \
+    src/UI/UtilsUI/translator.h \
     src/UI/UtilsUI/utilsui.h
 
 INCLUDEPATH += \
