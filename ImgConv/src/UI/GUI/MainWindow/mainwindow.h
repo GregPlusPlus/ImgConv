@@ -45,6 +45,7 @@
 #include "app_strings.h"
 
 #include "UI/UtilsUI/utilsui.h"
+#include "UI/UtilsUI/translator.h"
 #include "UI/GUI/ImageViewer/imageviewercontainer.h"
 #include "UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h"
 #include "UI/GUI/Panels/LogPanel/logpanel.h"
@@ -89,10 +90,11 @@ private slots:
     bool saveOnExit();
     void buildMenus();
     void buildLangMenu();
-    void langSelected(bool checked);
+    void langSelected(QAction *langAction);
     void displayDeviceName();
     void buildUI();
     void buildPanels();
+
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();

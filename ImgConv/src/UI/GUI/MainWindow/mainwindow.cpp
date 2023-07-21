@@ -417,18 +417,20 @@ void MainWindow::buildMenus() {
 }
 
 void MainWindow::buildLangMenu() {
-    QStringList langs = UI::Utils::listLanguages();
-    langs.insert(0, "system");
-    langs.insert(0, "default");
+    QStringList langs;
+    langs << "system" << "default";
+    langs << UI::Utils::Translator::listLanguages();
 
     QMenu *langMenu = new QMenu(this);
     QActionGroup *actionGroup = new QActionGroup(this);
     actionGroup->setExclusive(true);
 
+    connect(actionGroup, &QActionGroup::triggered, this, &MainWindow::langSelected);
+
     m_langAction->setMenu(langMenu);
 
     for(QString l : langs) {
-        QAction *a = langMenu->addAction(l, this, &MainWindow::langSelected);
+        QAction *a = langMenu->addAction(l);
         a->setCheckable(true);
 
         if(m_settingsMgr->getLang() == l) {
@@ -439,14 +441,14 @@ void MainWindow::buildLangMenu() {
     }
 }
 
-void MainWindow::langSelected(bool checked) {
-    if(!checked) {
+void MainWindow::langSelected(QAction *langAction) {
+    if(!langAction) {
         return;
     }
 
-    QAction *a = qobject_cast<QAction*>(sender());
-
-    m_settingsMgr->setLang(a->text());
+    if(!langAction->isChecked()) {
+        return;
+    }
 
     if(QMessageBox::question(this, tr("Window reload"), tr("The window needs to be reloaded for the language selection to take effect. \nReload now ?"),
                              QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
@@ -454,6 +456,7 @@ void MainWindow::langSelected(bool checked) {
         m_reload = true;
         close();
     }
+    m_settingsMgr->setLang(langAction->text());
 }
 
 void MainWindow::displayDeviceName() {
