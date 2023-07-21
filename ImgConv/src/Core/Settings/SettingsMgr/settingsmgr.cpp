@@ -31,6 +31,8 @@ void SettingsMgr::init() {
     registerSetting(new Setting("GUI/windowGeometry", QRect()));
 
     connect(getSetting("UI/lang"), &Settings::Setting::valueChanged, this, [this](const QString &key, const QVariant &value) {
+        Q_UNUSED(key)
+        Q_UNUSED(value)
         emit langChanged();
     });
 }
