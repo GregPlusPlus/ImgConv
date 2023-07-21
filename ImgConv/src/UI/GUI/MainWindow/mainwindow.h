@@ -44,8 +44,7 @@
 
 #include "app_strings.h"
 
-#include "UI/UtilsUI/utilsui.h"
-#include "UI/UtilsUI/translator.h"
+#include "UI/Translator/translator.h"
 #include "UI/GUI/ImageViewer/imageviewercontainer.h"
 #include "UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h"
 #include "UI/GUI/Panels/LogPanel/logpanel.h"

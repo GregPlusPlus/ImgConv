@@ -17,7 +17,7 @@
  **/
 
 #include "Core/Settings/SettingsMgr/settingsmgr.h"
-#include "UI/UtilsUI/translator.h"
+#include "UI/Translator/translator.h"
 #include "UI/GUI/MainWindow/mainwindow.h"
 #include "Core/App/app.h"
 
