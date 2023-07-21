@@ -775,7 +775,7 @@ Taille de bloc : %1x%2 px.</translation>
     <message>
         <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="179"/>
         <source>Open image file</source>
-        <translation>Ouvrir unfichier image</translation>
+        <translation>Ouvrir un fichier image</translation>
     </message>
     <message>
         <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="180"/>
