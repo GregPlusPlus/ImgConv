@@ -29,6 +29,10 @@ void SettingsMgr::init() {
     registerSetting(new Setting("UI/lang", "default", true));
     registerSetting(new Setting("Core/device", "default", true));
     registerSetting(new Setting("GUI/windowGeometry", QRect()));
+
+    connect(getSetting("UI/lang"), &Settings::Setting::valueChanged, this, [this](const QString &key, const QVariant &value) {
+        emit langChanged();
+    });
 }
 
 QString SettingsMgr::getLang() {

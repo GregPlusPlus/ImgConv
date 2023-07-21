@@ -39,6 +39,9 @@ public:
 
     QRect getWindowGeometry();
     void setWindowGeometry(const QRect &rect);
+
+signals:
+    void langChanged();
 };
 }
 
