@@ -775,7 +775,7 @@ Taille de bloc : %1x%2 px.</translation>
     <message>
         <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="179"/>
         <source>Open image file</source>
-        <translation>Ouvrir unfichier image</translation>
+        <translation>Ouvrir un fichier image</translation>
     </message>
     <message>
         <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="180"/>
@@ -941,7 +941,7 @@ Taille de bloc : %1x%2 px.</translation>
     <message>
         <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="384"/>
         <source>&amp;Language</source>
-        <translation>&amp;langue</translation>
+        <translation>&amp;Langue</translation>
     </message>
     <message>
         <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="386"/>
@@ -977,7 +977,7 @@ Taille de bloc : %1x%2 px.</translation>
         <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="451"/>
         <source>The window needs to be reloaded for the language selection to take effect. 
 Reload now ?</source>
-        <translation>La fenêtre doit être rechargée pour les paramètres de languent prennent effet. 
+        <translation>La fenêtre doit être rechargée pour que les paramètres de langue prennent effet. 
 Recharger maintenant ?</translation>
     </message>
     <message>
