@@ -31,8 +31,17 @@ void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent) {
     l->append(new ConvKernels::Custom(parent));
 }
 
-QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize) {
-    return QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED=\"{%5, %6, %7, %8}\" -I%9")
+QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize, const Options &options) {
+    QString pixelBoundFixedColorDefineStr;
+
+    if(options.boundaryMode == Options::Fixed_Color) {
+        pixelBoundFixedColorDefineStr = QString("-DPIXEL_BOUNDARY_COLOR=\"((color_t){.r=%1,.g=%2,.b=%3})\"")
+                                        .arg(options.fixedColor.red())
+                                        .arg(options.fixedColor.green())
+                                        .arg(options.fixedColor.blue());
+    }
+
+    return QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED=\"{%5, %6, %7, %8}\" -D%9 %10 -I%11")
                     .arg(imgSize.width())
                     .arg(imgSize.height())
                     .arg(matSize.width())
@@ -41,6 +50,8 @@ QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize
                     .arg(QRandomGenerator::global()->generate())
                     .arg(QRandomGenerator::global()->generate())
                     .arg(QRandomGenerator::global()->generate())
+                    .arg(options.boundaryModeAsString())
+                    .arg(pixelBoundFixedColorDefineStr)
                     .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
 }
 

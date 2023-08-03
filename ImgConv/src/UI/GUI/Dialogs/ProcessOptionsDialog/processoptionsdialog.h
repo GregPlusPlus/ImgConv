@@ -23,10 +23,12 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QSpinBox>
+#include <QComboBox>
 
 #include <QFormLayout>
 
 #include "Core/Processing/processing.h"
+#include "UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.h"
 
 namespace UI::GUI::Dialogs {
 class ProcessOptionsDialog : public QDialog
@@ -35,12 +37,18 @@ class ProcessOptionsDialog : public QDialog
 public:
     ProcessOptionsDialog(Core::Processing::Options *options, QWidget *parent = nullptr);
 
+private slots:
+    void boundModeSelectionChanged(int index);
+
 private:
     QFormLayout *m_layout;
 
     QDialogButtonBox *mw_buttonBox;
 
     QSpinBox *mw_chunkFactor;
+    QComboBox *mw_boundModeSelection;
+    Components::ButtonColorPicker *mw_buttonColorPicker;
+
 private:
     Core::Processing::Options *m_options = nullptr;
 };

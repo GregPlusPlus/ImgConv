@@ -16,7 +16,6 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 #include "processoptionsdialog.h"
 
 using namespace UI::GUI::Dialogs;
@@ -44,8 +43,30 @@ UI::GUI::Dialogs::ProcessOptionsDialog::ProcessOptionsDialog(Core::Processing::O
         m_options->chunkFactor = val;
     });
 
+    mw_boundModeSelection = new QComboBox(this);
+    mw_boundModeSelection->insertItem(Core::Processing::Options::Fixed_Color,   tr("Fixed color"));
+    mw_boundModeSelection->insertItem(Core::Processing::Options::Clamp,         tr("Clamp coordinates"));
+    mw_boundModeSelection->insertItem(Core::Processing::Options::Wrap,          tr("Wrap coordinates"));
+    mw_boundModeSelection->setCurrentIndex((int)options->boundaryMode);
+
+    connect(mw_boundModeSelection, &QComboBox::currentIndexChanged, this, &ProcessOptionsDialog::boundModeSelectionChanged);
+
+    mw_buttonColorPicker = new Components::ButtonColorPicker(options->fixedColor, this);
+    boundModeSelectionChanged(m_options->boundaryMode);
+
+    connect(mw_buttonColorPicker, &Components::ButtonColorPicker::colorSelected, this, [this] (const QColor &color){
+        m_options->fixedColor = color;
+    });
+
     m_layout->addRow(tr("Chunk size factor"), mw_chunkFactor);
+    m_layout->addRow(tr("Boundary mode"), mw_boundModeSelection);
+    m_layout->addRow(tr("Boundary fixed color"), mw_buttonColorPicker);
     m_layout->addWidget(mw_buttonBox);
 
     setLayout(m_layout);
+}
+
+void ProcessOptionsDialog::boundModeSelectionChanged(int index) {
+    m_options->boundaryMode = (Core::Processing::Options::BoundaryMode)index;
+    mw_buttonColorPicker->setEnabled(m_options->boundaryMode == Core::Processing::Options::Fixed_Color);
 }

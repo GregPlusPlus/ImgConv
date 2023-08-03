@@ -133,7 +133,7 @@ QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
         return QUuid();
     }
 
-    QString options = Processing::createOCLProgramOptionsConv2D(m_originalImage.size(), matSize);
+    QString options = Processing::createOCLProgramOptionsConv2D(m_originalImage.size(), matSize, m_processingOptions);
 
     logOutput(tr("\n[%1] Creating program - opts. : `%2`")
                     .arg(k->getSourceFilePath())
@@ -306,6 +306,16 @@ void App::logConvMatrix(const QVector<QVector<float> > &mat) {
     str += "\n";
 
     logOutput(str);
+}
+
+Processing::Options App::getProcessingOptions() const {
+    return m_processingOptions;
+}
+
+void App::setProcessingOptions(const Processing::Options &processingOptions) {
+    m_processingOptions = processingOptions;
+
+    ocl()->setChunkFactor(m_processingOptions.chunkFactor);
 }
 
 Settings::SettingsMgr *App::settingsMgr() const {

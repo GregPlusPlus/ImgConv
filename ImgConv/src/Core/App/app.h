@@ -56,6 +56,9 @@ public:
 
     Settings::SettingsMgr *settingsMgr() const;
 
+    Processing::Options getProcessingOptions() const;
+    void setProcessingOptions(const Processing::Options &processingOptions);
+
 public slots:
     bool init();
     void initOpenCL(const OCLWrapper::Device &device);
@@ -87,6 +90,7 @@ private:
     QImage m_originalImage;
     QImage m_processedImage;
     QList<Processing::ConvKernels::ConvKernel*> m_convKernels;
+    Processing::Options m_processingOptions;
 
 };
 }
