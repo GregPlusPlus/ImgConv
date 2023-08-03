@@ -23,6 +23,7 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QSpinBox>
+#include <QComboBox>
 
 #include <QFormLayout>
 
@@ -41,6 +42,7 @@ private:
     QDialogButtonBox *mw_buttonBox;
 
     QSpinBox *mw_chunkFactor;
+    QComboBox *mw_boundModeSelection;
 private:
     Core::Processing::Options *m_options = nullptr;
 };

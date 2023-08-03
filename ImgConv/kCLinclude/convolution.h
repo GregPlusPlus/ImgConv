@@ -21,25 +21,25 @@
 
 #include "common.h"
 
+#if (!defined(PIXEL_BOUNDARY_USE_COLOR)) && \
+    (!defined(PIXEL_BOUNDARY_CLAMP)) && \
+    (!defined(PIXEL_BOUNDARY_WRAP))
+#define PIXEL_BOUNDARY_CLAMP
+#endif
+
 inline void conv2D(const __global uchar *In,
                    __global uchar *Out,
                    __global float *k) {
 
-    size_t x = get_global_id(0);
-    size_t y = get_global_id(1);
-    size_t i = (W * y + x) * 3;
-
-    float sumR = 0;
-    float sumG = 0;
-    float sumB = 0;
+    float sum[3] = {0, 0, 0};
 
     float kv = 0;
 
     int kRow;
     int px;
     int py;
-    int refX = (int)x - (int)(KW / 2);
-    int refY = (int)y - (int)(KH / 2);
+    int refX = (int)X - (int)(KW / 2);
+    int refY = (int)Y - (int)(KH / 2);
 
     for(int yK = 0; yK < KH; yK ++) {
         kRow = KH * yK;
@@ -49,30 +49,65 @@ inline void conv2D(const __global uchar *In,
 
             px = refX + xK;
             py = refY + yK;
-
-            if(px < 0) {
-                px = 0;
-            } else if(px >= W) {
-                px = W - 1;
-            }
-
-            if(py < 0) {
-                py = 0;
-            } else if(py >= H) {
-                py = H - 1;
-            }
-
+            
             int ii = (W * py + px) * 3;
 
-            sumR += kv * In[ii + 0];
-            sumG += kv * In[ii + 1];
-            sumB += kv * In[ii + 2];
+            if( (px >= 0) &&
+                (py >= 0) &&
+                (px < W) &&
+                (py < H)) {
+
+
+                sum[0] += kv * In[ii + 0];
+                sum[1] += kv * In[ii + 1];
+                sum[2] += kv * In[ii + 2];
+            } else {
+#if     defined(PIXEL_BOUNDARY_USE_COLOR)
+                sum[0] += kv * PIXEL_BOUNDARY_COLOR.r;
+                sum[1] += kv * PIXEL_BOUNDARY_COLOR.g;
+                sum[2] += kv * PIXEL_BOUNDARY_COLOR.b;
+#elif   defined(PIXEL_BOUNDARY_CLAMP)
+                if(px < 0) {
+                    px = 0;
+                } else if(px >= W) {
+                    px = (W - 1);
+                }
+
+                if(py < 0) {
+                    py = 0;
+                } else if(py >= H) {
+                    py = (H - 1);
+                }
+
+                sum[0] += kv * In[ii + 0];
+                sum[1] += kv * In[ii + 1];
+                sum[2] += kv * In[ii + 2];
+#elif   defined(PIXEL_BOUNDARY_WRAP)
+                if(px < 0) {
+                    px = (W + (W % px));
+                } else if(px >= W) {
+                    px = (W % px);
+                }
+
+                if(py < 0) {
+                    py = (H + (H % py));
+                } else if(py >= H) {
+                    py = (H % py);
+                }
+
+                sum[0] += kv * In[ii + 0];
+                sum[1] += kv * In[ii + 1];
+                sum[2] += kv * In[ii + 2];
+#endif
+            }
         }
     }
 
-    Out[i + 0] = (sumR > 255)? 255: sumR;
-    Out[i + 1] = (sumG > 255)? 255: sumG;
-    Out[i + 2] = (sumB > 255)? 255: sumB;
+    writePixelColorAtCurrentCoord(Out, (color_t){
+        .r = (sum[0] > 255)? 255: sum[0],
+        .g = (sum[1] > 255)? 255: sum[1],
+        .b = (sum[2] > 255)? 255: sum[2]
+    });
 }
 
 #endif //CONVOLUTION_H

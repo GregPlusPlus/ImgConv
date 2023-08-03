@@ -44,7 +44,18 @@ UI::GUI::Dialogs::ProcessOptionsDialog::ProcessOptionsDialog(Core::Processing::O
         m_options->chunkFactor = val;
     });
 
+    mw_boundModeSelection = new QComboBox(this);
+    mw_boundModeSelection->insertItem(Core::Processing::Options::Fixed_Color,   tr("Fixed color"));
+    mw_boundModeSelection->insertItem(Core::Processing::Options::Clamp,         tr("Clamp coordinates"));
+    mw_boundModeSelection->insertItem(Core::Processing::Options::Wrap,          tr("Wrap coordinates"));
+    mw_boundModeSelection->setCurrentIndex((int)options->boundaryMode);
+
+    connect(mw_boundModeSelection, &QComboBox::currentIndexChanged, this, [this](int index) {
+        m_options->boundaryMode = (Core::Processing::Options::BoundaryMode)index;
+    });
+
     m_layout->addRow(tr("Chunk size factor"), mw_chunkFactor);
+    m_layout->addRow(tr("Boundary mode"), mw_boundModeSelection);
     m_layout->addWidget(mw_buttonBox);
 
     setLayout(m_layout);

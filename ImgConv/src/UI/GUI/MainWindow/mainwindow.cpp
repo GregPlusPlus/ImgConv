@@ -270,16 +270,18 @@ void MainWindow::filterSelected(int index) {
 }
 
 void MainWindow::chooseProcessingOptions() {
-    m_processingOptions.chunkFactor = m_coreApp->ocl()->getChunkFactor();
+    Core::Processing::Options options = m_coreApp->getProcessingOptions();
 
-    Dialogs::ProcessOptionsDialog dialog(&m_processingOptions, this);
+    options.chunkFactor = m_coreApp->ocl()->getChunkFactor();
+
+    Dialogs::ProcessOptionsDialog dialog(&options, this);
     dialog.exec();
 
     if(dialog.result() != QMessageBox::Accepted) {
         return;
     }
 
-    m_coreApp->ocl()->setChunkFactor(m_processingOptions.chunkFactor);
+    m_coreApp->setProcessingOptions(options);
 }
 
 void MainWindow::showAboutDialog() {

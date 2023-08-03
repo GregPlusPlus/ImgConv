@@ -32,11 +32,41 @@
 #include "Core/Utils/utils.h"
 
 namespace Core::Processing {
-    struct Options {
-        size_t chunkFactor;
+    class Options {
+    public :
+        enum BoundaryMode {
+            Fixed_Color,
+            Clamp,
+            Wrap
+        };
+
+        size_t chunkFactor = 10;
+        BoundaryMode boundaryMode = Fixed_Color;
+
+        static QString boundaryModeToString(BoundaryMode mode) {
+            QString str;
+
+            switch(mode) {
+            case Fixed_Color:
+                str = "PIXEL_BOUNDARY_FIXED_COLOR";
+                break;
+            case Clamp:
+                str = "PIXEL_BOUNDARY_CLAMP";
+                break;
+            case Wrap:
+                str = "PIXEL_BOUNDARY_WRAP";
+                break;
+            }
+
+            return str;
+        };
+
+        QString boundaryModeAsString() const {
+            return boundaryModeToString(boundaryMode);
+        };
     };
 
-    QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize);
+    QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize, const Options &options);
     QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize);
     QString createOCLProgramOptionsCorrection(const QSize &imgSize);
     void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);

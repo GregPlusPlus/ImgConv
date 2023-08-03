@@ -139,7 +139,6 @@ private:
     WaitDialogMgr m_waitDialogMgr;
 
 private:
-    Core::Processing::Options m_processingOptions;
     bool m_closeAfterKernelCanceled = false;
     bool m_reload = false;
 
