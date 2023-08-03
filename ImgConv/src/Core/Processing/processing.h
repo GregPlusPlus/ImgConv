@@ -42,6 +42,7 @@ namespace Core::Processing {
 
         size_t chunkFactor = 10;
         BoundaryMode boundaryMode = Fixed_Color;
+        QColor fixedColor = Qt::black;
 
         static QString boundaryModeToString(BoundaryMode mode) {
             QString str;

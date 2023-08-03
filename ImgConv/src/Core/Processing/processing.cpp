@@ -35,7 +35,10 @@ QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize
     QString pixelBoundFixedColorDefineStr;
 
     if(options.boundaryMode == Options::Fixed_Color) {
-        pixelBoundFixedColorDefineStr = "-DPIXEL_BOUNDARY_COLOR=\"((color_t){.r=255,.g=255,.b=255})\"";
+        pixelBoundFixedColorDefineStr = QString("-DPIXEL_BOUNDARY_COLOR=\"((color_t){.r=%1,.g=%2,.b=%3})\"")
+                                        .arg(options.fixedColor.red())
+                                        .arg(options.fixedColor.green())
+                                        .arg(options.fixedColor.blue());
     }
 
     return QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED=\"{%5, %6, %7, %8}\" -D%9 %10 -I%11")
