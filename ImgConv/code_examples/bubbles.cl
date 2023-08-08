@@ -2,7 +2,7 @@
 #include "convolution.h"
 #include "geometry.h"
 
-#define EFFECT_INSIDE true
+#define EFFECT_INSIDE false
 
 __constant geom_circle_t circle1 = {
     .c = {
