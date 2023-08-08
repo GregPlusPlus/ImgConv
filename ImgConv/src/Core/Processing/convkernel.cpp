@@ -34,7 +34,7 @@ QSize ConvKernel::getMatSize() const {
     s.setHeight(getMat().size());
 
     if(s.height()) {
-        s.setWidth(getMat()[0].size());
+        s.setWidth(getMat().at(0).size());
     }
 
     return s;

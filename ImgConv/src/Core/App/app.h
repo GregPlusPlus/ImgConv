@@ -59,6 +59,12 @@ public:
     Processing::Options getProcessingOptions() const;
     void setProcessingOptions(const Processing::Options &processingOptions);
 
+    Core::Processing::Algorithms::Histogram lastHistogramComputed() const;
+    void setLastHistogramComputed(const Core::Processing::Algorithms::Histogram &newLastHistogramComputed);
+
+    Core::Processing::Algorithms::Histogram originalImageHistogram() const;
+    void setOriginalImageHistogram(const Core::Processing::Algorithms::Histogram &newOriginalImageHistogram);
+
 public slots:
     bool init();
     void initOpenCL(const OCLWrapper::Device &device);
@@ -73,7 +79,7 @@ public slots:
 
 signals:
     void conv2DDone(const QUuid &pid, qint64 elapsedTime);
-    void histogramComputingDone(const QUuid &pid, qint64 elapsedTime, const Processing::Algorithms::Histogram &histogram);
+    void histogramComputingDone(const QUuid &pid, qint64 elapsedTime);
     void imageCorrectionDone(const QUuid &pid, qint64 elapsedTime);
     void originalImageChanged();
     void processedImageChanged();
@@ -91,6 +97,8 @@ private:
     QImage m_processedImage;
     QList<Processing::ConvKernels::ConvKernel*> m_convKernels;
     Processing::Options m_processingOptions;
+    Core::Processing::Algorithms::Histogram m_lastHistogramComputed;
+    Core::Processing::Algorithms::Histogram m_originalImageHistogram;
 
 };
 }

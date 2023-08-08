@@ -30,8 +30,8 @@ void KeyCompletion::buildBrackets() {
     int indentLvl = mw_textEdit->getCursorIndentationLevel();
 
     mw_textEdit->insertPlainText(QString("{\n%1\n%2}")
-                                .arg(mw_textEdit->buildTabs(indentLvl + 1))
-                                .arg(mw_textEdit->buildTabs(indentLvl)));
+                                .arg(mw_textEdit->buildTabs(indentLvl + 1),
+                                     mw_textEdit->buildTabs(indentLvl)));
     mw_textEdit->moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
     mw_textEdit->moveCursor(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor);
 }

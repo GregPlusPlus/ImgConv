@@ -50,12 +50,12 @@ bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVecto
     }
 
     // Write INPUT buffer
-    if(!ocl->writeBuffer(0, inImgBuff, buffRGB888Size)) {
+    if(!ocl->writeBuffer(BufferOrderIndex::Input, inImgBuff, buffRGB888Size)) {
         return false;
     }
 
     // Write convolution kernel buffer
-    if(!ocl->writeBuffer(2, (uint8_t*)kernel1DArray.getKArray(), kernel1DArray.buffSize())) {
+    if(!ocl->writeBuffer(BufferOrderIndex::Kernel, (uint8_t*)kernel1DArray.getKArray(), kernel1DArray.buffSize())) {
         return false;
     }
 
@@ -76,7 +76,7 @@ bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVecto
     }
 
     // Read OUTPUT buffer
-    if(!ocl->readBuffer(1, &outImgBuff, &outSize)) {
+    if(!ocl->readBuffer(BufferOrderIndex::Output, &outImgBuff, &outSize)) {
         return false;
     }
 
@@ -123,20 +123,20 @@ bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
     // Init R,G,B histogram buffers to zero
     static const size_t zeroes[numberOfLevels] = {0};
 
-    if(!ocl->writeBuffer(1, (uint8_t*)zeroes, histBuffSize)) {
+    if(!ocl->writeBuffer(BufferOrderIndex::OutputHistR, (uint8_t*)zeroes, histBuffSize)) {
         return false;
     }
 
-    if(!ocl->writeBuffer(2, (uint8_t*)zeroes, histBuffSize)) {
+    if(!ocl->writeBuffer(BufferOrderIndex::OutputHistG, (uint8_t*)zeroes, histBuffSize)) {
         return false;
     }
 
-    if(!ocl->writeBuffer(3, (uint8_t*)zeroes, histBuffSize)) {
+    if(!ocl->writeBuffer(BufferOrderIndex::OutputHistB, (uint8_t*)zeroes, histBuffSize)) {
         return false;
     }
 
     // Write INPUT buffer
-    if(!ocl->writeBuffer(0, inImgBuff, buffRGB888Size)) {
+    if(!ocl->writeBuffer(BufferOrderIndex::Input, inImgBuff, buffRGB888Size)) {
         return false;
     }
 
@@ -160,17 +160,17 @@ bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist) {
     size_t histSize = 0;
 
     // Read OUTPUT R histogram buffer
-    if(!ocl->readBuffer(1, (uint8_t**)&(histBuffer[0]), &histSize)) {
+    if(!ocl->readBuffer(BufferOrderIndex::OutputHistR, (uint8_t**)&(histBuffer[0]), &histSize)) {
         return false;
     }
 
     // Read OUTPUT G histogram buffer
-    if(!ocl->readBuffer(2, (uint8_t**)&(histBuffer[1]), &histSize)) {
+    if(!ocl->readBuffer(BufferOrderIndex::OutputHistG, (uint8_t**)&(histBuffer[1]), &histSize)) {
         return false;
     }
 
     // Read OUTPUT B histogram buffer
-    if(!ocl->readBuffer(3, (uint8_t**)&(histBuffer[2]), &histSize)) {
+    if(!ocl->readBuffer(BufferOrderIndex::OutputHistB, (uint8_t**)&(histBuffer[2]), &histSize)) {
         return false;
     }
 
@@ -214,6 +214,11 @@ bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histo
         return false;
     }
 
+    // Create OUTPUT RGB buffer
+    if(ocl->addBuffer(buffRGB888Size, CL_MEM_READ_WRITE) < 0) {
+        return false;
+    }
+
     // Create INPUT CDF R buffer
     if(ocl->addBuffer(cdfBuffSize, CL_MEM_READ_ONLY) < 0) {
         return false;
@@ -229,13 +234,8 @@ bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histo
         return false;
     }
 
-    // Create OUTPUT RGB buffer
-    if(ocl->addBuffer(buffRGB888Size, CL_MEM_READ_WRITE) < 0) {
-        return false;
-    }
-
     // Write INPUT buffer
-    if(!ocl->writeBuffer(0, inImgBuff, buffRGB888Size)) {
+    if(!ocl->writeBuffer(BufferOrderIndex::Input, inImgBuff, buffRGB888Size)) {
         return false;
     }
 
@@ -249,17 +249,17 @@ bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histo
     }
 
     // Write INPUT CDF R buffer
-    if(!ocl->writeBuffer(1, (uint8_t*)histBuffer[0], cdfBuffSize)) {
+    if(!ocl->writeBuffer(BufferOrderIndex::InputCdfR, (uint8_t*)histBuffer[0], cdfBuffSize)) {
         return false;
     }
 
     // Write INPUT CDF G buffer
-    if(!ocl->writeBuffer(2, (uint8_t*)histBuffer[1], cdfBuffSize)) {
+    if(!ocl->writeBuffer(BufferOrderIndex::InputCdfG, (uint8_t*)histBuffer[1], cdfBuffSize)) {
         return false;
     }
 
     // Write INPUT CDF B buffer
-    if(!ocl->writeBuffer(3, (uint8_t*)histBuffer[2], cdfBuffSize)) {
+    if(!ocl->writeBuffer(BufferOrderIndex::InputCdfB, (uint8_t*)histBuffer[2], cdfBuffSize)) {
         return false;
     }
 
@@ -280,7 +280,7 @@ bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histo
     }
 
     // Read OUTPUT buffer
-    if(!ocl->readBuffer(4, &outImgBuff, &outSize)) {
+    if(!ocl->readBuffer(BufferOrderIndex::Output, &outImgBuff, &outSize)) {
         return false;
     }
 

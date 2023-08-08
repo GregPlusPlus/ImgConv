@@ -27,7 +27,7 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_editor->setUseSpacesAsTab(true);
     m_keyCompletion = new CodeEditorComponents::KeyCompletion(mw_editor);
     m_highlighter = new CodeEditorComponents::Highlighter(mw_editor->document());
-    connect(mw_editor, &CodeEditorComponents::CodeEditor::textChanged, [=]() {
+    connect(mw_editor, &CodeEditorComponents::CodeEditor::textChanged, this, [=]() {
         setSaved(false);
     });
 

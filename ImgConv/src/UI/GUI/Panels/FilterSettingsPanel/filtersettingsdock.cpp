@@ -83,7 +83,7 @@ void FilterSettingsDock::setConvKernel(Core::Processing::ConvKernels::ConvKernel
 }
 
 void FilterSettingsDock::updateDescription(Core::Processing::ConvKernels::ConvKernel *k) {
-    mw_descriptionField->setText(tr("<h2>%1</h2><hr>%2").arg(k->getName()).arg(k->getDescription()));
+    mw_descriptionField->setText(tr("<h2>%1</h2><hr>%2").arg(k->getName(), k->getDescription()));
 }
 
 void FilterSettingsDock::resetSettings() {

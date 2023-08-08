@@ -77,15 +77,16 @@ void MainWindow::conv2DDone(const QUuid &pid, qint64 elapsedTime) {
     m_waitDialogMgr.closeDialog(pid);
 }
 
-void MainWindow::histogramComputed(const QUuid &pid, qint64 elapsedTime, const Core::Processing::Algorithms::Histogram &histogram) {
+void MainWindow::histogramComputed(const QUuid &pid, qint64 elapsedTime) {
     Q_UNUSED(elapsedTime)
 
-    mw_imgCorrectionPanel->displayHistogram(histogram, m_histRole);
+    mw_imgCorrectionPanel->displayHistogram(m_coreApp->lastHistogramComputed(), m_histRole);
+    if(m_histRole == Panels::ImageCorrectionPanel::OriginalImageHistogram) {
+        m_coreApp->setOriginalImageHistogram(m_coreApp->lastHistogramComputed());
+    }
 
     m_runAction->setDisabled(false);
     m_selectDeviceAction->setDisabled(false);
-
-    mw_imgCorrectionPanel->displayHistogram(histogram, m_histRole);
 
     m_waitDialogMgr.closeDialog(pid);
 }
@@ -174,7 +175,7 @@ void MainWindow::startComputeHistogram(const QImage &img, Panels::ImageCorrectio
 }
 
 void MainWindow::startImageCorrection(const QString &kernelPath) {
-    QUuid pid = m_coreApp->startImageCorrection(kernelPath, mw_imgCorrectionPanel->originalImageHistogram().getCDF());
+    QUuid pid = m_coreApp->startImageCorrection(kernelPath, m_coreApp->originalImageHistogram().getCDF());
 
     if(pid.isNull()) {
         return;
@@ -311,10 +312,10 @@ void MainWindow::showAboutDialog() {
                           "by Yusuke Kamiyamane <a href='https://p.yusukekamiyamane.com/'>(Fugue Icons)</a>.<br><br>"\
                           "%3"\
                           "<hr>%4")
-                       .arg(APP_NAME)
-                       .arg(GIT_VERSION)
-                       .arg(COPYRIGHT)
-                       .arg(LGPL_STR));
+                       .arg(APP_NAME,
+                            GIT_VERSION,
+                            COPYRIGHT,
+                            LGPL_STR));
 }
 
 bool MainWindow::saveOnExit() {
@@ -449,7 +450,7 @@ void MainWindow::buildLangMenu() {
 
     m_langAction->setMenu(langMenu);
 
-    for(QString l : langs) {
+    for(const QString &l : langs) {
         QAction *a = langMenu->addAction(l);
         a->setCheckable(true);
 

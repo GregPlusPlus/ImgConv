@@ -57,7 +57,7 @@ inline void conv2D(const __global uchar *In,
                 (px < W) &&
                 (py < H)) {
 
-                ii = (W * py + px) * 3;
+                ii = INDEX_AT(px, py);
 
                 sum[0] += kv * In[ii + 0];
                 sum[1] += kv * In[ii + 1];
@@ -80,25 +80,25 @@ inline void conv2D(const __global uchar *In,
                     py = (H - 1);
                 }
 
-                ii = (W * py + px) * 3;
+                ii = INDEX_AT(px, py);
 
                 sum[0] += kv * In[ii + 0];
                 sum[1] += kv * In[ii + 1];
                 sum[2] += kv * In[ii + 2];
 #elif   defined(PIXEL_BOUNDARY_WRAP)
                 if(px < 0) {
-                    px = (W + (W % px));
+                    px = ((W - 1) - (W % px));
                 } else if(px >= W) {
-                    px = (W % px);
+                    px = ((W - 1)  % px);
                 }
 
                 if(py < 0) {
-                    py = (H + (H % py));
+                    py = ((H - 1) - (H % py));
                 } else if(py >= H) {
-                    py = (H % py);
+                    py = ((H - 1) % py);
                 }
 
-                ii = (W * py + px) * 3;
+                ii = INDEX_AT(px, py);
 
                 sum[0] += kv * In[ii + 0];
                 sum[1] += kv * In[ii + 1];

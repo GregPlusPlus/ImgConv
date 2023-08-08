@@ -136,8 +136,8 @@ QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
     QString options = Processing::createOCLProgramOptionsConv2D(m_originalImage.size(), matSize, m_processingOptions);
 
     logOutput(tr("\n[%1] Creating program - opts. : `%2`")
-                    .arg(k->getSourceFilePath())
-                    .arg(options));
+                    .arg(k->getSourceFilePath(),
+                         options));
     logOutput(tr("\nChunk size : %1x%2 px.")
                     .arg(m_originalImage.width() / m_ocl->getChunkFactor())
                     .arg(m_originalImage.height() / m_ocl->getChunkFactor()));
@@ -214,13 +214,15 @@ QUuid App::startComputeHistogram(const QImage &img) {
     connect(process, &Threads::Histogram::finished, this, [this, pid](const Processing::Algorithms::Histogram &hist, qint64 et, bool res) {
         Q_UNUSED(et)
 
+        m_lastHistogramComputed = hist;
+
         if(!res) {
             emit processError();
-            emit histogramComputingDone(pid, et, hist);
+            emit histogramComputingDone(pid, et);
             return;
         }
 
-        emit histogramComputingDone(pid, et, hist);
+        emit histogramComputingDone(pid, et);
     }, Qt::QueuedConnection);
 
     QThreadPool::globalInstance()->start(process);
@@ -248,8 +250,8 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
     QString options = Processing::createOCLProgramOptionsCorrection(m_originalImage.size());
 
     logOutput(tr("\n[%1] Creating program - opts. : `%2`")
-                    .arg(kernelPath)
-                    .arg(options));
+                    .arg(kernelPath,
+                         options));
     logOutput(tr("\nChunk size : %1x%2 px.")
                     .arg(m_originalImage.width() / m_ocl->getChunkFactor())
                     .arg(m_originalImage.height() / m_ocl->getChunkFactor()));
@@ -308,6 +310,18 @@ void App::logConvMatrix(const QVector<QVector<float> > &mat) {
     logOutput(str);
 }
 
+Core::Processing::Algorithms::Histogram App::originalImageHistogram() const {
+    return m_originalImageHistogram;
+}
+
+void App::setOriginalImageHistogram(const Core::Processing::Algorithms::Histogram &newOriginalImageHistogram) {
+    m_originalImageHistogram = newOriginalImageHistogram;
+}
+
+Core::Processing::Algorithms::Histogram App::lastHistogramComputed() const {
+    return m_lastHistogramComputed;
+}
+
 Processing::Options App::getProcessingOptions() const {
     return m_processingOptions;
 }
@@ -349,7 +363,7 @@ QList<OCLWrapper::Device> App::devices() const {
 OCLWrapper::Device App::getDeviceByName(const QString &name) {
     OCLWrapper::Device device;
 
-    for(OCLWrapper::Device d : m_devices) {
+    for(const OCLWrapper::Device &d : m_devices) {
         if(d.name == name) {
             device = d;
         }

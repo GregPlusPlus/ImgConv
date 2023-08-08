@@ -96,6 +96,18 @@ public:
     }
 };
 
+    struct BufferOrderIndex {
+        static const size_t Input = 0;
+        static const size_t Output = 1;
+        static const size_t Kernel = 2;
+        static const size_t OutputHistR = 1;
+        static const size_t OutputHistG = 2;
+        static const size_t OutputHistB = 3;
+        static const size_t InputCdfR = 2;
+        static const size_t InputCdfG = 3;
+        static const size_t InputCdfB = 4;
+    };
+
     bool conv2D(OCLWrapper *ocl, const QImage &in, QImage &out, const QVector<QVector<float>> &k);
     bool computeHistogram(OCLWrapper *ocl, const QImage &in, Histogram &hist);
     bool applyCorrection(OCLWrapper *ocl, const QImage &in, QImage &out, const Histogram &cdf);
