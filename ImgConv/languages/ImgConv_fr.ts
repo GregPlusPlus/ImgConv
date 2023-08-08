@@ -4,23 +4,23 @@
 <context>
     <name>Core::App</name>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="38"/>
+        <location filename="../src/Core/App/app.cpp" line="38"/>
         <source>No OpenCL compatible device found !</source>
         <translation>Aucun périphérique compatible OpenCl trouvé !</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="62"/>
-        <location filename="../../src/Core/App/app.cpp" line="93"/>
+        <location filename="../src/Core/App/app.cpp" line="62"/>
+        <location filename="../src/Core/App/app.cpp" line="93"/>
         <source>OCL backend error (%1)</source>
         <translation>Erreur de backend OCL(%1)</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="77"/>
+        <location filename="../src/Core/App/app.cpp" line="77"/>
         <source>File error (%1)</source>
         <translation>Erreur de fichier (%1)</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="85"/>
+        <location filename="../src/Core/App/app.cpp" line="85"/>
         <source>OCL build program error (%1)
 ______________________________
 %2</source>
@@ -29,41 +29,41 @@ ______________________________
 %2</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="120"/>
-        <location filename="../../src/Core/App/app.cpp" line="192"/>
-        <location filename="../../src/Core/App/app.cpp" line="233"/>
+        <location filename="../src/Core/App/app.cpp" line="120"/>
+        <location filename="../src/Core/App/app.cpp" line="192"/>
+        <location filename="../src/Core/App/app.cpp" line="235"/>
         <source>Kernel already running ! Please wait.</source>
         <translation>Un noyau est déjà en cours d&apos;exécution ! Merci d&apos;attendre.</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="138"/>
-        <location filename="../../src/Core/App/app.cpp" line="250"/>
+        <location filename="../src/Core/App/app.cpp" line="138"/>
+        <location filename="../src/Core/App/app.cpp" line="252"/>
         <source>
 [%1] Creating program - opts. : `%2`</source>
         <translation>
 [%1] Création du programme - opts. : `%2`</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="141"/>
-        <location filename="../../src/Core/App/app.cpp" line="253"/>
+        <location filename="../src/Core/App/app.cpp" line="141"/>
+        <location filename="../src/Core/App/app.cpp" line="255"/>
         <source>
 Chunk size : %1x%2 px.</source>
         <translation>
 Taille de bloc : %1x%2 px.</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="181"/>
-        <location filename="../../src/Core/App/app.cpp" line="288"/>
+        <location filename="../src/Core/App/app.cpp" line="181"/>
+        <location filename="../src/Core/App/app.cpp" line="290"/>
         <source>%1 - Running kernel ...</source>
         <translation>%1 - Exécution du noyau ...</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="243"/>
+        <location filename="../src/Core/App/app.cpp" line="245"/>
         <source>Invalid histogram.</source>
         <translation>Histogramme invalide.</translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="298"/>
+        <location filename="../src/Core/App/app.cpp" line="300"/>
         <source>
 %1x%2 Convolution matrix :
 </source>
@@ -72,7 +72,7 @@ Taille de bloc : %1x%2 px.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../../src/Core/App/app.cpp" line="301"/>
+        <location filename="../src/Core/App/app.cpp" line="303"/>
         <source>Matrix is too large to be printed.</source>
         <translation>La matrice est trop grande pour être affichée.</translation>
     </message>
@@ -80,19 +80,19 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::ConvKernel</name>
     <message>
-        <location filename="../../src/Core/Processing/convkernel.cpp" line="25"/>
-        <location filename="../../src/Core/Processing/convkernel.cpp" line="62"/>
-        <location filename="../../src/Core/Processing/convkernel.cpp" line="66"/>
+        <location filename="../src/Core/Processing/convkernel.cpp" line="25"/>
+        <location filename="../src/Core/Processing/convkernel.cpp" line="62"/>
+        <location filename="../src/Core/Processing/convkernel.cpp" line="66"/>
         <source>Source file</source>
         <translation>Fichier source</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/convkernel.cpp" line="25"/>
+        <location filename="../src/Core/Processing/convkernel.cpp" line="25"/>
         <source>Open source file</source>
         <translation>Ouvrir un fichier source</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/convkernel.cpp" line="26"/>
+        <location filename="../src/Core/Processing/convkernel.cpp" line="26"/>
         <source>OpenCL source (*.cl *.c);;All files (*.*)</source>
         <translation>Fichier source OpenCL (*.cl *.c);;Tous les fichiers (*.*)</translation>
     </message>
@@ -100,32 +100,32 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::Custom</name>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/custom.cpp" line="25"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="25"/>
         <source>Kernel</source>
         <translation>Noyau</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/custom.cpp" line="25"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="25"/>
         <source>Open kernel as image file</source>
         <translation>Ouvrir une image comme noyau</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/custom.cpp" line="26"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="26"/>
         <source>CSV file (*.csv *.txt);;Image files (%1)</source>
         <translation>Fichier CSV (*.csv *.txt);;Fichiers image (%1)</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/custom.cpp" line="31"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="31"/>
         <source>Normalize kernel</source>
         <translation>Normaliser le noyay</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/custom.cpp" line="51"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="51"/>
         <source>Custom kernel</source>
         <translation>Noyau personnalisé</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/custom.cpp" line="55"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="55"/>
         <source>Allows to load a custom convolution kernel matrix from a CSV or an image file.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Kernel : &lt;/strong&gt;The file to be loaded as a kernel.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Normalize kernel : &lt;/strong&gt;Should the kernel be normalized (sum of coefs = 1).&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;When using an image as the matrix, the mapping is the following :&lt;ul&gt;&lt;li&gt;0 → -1&lt;/li&gt;&lt;li&gt;128 → 0&lt;/li&gt;&lt;li&gt;255 → +1&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Permet de charger un noyau de convolution à partir d&apos;un fichier CSV ou d&apos;une image.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Noyau : &lt;/strong&gt;Le fichier à charger comme noyau.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Normalisation du noyau : &lt;/strong&gt;Si le noyau doit être normalisé (comme des coefs = 1).&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;Lorsqu&apos;une image est utilisée, la correspondance est la suivante :&lt;ul&gt;&lt;li&gt;0 → -1&lt;/li&gt;&lt;li&gt;128 → 0&lt;/li&gt;&lt;li&gt;255 → +1&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -133,45 +133,45 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::Emboss</name>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/emboss.cpp" line="25"/>
+        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="25"/>
         <source>Size</source>
         <translation>Taille</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/emboss.cpp" line="31"/>
+        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="31"/>
         <source>Smoothing</source>
         <translation>Adoucissement</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/emboss.cpp" line="55"/>
+        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="55"/>
         <source>Emboss</source>
-        <translation>Relief</translation>
+        <translation>Embossé</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/emboss.cpp" line="59"/>
+        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="59"/>
         <source>Applies an &lt;i&gt;Emboss&lt;/i&gt; effect.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Size : &lt;/strong&gt;The &quot;witdh&quot; of the emboss effect along the edges. The bigger the number, the stronger the effect.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Smoothing : &lt;/strong&gt;How much the effect must be smoothed (increases the center pixel&apos;s ponderation).&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Applique un effet &lt;i&gt;Embossé&lt;/i&gt;.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Taille : &lt;/strong&gt;La &quot;largeur&quot; de l&apos;effet de relief le long des contours. Plus le nombre est grand, plus l&apos;effet est prononcé&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Lissage : &lt;/strong&gt;De combien l&apos;effet doit être lissé (augmente la pondération du pixel central).&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
     <name>Core::Processing::ConvKernels::GaussianBlur</name>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/gaussianblur.cpp" line="27"/>
+        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="27"/>
         <source>Size</source>
         <translation>Taille</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/gaussianblur.cpp" line="33"/>
+        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="33"/>
         <source>Std Dev</source>
         <translation>Std Dev</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/gaussianblur.cpp" line="57"/>
+        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="57"/>
         <source>Gaussian blur</source>
         <translation>Flou gaussien</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/gaussianblur.cpp" line="61"/>
+        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="61"/>
         <source>Applies a gaussian blur effect.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Size : &lt;/strong&gt;The size of the blur effect.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Std Dev : &lt;/strong&gt;The &lt;i&gt;Standard Deviation&lt;/i&gt; of the Gaussian curve.&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Applique un effet de flou gaussien.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Taille : &lt;/strong&gt;La taille de l&apos;effet de flou.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Std Dev : &lt;/strong&gt;La &lt;i&gt;Déviation standard&lt;/i&gt; de la Gaussienne.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -179,145 +179,145 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::MotionBlur</name>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/motionblur.cpp" line="25"/>
+        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="25"/>
         <source>Size</source>
         <translation>Taille</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/motionblur.cpp" line="31"/>
+        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="31"/>
         <source>Angle</source>
         <translation>Angle</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/motionblur.cpp" line="55"/>
+        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="55"/>
         <source>Motion blur</source>
         <translation>Flou de déplacement</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/motionblur.cpp" line="59"/>
+        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="59"/>
         <source>Applies a &lt;i&gt;Motion Blur&lt;/i&gt; effect.&lt;br&gt;This effect mimics a camera&apos;s shutter exposure time on moving objects.&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Size : &lt;/strong&gt;The size of the movement effect. In reality, it is determined by the shutter speed as well as the speed of the moving object.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Angle : &lt;/strong&gt;Simulates the direction of the moving object.&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Applique un effet de &lt;i&gt;Flou de mouvement&lt;/i&gt;.&lt;br&gt;Cet effet imite le temps d&apos;exposition d&apos;un appareil photo lors de la capture d&apos;objets en mouvement.&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Taille : &lt;/strong&gt;La taille de l&apos;effet. En réalité la taille du flou est liée au temps d&apos;exposition et à la vitesse de l&apos;objet.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Angle : &lt;/strong&gt;Simule la direction de l&apos;objet en mouvement.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
     <name>Core::Processing::ConvKernels::Ridge</name>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/ridge.cpp" line="43"/>
+        <location filename="../src/Core/Processing/Kernels/ridge.cpp" line="43"/>
         <source>Ridge</source>
         <translation>Ridge</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/ridge.cpp" line="47"/>
+        <location filename="../src/Core/Processing/Kernels/ridge.cpp" line="47"/>
         <source>Applies an &lt;i&gt;Ridge&lt;/i&gt; effect (a kind of edge-detection effect).&lt;br&gt;&lt;br&gt;This effect doesn&apos;t have any parameters to tweak.</source>
-        <translation type="unfinished"></translation>
+        <translation>Applique un effet &lt;i&gt;Ridge&lt;/i&gt; (un type d&apos;effet de détection de contours).&lt;br&gt;&lt;br&gt;Cet effet n&apos; pas de paramètres à ajuster.</translation>
     </message>
 </context>
 <context>
     <name>Core::Processing::ConvKernels::Sharpen</name>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/sharpen.cpp" line="25"/>
+        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="25"/>
         <source>Contour strength</source>
         <translation>Intensité du contour</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/sharpen.cpp" line="31"/>
+        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="31"/>
         <source>Smoothing</source>
         <translation>Adoucissement</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/sharpen.cpp" line="55"/>
+        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="55"/>
         <source>Sharpen</source>
         <translation>Netteté</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/sharpen.cpp" line="59"/>
+        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="59"/>
         <source>Applies a &lt;i&gt;Sharpen&lt;/i&gt; effect. This effect increases the edge&apos;s contrast.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Contour strength : &lt;/strong&gt;How strong the effect is. As the contrast increases, the noise does as well.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Smoothing : &lt;/strong&gt;How much the effect must be smoothed (increases the center pixel&apos;s ponderation).&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Applique un effet de &lt;i&gt;Netteté&lt;/i&gt;. Cet effet accentue le contrastes des contours.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Intensité du contour : &lt;/strong&gt;Intensité de l&apos;effet. Plus le contraste augmente, plus le bruit est accentué.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Lissage : &lt;/strong&gt;De combien l&apos;effet doit être lissé (augmente la pondération du pixel central).&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
     <name>Core::Processing::ConvKernels::Sobel</name>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/sobel.cpp" line="43"/>
+        <location filename="../src/Core/Processing/Kernels/sobel.cpp" line="43"/>
         <source>Sobel</source>
         <translation>Filtre Sobel</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/sobel.cpp" line="47"/>
+        <location filename="../src/Core/Processing/Kernels/sobel.cpp" line="47"/>
         <source>Applies an &lt;i&gt;Sobel&lt;/i&gt; effect (a kind of edge-detection effect).&lt;br&gt;&lt;br&gt;This effect doesn&apos;t have any parameters to tweak.&lt;br&gt;&lt;br&gt;&lt;strong&gt;Note :&lt;/strong&gt;The convolution matrices are harcoded in &lt;i&gt;:/ocl/sobel.cl&lt;/i&gt; The matrix generated by this effect is not used by the program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Applique un effet &lt;i&gt;Sobel&lt;/i&gt; (un type d&apos;effet de détection de contours).&lt;br&gt;&lt;br&gt;Cet effet n&apos; pas de paramètres à ajuster.&lt;br&gt;&lt;br&gt;&lt;strong&gt;Note :&lt;/strong&gt; La matrice de convolution est codée &quot;en dur&quot; dans &lt;i&gt;:/ocl/sobel.cl&lt;/i&gt; La matrice générée par cet effet n&apos;est pas utilisée par le programme.</translation>
     </message>
 </context>
 <context>
     <name>Core::Processing::ConvKernels::Unity</name>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/unity.cpp" line="25"/>
+        <location filename="../src/Core/Processing/Kernels/unity.cpp" line="25"/>
         <source>Gain</source>
         <translation>Gain</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/unity.cpp" line="47"/>
+        <location filename="../src/Core/Processing/Kernels/unity.cpp" line="47"/>
         <source>Unity kernel</source>
         <translation>Noyau unité</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/unity.cpp" line="51"/>
+        <location filename="../src/Core/Processing/Kernels/unity.cpp" line="51"/>
         <source>Applies a Unity convolution matrix.&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Gain : &lt;/strong&gt;Adjust the gain of the image.&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Applique une matrice Unité.&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Gain : &lt;/strong&gt;Ajuste le gain de l&apos;image.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
 </context>
 <context>
     <name>Core::Processing::ConvKernels::UnsharpMasking</name>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/unsharpmasking.cpp" line="45"/>
+        <location filename="../src/Core/Processing/Kernels/unsharpmasking.cpp" line="45"/>
         <source>Unsharp masking</source>
         <translation>Masque flou</translation>
     </message>
     <message>
-        <location filename="../../src/Core/Processing/Kernels/unsharpmasking.cpp" line="49"/>
+        <location filename="../src/Core/Processing/Kernels/unsharpmasking.cpp" line="49"/>
         <source>Applies the &lt;i&gt;Unsharp Masking (USM)&lt;/i&gt; effect. This effect increases the edge&apos;s contrast, and is an improved version of the &lt;i&gt;Sharpen&lt;/i&gt; effect.&lt;br&gt;&lt;br&gt;This effect doesn&apos;t have any parameters to tweak.</source>
-        <translation type="unfinished"></translation>
+        <translation>Applique un effet &lt;i&gt;Masque flou&lt;/i&gt;. Cet effet augmente le contraste des contours, et est une amélioration de l&apos;effet &lt;i&gt;Sharpen&lt;/i&gt;.&lt;br&gt;&lt;br&gt;Cet effet n&apos; pas de paramètres à ajuster.</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/Core/OCLWrapper/oclutils.cpp" line="41"/>
+        <location filename="../src/Core/OCLWrapper/oclutils.cpp" line="41"/>
         <source>%1. Platform: %2
 </source>
         <translation>%1. Plateforme : %2
 </translation>
     </message>
     <message>
-        <location filename="../../src/Core/OCLWrapper/oclutils.cpp" line="54"/>
+        <location filename="../src/Core/OCLWrapper/oclutils.cpp" line="54"/>
         <source>  %1. Device: %2
 </source>
         <translation>  %1. Périphérique : %2
 </translation>
     </message>
     <message>
-        <location filename="../../src/Core/OCLWrapper/oclutils.cpp" line="61"/>
+        <location filename="../src/Core/OCLWrapper/oclutils.cpp" line="61"/>
         <source>    %1.1 Hardware version: %2
 </source>
         <translation>    %1.1 Version matérielle : %2
 </translation>
     </message>
     <message>
-        <location filename="../../src/Core/OCLWrapper/oclutils.cpp" line="68"/>
+        <location filename="../src/Core/OCLWrapper/oclutils.cpp" line="68"/>
         <source>    %1.2 Software version: %2
 </source>
         <translation>    %1.2 Version logicielle : %2
 </translation>
     </message>
     <message>
-        <location filename="../../src/Core/OCLWrapper/oclutils.cpp" line="75"/>
+        <location filename="../src/Core/OCLWrapper/oclutils.cpp" line="75"/>
         <source>    %1.3 OpenCL C version: %2
 </source>
         <translation>    %1.3 Version de OpenCL C : %2
 </translation>
     </message>
     <message>
-        <location filename="../../src/Core/OCLWrapper/oclutils.cpp" line="81"/>
+        <location filename="../src/Core/OCLWrapper/oclutils.cpp" line="81"/>
         <source>    %1.4 Parallel compute units: %2
 </source>
         <translation>    %1.4 Unités de calcul parallèle : %2
@@ -503,120 +503,120 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::CodeEditorContainter</name>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="39"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="39"/>
         <source>Generate code template</source>
         <translation>Générer un modèle de code</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="41"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="41"/>
         <source>Basic template</source>
         <translation>Modèle basique</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="44"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="44"/>
         <source>Convolution template</source>
         <translation>Modèle de convolution</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="51"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="51"/>
         <source>Save file</source>
         <translation>Enregistrer le fichier</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="53"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="53"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="53"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="53"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="54"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="54"/>
         <source>Save as</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="54"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="54"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="57"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="57"/>
         <source>Apply</source>
         <translation>Appliquer</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="57"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="57"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="59"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="59"/>
         <source>Open file</source>
         <translation>Ouvrir un fichier</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="59"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="59"/>
         <source>Ctrl+Shift+O</source>
         <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="62"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="62"/>
         <source>Undo</source>
         <translation>Défaire</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="63"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="63"/>
         <source>Redo</source>
         <translation>Refaire</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="71"/>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="95"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="71"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="95"/>
         <source>Untitled</source>
         <translation>Sans-nom</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="107"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="107"/>
         <source>File is saved</source>
         <translation>Le fichier est enregistré</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="110"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="110"/>
         <source>File is not saved</source>
         <translation>Le fichier n&apos;est pas enregistré</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="134"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="134"/>
         <source>Open OpenCL source file</source>
         <translation>Ouvrir un fichier source OpenCL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="135"/>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="165"/>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="195"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="135"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="165"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="195"/>
         <source>OpenCL source (*.cl *.c);;All files (*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="164"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="164"/>
         <source>Save OpenCL source file</source>
         <translation>Enregistrer le fichier source OpenCL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="194"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="194"/>
         <source>Save OpenCL source file as...</source>
         <translation>Enregistrer le fichier source OpenCL sous ...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="227"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="227"/>
         <source>Unsaved file</source>
         <translation>Fichier non enregistré</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="227"/>
+        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="227"/>
         <source>Save file before proceeding ?</source>
         <translation>Enregistrer avant de continuer ?</translation>
     </message>
@@ -624,7 +624,7 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::Components::ButtonColorPicker</name>
     <message>
-        <location filename="../../src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.cpp" line="25"/>
+        <location filename="../src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.cpp" line="25"/>
         <source>Pick color</source>
         <translation>Sélectionner une couleur</translation>
     </message>
@@ -632,12 +632,12 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::Components::HistogramWidget</name>
     <message>
-        <location filename="../../src/UI/GUI/Components/HistogramWidget/histogramwidget.cpp" line="86"/>
+        <location filename="../src/UI/GUI/Components/HistogramWidget/histogramwidget.cpp" line="86"/>
         <source>X : %1 R : %2 G : %3 B : %4</source>
         <translation>X : %1 R : %2 G : %3 B : %4</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Components/HistogramWidget/histogramwidget.cpp" line="109"/>
+        <location filename="../src/UI/GUI/Components/HistogramWidget/histogramwidget.cpp" line="109"/>
         <source>No Data</source>
         <translation>Pas de données</translation>
     </message>
@@ -645,22 +645,22 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::Dialogs::CreateImageDialog</name>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp" line="27"/>
+        <location filename="../src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp" line="27"/>
         <source>Create image</source>
         <translation>Créer une image</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp" line="46"/>
+        <location filename="../src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp" line="46"/>
         <source>Width :</source>
         <translation>Largeur :</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp" line="47"/>
+        <location filename="../src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp" line="47"/>
         <source>Height :</source>
         <translation>Hauteur :</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp" line="48"/>
+        <location filename="../src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp" line="48"/>
         <source>Fill color :</source>
         <translation>Couleur de remplissage :</translation>
     </message>
@@ -668,25 +668,50 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::Dialogs::ProcessOptionsDialog</name>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp" line="28"/>
+        <location filename="../src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp" line="27"/>
         <source>Process options</source>
         <translation>Options de traitement</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp" line="47"/>
+        <location filename="../src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp" line="47"/>
+        <source>Fixed color</source>
+        <translation>Couleur fixe</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp" line="48"/>
+        <source>Clamp coordinates</source>
+        <translation>Limiter les coordonnées</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp" line="49"/>
+        <source>Wrap coordinates</source>
+        <translation>Passer de l&apos;autre côté</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp" line="61"/>
         <source>Chunk size factor</source>
         <translation>Taille du facteur de bloc</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp" line="62"/>
+        <source>Boundary mode</source>
+        <translation>Mode aux limites</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp" line="63"/>
+        <source>Boundary fixed color</source>
+        <translation>Couleur fixée aux limites</translation>
     </message>
 </context>
 <context>
     <name>UI::GUI::Dialogs::SelectDeviceDialog</name>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp" line="27"/>
+        <location filename="../src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp" line="27"/>
         <source>Select device</source>
         <translation>Sélectionner un périphérique</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp" line="37"/>
+        <location filename="../src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp" line="37"/>
         <source>Device :</source>
         <translation>Périphérique :</translation>
     </message>
@@ -694,17 +719,17 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::Dialogs::WaitDialog</name>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp" line="29"/>
+        <location filename="../src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp" line="29"/>
         <source>Work in progress</source>
         <translation>Travail en cours</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp" line="47"/>
+        <location filename="../src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp" line="47"/>
         <source>Cancel process</source>
         <translation>Abandonner le processus</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp" line="96"/>
+        <location filename="../src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp" line="96"/>
         <source>Canceling process...</source>
         <translation>Abandon du processus...</translation>
     </message>
@@ -712,7 +737,7 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::FileNamePicker</name>
     <message>
-        <location filename="../../src/UI/GUI/FilterSettingsWidget/filenamepicker.cpp" line="33"/>
+        <location filename="../src/UI/GUI/FilterSettingsWidget/filenamepicker.cpp" line="33"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -720,7 +745,7 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::ImageViewerContainer</name>
     <message>
-        <location filename="../../src/UI/GUI/ImageViewer/imageviewercontainer.cpp" line="35"/>
+        <location filename="../src/UI/GUI/ImageViewer/imageviewercontainer.cpp" line="35"/>
         <source>Fit image</source>
         <translation>Ajuster l&apos;image</translation>
     </message>
@@ -728,307 +753,307 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::MainWindow</name>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="33"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="51"/>
         <source>Kernel canceled</source>
         <translation>Noyau abandonné</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="43"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="61"/>
         <source>Critical error</source>
         <translation>Erreur critique</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="48"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="66"/>
         <source>OpenCL error</source>
         <translation>Erreur OpenCL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="48"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="66"/>
         <source>OpenCL backend error</source>
         <translation>Erreur de backend OpenCL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="89"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="108"/>
         <source>%1 - Processing done in %2 ms. Approx %3 px/sec.</source>
         <translation>%1 - Traitement effectué en %2 ms. Environ %3 px/sec.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="103"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="122"/>
         <source>%1x%2 (%3 bytes)</source>
         <translation>%1x%2 (%3 octets)</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="135"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="154"/>
         <source>Processing image...</source>
         <translation>Traitement de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="155"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="174"/>
         <source>Computing histogram...</source>
         <translation>Calcul de l&apos;histogramme...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="170"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="189"/>
         <source>Correcting image...</source>
         <translation>Correction de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="179"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="198"/>
         <source>Open image file</source>
         <translation>Ouvrir un fichier image</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="180"/>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="240"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="199"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="259"/>
         <source>Image files (*.png *.jpg *.jpeg *.bmp *.gif)</source>
         <translation>Fichiers image (*.png *.jpg *.jpeg *.bmp *.gif)</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="206"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="225"/>
         <source>Opening image...</source>
         <translation>Ouverture de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="190"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="209"/>
         <source>Image loaded in %1 ms.</source>
         <translation>Image chargée en %1 ms.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="191"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="210"/>
         <source>[%1] Image loaded in %2 ms.</source>
         <translation>[%1] Image chargée en %2 ms.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="229"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="248"/>
         <source>Created image of size %1x%2.</source>
         <translation>Image de taille %1x%2 créée.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="239"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="258"/>
         <source>Save image file</source>
         <translation>Enregistrer le fichier image</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="259"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="278"/>
         <source>Exporting image...</source>
         <translation>Export de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="250"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="269"/>
         <source>[%1] Image saved in %2 ms.</source>
         <translation>[%1] Image enregistrée en %2 ms.</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="286"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="307"/>
         <source>About this program</source>
         <translation>A propos de ce programme</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="287"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="308"/>
         <source>&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;&lt;br&gt;Some icons are provided under a &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; by Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%3&lt;hr&gt;%4</source>
         <translation>&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;&lt;br&gt;Certaines icônes sont fournies sous license &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; par Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%3&lt;hr&gt;%4</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="311"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="332"/>
         <source>Unsaved file</source>
         <translation>Fichier non enregistré</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="311"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="332"/>
         <source>Save processed image before closing ?</source>
         <translation>Enregistrer l&apos;image traitée avant de continuer ?</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="351"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="372"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="353"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="374"/>
         <source>&amp;Open</source>
         <translation>&amp;Ouvrir</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="353"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="374"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="354"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="375"/>
         <source>&amp;Create image</source>
         <translation>&amp;Créer une image</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="354"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="375"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="355"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="376"/>
         <source>&amp;Export processed image</source>
         <translation>&amp;Exporter l&apos;image traitée</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="355"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="376"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="357"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="378"/>
         <source>Select &amp;device</source>
         <translation>Sélectionner le &amp;périphérique</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="367"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="388"/>
         <source>&amp;Exit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="367"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="388"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="369"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="390"/>
         <source>&amp;Process</source>
         <translation>&amp;Traitement</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="370"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="391"/>
         <source>Process &amp;options</source>
         <translation>&amp;Options de traitement</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="372"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="393"/>
         <source>Reload current &amp;kernel</source>
         <translation>&amp;Recharger le noyau courant</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="372"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="393"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="375"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="396"/>
         <source>&amp;Run</source>
         <translation>&amp;Exécuter</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="375"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="396"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="376"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="397"/>
         <source>&amp;Backfeed</source>
         <translation>Rétro-&amp;alimenter</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="376"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="397"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="382"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="403"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="383"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="404"/>
         <source>&amp;About this program</source>
         <translation>&amp;A propos de ce programme</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="384"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="405"/>
         <source>&amp;Language</source>
         <translation>&amp;Langue</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="386"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="407"/>
         <source>About &amp;Qt</source>
         <translation>A propos de &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="390"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="411"/>
         <source>Open&amp;CL Devices</source>
         <translation>Périphériques Open&amp;CL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="391"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="412"/>
         <source>OpenCL Devices</source>
         <translation>Périphériques OpenCL</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="394"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="415"/>
         <source>Tools</source>
         <translation>Outils</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="399"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="420"/>
         <source>Filter : </source>
         <translation>Filtre : </translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="451"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="474"/>
         <source>Window reload</source>
         <translation>Rechargement de la fenêtre</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="451"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="474"/>
         <source>The window needs to be reloaded for the language selection to take effect. 
 Reload now ?</source>
         <translation>La fenêtre doit être rechargée pour que les paramètres de langue prennent effet. 
 Recharger maintenant ?</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="461"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="485"/>
         <source>Selected device : %1</source>
         <translation>Périphérique sélectionné : %1</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="497"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="521"/>
         <source>Original image</source>
         <translation>Image originale</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="498"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="522"/>
         <source>Processed image</source>
         <translation>Image traitée</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="507"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="531"/>
         <source>Original</source>
         <translation>Image originale</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="508"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="532"/>
         <source>Processed</source>
         <translation>Image traitée</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="509"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="533"/>
         <source>Code editor</source>
         <translation>Editeur de code</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="529"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="553"/>
         <source>Cancel work in progress</source>
         <translation>Annuler le travail en cours</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="529"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="553"/>
         <source>A kernel is currently running. 
 Do you want to abort it then close the propgram ?</source>
         <translation>Un noyau est en cours d&apos;exécution. 
 Voulez-vous l&apos;interrompre et fermer le programme ?</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="541"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="565"/>
         <source>Process is running</source>
         <translation>Processus en cours</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/MainWindow/mainwindow.cpp" line="541"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="565"/>
         <source>Cannot close window, %1 proccess still running.</source>
         <translation>Impossible de fermer la fenêtre, %1 processus en cours d&apos;exécution.</translation>
     </message>
@@ -1036,37 +1061,37 @@ Voulez-vous l&apos;interrompre et fermer le programme ?</translation>
 <context>
     <name>UI::GUI::Panels::FilterSettingsDock</name>
     <message>
-        <location filename="../../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="24"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="24"/>
         <source>Filter settings</source>
         <translation>Paramètres du filtre</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="39"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="39"/>
         <source>Reset settings</source>
         <translation>Réinitialiser les paramètres</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="42"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="42"/>
         <source>Export matrix</source>
         <translation>Exporter la matrice</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="51"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="51"/>
         <source>&lt;h2&gt;Filter description&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Description du filtre&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="86"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="86"/>
         <source>&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</source>
         <translation>&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="100"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="100"/>
         <source>Save Convolution matrix...</source>
         <translation>Enregistrer la matrice de convolution...</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="101"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="101"/>
         <source>CSV File (*.csv);;All files (*.*)</source>
         <translation>Fichier CSV (*.csv);;Tous les fichiers (*.*)</translation>
     </message>
@@ -1074,57 +1099,57 @@ Voulez-vous l&apos;interrompre et fermer le programme ?</translation>
 <context>
     <name>UI::GUI::Panels::ImageCorrectionPanel</name>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="26"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="26"/>
         <source>Image correction</source>
         <translation>Correction de l&apos;image</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="32"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="32"/>
         <source>Histogram</source>
         <translation>Histogramme</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="36"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="36"/>
         <source>CDF</source>
         <translation>DFC</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="37"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="37"/>
         <source>Cumulative Distribution Frequency</source>
         <translation>Distribution Fréquenctielle Cumulée</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="41"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="41"/>
         <source>Original image histogram</source>
         <translation>Histogramme de l&apos;image originale</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="42"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="42"/>
         <source>Processed image histogram</source>
         <translation>Histogramme de l&apos;image traitée</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="43"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="43"/>
         <source>Original image CDF</source>
         <translation>DFC de l&apos;image originale</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="44"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="44"/>
         <source>Processed image CDF</source>
         <translation>DFC de l&apos;image traitée</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="46"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="46"/>
         <source>Convert to grayscale</source>
         <translation>Convertir en nuances de gris</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="50"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="50"/>
         <source>Invert colors</source>
         <translation>Inverser les couleurs</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="54"/>
+        <location filename="../src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp" line="54"/>
         <source>Histogram equalization</source>
         <translation>Egalisation de l&apos;histogramme</translation>
     </message>
@@ -1132,22 +1157,22 @@ Voulez-vous l&apos;interrompre et fermer le programme ?</translation>
 <context>
     <name>UI::GUI::Panels::LogPanel</name>
     <message>
-        <location filename="../../src/UI/GUI/Panels/LogPanel/logpanel.cpp" line="24"/>
+        <location filename="../src/UI/GUI/Panels/LogPanel/logpanel.cpp" line="24"/>
         <source>Logs</source>
         <translation>Logs</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/LogPanel/logpanel.cpp" line="37"/>
+        <location filename="../src/UI/GUI/Panels/LogPanel/logpanel.cpp" line="37"/>
         <source>Info</source>
         <translation>Infos</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/LogPanel/logpanel.cpp" line="38"/>
+        <location filename="../src/UI/GUI/Panels/LogPanel/logpanel.cpp" line="38"/>
         <source>Output</source>
         <translation>Sortie</translation>
     </message>
     <message>
-        <location filename="../../src/UI/GUI/Panels/LogPanel/logpanel.cpp" line="39"/>
+        <location filename="../src/UI/GUI/Panels/LogPanel/logpanel.cpp" line="39"/>
         <source>Errors</source>
         <translation>Erreurs</translation>
     </message>
