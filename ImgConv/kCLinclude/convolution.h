@@ -21,7 +21,7 @@
 
 #include "common.h"
 
-#if (!defined(PIXEL_BOUNDARY_USE_COLOR)) && \
+#if (!defined(PIXEL_BOUNDARY_FIXED_COLOR)) && \
     (!defined(PIXEL_BOUNDARY_CLAMP)) && \
     (!defined(PIXEL_BOUNDARY_WRAP))
 #define PIXEL_BOUNDARY_CLAMP
@@ -50,19 +50,20 @@ inline void conv2D(const __global uchar *In,
             px = refX + xK;
             py = refY + yK;
             
-            int ii = (W * py + px) * 3;
+            int ii;
 
             if( (px >= 0) &&
                 (py >= 0) &&
                 (px < W) &&
                 (py < H)) {
 
+                ii = (W * py + px) * 3;
 
                 sum[0] += kv * In[ii + 0];
                 sum[1] += kv * In[ii + 1];
                 sum[2] += kv * In[ii + 2];
             } else {
-#if     defined(PIXEL_BOUNDARY_USE_COLOR)
+#if     defined(PIXEL_BOUNDARY_FIXED_COLOR)
                 sum[0] += kv * PIXEL_BOUNDARY_COLOR.r;
                 sum[1] += kv * PIXEL_BOUNDARY_COLOR.g;
                 sum[2] += kv * PIXEL_BOUNDARY_COLOR.b;
@@ -78,6 +79,8 @@ inline void conv2D(const __global uchar *In,
                 } else if(py >= H) {
                     py = (H - 1);
                 }
+
+                ii = (W * py + px) * 3;
 
                 sum[0] += kv * In[ii + 0];
                 sum[1] += kv * In[ii + 1];
@@ -95,6 +98,8 @@ inline void conv2D(const __global uchar *In,
                     py = (H % py);
                 }
 
+                ii = (W * py + px) * 3;
+
                 sum[0] += kv * In[ii + 0];
                 sum[1] += kv * In[ii + 1];
                 sum[2] += kv * In[ii + 2];
@@ -103,7 +108,7 @@ inline void conv2D(const __global uchar *In,
         }
     }
 
-    writePixelColorAtCurrentCoord(Out, (color_t){
+    writePixelColorAtCurrentCoord(Out, (color_t) {
         .r = (sum[0] > 255)? 255: sum[0],
         .g = (sum[1] > 255)? 255: sum[1],
         .b = (sum[2] > 255)? 255: sum[2]
