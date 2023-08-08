@@ -26,7 +26,7 @@ WaitDialogMgr::WaitDialogMgr(QObject *parent)
 }
 
 WaitDialogMgr::~WaitDialogMgr() {
-    for(Dialogs::WaitDialog *dialog : m_waitDialogs) {
+    for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
         delete dialog;
     }
 }
@@ -59,13 +59,13 @@ void WaitDialogMgr::updateDialogProgress(const QUuid &uuid, size_t percentage) {
 }
 
 void WaitDialogMgr::hideAll() {
-    for(Dialogs::WaitDialog *dialog : m_waitDialogs) {
+    for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
         dialog->hide();
     }
 }
 
 void WaitDialogMgr::showAll() {
-    for(Dialogs::WaitDialog *dialog : m_waitDialogs) {
+    for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
         dialog->show();
     }
 }

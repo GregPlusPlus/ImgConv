@@ -311,10 +311,10 @@ void MainWindow::showAboutDialog() {
                           "by Yusuke Kamiyamane <a href='https://p.yusukekamiyamane.com/'>(Fugue Icons)</a>.<br><br>"\
                           "%3"\
                           "<hr>%4")
-                       .arg(APP_NAME)
-                       .arg(GIT_VERSION)
-                       .arg(COPYRIGHT)
-                       .arg(LGPL_STR));
+                       .arg(APP_NAME,
+                            GIT_VERSION,
+                            COPYRIGHT,
+                            LGPL_STR));
 }
 
 bool MainWindow::saveOnExit() {
@@ -449,7 +449,7 @@ void MainWindow::buildLangMenu() {
 
     m_langAction->setMenu(langMenu);
 
-    for(QString l : langs) {
+    for(const QString &l : langs) {
         QAction *a = langMenu->addAction(l);
         a->setCheckable(true);
 
