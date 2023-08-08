@@ -121,9 +121,15 @@ INCLUDEPATH += \
     libs/include/ \
     src/
 
+win32 {
 LIBS += \
     -Llibs/lib/ \
     -lOpenCL
+}
+unix:!macx {
+LIBS += \
+    -lOpenCL
+}
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
