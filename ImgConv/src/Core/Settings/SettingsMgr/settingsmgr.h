@@ -21,6 +21,8 @@
 
 #include "abstractsettingsmgr.h"
 
+#include "Core/Processing/processing.h"
+
 namespace Core::Settings {
 class SettingsMgr : public AbstractSettingsMgr
 {
@@ -39,6 +41,12 @@ public:
 
     QRect getWindowGeometry();
     void setWindowGeometry(const QRect &rect);
+
+    Core::Processing::Options::BoundaryMode getBoundaryMode();
+    void setBoundaryMode(Core::Processing::Options::BoundaryMode mode);
+
+    QColor getBoundaryFixedColor();
+    void setBoundaryFixedColor(const QColor &color);
 
 signals:
     void langChanged();
