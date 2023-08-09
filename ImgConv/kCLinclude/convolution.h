@@ -27,9 +27,9 @@
 #define PIXEL_BOUNDARY_CLAMP
 #endif
 
-inline void conv2D(const __global uchar *In,
-                   __global uchar *Out,
-                   __global float *k) {
+inline void conv2D(const uchar *In,
+                   uchar *Out,
+                   const float *k) {
 
     float sum[3] = {0, 0, 0};
 
