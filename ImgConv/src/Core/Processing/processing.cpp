@@ -41,7 +41,7 @@ QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize
                                         .arg(options.fixedColor.blue());
     }
 
-    return QString("-DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED=\"{%5, %6, %7, %8}\" -D%9 %10 -I%11")
+    return QString("-cl-std=CL2.0 -DW=%1 -DH=%2 -DKW=%3 -DKH=%4 -DVRSEED=\"{%5, %6, %7, %8}\" -D%9 %10 -I%11")
                     .arg(imgSize.width())
                     .arg(imgSize.height())
                     .arg(matSize.width())
@@ -56,14 +56,14 @@ QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize
 }
 
 QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize) {
-    return QString("-DW=%1 -DH=%2 -I%3")
+    return QString("-cl-std=CL2.0 -DW=%1 -DH=%2 -I%3")
                     .arg(imgSize.width())
                     .arg(imgSize.height())
                     .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
 }
 
 QString createOCLProgramOptionsCorrection(const QSize &imgSize) {
-    return QString("-DW=%1 -DH=%2 -I%3")
+    return QString("-cl-std=CL2.0 -DW=%1 -DH=%2 -I%3")
                     .arg(imgSize.width())
                     .arg(imgSize.height())
                     .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
