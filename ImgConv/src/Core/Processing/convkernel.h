@@ -25,89 +25,9 @@
 #include <QList>
 #include <QVariant>
 
-#include <QDebug>
+#include "convkernelsetting.h"
 
 namespace Core::Processing::ConvKernels {
-class ConvKernelSetting : public QObject
-{
-    Q_OBJECT
-
-public:
-    enum SettingType {
-        SettingType_Float,
-        SettingType_Int,
-        SettingsType_Bool,
-        SettingsType_String,
-        SettingsType_FileName
-    };
-
-public:
-    explicit ConvKernelSetting(const QString &name, SettingType type, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, bool val, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, QString val, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent = nullptr);
-
-    QString name() const;
-    void setName(const QString &name);
-
-    bool hasMin() const;
-    void setHasMin(bool hasMin);
-    bool hasMax() const;
-    void setHasMax(bool hasMax);
-    SettingType type() const;
-    void setType(SettingType type);
-    int val() const;
-    float valF() const;
-    bool valB() const;
-    QString valS() const;
-    int min() const;
-    int max() const;
-    float minF() const;
-    float maxF() const;
-
-    const QString &fileNameTitle() const;
-    void setFileNameTitle(const QString &newFileNameTitle);
-
-    const QString &fileNameFilter() const;
-    void setFileNameFilter(const QString &newFileNameFilter);
-
-    const QVariant &defaultVal() const;
-
-public slots:
-    void setVal(const QVariant &val);
-    void setVal(int val);
-    void setVal(float val);
-    void setVal(bool val);
-    void setVal(QString val);
-    void setMin(int min);
-    void setMin(float min);
-    void setMax(int max);
-    void setMax(float max);
-    virtual void settingChanged() {}
-    void reset();
-
-signals:
-    void valueChanged(const ConvKernels::ConvKernelSetting *s);
-
-private:
-    void setDefault();
-
-private:
-    QString m_name;
-    bool m_hasMin = false;
-    bool m_hasMax = false;
-    SettingType m_type;
-    QVariant m_val;
-    QVariant m_min;
-    QVariant m_max;
-    QVariant m_default;
-
-    QString m_fileNameTitle;
-    QString m_fileNameFilter;
-};
-
 class ConvKernel : public QObject
 {
     Q_OBJECT

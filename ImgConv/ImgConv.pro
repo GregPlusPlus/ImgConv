@@ -26,6 +26,7 @@ SOURCES += \
     src/Core/Processing/algorithms.cpp \
     src/Core/Processing/convkernel.cpp \
     src/Core/Processing/convkernel1darray.cpp \
+    src/Core/Processing/convkernelsetting.cpp \
     src/Core/Processing/processing.cpp \
     src/Core/Settings/Setting/setting.cpp \
     src/Core/Settings/SettingsMgr/abstractsettingsmgr.cpp \
@@ -79,6 +80,7 @@ HEADERS += \
     src/Core/Processing/algorithms.h \
     src/Core/Processing/convkernel.h \
     src/Core/Processing/convkernel1darray.h \
+    src/Core/Processing/convkernelsetting.h \
     src/Core/Processing/processing.h \
     src/Core/Settings/Setting/setting.h \
     src/Core/Settings/SettingsMgr/abstractsettingsmgr.h \
