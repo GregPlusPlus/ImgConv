@@ -1,13 +1,13 @@
 #include "common.h"
 #include "convolution.h"
 
-__global float dh[9] = {
+__const float dh[9] = {
     -1, 0, 1,
     -2, 0, 2,
     -1, 0, 1
 };
 
-__global float dv[9] = {
+__const float dv[9] = {
     -1, -2, -1,
      0,  0,  0,
      1,  2,  1
