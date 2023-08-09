@@ -29,6 +29,18 @@ App::~App() {
     if(m_ocl) {
         delete m_ocl;
     }
+
+    saveSettings();
+}
+
+void App::restoreSettings() {
+    m_processingOptions.boundaryMode = m_settingsMgr->getBoundaryMode();
+    m_processingOptions.fixedColor = m_settingsMgr->getBoundaryFixedColor();
+}
+
+void App::saveSettings() {
+    m_settingsMgr->setBoundaryMode(m_processingOptions.boundaryMode);
+    m_settingsMgr->setBoundaryFixedColor(m_processingOptions.fixedColor);
 }
 
 bool App::init() {
@@ -47,6 +59,8 @@ bool App::init() {
     }
 
     initOpenCL(device);
+
+    restoreSettings();
 
     return true;
 }

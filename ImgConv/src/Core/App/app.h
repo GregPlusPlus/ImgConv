@@ -39,6 +39,9 @@ public:
     explicit App(Settings::SettingsMgr *settingsMgr, QObject *parent = nullptr);
     virtual ~App();
 
+    void restoreSettings();
+    void saveSettings();
+
     QImage originalImage() const;
     QImage processedImage() const;
 
