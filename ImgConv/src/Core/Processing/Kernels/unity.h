@@ -34,7 +34,7 @@ public:
     QString getDescription();
 
 private:
-    ConvKenrelSetting *m_scalar;
+    ConvKernelSetting *m_scalar;
 };
 }
 

@@ -22,20 +22,20 @@ using namespace Core::Processing::ConvKernels;
 
 Sharpen::Sharpen(QObject *parent)
     : ConvKernel{parent} {
-    m_strengthSetting = new ConvKenrelSetting(tr("Contour strength"),
+    m_strengthSetting = new ConvKernelSetting(tr("Contour strength"),
                         true, 1,
                         true, 128,
                         1,
                         this);
 
-    m_smoothSetting = new ConvKenrelSetting(tr("Smoothing"),
+    m_smoothSetting = new ConvKernelSetting(tr("Smoothing"),
                                             true, -.99f,
                                             true, 100.f,
                                             1.f,
                                             this);
 
-    connect(m_strengthSetting, &ConvKenrelSetting::valueChanged, this, &Sharpen::settingChanged);
-    connect(m_smoothSetting, &ConvKenrelSetting::valueChanged, this, &Sharpen::settingChanged);
+    connect(m_strengthSetting, &ConvKernelSetting::valueChanged, this, &Sharpen::settingChanged);
+    connect(m_smoothSetting, &ConvKernelSetting::valueChanged, this, &Sharpen::settingChanged);
 
     addSetting(m_strengthSetting);
     addSetting(m_smoothSetting);

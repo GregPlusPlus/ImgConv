@@ -35,16 +35,16 @@ class FilterSettingsWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit FilterSettingsWidget(Core::Processing::ConvKernels::ConvKenrelSetting *setting, QWidget *parent = nullptr);
+    explicit FilterSettingsWidget(Core::Processing::ConvKernels::ConvKernelSetting *setting, QWidget *parent = nullptr);
 
-    Core::Processing::ConvKernels::ConvKenrelSetting *setting() const;
+    Core::Processing::ConvKernels::ConvKernelSetting *setting() const;
 
 signals:
 
 private:
     QFormLayout *m_layout;
 
-    Core::Processing::ConvKernels::ConvKenrelSetting  *m_setting;
+    Core::Processing::ConvKernels::ConvKernelSetting  *m_setting;
 
 };
 }

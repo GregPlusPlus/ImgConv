@@ -22,20 +22,20 @@ using namespace Core::Processing::ConvKernels;
 
 Emboss::Emboss(QObject *parent)
     : ConvKernel{parent} {
-    m_sizeSetting = new ConvKenrelSetting(tr("Size"),
+    m_sizeSetting = new ConvKernelSetting(tr("Size"),
                         true, 1,
                         true, 128,
                         1,
                         this);
 
-    m_smoothSetting = new ConvKenrelSetting(tr("Smoothing"),
+    m_smoothSetting = new ConvKernelSetting(tr("Smoothing"),
                                             true, 1.f,
                                             true, 100.f,
                                             1.f,
                                             this);
 
-    connect(m_sizeSetting, &ConvKenrelSetting::valueChanged, this, &Emboss::settingChanged);
-    connect(m_smoothSetting, &ConvKenrelSetting::valueChanged, this, &Emboss::settingChanged);
+    connect(m_sizeSetting, &ConvKernelSetting::valueChanged, this, &Emboss::settingChanged);
+    connect(m_smoothSetting, &ConvKernelSetting::valueChanged, this, &Emboss::settingChanged);
 
     addSetting(m_sizeSetting);
     addSetting(m_smoothSetting);

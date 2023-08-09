@@ -28,7 +28,7 @@
 #include <QDebug>
 
 namespace Core::Processing::ConvKernels {
-class ConvKenrelSetting : public QObject
+class ConvKernelSetting : public QObject
 {
     Q_OBJECT
 
@@ -42,12 +42,12 @@ public:
     };
 
 public:
-    explicit ConvKenrelSetting(const QString &name, SettingType type, QObject *parent = nullptr);
-    explicit ConvKenrelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
-    explicit ConvKenrelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
-    explicit ConvKenrelSetting(const QString &name, bool val, QObject *parent = nullptr);
-    explicit ConvKenrelSetting(const QString &name, QString val, QObject *parent = nullptr);
-    explicit ConvKenrelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &name, SettingType type, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &name, bool val, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &name, QString val, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent = nullptr);
 
     QString name() const;
     void setName(const QString &name);
@@ -89,7 +89,7 @@ public slots:
     void reset();
 
 signals:
-    void valueChanged(const ConvKernels::ConvKenrelSetting *s);
+    void valueChanged(const ConvKernels::ConvKernelSetting *s);
 
 private:
     void setDefault();
@@ -121,10 +121,10 @@ public:
     virtual QString getDescription() {return QString();}
     QSize getMatSize() const;
 
-    const QList<ConvKenrelSetting *> &settings() const;
-    ConvKenrelSetting *getSettingByName(const QString &name) const;
+    const QList<ConvKernelSetting *> &settings() const;
+    ConvKernelSetting *getSettingByName(const QString &name) const;
 
-    void addSetting(ConvKenrelSetting *s);
+    void addSetting(ConvKernelSetting *s);
 
     QString getSourceFilePath() const;
     void setSourceFilePath(const QString &path);
@@ -136,7 +136,7 @@ public slots:
 signals:
 
 private:
-    QList<ConvKenrelSetting *> m_settings;
+    QList<ConvKernelSetting *> m_settings;
 
 };
 }

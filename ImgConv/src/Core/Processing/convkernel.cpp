@@ -22,7 +22,7 @@ using namespace Core::Processing::ConvKernels;
 
 ConvKernel::ConvKernel(QObject *parent)
     : QObject{parent} {
-    ConvKenrelSetting *sourcePath = new ConvKenrelSetting(tr("Source file"), tr("Open source file"),
+    ConvKernelSetting *sourcePath = new ConvKernelSetting(tr("Source file"), tr("Open source file"),
                                                           tr("OpenCL source (*.cl *.c);;All files (*.*)"),
                                                           QString(":/ocl/conv2D.cl"), this);
     addSetting(sourcePath);
@@ -40,12 +40,12 @@ QSize ConvKernel::getMatSize() const {
     return s;
 }
 
-const QList<ConvKenrelSetting *> &ConvKernel::settings() const {
+const QList<ConvKernelSetting *> &ConvKernel::settings() const {
     return m_settings;
 }
 
-ConvKenrelSetting *ConvKernel::getSettingByName(const QString &name) const {
-    for(ConvKenrelSetting *s : settings()) {
+ConvKernelSetting *ConvKernel::getSettingByName(const QString &name) const {
+    for(ConvKernelSetting *s : settings()) {
         if(s->name() == name) {
             return s;
         }
@@ -54,7 +54,7 @@ ConvKenrelSetting *ConvKernel::getSettingByName(const QString &name) const {
     return nullptr;
 }
 
-void ConvKernel::addSetting(ConvKenrelSetting *s) {
+void ConvKernel::addSetting(ConvKernelSetting *s) {
     m_settings.append(s);
 }
 
@@ -67,18 +67,18 @@ void ConvKernel::setSourceFilePath(const QString &path) {
 }
 
 void ConvKernel::reset() {
-    for(ConvKenrelSetting *s : m_settings) {
+    for(ConvKernelSetting *s : m_settings) {
         s->reset();
     }
 }
 
-ConvKenrelSetting::ConvKenrelSetting(const QString &name, SettingType type, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &name, SettingType type, QObject *parent)
     : QObject{parent}, m_name{name}, m_type{type} {
     setVal((int)0);
     setDefault();
 }
 
-ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val, QObject *parent)
     : QObject{parent}, m_name{name}, m_hasMin{hasMin}, m_hasMax{hasMax}, m_type{SettingType_Int} {
     if(hasMin) {
         setMin(min);
@@ -94,7 +94,7 @@ ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, int min, 
     setDefault();
 }
 
-ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val, QObject *parent)
     : QObject{parent}, m_name{name}, m_hasMin{hasMin}, m_hasMax{hasMax}, m_type{SettingType_Float} {
     if(hasMin) {
         setMin(min);
@@ -110,19 +110,19 @@ ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool hasMin, float min
     setDefault();
 }
 
-ConvKenrelSetting::ConvKenrelSetting(const QString &name, bool val, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &name, bool val, QObject *parent)
 : QObject{parent}, m_name{name}, m_type{SettingsType_Bool} {
     setVal(val);
     setDefault();
 }
 
-ConvKenrelSetting::ConvKenrelSetting(const QString &name, QString val, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &name, QString val, QObject *parent)
     : QObject{parent}, m_name{name}, m_type{SettingsType_String} {
     setVal(val);
     setDefault();
 }
 
-ConvKenrelSetting::ConvKenrelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent)
     : QObject{parent}, m_name{name}, m_type{SettingsType_FileName} {
     setVal(fileName);
     setDefault();
@@ -132,139 +132,139 @@ ConvKenrelSetting::ConvKenrelSetting(const QString &name, QString title, QString
 }
 
 
-QString ConvKenrelSetting::name() const {
+QString ConvKernelSetting::name() const {
     return m_name;
 }
 
-void ConvKenrelSetting::setName(const QString &name) {
+void ConvKernelSetting::setName(const QString &name) {
     m_name = name;
 }
 
-bool ConvKenrelSetting::hasMax() const {
+bool ConvKernelSetting::hasMax() const {
     return m_hasMax;
 }
 
-void ConvKenrelSetting::setHasMax(bool hasMax) {
+void ConvKernelSetting::setHasMax(bool hasMax) {
     m_hasMax = hasMax;
 }
 
-ConvKenrelSetting::SettingType ConvKenrelSetting::type() const {
+ConvKernelSetting::SettingType ConvKernelSetting::type() const {
     return m_type;
 }
 
-void ConvKenrelSetting::setType(SettingType type) {
+void ConvKernelSetting::setType(SettingType type) {
     m_type = type;
 }
 
-int ConvKenrelSetting::val() const {
+int ConvKernelSetting::val() const {
     return m_val.toInt();
 }
 
-float ConvKenrelSetting::valF() const {
+float ConvKernelSetting::valF() const {
     return m_val.toFloat();
 }
 
-bool ConvKenrelSetting::valB() const {
+bool ConvKernelSetting::valB() const {
     return m_val.toBool();
 }
 
-QString ConvKenrelSetting::valS() const {
+QString ConvKernelSetting::valS() const {
     return m_val.toString();
 }
 
-void ConvKenrelSetting::setVal(int val) {
+void ConvKernelSetting::setVal(int val) {
     m_val = QVariant(val);
 
     emit valueChanged(this);
 }
 
-void ConvKenrelSetting::setVal(float val) {
+void ConvKernelSetting::setVal(float val) {
     m_val = QVariant(val);
 
     emit valueChanged(this);
 }
 
-void ConvKenrelSetting::setVal(bool val) {
+void ConvKernelSetting::setVal(bool val) {
     m_val = QVariant(val);
 
     emit valueChanged(this);
 }
 
-void ConvKenrelSetting::setVal(QString val) {
+void ConvKernelSetting::setVal(QString val) {
     m_val = QVariant(val);
 
     emit valueChanged(this);
 }
 
-int ConvKenrelSetting::max() const{
+int ConvKernelSetting::max() const{
     return m_max.toInt();
 }
 
-int ConvKenrelSetting::min() const {
+int ConvKernelSetting::min() const {
     return m_min.toInt();
 }
 
-float ConvKenrelSetting::minF() const {
+float ConvKernelSetting::minF() const {
     return m_min.toFloat();
 }
 
-float ConvKenrelSetting::maxF() const {
+float ConvKernelSetting::maxF() const {
     return m_max.toFloat();
 }
 
-void ConvKenrelSetting::setMax(int max) {
+void ConvKernelSetting::setMax(int max) {
     m_max = QVariant(max);
 }
 
-void ConvKenrelSetting::setMax(float max) {
+void ConvKernelSetting::setMax(float max) {
     m_max = QVariant(max);
 }
 
-void ConvKenrelSetting::reset() {
+void ConvKernelSetting::reset() {
     m_val = m_default;
 }
 
-void ConvKenrelSetting::setDefault() {
+void ConvKernelSetting::setDefault() {
     m_default = m_val;
 }
 
-const QVariant &ConvKenrelSetting::defaultVal() const {
+const QVariant &ConvKernelSetting::defaultVal() const {
     return m_default;
 }
 
-void ConvKenrelSetting::setMin(int min) {
+void ConvKernelSetting::setMin(int min) {
     m_min = QVariant(min);
 }
 
-void ConvKenrelSetting::setMin(float min) {
+void ConvKernelSetting::setMin(float min) {
     m_min = QVariant(min);
 }
 
-bool ConvKenrelSetting::hasMin() const {
+bool ConvKernelSetting::hasMin() const {
     return m_hasMin;
 }
 
-void ConvKenrelSetting::setHasMin(bool hasMin) {
+void ConvKernelSetting::setHasMin(bool hasMin) {
     m_hasMin = hasMin;
 }
 
-const QString &ConvKenrelSetting::fileNameTitle() const {
+const QString &ConvKernelSetting::fileNameTitle() const {
     return m_fileNameTitle;
 }
 
-void ConvKenrelSetting::setFileNameTitle(const QString &newFileNameTitle) {
+void ConvKernelSetting::setFileNameTitle(const QString &newFileNameTitle) {
     m_fileNameTitle = newFileNameTitle;
 }
 
-const QString &ConvKenrelSetting::fileNameFilter() const {
+const QString &ConvKernelSetting::fileNameFilter() const {
     return m_fileNameFilter;
 }
 
-void ConvKenrelSetting::setFileNameFilter(const QString &newFileNameFilter) {
+void ConvKernelSetting::setFileNameFilter(const QString &newFileNameFilter) {
     m_fileNameFilter = newFileNameFilter;
 }
 
-void ConvKenrelSetting::setVal(const QVariant &val) {
+void ConvKernelSetting::setVal(const QVariant &val) {
     m_val = val;
 }
 

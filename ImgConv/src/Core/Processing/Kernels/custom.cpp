@@ -22,18 +22,18 @@ using namespace Core::Processing::ConvKernels;
 
 Custom::Custom(QObject *parent)
     : ConvKernel{parent} {
-    m_kernelFileSetting = new ConvKenrelSetting(tr("Kernel"), tr("Open kernel as image file"),
+    m_kernelFileSetting = new ConvKernelSetting(tr("Kernel"), tr("Open kernel as image file"),
                                                 tr("CSV file (*.csv *.txt);;" \
                                                    "Image files (%1)")
                                                 .arg(generateSupportedImgFilesStringFilter()),
                                                 QString(), this);
 
-    m_normalizeSetting = new ConvKenrelSetting(tr("Normalize kernel"),
+    m_normalizeSetting = new ConvKernelSetting(tr("Normalize kernel"),
                                                true,
                                                this);
 
-    connect(m_kernelFileSetting, &ConvKenrelSetting::valueChanged, this, &ConvKernels::Custom::updateFilter);
-    connect(m_normalizeSetting, &ConvKenrelSetting::valueChanged, this, &ConvKernels::Custom::updateFilter);
+    connect(m_kernelFileSetting, &ConvKernelSetting::valueChanged, this, &ConvKernels::Custom::updateFilter);
+    connect(m_normalizeSetting, &ConvKernelSetting::valueChanged, this, &ConvKernels::Custom::updateFilter);
 
     addSetting(m_kernelFileSetting);
     addSetting(m_normalizeSetting);

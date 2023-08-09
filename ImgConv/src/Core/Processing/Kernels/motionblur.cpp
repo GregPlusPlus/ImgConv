@@ -22,20 +22,20 @@ using namespace Core::Processing::ConvKernels;
 
 MotionBlur::MotionBlur(QObject *parent)
     : ConvKernel{parent} {
-    m_sizeSetting = new ConvKenrelSetting(tr("Size"),
+    m_sizeSetting = new ConvKernelSetting(tr("Size"),
                         true, 1,
                         true, 128,
                         10,
                         this);
 
-    m_angleSetting = new ConvKenrelSetting(tr("Angle"),
+    m_angleSetting = new ConvKernelSetting(tr("Angle"),
                          true, 0,
                          true, 360,
                          0,
                          this);
 
-    connect(m_sizeSetting, &ConvKenrelSetting::valueChanged, this, &MotionBlur::settingChanged);
-    connect(m_angleSetting, &ConvKenrelSetting::valueChanged, this, &MotionBlur::settingChanged);
+    connect(m_sizeSetting, &ConvKernelSetting::valueChanged, this, &MotionBlur::settingChanged);
+    connect(m_angleSetting, &ConvKernelSetting::valueChanged, this, &MotionBlur::settingChanged);
 
     addSetting(m_sizeSetting);
     addSetting(m_angleSetting);
