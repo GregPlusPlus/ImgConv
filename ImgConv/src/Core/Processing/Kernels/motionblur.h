@@ -45,8 +45,8 @@ private:
     float m_s;
 
 private:
-    ConvKenrelSetting *m_sizeSetting;
-    ConvKenrelSetting *m_angleSetting;
+    ConvKernelSetting *m_sizeSetting;
+    ConvKernelSetting *m_angleSetting;
 };
 }
 

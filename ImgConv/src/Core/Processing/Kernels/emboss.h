@@ -40,8 +40,8 @@ private:
     float m_s;
 
 private:
-    ConvKenrelSetting *m_sizeSetting;
-    ConvKenrelSetting *m_smoothSetting;
+    ConvKernelSetting *m_sizeSetting;
+    ConvKernelSetting *m_smoothSetting;
 };
 }
 

@@ -22,7 +22,7 @@ using namespace Core::Processing::ConvKernels;
 
 Unity::Unity(QObject *parent)
     : ConvKernels::ConvKernel{parent} {
-    m_scalar = new ConvKenrelSetting(tr("Gain"),
+    m_scalar = new ConvKernelSetting(tr("Gain"),
                         true, 0.f,
                         false, 0.f,
                         1.f,

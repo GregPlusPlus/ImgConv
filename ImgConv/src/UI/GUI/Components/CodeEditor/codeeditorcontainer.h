@@ -40,12 +40,12 @@
 #include "Components/highlighter.h"
 #include "UI/GUI/UtilsGUI/utilsgui.h"
 
-namespace UI::GUI {
-class CodeEditorContainter : public QWidget {
+namespace UI::GUI::Components {
+class CodeEditorView : public QWidget {
     Q_OBJECT
 public:
-    CodeEditorContainter(QWidget *parent = nullptr);
-    ~CodeEditorContainter();
+    CodeEditorView(QWidget *parent = nullptr);
+    ~CodeEditorView();
 
     QString getFileName();
     bool isSaved() const;

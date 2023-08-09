@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <QTextBlock>
 
-using namespace UI::GUI::CodeEditorComponents;
+using namespace UI::GUI::Components::CodeEditorComponents;
 
 //![constructor]
 

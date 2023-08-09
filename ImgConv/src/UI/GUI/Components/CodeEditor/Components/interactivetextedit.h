@@ -27,7 +27,7 @@
 
 #include "keycompletion.h"
 
-namespace UI::GUI::CodeEditorComponents {
+namespace UI::GUI::Components::CodeEditorComponents {
 class KeyCompletion;
 
 class InteractiveTextEdit : public QPlainTextEdit {

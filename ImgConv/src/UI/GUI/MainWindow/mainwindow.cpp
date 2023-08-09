@@ -518,11 +518,11 @@ void MainWindow::buildPanels() {
 void MainWindow::buildView() {
     mw_tabWidget = new QTabWidget(this);
 
-    mw_origImgView = new ImageViewerContainer(tr("Original image"), this);
-    mw_processedImgView = new ImageViewerContainer(tr("Processed image"), this);
+    mw_origImgView = new Components::ImageViewer(tr("Original image"), this);
+    mw_processedImgView = new Components::ImageViewer(tr("Processed image"), this);
 
-    mw_codeEditor = new CodeEditorContainter(this);
-    connect(mw_codeEditor, &CodeEditorContainter::useFile, this, [=](const QString &fn) {
+    mw_codeEditor = new Components::CodeEditorView(this);
+    connect(mw_codeEditor, &Components::CodeEditorView::useFile, this, [=](const QString &fn) {
         m_coreApp->convKernels().at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
         filterSelected(mw_convKernelComboBox->currentIndex());
         m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));

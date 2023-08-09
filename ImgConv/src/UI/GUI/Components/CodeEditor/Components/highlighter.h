@@ -55,7 +55,7 @@
 #include <QTextCharFormat>
 #include <QRegularExpression>
 
-namespace UI::GUI::CodeEditorComponents {
+namespace UI::GUI::Components::CodeEditorComponents {
 class Highlighter : public QSyntaxHighlighter {
     Q_OBJECT
 

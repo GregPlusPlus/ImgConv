@@ -24,20 +24,20 @@ using namespace Core::Processing::ConvKernels;
 
 GaussianBlur::GaussianBlur(QObject *parent)
     : ConvKernels::ConvKernel{parent}{
-    m_sizeSetting = new ConvKenrelSetting(tr("Size"),
+    m_sizeSetting = new ConvKernelSetting(tr("Size"),
                         true, 1,
                         true, 128,
                         1,
                         this);
 
-    m_stddevSetting = new ConvKenrelSetting(tr("Std Dev"),
+    m_stddevSetting = new ConvKernelSetting(tr("Std Dev"),
                           true, 1.f,
                           false, 0.f,
                           10.f,
                           this);
 
-    connect(m_sizeSetting, &ConvKenrelSetting::valueChanged, this, &GaussianBlur::settingChanged);
-    connect(m_stddevSetting, &ConvKenrelSetting::valueChanged, this, &GaussianBlur::settingChanged);
+    connect(m_sizeSetting, &ConvKernelSetting::valueChanged, this, &GaussianBlur::settingChanged);
+    connect(m_stddevSetting, &ConvKernelSetting::valueChanged, this, &GaussianBlur::settingChanged);
 
     addSetting(m_sizeSetting);
     addSetting(m_stddevSetting);

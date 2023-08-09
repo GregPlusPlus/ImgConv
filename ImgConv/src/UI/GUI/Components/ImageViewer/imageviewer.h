@@ -20,16 +20,14 @@
 #define IMAGEVIEWER_H
 
 #include <QWidget>
+#include <QPushButton>
+#include <QStatusBar>
 
-#include <QPixmap>
-#include <QImage>
-#include <QPainter>
+#include <QVBoxLayout>
 
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QResizeEvent>
+#include "imagedisplay.h"
 
-namespace UI::GUI {
+namespace UI::GUI::Components {
 class ImageViewer : public QWidget
 {
     Q_OBJECT
@@ -37,44 +35,21 @@ public:
     explicit ImageViewer(const QString &title = QString(), QWidget *parent = nullptr);
 
     QPixmap pixmap() const;
-
     QString title() const;
 
-    int checkerboardSize() const;
-    void setCheckerboardSize(int newCheckerboardSize);
-
 public slots:
-    void setPixmap(const QPixmap &newPixmap);
-    void setTitle(const QString &newTitle);
-    void fitImage();
+    void setPixmap(const QPixmap &pixmap);
+    void setTitle(const QString &title);
 
 signals:
 
 private:
-    void updatePixScale(const QSize &s);
-    void drawBackground(QPainter &painter);
+    QVBoxLayout *m_layout;
 
-private:
-    QString m_title;
-    QPixmap m_pixmap;
-    QPixmap m_scaledPix;
+    QStatusBar *mw_status;
+    QPushButton *mw_fitButton;
 
-    QPoint m_mousePos;
-    QPoint m_imgPos;
-
-    QPoint m_initialImgPosPress;
-    QPoint m_initialMousePosPress;
-    bool m_mousePressed = false;
-
-    int m_checkerboardSize = 20;
-
-protected:
-    virtual void paintEvent(QPaintEvent *event) override;
-    virtual void mouseMoveEvent(QMouseEvent *event) override;
-    virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void mouseReleaseEvent(QMouseEvent *event) override;
-    virtual void wheelEvent(QWheelEvent *event) override;
-    virtual void resizeEvent(QResizeEvent *event) override;
+    ImageDisplay *mw_viewer;
 
 };
 }

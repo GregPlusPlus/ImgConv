@@ -6,7 +6,7 @@
 
 #include "interactivetextedit.h"
 
-namespace UI::GUI::CodeEditorComponents {
+namespace UI::GUI::Components::CodeEditorComponents {
 
 class LineNumberArea;
 

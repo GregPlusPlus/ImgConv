@@ -18,7 +18,7 @@
 
 #include "keycompletion.h"
 
-using namespace UI::GUI::CodeEditorComponents;
+using namespace UI::GUI::Components::CodeEditorComponents;
 
 KeyCompletion::KeyCompletion(InteractiveTextEdit *parent)
     : QObject{parent}, mw_textEdit{parent} {

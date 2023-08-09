@@ -50,7 +50,7 @@
 
 #include "highlighter.h"
 
-using namespace UI::GUI::CodeEditorComponents;
+using namespace UI::GUI::Components::CodeEditorComponents;
 
 Highlighter::Highlighter(QTextDocument *parent)
     : QSyntaxHighlighter{parent} {

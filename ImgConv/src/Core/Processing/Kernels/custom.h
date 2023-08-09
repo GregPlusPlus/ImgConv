@@ -50,8 +50,8 @@ private:
     QString generateSupportedImgFilesStringFilter();
 
 private:
-    ConvKenrelSetting *m_kernelFileSetting;
-    ConvKenrelSetting *m_normalizeSetting;
+    ConvKernelSetting *m_kernelFileSetting;
+    ConvKernelSetting *m_normalizeSetting;
     QVector<QVector<float>> m_k;
     float m_s;
 };

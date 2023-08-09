@@ -72,7 +72,7 @@ void FilterSettingsDock::setConvKernel(Core::Processing::ConvKernels::ConvKernel
 
     m_FilterSettingsWidgets.clear();
 
-    for(Core::Processing::ConvKernels::ConvKenrelSetting *s : k->settings()) {
+    for(Core::Processing::ConvKernelSetting *s : k->settings()) {
         FilterSettingsWidget *w = new FilterSettingsWidget(s, mw_containerSettings);
         w->show();
         m_FilterSettingsWidgets.append(w);
