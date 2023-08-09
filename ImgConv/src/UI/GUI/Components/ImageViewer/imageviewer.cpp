@@ -16,11 +16,11 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "imageviewercontainer.h"
+#include "imageviewer.h"
 
-using namespace UI::GUI;
+using namespace UI::GUI::Components;
 
-ImageViewerContainer::ImageViewerContainer(const QString &title, QWidget *parent)
+ImageViewer::ImageViewer(const QString &title, QWidget *parent)
     : QWidget{parent} {
 
     m_layout = new QVBoxLayout;
@@ -29,11 +29,11 @@ ImageViewerContainer::ImageViewerContainer(const QString &title, QWidget *parent
     mw_status->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     mw_status->setSizeGripEnabled(false);
 
-    mw_viewer = new ImageViewer(title, this);
+    mw_viewer = new ImageDisplay(title, this);
 
     mw_fitButton = new QPushButton(QIcon(":/icons/magnifier-zoom-fit.png"), QString(), this);
     mw_fitButton->setToolTip(tr("Fit image"));
-    connect(mw_fitButton, &QPushButton::clicked, mw_viewer, &ImageViewer::fitImage);
+    connect(mw_fitButton, &QPushButton::clicked, mw_viewer, &ImageDisplay::fitImage);
 
     mw_status->addPermanentWidget(mw_fitButton);
 
@@ -43,18 +43,18 @@ ImageViewerContainer::ImageViewerContainer(const QString &title, QWidget *parent
     setLayout(m_layout);
 }
 
-QPixmap ImageViewerContainer::pixmap() const {
+QPixmap ImageViewer::pixmap() const {
     return mw_viewer->pixmap();
 }
 
-QString ImageViewerContainer::title() const {
+QString ImageViewer::title() const {
     return mw_viewer->title();
 }
 
-void ImageViewerContainer::setPixmap(const QPixmap &pixmap) {
+void ImageViewer::setPixmap(const QPixmap &pixmap) {
     mw_viewer->setPixmap(pixmap);
 }
 
-void ImageViewerContainer::setTitle(const QString &title) {
+void ImageViewer::setTitle(const QString &title) {
     mw_viewer->setTitle(title);
 }

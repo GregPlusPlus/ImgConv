@@ -45,13 +45,13 @@ SOURCES += \
     src/UI/GUI/CodeEditor/codeeditorcontainer.cpp \
     src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.cpp \
     src/UI/GUI/Components/HistogramWidget/histogramwidget.cpp \
+    src/UI/GUI/Components/ImageViewer/imagedisplay.cpp \
+    src/UI/GUI/Components/ImageViewer/imageviewer.cpp \
     src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp \
     src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp \
     src/UI/GUI/FilterSettingsWidget/filenamepicker.cpp \
     src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp \
     src/UI/GUI/FilterSettingsWidget/filtersettingswidget.cpp \
-    src/UI/GUI/ImageViewer/imageviewer.cpp \
-    src/UI/GUI/ImageViewer/imageviewercontainer.cpp \
     src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp \
     src/UI/GUI/Panels/LogPanel/logpanel.cpp \
     src/UI/GUI/Panels/LogPanel/logwidget.cpp \
@@ -99,13 +99,13 @@ HEADERS += \
     src/UI/GUI/CodeEditor/codeeditorcontainer.h \
     src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.h \
     src/UI/GUI/Components/HistogramWidget/histogramwidget.h \
+    src/UI/GUI/Components/ImageViewer/imagedisplay.h \
+    src/UI/GUI/Components/ImageViewer/imageviewer.h \
     src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.h \
     src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h \
     src/UI/GUI/FilterSettingsWidget/filenamepicker.h \
     src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h \
     src/UI/GUI/FilterSettingsWidget/filtersettingswidget.h \
-    src/UI/GUI/ImageViewer/imageviewer.h \
-    src/UI/GUI/ImageViewer/imageviewercontainer.h \
     src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h \
     src/UI/GUI/Panels/LogPanel/logpanel.h \
     src/UI/GUI/Panels/LogPanel/logwidget.h \

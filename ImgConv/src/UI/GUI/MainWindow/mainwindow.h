@@ -45,7 +45,7 @@
 #include "app_strings.h"
 
 #include "UI/Translator/translator.h"
-#include "UI/GUI/ImageViewer/imageviewercontainer.h"
+#include "UI/GUI/Components/ImageViewer/imageviewer.h"
 #include "UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h"
 #include "UI/GUI/Panels/LogPanel/logpanel.h"
 #include "UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h"
@@ -103,8 +103,8 @@ private slots:
 
 private:
     QTabWidget *mw_tabWidget;
-    ImageViewerContainer *mw_origImgView;
-    ImageViewerContainer *mw_processedImgView;
+    Components::ImageViewer *mw_origImgView;
+    Components::ImageViewer *mw_processedImgView;
     CodeEditorContainter *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
     Panels::FilterSettingsDock *mw_dockFilterSettings;

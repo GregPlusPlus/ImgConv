@@ -16,36 +16,36 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "imageviewer.h"
+#include "imagedisplay.h"
 
-using namespace UI::GUI;
+using namespace UI::GUI::Components;
 
-ImageViewer::ImageViewer(const QString &title, QWidget *parent)
+ImageDisplay::ImageDisplay(const QString &title, QWidget *parent)
     : QWidget{parent}, m_title{title} {
     setMouseTracking(true);
     setCursor(Qt::OpenHandCursor);
     setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
-QPixmap ImageViewer::pixmap() const {
+QPixmap ImageDisplay::pixmap() const {
     return m_pixmap;
 }
 
-void ImageViewer::setPixmap(const QPixmap &newPixmap) {
+void ImageDisplay::setPixmap(const QPixmap &newPixmap) {
     m_pixmap = newPixmap;
 
     fitImage();
 }
 
-QString ImageViewer::title() const {
+QString ImageDisplay::title() const {
     return m_title;
 }
 
-void ImageViewer::setTitle(const QString &newTitle) {
+void ImageDisplay::setTitle(const QString &newTitle) {
     m_title = newTitle;
 }
 
-void ImageViewer::fitImage() {
+void ImageDisplay::fitImage() {
     updateGeometry();
 
     if(m_pixmap.isNull()) {
@@ -68,7 +68,7 @@ void ImageViewer::fitImage() {
     update();
 }
 
-void ImageViewer::updatePixScale(const QSize &s) {
+void ImageDisplay::updatePixScale(const QSize &s) {
     if(m_pixmap.isNull()) {
         return;
     }
@@ -76,7 +76,7 @@ void ImageViewer::updatePixScale(const QSize &s) {
     m_scaledPix = m_pixmap.scaled(s, Qt::IgnoreAspectRatio, Qt::FastTransformation);
 }
 
-void ImageViewer::drawBackground(QPainter &painter) {
+void ImageDisplay::drawBackground(QPainter &painter) {
     painter.setPen(Qt::NoPen);
 
     for(int x = 0; x < (width() + m_checkerboardSize); x += m_checkerboardSize) {
@@ -98,17 +98,17 @@ void ImageViewer::drawBackground(QPainter &painter) {
     }
 }
 
-int ImageViewer::checkerboardSize() const {
+int ImageDisplay::checkerboardSize() const {
     return m_checkerboardSize;
 }
 
-void ImageViewer::setCheckerboardSize(int newCheckerboardSize) {
+void ImageDisplay::setCheckerboardSize(int newCheckerboardSize) {
     m_checkerboardSize = newCheckerboardSize;
 
     update();
 }
 
-void ImageViewer::paintEvent(QPaintEvent *event) {
+void ImageDisplay::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event)
 
     QPainter p(this);
@@ -122,7 +122,7 @@ void ImageViewer::paintEvent(QPaintEvent *event) {
     }
 }
 
-void ImageViewer::mouseMoveEvent(QMouseEvent *event) {
+void ImageDisplay::mouseMoveEvent(QMouseEvent *event) {
     m_mousePos = event->pos();
 
     if(m_mousePressed) {
@@ -132,7 +132,7 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
-void ImageViewer::mousePressEvent(QMouseEvent *event) {
+void ImageDisplay::mousePressEvent(QMouseEvent *event) {
     setCursor(Qt::ClosedHandCursor);
 
     if(event->button() == Qt::LeftButton) {
@@ -143,7 +143,7 @@ void ImageViewer::mousePressEvent(QMouseEvent *event) {
     }
 }
 
-void ImageViewer::mouseReleaseEvent(QMouseEvent *event) {
+void ImageDisplay::mouseReleaseEvent(QMouseEvent *event) {
     setCursor(Qt::OpenHandCursor);
 
     if(event->button() == Qt::LeftButton) {
@@ -151,7 +151,7 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void ImageViewer::wheelEvent(QWheelEvent *event) {
+void ImageDisplay::wheelEvent(QWheelEvent *event) {
     float factor = 0.8;
     int delta = -event->angleDelta().y();
 
@@ -175,7 +175,7 @@ void ImageViewer::wheelEvent(QWheelEvent *event) {
     update();
 }
 
-void ImageViewer::resizeEvent(QResizeEvent *event) {
+void ImageDisplay::resizeEvent(QResizeEvent *event) {
     if( (m_scaledPix.width() == event->oldSize().width()) ||
         (m_scaledPix.height() == event->oldSize().height())) {
         fitImage();
