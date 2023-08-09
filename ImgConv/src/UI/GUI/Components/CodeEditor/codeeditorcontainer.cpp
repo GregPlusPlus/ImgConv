@@ -18,9 +18,9 @@
 
 #include "codeeditorcontainer.h"
 
-using namespace UI::GUI;
+using namespace UI::GUI::Components;
 
-CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
+CodeEditorView::CodeEditorView(QWidget *parent) :
     QWidget{parent} {
 
     mw_editor = new CodeEditorComponents::CodeEditor(this);
@@ -50,13 +50,13 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     mw_saveButton->setPopupMode(QToolButton::InstantPopup);
     mw_saveMenu = new QMenu(tr("Save file"), mw_saveButton);
     mw_saveButton->setMenu(mw_saveMenu);
-    mw_saveMenu->addAction(QIcon(":/icons/disk.png"), tr("Save"), tr("Ctrl+S"), this, &CodeEditorContainter::saveFile);
-    mw_saveMenu->addAction(QIcon(":/icons/disk-rename.png"), tr("Save as"), tr("Ctrl+Shift+S"), this, &CodeEditorContainter::saveAsFile);
+    mw_saveMenu->addAction(QIcon(":/icons/disk.png"), tr("Save"), tr("Ctrl+S"), this, &CodeEditorView::saveFile);
+    mw_saveMenu->addAction(QIcon(":/icons/disk-rename.png"), tr("Save as"), tr("Ctrl+Shift+S"), this, &CodeEditorView::saveAsFile);
 
     mw_toolBar->addWidget(mw_generateTemplateButton);
-    UI::GUI::Utils::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/tick-button.png"), tr("Apply"), tr("F9"), this, &CodeEditorContainter::applyFile));
+    UI::GUI::Utils::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/tick-button.png"), tr("Apply"), tr("F9"), this, &CodeEditorView::applyFile));
     mw_toolBar->addSeparator();
-    UI::GUI::Utils::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), tr("Ctrl+Shift+O"), this, &CodeEditorContainter::openFile));
+    UI::GUI::Utils::addShortcutToToolTip(mw_toolBar->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("Open file"), tr("Ctrl+Shift+O"), this, &CodeEditorView::openFile));
     mw_toolBar->addWidget(mw_saveButton);
     mw_toolBar->addSeparator();
     mw_toolBar->addAction(QIcon(":/icons/arrow-curve-180-left.png"), tr("Undo"), mw_editor, &QPlainTextEdit::undo);
@@ -81,25 +81,25 @@ CodeEditorContainter::CodeEditorContainter(QWidget *parent) :
     setLayout(m_layout);
 }
 
-CodeEditorContainter::~CodeEditorContainter() {
+CodeEditorView::~CodeEditorView() {
 
 }
 
-QString CodeEditorContainter::getFileName() {
+QString CodeEditorView::getFileName() {
     return m_fileName;
 }
 
-void CodeEditorContainter::setFileName(const QString &fn) {
+void CodeEditorView::setFileName(const QString &fn) {
     m_fileName = fn;
 
     mw_fileName->setText((m_fileName.isEmpty())? tr("Untitled"): m_fileName);
 }
 
-bool CodeEditorContainter::isSaved() const {
+bool CodeEditorView::isSaved() const {
     return m_saved;
 }
 
-void CodeEditorContainter::setSaved(bool s) {
+void CodeEditorView::setSaved(bool s) {
     m_saved = s;
 
     if(m_saved) {
@@ -111,7 +111,7 @@ void CodeEditorContainter::setSaved(bool s) {
     }
 }
 
-void CodeEditorContainter::generateTemplate(const QString &fn) {
+void CodeEditorView::generateTemplate(const QString &fn) {
     confirmSave();
 
     QFile f(fn);
@@ -128,7 +128,7 @@ void CodeEditorContainter::generateTemplate(const QString &fn) {
     f.close();
 }
 
-void CodeEditorContainter::openFile() {
+void CodeEditorView::openFile() {
     confirmSave();
 
     QString fn = QFileDialog::getOpenFileName(this, tr("Open OpenCL source file"),
@@ -153,7 +153,7 @@ void CodeEditorContainter::openFile() {
     f.close();
 }
 
-void CodeEditorContainter::saveFile() {
+void CodeEditorView::saveFile() {
     if(isSaved()) {
         return;
     }
@@ -190,7 +190,7 @@ void CodeEditorContainter::saveFile() {
     f.close();
 }
 
-void CodeEditorContainter::saveAsFile() {
+void CodeEditorView::saveAsFile() {
     QString fn = QFileDialog::getSaveFileName(this, tr("Save OpenCL source file as..."),
                                       QString(), tr("OpenCL source (*.cl *.c);;All files (*.*)"));
 
@@ -214,7 +214,7 @@ void CodeEditorContainter::saveAsFile() {
     f.close();
 }
 
-void CodeEditorContainter::applyFile() {
+void CodeEditorView::applyFile() {
     saveFile();
 
     if(!getFileName().isEmpty()) {
@@ -222,7 +222,7 @@ void CodeEditorContainter::applyFile() {
     }
 }
 
-void CodeEditorContainter::confirmSave() {
+void CodeEditorView::confirmSave() {
     if(!isSaved()) {
         if(QMessageBox::question(this, tr("Unsaved file"), tr("Save file before proceeding ?"),
                                  QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {

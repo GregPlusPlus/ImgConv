@@ -38,11 +38,11 @@ SOURCES += \
     src/Core/Threads/virtualthread.cpp \
     src/Core/Utils/utils.cpp \
     src/Core/App/app.cpp \
-    src/UI/GUI/CodeEditor/Components/codeeditor.cpp \
-    src/UI/GUI/CodeEditor/Components/highlighter.cpp \
-    src/UI/GUI/CodeEditor/Components/interactivetextedit.cpp \
-    src/UI/GUI/CodeEditor/Components/keycompletion.cpp \
-    src/UI/GUI/CodeEditor/codeeditorcontainer.cpp \
+    src/UI/GUI/Components/CodeEditor/Components/codeeditor.cpp \
+    src/UI/GUI/Components/CodeEditor/Components/highlighter.cpp \
+    src/UI/GUI/Components/CodeEditor/Components/interactivetextedit.cpp \
+    src/UI/GUI/Components/CodeEditor/Components/keycompletion.cpp \
+    src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp \
     src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.cpp \
     src/UI/GUI/Components/HistogramWidget/histogramwidget.cpp \
     src/UI/GUI/Components/ImageViewer/imagedisplay.cpp \
@@ -92,11 +92,11 @@ HEADERS += \
     src/Core/Threads/virtualthread.h \
     src/Core/Utils/utils.h \
     src/Core/App/app.h \
-    src/UI/GUI/CodeEditor/Components/codeeditor.h \
-    src/UI/GUI/CodeEditor/Components/highlighter.h \
-    src/UI/GUI/CodeEditor/Components/interactivetextedit.h \
-    src/UI/GUI/CodeEditor/Components/keycompletion.h \
-    src/UI/GUI/CodeEditor/codeeditorcontainer.h \
+    src/UI/GUI/Components/CodeEditor/Components/codeeditor.h \
+    src/UI/GUI/Components/CodeEditor/Components/highlighter.h \
+    src/UI/GUI/Components/CodeEditor/Components/interactivetextedit.h \
+    src/UI/GUI/Components/CodeEditor/Components/keycompletion.h \
+    src/UI/GUI/Components/CodeEditor/codeeditorcontainer.h \
     src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.h \
     src/UI/GUI/Components/HistogramWidget/histogramwidget.h \
     src/UI/GUI/Components/ImageViewer/imagedisplay.h \

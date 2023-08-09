@@ -23,7 +23,7 @@
 
 #include "interactivetextedit.h"
 
-namespace UI::GUI::CodeEditorComponents {
+namespace UI::GUI::Components::CodeEditorComponents {
 class InteractiveTextEdit;
 
 class KeyCompletion : public QObject {

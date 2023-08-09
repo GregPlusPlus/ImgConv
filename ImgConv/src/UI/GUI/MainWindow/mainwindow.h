@@ -53,7 +53,7 @@
 #include "UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/GUI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h"
-#include "UI/GUI/CodeEditor/codeeditorcontainer.h"
+#include "UI/GUI/Components/CodeEditor/codeeditorcontainer.h"
 
 #include "Core/App/app.h"
 #include "Core/Settings/SettingsMgr/settingsmgr.h"
@@ -105,7 +105,7 @@ private:
     QTabWidget *mw_tabWidget;
     Components::ImageViewer *mw_origImgView;
     Components::ImageViewer *mw_processedImgView;
-    CodeEditorContainter *mw_codeEditor;
+    Components::CodeEditorView *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
     Panels::FilterSettingsDock *mw_dockFilterSettings;
     Panels::LogPanel *mw_logPanel;
