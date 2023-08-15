@@ -75,16 +75,18 @@ void MotionBlur::settingChanged() {
     QVector<QVector<float>> k;
 
     QImage kImg(kSize, kSize, QImage::Format_ARGB32);
-    kImg.fill(Qt::black);
+    kImg.fill(QColor(128, 128, 128));
+
     QPainter p(&kImg);
+    p.setRenderHint(QPainter::Antialiasing);
     p.translate(kSize / 2, kSize / 2);
 
-    p.setPen(Qt::white);
+    p.setPen(QColor(255, 255, 255));
     p.rotate(m_angleSetting->val());
-    p.drawLine(-kSize / 2, 0, kSize / 2, 0);
+    p.drawLine(-kSize, 0, kSize, 0);
 
     Utils::imageToMatrix(k, kImg);
 
     m_k = k;
-    m_s = 1.f/Utils::matrixSumCoef(k);
+    m_s = 1.f / Utils::matrixSumCoef(k);
 }
