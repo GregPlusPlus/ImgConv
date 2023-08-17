@@ -69,4 +69,41 @@ void removeShortcutFromToolTip(QAction *action) {
     action->setToolTip(action->property("tooltipBackup").toString());
     action->setProperty("tooltipBackup", QVariant());
 }
+
+void showAboutDialog(QWidget *parent) {
+    QString str = QObject::tr ("<h1>%1</h1> " \
+                               "[Rev. %2]<br>" \
+                               "Build with <a href=\"https://qt.io/\">Qt</a> version %3, runtime : %4<br><br>" \
+                               "Some icons are provided under a " \
+                               "<a href='https://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 License</a> " \
+                               "by Yusuke Kamiyamane <a href='https://p.yusukekamiyamane.com/'>(Fugue Icons)</a>.<br><br>"\
+                               "%5"\
+                               "<hr>%6").arg(APP_NAME,
+                                             GIT_VERSION,
+                                             QT_VERSION_STR,
+                                             qVersion(),
+                                             COPYRIGHT,
+                                             LGPL_STR);
+
+    QMessageBox *about = new QMessageBox(parent);
+    about->setWindowTitle(QObject::tr("About %1...").arg(APP_NAME));
+    about->setIconPixmap(QPixmap(":/icons/icon.png"));
+    about->setText(str);
+    about->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+    about->setStandardButtons(QMessageBox::Close);
+    about->setDefaultButton(QMessageBox::Close);
+
+    QFile gpl(":/licenses/COPYING.txt");
+    QFile lgpl(":/licenses/COPYING.LESSER.txt");
+    QFile CCBY30(":/licenses/CC30.txt");
+
+    if(gpl.open(QIODevice::ReadOnly)){about->setDetailedText(about->detailedText() + gpl.readAll() + "\n\n");}
+    if(lgpl.open(QIODevice::ReadOnly)){about->setDetailedText(about->detailedText() + lgpl.readAll() + "\n\n");}
+    if(CCBY30.open(QIODevice::ReadOnly)){about->setDetailedText(about->detailedText() + CCBY30.readAll() + "\n\n");}
+
+    about->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+    about->exec();
+}
+
 }
