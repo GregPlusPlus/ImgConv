@@ -122,7 +122,7 @@ QList<Core::OCLWrapper::Device> Core::OCLUtils::getDevices() {
             clGetDeviceInfo(devices[j], CL_DEVICE_NAME, 0, NULL, &valueSize);
             value = new char[valueSize];
             clGetDeviceInfo(devices[j], CL_DEVICE_NAME, valueSize, value, NULL);
-            device.name = value;
+            device.name = QString("%1.%2. %3").arg(i + 1).arg(j + 1).arg(value);
             delete[] value;
 
             list.append(device);
