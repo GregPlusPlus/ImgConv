@@ -4,23 +4,23 @@
 <context>
     <name>Core::App</name>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="38"/>
+        <location filename="../src/Core/App/app.cpp" line="50"/>
         <source>No OpenCL compatible device found !</source>
         <translation>Aucun périphérique compatible OpenCl trouvé !</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="62"/>
-        <location filename="../src/Core/App/app.cpp" line="93"/>
+        <location filename="../src/Core/App/app.cpp" line="76"/>
+        <location filename="../src/Core/App/app.cpp" line="107"/>
         <source>OCL backend error (%1)</source>
         <translation>Erreur de backend OCL(%1)</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="77"/>
+        <location filename="../src/Core/App/app.cpp" line="91"/>
         <source>File error (%1)</source>
         <translation>Erreur de fichier (%1)</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="85"/>
+        <location filename="../src/Core/App/app.cpp" line="99"/>
         <source>OCL build program error (%1)
 ______________________________
 %2</source>
@@ -29,41 +29,41 @@ ______________________________
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="120"/>
-        <location filename="../src/Core/App/app.cpp" line="192"/>
-        <location filename="../src/Core/App/app.cpp" line="235"/>
+        <location filename="../src/Core/App/app.cpp" line="134"/>
+        <location filename="../src/Core/App/app.cpp" line="206"/>
+        <location filename="../src/Core/App/app.cpp" line="249"/>
         <source>Kernel already running ! Please wait.</source>
         <translation>Un noyau est déjà en cours d&apos;exécution ! Merci d&apos;attendre.</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="138"/>
-        <location filename="../src/Core/App/app.cpp" line="252"/>
+        <location filename="../src/Core/App/app.cpp" line="152"/>
+        <location filename="../src/Core/App/app.cpp" line="266"/>
         <source>
 [%1] Creating program - opts. : `%2`</source>
         <translation>
 [%1] Création du programme - opts. : `%2`</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="141"/>
-        <location filename="../src/Core/App/app.cpp" line="255"/>
+        <location filename="../src/Core/App/app.cpp" line="155"/>
+        <location filename="../src/Core/App/app.cpp" line="269"/>
         <source>
 Chunk size : %1x%2 px.</source>
         <translation>
 Taille de bloc : %1x%2 px.</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="181"/>
-        <location filename="../src/Core/App/app.cpp" line="290"/>
+        <location filename="../src/Core/App/app.cpp" line="195"/>
+        <location filename="../src/Core/App/app.cpp" line="304"/>
         <source>%1 - Running kernel ...</source>
         <translation>%1 - Exécution du noyau ...</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="245"/>
+        <location filename="../src/Core/App/app.cpp" line="259"/>
         <source>Invalid histogram.</source>
         <translation>Histogramme invalide.</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="300"/>
+        <location filename="../src/Core/App/app.cpp" line="314"/>
         <source>
 %1x%2 Convolution matrix :
 </source>
@@ -72,7 +72,7 @@ Taille de bloc : %1x%2 px.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="303"/>
+        <location filename="../src/Core/App/app.cpp" line="317"/>
         <source>Matrix is too large to be printed.</source>
         <translation>La matrice est trop grande pour être affichée.</translation>
     </message>
@@ -191,7 +191,7 @@ Taille de bloc : %1x%2 px.</translation>
     <message>
         <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="55"/>
         <source>Motion blur</source>
-        <translation>Flou de déplacement</translation>
+        <translation>Flou de mouvement</translation>
     </message>
     <message>
         <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="59"/>
@@ -322,6 +322,16 @@ Taille de bloc : %1x%2 px.</translation>
 </source>
         <translation>    %1.4 Unités de calcul parallèle : %2
 </translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/UtilsGUI/utilsgui.cpp" line="74"/>
+        <source>&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;Build with &lt;a href=&quot;https://qt.io/&quot;&gt;Qt&lt;/a&gt; version %3, runtime : %4&lt;br&gt;&lt;br&gt;Some icons are provided under a &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; by Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%5&lt;hr&gt;%6</source>
+        <translation>&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;Compilé avec &lt;a href=&quot;https://qt.io/&quot;&gt;Qt&lt;/a&gt; version %3, runtime : %4&lt;br&gt;&lt;br&gt;Certaines icônes sont fournies sous license &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; par Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%5&lt;hr&gt;%6</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/UtilsGUI/utilsgui.cpp" line="89"/>
+        <source>About %1...</source>
+        <translation>A propos de %1...</translation>
     </message>
 </context>
 <context>
@@ -503,122 +513,92 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::CodeEditorContainter</name>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="39"/>
         <source>Generate code template</source>
-        <translation>Générer un modèle de code</translation>
+        <translation type="vanished">Générer un modèle de code</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="41"/>
         <source>Basic template</source>
-        <translation>Modèle basique</translation>
+        <translation type="vanished">Modèle basique</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="44"/>
         <source>Convolution template</source>
-        <translation>Modèle de convolution</translation>
+        <translation type="vanished">Modèle de convolution</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="51"/>
         <source>Save file</source>
-        <translation>Enregistrer le fichier</translation>
+        <translation type="vanished">Enregistrer le fichier</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="53"/>
         <source>Save</source>
-        <translation>Enregistrer</translation>
+        <translation type="vanished">Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="53"/>
         <source>Ctrl+S</source>
-        <translation>Ctrl+S</translation>
+        <translation type="vanished">Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="54"/>
         <source>Save as</source>
-        <translation>Enregistrer sous</translation>
+        <translation type="vanished">Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="54"/>
         <source>Ctrl+Shift+S</source>
-        <translation>Ctrl+Shift+S</translation>
+        <translation type="vanished">Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="57"/>
         <source>Apply</source>
-        <translation>Appliquer</translation>
+        <translation type="vanished">Appliquer</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="57"/>
         <source>F9</source>
-        <translation>F9</translation>
+        <translation type="vanished">F9</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="59"/>
         <source>Open file</source>
-        <translation>Ouvrir un fichier</translation>
+        <translation type="vanished">Ouvrir un fichier</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="59"/>
         <source>Ctrl+Shift+O</source>
-        <translation>Ctrl+Shift+O</translation>
+        <translation type="vanished">Ctrl+Shift+O</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="62"/>
         <source>Undo</source>
-        <translation>Défaire</translation>
+        <translation type="vanished">Défaire</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="63"/>
         <source>Redo</source>
-        <translation>Refaire</translation>
+        <translation type="vanished">Refaire</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="71"/>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="95"/>
         <source>Untitled</source>
-        <translation>Sans-nom</translation>
+        <translation type="vanished">Sans-nom</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="107"/>
         <source>File is saved</source>
-        <translation>Le fichier est enregistré</translation>
+        <translation type="vanished">Le fichier est enregistré</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="110"/>
         <source>File is not saved</source>
-        <translation>Le fichier n&apos;est pas enregistré</translation>
+        <translation type="vanished">Le fichier n&apos;est pas enregistré</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="134"/>
         <source>Open OpenCL source file</source>
-        <translation>Ouvrir un fichier source OpenCL</translation>
+        <translation type="vanished">Ouvrir un fichier source OpenCL</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="135"/>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="165"/>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="195"/>
-        <source>OpenCL source (*.cl *.c);;All files (*.*)</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="164"/>
         <source>Save OpenCL source file</source>
-        <translation>Enregistrer le fichier source OpenCL</translation>
+        <translation type="vanished">Enregistrer le fichier source OpenCL</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="194"/>
         <source>Save OpenCL source file as...</source>
-        <translation>Enregistrer le fichier source OpenCL sous ...</translation>
+        <translation type="vanished">Enregistrer le fichier source OpenCL sous ...</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="227"/>
         <source>Unsaved file</source>
-        <translation>Fichier non enregistré</translation>
+        <translation type="vanished">Fichier non enregistré</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/CodeEditor/codeeditorcontainer.cpp" line="227"/>
         <source>Save file before proceeding ?</source>
-        <translation>Enregistrer avant de continuer ?</translation>
+        <translation type="vanished">Enregistrer avant de continuer ?</translation>
     </message>
 </context>
 <context>
@@ -627,6 +607,127 @@ Taille de bloc : %1x%2 px.</translation>
         <location filename="../src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.cpp" line="25"/>
         <source>Pick color</source>
         <translation>Sélectionner une couleur</translation>
+    </message>
+</context>
+<context>
+    <name>UI::GUI::Components::CodeEditorView</name>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="39"/>
+        <source>Generate code template</source>
+        <translation>Générer un modèle de code</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="41"/>
+        <source>Basic template</source>
+        <translation>Modèle basique</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="44"/>
+        <source>Convolution template</source>
+        <translation>Modèle de convolution</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="51"/>
+        <source>Save file</source>
+        <translation>Enregistrer le fichier</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="53"/>
+        <source>Save</source>
+        <translation>Enregistrer</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="53"/>
+        <source>Ctrl+S</source>
+        <translation>Ctrl+S</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="54"/>
+        <source>Save as</source>
+        <translation>Enregistrer sous</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="54"/>
+        <source>Ctrl+Shift+S</source>
+        <translation>Ctrl+Shift+S</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="57"/>
+        <source>Apply</source>
+        <translation>Appliquer</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="57"/>
+        <source>F9</source>
+        <translation>F9</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="59"/>
+        <source>Open file</source>
+        <translation>Ouvrir un fichier</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="59"/>
+        <source>Ctrl+Shift+O</source>
+        <translation>Ctrl+Shift+O</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="62"/>
+        <source>Undo</source>
+        <translation>Défaire</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="63"/>
+        <source>Redo</source>
+        <translation>Refaire</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="71"/>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="95"/>
+        <source>Untitled</source>
+        <translation>Sans-nom</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="107"/>
+        <source>File is saved</source>
+        <translation>Le fichier est enregistré</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="110"/>
+        <source>File is not saved</source>
+        <translation>Le fichier n&apos;est pas enregistré</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="134"/>
+        <source>Open OpenCL source file</source>
+        <translation>Ouvrir un fichier source OpenCL</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="135"/>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="165"/>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="195"/>
+        <source>OpenCL source (*.cl *.c);;All files (*.*)</source>
+        <translation>Source OpenCL (*.cl *.c);;All files (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="164"/>
+        <source>Save OpenCL source file</source>
+        <translation>Enregistrer le fichier source OpenCL</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="194"/>
+        <source>Save OpenCL source file as...</source>
+        <translation>Enregistrer le fichier source OpenCL sous ...</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="227"/>
+        <source>Unsaved file</source>
+        <translation>Fichier non enregistré</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp" line="227"/>
+        <source>Save file before proceeding ?</source>
+        <translation>Enregistrer avant de continuer ?</translation>
     </message>
 </context>
 <context>
@@ -640,6 +741,14 @@ Taille de bloc : %1x%2 px.</translation>
         <location filename="../src/UI/GUI/Components/HistogramWidget/histogramwidget.cpp" line="109"/>
         <source>No Data</source>
         <translation>Pas de données</translation>
+    </message>
+</context>
+<context>
+    <name>UI::GUI::Components::ImageViewer</name>
+    <message>
+        <location filename="../src/UI/GUI/Components/ImageViewer/imageviewer.cpp" line="35"/>
+        <source>Fit image</source>
+        <translation>Ajuster l&apos;image</translation>
     </message>
 </context>
 <context>
@@ -745,9 +854,8 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::ImageViewerContainer</name>
     <message>
-        <location filename="../src/UI/GUI/ImageViewer/imageviewercontainer.cpp" line="35"/>
         <source>Fit image</source>
-        <translation>Ajuster l&apos;image</translation>
+        <translation type="vanished">Ajuster l&apos;image</translation>
     </message>
 </context>
 <context>
@@ -844,216 +952,214 @@ Taille de bloc : %1x%2 px.</translation>
         <translation>[%1] Image enregistrée en %2 ms.</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="307"/>
         <source>About this program</source>
-        <translation>A propos de ce programme</translation>
+        <translation type="vanished">A propos de ce programme</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="308"/>
         <source>&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;&lt;br&gt;Some icons are provided under a &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; by Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%3&lt;hr&gt;%4</source>
-        <translation>&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;&lt;br&gt;Certaines icônes sont fournies sous license &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; par Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%3&lt;hr&gt;%4</translation>
+        <translation type="vanished">&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;&lt;br&gt;Certaines icônes sont fournies sous license &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; par Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%3&lt;hr&gt;%4</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="332"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="321"/>
         <source>Unsaved file</source>
         <translation>Fichier non enregistré</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="332"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="321"/>
         <source>Save processed image before closing ?</source>
         <translation>Enregistrer l&apos;image traitée avant de continuer ?</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="372"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="361"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="374"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="363"/>
         <source>&amp;Open</source>
         <translation>&amp;Ouvrir</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="374"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="363"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="375"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="364"/>
         <source>&amp;Create image</source>
         <translation>&amp;Créer une image</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="375"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="364"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="376"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="365"/>
         <source>&amp;Export processed image</source>
         <translation>&amp;Exporter l&apos;image traitée</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="376"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="365"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="378"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="367"/>
         <source>Select &amp;device</source>
         <translation>Sélectionner le &amp;périphérique</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="388"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="377"/>
         <source>&amp;Exit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="388"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="377"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="390"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="379"/>
         <source>&amp;Process</source>
         <translation>&amp;Traitement</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="391"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="380"/>
         <source>Process &amp;options</source>
         <translation>&amp;Options de traitement</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="393"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="382"/>
         <source>Reload current &amp;kernel</source>
         <translation>&amp;Recharger le noyau courant</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="393"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="382"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="396"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="385"/>
         <source>&amp;Run</source>
         <translation>&amp;Exécuter</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="396"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="385"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="397"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="386"/>
         <source>&amp;Backfeed</source>
         <translation>Rétro-&amp;alimenter</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="397"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="386"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="403"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="392"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="404"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="393"/>
         <source>&amp;About this program</source>
         <translation>&amp;A propos de ce programme</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="405"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="394"/>
         <source>&amp;Language</source>
         <translation>&amp;Langue</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="407"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="396"/>
         <source>About &amp;Qt</source>
         <translation>A propos de &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="411"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="400"/>
         <source>Open&amp;CL Devices</source>
         <translation>Périphériques Open&amp;CL</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="412"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="401"/>
         <source>OpenCL Devices</source>
         <translation>Périphériques OpenCL</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="415"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="404"/>
         <source>Tools</source>
         <translation>Outils</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="420"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="409"/>
         <source>Filter : </source>
         <translation>Filtre : </translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="474"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="463"/>
         <source>Window reload</source>
         <translation>Rechargement de la fenêtre</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="474"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="463"/>
         <source>The window needs to be reloaded for the language selection to take effect. 
 Reload now ?</source>
         <translation>La fenêtre doit être rechargée pour que les paramètres de langue prennent effet. 
 Recharger maintenant ?</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="485"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="474"/>
         <source>Selected device : %1</source>
         <translation>Périphérique sélectionné : %1</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="521"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="510"/>
         <source>Original image</source>
         <translation>Image originale</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="522"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="511"/>
         <source>Processed image</source>
         <translation>Image traitée</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="531"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="520"/>
         <source>Original</source>
         <translation>Image originale</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="532"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="521"/>
         <source>Processed</source>
         <translation>Image traitée</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="533"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="522"/>
         <source>Code editor</source>
         <translation>Editeur de code</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="553"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="542"/>
         <source>Cancel work in progress</source>
         <translation>Annuler le travail en cours</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="553"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="542"/>
         <source>A kernel is currently running. 
 Do you want to abort it then close the propgram ?</source>
         <translation>Un noyau est en cours d&apos;exécution. 
 Voulez-vous l&apos;interrompre et fermer le programme ?</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="565"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="554"/>
         <source>Process is running</source>
         <translation>Processus en cours</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="565"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="554"/>
         <source>Cannot close window, %1 proccess still running.</source>
         <translation>Impossible de fermer la fenêtre, %1 processus en cours d&apos;exécution.</translation>
     </message>
