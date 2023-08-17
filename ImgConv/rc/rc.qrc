@@ -36,5 +36,8 @@
         <file>icons/control-stop-square-red.png</file>
         <file>translations/ImgConv_fr.qm</file>
         <file>icons/edit-language.png</file>
+        <file>licenses/COPYING.LESSER.txt</file>
+        <file>licenses/COPYING.txt</file>
+        <file>licenses/CC30.txt</file>
     </qresource>
 </RCC>

@@ -304,18 +304,7 @@ void MainWindow::chooseProcessingOptions() {
 }
 
 void MainWindow::showAboutDialog() {
-    QMessageBox::about(this, tr("About this program"),
-                       tr("<h1>%1</h1> " \
-                          "[Rev. %2]<br><br>" \
-                          "Some icons are provided under a " \
-                          "<a href='https://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 License</a> " \
-                          "by Yusuke Kamiyamane <a href='https://p.yusukekamiyamane.com/'>(Fugue Icons)</a>.<br><br>"\
-                          "%3"\
-                          "<hr>%4")
-                       .arg(APP_NAME,
-                            GIT_VERSION,
-                            COPYRIGHT,
-                            LGPL_STR));
+    Utils::showAboutDialog(this);
 }
 
 bool MainWindow::saveOnExit() {

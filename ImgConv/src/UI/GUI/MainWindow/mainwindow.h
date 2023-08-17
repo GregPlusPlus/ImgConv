@@ -42,8 +42,6 @@
 #include <QImageReader>
 #include <QCloseEvent>
 
-#include "app_strings.h"
-
 #include "UI/Translator/translator.h"
 #include "UI/GUI/Components/ImageViewer/imageviewer.h"
 #include "UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h"

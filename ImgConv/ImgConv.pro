@@ -111,11 +111,11 @@ HEADERS += \
     src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h \
     src/UI/GUI/Panels/LogPanel/logpanel.h \
     src/UI/GUI/Panels/LogPanel/logwidget.h \
-    src/UI/GUI/MainWindow/app_strings.h \
     src/UI/GUI/MainWindow/mainwindow.h \
     src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.h \
     src/UI/GUI/Dialogs/WaitDialog/waitdialog.h \
     src/UI/GUI/UtilsGUI/utilsgui.h \
+    src/UI/GUI/UtilsGUI/app_strings.h \
     src/UI/GUI/WaitDialogMgr/waitdialogmgr.h \
     src/UI/Translator/translator.h
 
