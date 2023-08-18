@@ -83,7 +83,9 @@ private slots:
     void exportProcessedImage(bool closeWhenFinished = false);
     void filterSelected(int index);
     void chooseProcessingOptions();
+    void selectDevice();
     void showAboutDialog();
+    void listOpenCLDevices();
     bool saveOnExit();
     void buildMenus();
     void buildLangMenu();

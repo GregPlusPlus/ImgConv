@@ -303,8 +303,24 @@ void MainWindow::chooseProcessingOptions() {
     m_coreApp->setProcessingOptions(options);
 }
 
+void MainWindow::selectDevice() {
+    Dialogs::SelectDeviceDialog dialog(m_coreApp->devices());
+    connect(&dialog, &Dialogs::SelectDeviceDialog::listOpenCLDevices, this, &MainWindow::listOpenCLDevices);
+
+    if(dialog.exec() == QDialog::Accepted) {
+        if(!m_coreApp->ocl()->isRunning()) {
+            m_coreApp->initOpenCL(dialog.getDevice());
+            displayDeviceName();
+        }
+    }
+}
+
 void MainWindow::showAboutDialog() {
     Utils::showAboutDialog(this);
+}
+
+void MainWindow::listOpenCLDevices() {
+    QMessageBox::information(this, tr("OpenCL Devices"), Core::OCLUtils::getDevicesInfoStr());
 }
 
 bool MainWindow::saveOnExit() {
@@ -364,15 +380,7 @@ void MainWindow::buildMenus() {
     m_createImageAction = mw_fileMenu->addAction(QIcon(":/icons/image-new.png"), tr("&Create image"), tr("Ctrl+N"), this, &MainWindow::createImage);
     m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("&Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportProcessedImage);
     mw_fileMenu->addSeparator();
-    m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, [this]() {
-        Dialogs::SelectDeviceDialog dialog(m_coreApp->devices());
-        if(dialog.exec() == QDialog::Accepted) {
-            if(!m_coreApp->ocl()->isRunning()) {
-                m_coreApp->initOpenCL(dialog.getDevice());
-                displayDeviceName();
-            }
-        }
-    });
+    m_selectDeviceAction = mw_fileMenu->addAction(QIcon(":/icons/graphic-card.png"), tr("Select &device"), this, &MainWindow::selectDevice);
     mw_fileMenu->addSeparator();
     m_exitAction = mw_fileMenu->addAction(QIcon(":/icons/door-open-in.png"), tr("&Exit"), tr("Ctrl+W"), this, [](){qApp->exit();});
 
@@ -397,9 +405,7 @@ void MainWindow::buildMenus() {
         QMessageBox::aboutQt(this);
     });
 
-    m_openCLDevices = mw_helpMenu->addAction(tr("Open&CL Devices"), this, [this]() {
-        QMessageBox::information(this, tr("OpenCL Devices"), Core::OCLUtils::getDevicesInfoStr());
-    });
+    m_openCLDevices = mw_helpMenu->addAction(tr("Open&CL Devices"), this, &MainWindow::listOpenCLDevices);
 
     mw_toolBar = new QToolBar(tr("Tools"), this);
     mw_toolBar->addAction(m_openFileAction);
