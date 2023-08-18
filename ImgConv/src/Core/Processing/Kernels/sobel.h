@@ -31,6 +31,9 @@ public:
     float getScalar() const;
     QString getName() const;
     QString getDescription();
+
+private:
+    ConvKernelSetting *m_thresholdSetting;
 };
 }
 
