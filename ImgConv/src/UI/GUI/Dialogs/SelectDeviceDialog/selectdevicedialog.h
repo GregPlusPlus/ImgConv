@@ -24,6 +24,7 @@
 #include <QDialogButtonBox>
 #include <QFormLayout>
 #include <QList>
+#include <QLabel>
 
 #include "Core/OCLWrapper/oclwrapper.h"
 
@@ -36,10 +37,15 @@ public:
 
     Core::OCLWrapper::Device getDevice();
 
+signals:
+    void listOpenCLDevices();
+
 private:
     QFormLayout *m_layout;
     QDialogButtonBox *mw_buttonBox;
     QComboBox *mw_combo;
+    QLabel *mw_linkLabel;
+
 private:
     QList<Core::OCLWrapper::Device> m_devices;
 };

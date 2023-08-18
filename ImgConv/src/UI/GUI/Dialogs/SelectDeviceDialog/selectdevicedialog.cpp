@@ -34,7 +34,15 @@ SelectDeviceDialog::SelectDeviceDialog(QList<Core::OCLWrapper::Device> devices)
         mw_combo->addItem(d.name);
     }
 
+    mw_linkLabel = new QLabel(tr("See <a href='listopencldevices'>details of OpenCL devices</a>"), this);
+    connect(mw_linkLabel, &QLabel::linkActivated, this, [this](const QString &link) {
+        Q_UNUSED(link)
+
+        emit listOpenCLDevices();
+    });
+
     m_layout->addRow(tr("Device :"), mw_combo);
+    m_layout->addRow(mw_linkLabel);
 
     mw_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok |
                                         QDialogButtonBox::Cancel,
