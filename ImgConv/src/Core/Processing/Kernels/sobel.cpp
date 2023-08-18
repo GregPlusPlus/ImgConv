@@ -23,12 +23,20 @@ using namespace Core::Processing::ConvKernels;
 Sobel::Sobel(QObject *parent)
     : ConvKernel{parent} {
     setSourceFilePath(":/ocl/sobel.cl");
+
+    m_thresholdSetting = new ConvKernelSetting(tr("Threshold"),
+                                               true, 0,
+                                               true, 255,
+                                               0,
+                                               this);
+
+    addSetting(m_thresholdSetting);
 }
 
 QVector<QVector<float> > Sobel::getMat() const {
     static QVector<QVector<float>> k = {
         {0, 0, 0},
-        {0, 0, 0},
+        {0, 1, 0},
         {0, 0, 0}
     };
 
@@ -36,7 +44,7 @@ QVector<QVector<float> > Sobel::getMat() const {
 }
 
 float Sobel::getScalar() const {
-    return 1.f;
+    return m_thresholdSetting->val();
 }
 
 QString Sobel::getName() const {
