@@ -58,8 +58,9 @@ UI::GUI::Dialogs::ProcessOptionsDialog::ProcessOptionsDialog(Core::Settings::Set
         m_options->fixedColor = color;
     });
 
-    mw_userIncludePathPicker = new Components::FilenamePicker(tr("User include path"), tr("file *.txt"),
+    mw_userIncludePathPicker = new Components::FilenamePicker(tr("User include path"), QString(),
                                                               Components::FilenamePicker::Directories, this);
+    mw_userIncludePathPicker->setPlaceHolder(tr("Empty for default path"));
     mw_userIncludePathPicker->setFileName(settingsMgr->getUserIncludePath());
     connect(mw_userIncludePathPicker, &Components::FilenamePicker::fileNameChanged, this, [settingsMgr](const QString &path) {
         settingsMgr->setUserIncludePath(path);

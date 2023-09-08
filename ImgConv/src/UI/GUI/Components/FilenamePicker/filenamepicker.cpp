@@ -66,3 +66,7 @@ void FilenamePicker::setFileName(const QString &fn) {
 
     emit fileNameChanged(fn);
 }
+
+void FilenamePicker::setPlaceHolder(const QString &placeholder) {
+    mw_fileName->setPlaceholderText(placeholder);
+}

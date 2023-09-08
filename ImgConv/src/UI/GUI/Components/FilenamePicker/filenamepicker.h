@@ -44,6 +44,7 @@ public:
 
 public slots:
     void setFileName(const QString &fn);
+    void setPlaceHolder(const QString &placeholder);
 
 signals:
     void fileNameChanged(const QString &fn);
