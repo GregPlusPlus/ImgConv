@@ -20,7 +20,7 @@
 
 using namespace UI::GUI::Dialogs;
 
-UI::GUI::Dialogs::ProcessOptionsDialog::ProcessOptionsDialog(Core::Processing::Options *options, QWidget *parent)
+UI::GUI::Dialogs::ProcessOptionsDialog::ProcessOptionsDialog(Core::Settings::SettingsMgr *settingsMgr, Core::Processing::Options *options, QWidget *parent)
     : QDialog{parent}, m_options{options} {
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 
@@ -58,9 +58,17 @@ UI::GUI::Dialogs::ProcessOptionsDialog::ProcessOptionsDialog(Core::Processing::O
         m_options->fixedColor = color;
     });
 
+    mw_userIncludePathPicker = new Components::FilenamePicker(tr("User include path"), tr("file *.txt"),
+                                                              Components::FilenamePicker::Directories, this);
+    mw_userIncludePathPicker->setFileName(settingsMgr->getUserIncludePath());
+    connect(mw_userIncludePathPicker, &Components::FilenamePicker::fileNameChanged, this, [settingsMgr](const QString &path) {
+        settingsMgr->setUserIncludePath(path);
+    });
+
     m_layout->addRow(tr("Chunk size factor"), mw_chunkFactor);
     m_layout->addRow(tr("Boundary mode"), mw_boundModeSelection);
     m_layout->addRow(tr("Boundary fixed color"), mw_buttonColorPicker);
+    m_layout->addRow(tr("User include path"), mw_userIncludePathPicker);
     m_layout->addWidget(mw_buttonBox);
 
     setLayout(m_layout);
