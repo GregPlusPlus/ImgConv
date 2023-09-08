@@ -106,4 +106,11 @@ void showAboutDialog(QWidget *parent) {
     about->exec();
 }
 
+QFrame *createSeparator(QWidget *parent, QFrame::Shape shape) {
+    QFrame* line = new QFrame(parent);
+    line->setFrameShape(shape);
+    line->setFrameShadow(QFrame::Raised);
+    return line;
+}
+
 }
