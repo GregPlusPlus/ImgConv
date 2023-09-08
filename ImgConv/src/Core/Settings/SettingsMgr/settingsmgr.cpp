@@ -31,6 +31,7 @@ void SettingsMgr::init() {
     registerSetting(new Setting("GUI/windowGeometry", QRect()));
     registerSetting(new Setting("Processing/boundaryMode", (int)Processing::Options::Fixed_Color));
     registerSetting(new Setting("Processing/boundaryFixedColor", QColor(Qt::black)));
+    registerSetting(new Setting("Processing/userIncludePath", QString()));
 
     connect(getSetting("UI/lang"), &Settings::Setting::valueChanged, this, [this](const QString &key, const QVariant &value) {
         Q_UNUSED(key)
@@ -39,7 +40,7 @@ void SettingsMgr::init() {
     });
 }
 
-QString SettingsMgr::getLang() {
+QString SettingsMgr::getLang() const {
     return getSetting("UI/lang")->value().toString();
 }
 
@@ -47,7 +48,7 @@ void SettingsMgr::setLang(const QString &lang) {
     getSetting("UI/lang")->setValue(lang);
 }
 
-QString SettingsMgr::getDevice() {
+QString SettingsMgr::getDevice() const {
     return getSetting("Core/device")->value().toString();
 }
 
@@ -55,7 +56,7 @@ void SettingsMgr::setDevice(const QString &name) {
     getSetting("Core/device")->setValue(name);
 }
 
-QRect SettingsMgr::getWindowGeometry() {
+QRect SettingsMgr::getWindowGeometry() const {
     return getSetting("GUI/windowGeometry")->value().toRect();
 }
 
@@ -63,7 +64,7 @@ void SettingsMgr::setWindowGeometry(const QRect &rect) {
     getSetting("GUI/windowGeometry")->setValue(rect);
 }
 
-Core::Processing::Options::BoundaryMode SettingsMgr::getBoundaryMode() {
+Core::Processing::Options::BoundaryMode SettingsMgr::getBoundaryMode() const {
     return static_cast<Processing::Options::BoundaryMode>(getSetting("Processing/boundaryMode")->value().toInt());
 }
 
@@ -71,10 +72,18 @@ void SettingsMgr::setBoundaryMode(Processing::Options::BoundaryMode mode) {
     getSetting("Processing/boundaryMode")->setValue((int)mode);
 }
 
-QColor SettingsMgr::getBoundaryFixedColor() {
+QColor SettingsMgr::getBoundaryFixedColor() const {
     return getSetting("Processing/boundaryFixedColor")->value().value<QColor>();
 }
 
 void SettingsMgr::setBoundaryFixedColor(const QColor &color) {
     getSetting("Processing/boundaryFixedColor")->setValue(color);
+}
+
+QString SettingsMgr::getUserIncludePath() const {
+    return getSetting("Processing/userIncludePath")->value().toString();
+}
+
+void SettingsMgr::setUserIncludePath(const QString &path) {
+    return getSetting("Processing/userIncludePath")->setValue(path);
 }

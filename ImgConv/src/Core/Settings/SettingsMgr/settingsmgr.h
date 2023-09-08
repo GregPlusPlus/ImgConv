@@ -33,20 +33,23 @@ public:
     void init();
 
 public:
-    QString getLang();
+    QString getLang() const;
     void setLang(const QString &lang);
 
-    QString getDevice();
+    QString getDevice() const;
     void setDevice(const QString &name);
 
-    QRect getWindowGeometry();
+    QRect getWindowGeometry() const;
     void setWindowGeometry(const QRect &rect);
 
-    Core::Processing::Options::BoundaryMode getBoundaryMode();
+    Core::Processing::Options::BoundaryMode getBoundaryMode() const;
     void setBoundaryMode(Core::Processing::Options::BoundaryMode mode);
 
-    QColor getBoundaryFixedColor();
+    QColor getBoundaryFixedColor() const ;
     void setBoundaryFixedColor(const QColor &color);
+
+    QString getUserIncludePath() const;
+    void setUserIncludePath(const QString &path);
 
 signals:
     void langChanged();
