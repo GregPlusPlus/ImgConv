@@ -45,7 +45,7 @@ SOURCES += \
     src/UI/GUI/Components/CodeEditor/Components/keycompletion.cpp \
     src/UI/GUI/Components/CodeEditor/codeeditorcontainer.cpp \
     src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.cpp \
-    src/UI/GUI/Components/FileNamePicker/filenamepicker.cpp \
+    src/UI/GUI/Components/FilenamePicker/filenamepicker.cpp \
     src/UI/GUI/Components/HistogramWidget/histogramwidget.cpp \
     src/UI/GUI/Components/ImageViewer/imagedisplay.cpp \
     src/UI/GUI/Components/ImageViewer/imageviewer.cpp \
@@ -100,7 +100,7 @@ HEADERS += \
     src/UI/GUI/Components/CodeEditor/Components/keycompletion.h \
     src/UI/GUI/Components/CodeEditor/codeeditorcontainer.h \
     src/UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.h \
-    src/UI/GUI/Components/FileNamePicker/filenamepicker.h \
+    src/UI/GUI/Components/FilenamePicker/filenamepicker.h \
     src/UI/GUI/Components/HistogramWidget/histogramwidget.h \
     src/UI/GUI/Components/ImageViewer/imagedisplay.h \
     src/UI/GUI/Components/ImageViewer/imageviewer.h \
