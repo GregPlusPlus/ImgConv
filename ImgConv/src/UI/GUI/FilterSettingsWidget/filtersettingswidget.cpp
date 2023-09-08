@@ -85,10 +85,10 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
 
         w = l;
     } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingsType_FileName) {
-        FileNamePicker *fnp = new FileNamePicker(setting->fileNameTitle(), setting->fileNameFilter(), this);
+        Components::FileNamePicker *fnp = new Components::FileNamePicker(setting->fileNameTitle(), setting->fileNameFilter(), this);
         fnp->setFileName(setting->valS());
 
-        connect(fnp, &FileNamePicker::fileNameChanged, setting,
+        connect(fnp, &Components::FileNamePicker::fileNameChanged, setting,
                 QOverload<QString>::of(&Core::Processing::ConvKernelSetting::setVal));
 
         w = fnp;
