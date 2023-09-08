@@ -31,6 +31,10 @@
 #include "Core/OCLWrapper/oclwrapper.h"
 #include "Core/Utils/utils.h"
 
+namespace Core::Settings {
+    class SettingsMgr;
+}
+
 namespace Core::Processing {
     class Options {
     public :
@@ -67,9 +71,10 @@ namespace Core::Processing {
         };
     };
 
-    QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize, const Options &options);
-    QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize);
-    QString createOCLProgramOptionsCorrection(const QSize &imgSize);
+    QString getIncludePath(Settings::SettingsMgr *settingsMgr);
+    QString createOCLProgramOptionsConv2D(Settings::SettingsMgr *settingsMgr, const QSize &imgSize, const QSize &matSize, const Options &options);
+    QString createOCLProgramOptionsComputeHistogram(Settings::SettingsMgr *settingsMgr, const QSize &imgSize);
+    QString createOCLProgramOptionsCorrection(Settings::SettingsMgr *settingsMgr, const QSize &imgSize);
     void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent);
 }
 

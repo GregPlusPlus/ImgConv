@@ -18,6 +18,8 @@
 
 #include "Core/Processing/processing.h"
 
+#include "Core/Settings/SettingsMgr/settingsmgr.h"
+
 namespace Core::Processing {
 void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent) {
     l->append(new ConvKernels::GaussianBlur(parent));
@@ -31,7 +33,7 @@ void registerConvKernels(QList<ConvKernels::ConvKernel *> *l, QObject *parent) {
     l->append(new ConvKernels::Custom(parent));
 }
 
-QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize, const Options &options) {
+QString createOCLProgramOptionsConv2D(Settings::SettingsMgr *settingsMgr, const QSize &imgSize, const QSize &matSize, const Options &options) {
     QString pixelBoundFixedColorDefineStr;
 
     if(options.boundaryMode == Options::Fixed_Color) {
@@ -52,20 +54,29 @@ QString createOCLProgramOptionsConv2D(const QSize &imgSize, const QSize &matSize
                     .arg(QRandomGenerator::global()->generate())
                     .arg(options.boundaryModeAsString())
                     .arg(pixelBoundFixedColorDefineStr)
-                    .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
+                    .arg(getIncludePath(settingsMgr));
 }
 
-QString createOCLProgramOptionsComputeHistogram(const QSize &imgSize) {
+QString createOCLProgramOptionsComputeHistogram(Settings::SettingsMgr *settingsMgr, const QSize &imgSize) {
     return QString("-cl-std=CL2.0 -DW=%1 -DH=%2 -I%3")
                     .arg(imgSize.width())
                     .arg(imgSize.height())
-                    .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
+                    .arg(getIncludePath(settingsMgr));
 }
 
-QString createOCLProgramOptionsCorrection(const QSize &imgSize) {
+QString createOCLProgramOptionsCorrection(Settings::SettingsMgr *settingsMgr, const QSize &imgSize) {
     return QString("-cl-std=CL2.0 -DW=%1 -DH=%2 -I%3")
                     .arg(imgSize.width())
                     .arg(imgSize.height())
-                    .arg(QCoreApplication::applicationDirPath() + "/kCLinclude");
+            .arg(getIncludePath(settingsMgr));
 }
+
+QString getIncludePath(Settings::SettingsMgr *settingsMgr) {
+    if(settingsMgr->getUserIncludePath().isEmpty()) {
+        return QCoreApplication::applicationDirPath() + "/kCLinclude";
+    }
+
+    return settingsMgr->getUserIncludePath();
+}
+
 }
