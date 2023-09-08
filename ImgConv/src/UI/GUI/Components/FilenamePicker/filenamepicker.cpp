@@ -51,4 +51,6 @@ QString FilenamePicker::getFileName() const {
 
 void FilenamePicker::setFileName(const QString &fn) {
     mw_fileName->setText(fn);
+
+    emit fileNameChanged(fn);
 }
