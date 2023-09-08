@@ -108,10 +108,17 @@ inline void conv2D(const uchar *In,
         }
     }
 
+    sum[0] = (sum[0] < 0)? 0: sum[0];
+    sum[1] = (sum[1] < 0)? 0: sum[1];
+    sum[2] = (sum[2] < 0)? 0: sum[2];
+    sum[0] = (sum[0] > 255)? 255: sum[0];
+    sum[1] = (sum[1] > 255)? 255: sum[1];
+    sum[2] = (sum[2] > 255)? 255: sum[2];
+
     writePixelColorAtCurrentCoord(Out, (color_t) {
-        .r = (sum[0] > 255)? 255: sum[0],
-        .g = (sum[1] > 255)? 255: sum[1],
-        .b = (sum[2] > 255)? 255: sum[2]
+        .r = sum[0],
+        .g = sum[1],
+        .b = sum[2]
     });
 }
 
