@@ -67,8 +67,10 @@ UI::GUI::Dialogs::ProcessOptionsDialog::ProcessOptionsDialog(Core::Settings::Set
     });
 
     m_layout->addRow(tr("Chunk size factor"), mw_chunkFactor);
+    m_layout->addRow(GUI::Utils::createSeparator(this));
     m_layout->addRow(tr("Boundary mode"), mw_boundModeSelection);
     m_layout->addRow(tr("Boundary fixed color"), mw_buttonColorPicker);
+    m_layout->addRow(GUI::Utils::createSeparator(this));
     m_layout->addRow(tr("User include path"), mw_userIncludePathPicker);
     m_layout->addWidget(mw_buttonBox);
 

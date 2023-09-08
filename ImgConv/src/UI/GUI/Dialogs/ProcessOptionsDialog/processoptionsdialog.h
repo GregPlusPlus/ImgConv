@@ -31,6 +31,7 @@
 #include "Core/Processing/processing.h"
 #include "UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.h"
 #include "UI/GUI/Components/FilenamePicker/filenamepicker.h"
+#include "UI/GUI/UtilsGUI/utilsgui.h"
 
 namespace UI::GUI::Dialogs {
 class ProcessOptionsDialog : public QDialog
