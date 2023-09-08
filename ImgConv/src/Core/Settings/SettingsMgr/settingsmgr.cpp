@@ -31,7 +31,7 @@ void SettingsMgr::init() {
     registerSetting(new Setting("GUI/windowGeometry", QRect()));
     registerSetting(new Setting("Processing/boundaryMode", (int)Processing::Options::Fixed_Color));
     registerSetting(new Setting("Processing/boundaryFixedColor", QColor(Qt::black)));
-    registerSetting(new Setting("Processing/userIncludePath", QString()));
+    registerSetting(new Setting("Processing/userIncludePath", QString(), true));
 
     connect(getSetting("UI/lang"), &Settings::Setting::valueChanged, this, [this](const QString &key, const QVariant &value) {
         Q_UNUSED(key)
