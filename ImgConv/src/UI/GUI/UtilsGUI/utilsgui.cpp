@@ -73,7 +73,7 @@ void removeShortcutFromToolTip(QAction *action) {
 void showAboutDialog(QWidget *parent) {
     QString str = QObject::tr ("<h1>%1</h1> " \
                                "[Rev. %2]<br>" \
-                               "Build with <a href=\"https://qt.io/\">Qt</a> version %3, runtime : %4<br><br>" \
+                               "Built with <a href=\"https://qt.io/\">Qt</a> version %3, runtime : %4<br><br>" \
                                "Some icons are provided under a " \
                                "<a href='https://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 License</a> " \
                                "by Yusuke Kamiyamane <a href='https://p.yusukekamiyamane.com/'>(Fugue Icons)</a>.<br><br>"\
@@ -104,6 +104,13 @@ void showAboutDialog(QWidget *parent) {
     about->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     about->exec();
+}
+
+QFrame *createSeparator(QWidget *parent, QFrame::Shape shape) {
+    QFrame* line = new QFrame(parent);
+    line->setFrameShape(shape);
+    line->setFrameShadow(QFrame::Raised);
+    return line;
 }
 
 }

@@ -18,22 +18,37 @@
 
 #include "filenamepicker.h"
 
-using namespace UI::GUI;
+using namespace UI::GUI::Components;
 
-FileNamePicker::FileNamePicker(const QString &title, const QString &filters, QWidget *parent)
+FilenamePicker::FilenamePicker(const QString &title, const QString &filters, Mode mode, QWidget *parent)
     : QWidget{parent} {
     setContentsMargins(0, 0, 0, 0);
 
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+
     m_layout = new QHBoxLayout;
     m_layout->setSpacing(0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
 
     mw_fileName = new QLineEdit(this);
-    connect(mw_fileName, &QLineEdit::textChanged, this, &FileNamePicker::fileNameChanged);
+    connect(mw_fileName, &QLineEdit::textChanged, this, &FilenamePicker::fileNameChanged);
 
     mw_browse = new QPushButton(tr("..."), this);
     mw_browse->setMaximumWidth(40);
     connect(mw_browse, &QPushButton::clicked, this, [=]() {
-        QString fn = QFileDialog::getOpenFileName(this, title, QString(), filters);
+        QString fn;
+
+        switch (mode) {
+        case Mode::Files:
+            fn = QFileDialog::getOpenFileName(this, title, QString(), filters);
+            break;
+        case Mode::Directories:
+            fn = QFileDialog::getExistingDirectory(this, title,
+                                                   QString(),
+                                                   QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+            break;
+        }
+
         if(!fn.isEmpty()) {
             setFileName(fn);
         }
@@ -45,10 +60,16 @@ FileNamePicker::FileNamePicker(const QString &title, const QString &filters, QWi
     setLayout(m_layout);
 }
 
-QString FileNamePicker::getFileName() const {
+QString FilenamePicker::getFileName() const {
     return mw_fileName->text();
 }
 
-void FileNamePicker::setFileName(const QString &fn) {
+void FilenamePicker::setFileName(const QString &fn) {
     mw_fileName->setText(fn);
+
+    emit fileNameChanged(fn);
+}
+
+void FilenamePicker::setPlaceHolder(const QString &placeholder) {
+    mw_fileName->setPlaceholderText(placeholder);
 }

@@ -28,7 +28,7 @@
 
 #include "Core/Processing/convkernel.h"
 
-#include "UI/GUI/FilterSettingsWidget/filenamepicker.h"
+#include "UI/GUI/Components/FileNamePicker/filenamepicker.h"
 
 namespace UI::GUI {
 class FilterSettingsWidget : public QWidget

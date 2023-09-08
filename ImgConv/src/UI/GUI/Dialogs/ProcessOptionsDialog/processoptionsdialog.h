@@ -27,15 +27,18 @@
 
 #include <QFormLayout>
 
+#include "Core/Settings/SettingsMgr/settingsmgr.h"
 #include "Core/Processing/processing.h"
 #include "UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.h"
+#include "UI/GUI/Components/FilenamePicker/filenamepicker.h"
+#include "UI/GUI/UtilsGUI/utilsgui.h"
 
 namespace UI::GUI::Dialogs {
 class ProcessOptionsDialog : public QDialog
 {
     Q_OBJECT
 public:
-    ProcessOptionsDialog(Core::Processing::Options *options, QWidget *parent = nullptr);
+    ProcessOptionsDialog(Core::Settings::SettingsMgr *settingsMgr, Core::Processing::Options *options, QWidget *parent = nullptr);
 
 private slots:
     void boundModeSelectionChanged(int index);
@@ -48,6 +51,7 @@ private:
     QSpinBox *mw_chunkFactor;
     QComboBox *mw_boundModeSelection;
     Components::ButtonColorPicker *mw_buttonColorPicker;
+    Components::FilenamePicker *mw_userIncludePathPicker;
 
 private:
     Core::Processing::Options *m_options = nullptr;

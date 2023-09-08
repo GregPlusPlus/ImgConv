@@ -293,7 +293,7 @@ void MainWindow::chooseProcessingOptions() {
 
     options.chunkFactor = m_coreApp->ocl()->getChunkFactor();
 
-    Dialogs::ProcessOptionsDialog dialog(&options, this);
+    Dialogs::ProcessOptionsDialog dialog(m_settingsMgr, &options, this);
     dialog.exec();
 
     if(dialog.result() != QMessageBox::Accepted) {

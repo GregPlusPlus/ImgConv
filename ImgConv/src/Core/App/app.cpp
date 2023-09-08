@@ -147,7 +147,7 @@ QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
         return QUuid();
     }
 
-    QString options = Processing::createOCLProgramOptionsConv2D(m_originalImage.size(), matSize, m_processingOptions);
+    QString options = Processing::createOCLProgramOptionsConv2D(settingsMgr(), m_originalImage.size(), matSize, m_processingOptions);
 
     logOutput(tr("\n[%1] Creating program - opts. : `%2`")
                     .arg(k->getSourceFilePath(),
@@ -212,7 +212,7 @@ QUuid App::startComputeHistogram(const QImage &img) {
         return QUuid();
     }
 
-    QString options = Processing::createOCLProgramOptionsComputeHistogram(img.size());
+    QString options = Processing::createOCLProgramOptionsComputeHistogram(settingsMgr(), img.size());
 
     if(!createOCLProgram(programPath, options)) {
         return QUuid();
@@ -261,7 +261,7 @@ QUuid App::startImageCorrection(const QString &kernelPath, const Processing::Alg
         return QUuid();
     }
 
-    QString options = Processing::createOCLProgramOptionsCorrection(m_originalImage.size());
+    QString options = Processing::createOCLProgramOptionsCorrection(settingsMgr(), m_originalImage.size());
 
     logOutput(tr("\n[%1] Creating program - opts. : `%2`")
                     .arg(kernelPath,
