@@ -20,7 +20,7 @@
 
 using namespace UI::GUI::Components;
 
-FilenamePicker::FilenamePicker(const QString &title, const QString &filters, QWidget *parent)
+FilenamePicker::FilenamePicker(const QString &title, const QString &filters, Mode mode, QWidget *parent)
     : QWidget{parent} {
     setContentsMargins(0, 0, 0, 0);
 
@@ -33,7 +33,19 @@ FilenamePicker::FilenamePicker(const QString &title, const QString &filters, QWi
     mw_browse = new QPushButton(tr("..."), this);
     mw_browse->setMaximumWidth(40);
     connect(mw_browse, &QPushButton::clicked, this, [=]() {
-        QString fn = QFileDialog::getOpenFileName(this, title, QString(), filters);
+        QString fn;
+
+        switch (mode) {
+        case Mode::Files:
+            fn = QFileDialog::getOpenFileName(this, title, QString(), filters);
+            break;
+        case Mode::Directories:
+            fn = QFileDialog::getExistingDirectory(this, title,
+                                                   QString(),
+                                                   QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+            break;
+        }
+
         if(!fn.isEmpty()) {
             setFileName(fn);
         }

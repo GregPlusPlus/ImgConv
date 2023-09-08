@@ -28,11 +28,17 @@
 #include <QHBoxLayout>
 
 namespace UI::GUI::Components {
-class FilenamePicker : public QWidget
-{
+class FilenamePicker : public QWidget {
     Q_OBJECT
+
 public:
-    explicit FilenamePicker(const QString &title, const QString &filters, QWidget *parent = nullptr);
+    enum Mode {
+        Files,
+        Directories
+    };
+
+public:
+    explicit FilenamePicker(const QString &title, const QString &filters, Mode mode, QWidget *parent = nullptr);
 
     QString getFileName() const;
 

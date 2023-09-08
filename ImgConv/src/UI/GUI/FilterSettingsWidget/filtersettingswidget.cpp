@@ -85,7 +85,8 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
 
         w = l;
     } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingsType_FileName) {
-        Components::FilenamePicker *fnp = new Components::FilenamePicker(setting->fileNameTitle(), setting->fileNameFilter(), this);
+        Components::FilenamePicker *fnp = new Components::FilenamePicker(setting->fileNameTitle(), setting->fileNameFilter(),
+                                                                         Components::FilenamePicker::Files, this);
         fnp->setFileName(setting->valS());
 
         connect(fnp, &Components::FilenamePicker::fileNameChanged, setting,
