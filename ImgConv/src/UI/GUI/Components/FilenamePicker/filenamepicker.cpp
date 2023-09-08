@@ -24,8 +24,11 @@ FilenamePicker::FilenamePicker(const QString &title, const QString &filters, Mod
     : QWidget{parent} {
     setContentsMargins(0, 0, 0, 0);
 
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+
     m_layout = new QHBoxLayout;
     m_layout->setSpacing(0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
 
     mw_fileName = new QLineEdit(this);
     connect(mw_fileName, &QLineEdit::textChanged, this, &FilenamePicker::fileNameChanged);
