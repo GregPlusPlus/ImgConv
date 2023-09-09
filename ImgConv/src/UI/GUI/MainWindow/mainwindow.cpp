@@ -25,6 +25,8 @@ MainWindow::MainWindow(Core::App *coreApp, Core::Settings::SettingsMgr *settings
     setWindowIcon(QIcon(":/icons/icon.png"));
     setWindowTitle(APP_NAME);
 
+    m_undoStack = new QUndoStack(this);
+
     buildUI();
 
     connectCoreApp();
@@ -209,7 +211,7 @@ void MainWindow::openImage() {
         mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
         m_coreApp->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
 
-        m_coreApp->setOriginalImage(img);
+        m_undoStack->push(new UndoRedo::Commands::OpenImageCommand(m_coreApp, img, fn));
 
         m_openFileAction->setDisabled(false);
         m_createImageAction->setDisabled(false);
@@ -384,6 +386,16 @@ void MainWindow::buildMenus() {
     mw_fileMenu->addSeparator();
     m_exitAction = mw_fileMenu->addAction(QIcon(":/icons/door-open-in.png"), tr("&Exit"), tr("Ctrl+W"), this, [](){qApp->exit();});
 
+    mw_editMenu = menuBar()->addMenu(tr("&Edit"));
+    m_undoAction = m_undoStack->createUndoAction(this, tr("&Undo"));
+    m_undoAction->setIcon(QIcon(":/icons/arrow-curve-180-left.png"));
+    m_undoAction->setShortcut(QKeySequence::Undo);
+    mw_editMenu->addAction(m_undoAction);
+    m_redoAction = m_undoStack->createRedoAction(this, tr("&Redo"));
+    m_redoAction->setIcon(QIcon(":/icons/arrow-curve.png"));
+    m_redoAction->setShortcut(QKeySequence::Redo);
+    mw_editMenu->addAction(m_redoAction);
+
     mw_processMenu = menuBar()->addMenu(tr("&Process"));
     m_processOptionsAction = mw_processMenu->addAction(QIcon(":/icons/gear.png"), tr("Process &options"), this, &MainWindow::chooseProcessingOptions);
     mw_processMenu->addSeparator();
@@ -393,7 +405,7 @@ void MainWindow::buildMenus() {
     m_runAction = mw_processMenu->addAction(QIcon(":/icons/control.png"), tr("&Run"), tr("Ctrl+R"), this, &MainWindow::startConv2D);
     m_backfeedAction = mw_processMenu->addAction(QIcon(":/icons/arrow-transition-180.png"), tr("&Backfeed"), tr("Ctrl+B"), this, [this](){
         if(!m_coreApp->processedImage().isNull()) {
-            m_coreApp->setOriginalImage(m_coreApp->processedImage());
+            m_undoStack->push(new UndoRedo::Commands::BackfeedImageCommand(m_coreApp));
         }
     });
 
@@ -487,6 +499,7 @@ void MainWindow::buildUI() {
     buildKernelComboBox();
     buildMenus();
     buildView();
+    buildUndoView();
 }
 
 void MainWindow::buildPanels() {
@@ -508,6 +521,17 @@ void MainWindow::buildPanels() {
     connect(mw_imgCorrectionPanel, &Panels::ImageCorrectionPanel::equalizeHistogram, this, [=]() {
         startImageCorrection(":/ocl/equalizeHistogram.cl");
     });
+}
+
+void MainWindow::buildUndoView() {
+    QDockWidget *undoDockWidget = new QDockWidget(this);
+    undoDockWidget->setWindowTitle(tr("Command history"));
+    undoDockWidget->setWidget(new QUndoView(m_undoStack));
+    undoDockWidget->setMaximumWidth(200);
+
+    setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
+
+    addDockWidget(Qt::BottomDockWidgetArea, undoDockWidget);
 }
 
 void MainWindow::buildView() {

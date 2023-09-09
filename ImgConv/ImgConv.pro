@@ -62,6 +62,8 @@ SOURCES += \
     src/UI/GUI/UtilsGUI/utilsgui.cpp \
     src/UI/GUI/WaitDialogMgr/waitdialogmgr.cpp \
     src/UI/Translator/translator.cpp \
+    src/UI/UndoRedo/Commands/backfeedimagecommand.cpp \
+    src/UI/UndoRedo/Commands/openimagecommand.cpp \
     src/main.cpp
 HEADERS += \
     src/Core/Logger/logger.h \
@@ -117,7 +119,10 @@ HEADERS += \
     src/UI/GUI/UtilsGUI/utilsgui.h \
     src/UI/GUI/UtilsGUI/app_strings.h \
     src/UI/GUI/WaitDialogMgr/waitdialogmgr.h \
-    src/UI/Translator/translator.h
+    src/UI/Translator/translator.h \
+    src/UI/UndoRedo/Commands/backfeedimagecommand.h \
+    src/UI/UndoRedo/Commands/undoredocommands.h \
+    src/UI/UndoRedo/Commands/openimagecommand.h
 
 INCLUDEPATH += \
     libs/include/ \
