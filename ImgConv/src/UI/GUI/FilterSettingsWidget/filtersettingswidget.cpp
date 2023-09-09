@@ -41,7 +41,7 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
             s->setMinimum(INT32_MIN);
         }
 
-        s->setValue(setting->val());
+        s->setValue(setting->valInt());
 
         connect(s, &QSpinBox::valueChanged, setting,
                 QOverload<int>::of(&Core::Processing::ConvKernelSetting::setVal));

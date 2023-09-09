@@ -23,8 +23,7 @@
 #include <QVariant>
 
 namespace Core::Processing {
-class ConvKernelSetting : public QObject
-{
+class ConvKernelSetting : public QObject {
     Q_OBJECT
 
 public:
@@ -53,7 +52,8 @@ public:
     void setHasMax(bool hasMax);
     SettingType type() const;
     void setType(SettingType type);
-    int val() const;
+    QVariant val() const;
+    int valInt() const;
     float valF() const;
     bool valB() const;
     QString valS() const;

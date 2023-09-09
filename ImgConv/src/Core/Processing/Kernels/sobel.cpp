@@ -44,7 +44,7 @@ QVector<QVector<float> > Sobel::getMat() const {
 }
 
 float Sobel::getScalar() const {
-    return m_thresholdSetting->val();
+    return m_thresholdSetting->valInt();
 }
 
 QString Sobel::getName() const {

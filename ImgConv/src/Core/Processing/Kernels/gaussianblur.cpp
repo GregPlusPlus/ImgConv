@@ -66,7 +66,7 @@ QString GaussianBlur::getDescription() {
 }
 
 void GaussianBlur::settingChanged() {
-    size_t kSize = m_sizeSetting->val() * 2;
+    size_t kSize = m_sizeSetting->valInt() * 2;
 
     if((kSize % 2) == 0) {
         kSize += 1;

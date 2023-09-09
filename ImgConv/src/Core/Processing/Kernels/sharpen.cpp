@@ -64,7 +64,7 @@ QString Sharpen::getDescription() {
 }
 
 void Sharpen::settingChanged() {
-    size_t kSize = m_strengthSetting->val() * 2;
+    size_t kSize = m_strengthSetting->valInt() * 2;
 
     if((kSize % 2) == 0) {
         kSize += 1;
@@ -84,7 +84,7 @@ void Sharpen::settingChanged() {
         }
     }
 
-    k[kSize / 2][kSize / 2] = m_strengthSetting->val() * 4 + 1 + m_smoothSetting->valF();
+    k[kSize / 2][kSize / 2] = m_strengthSetting->valInt() * 4 + 1 + m_smoothSetting->valF();
 
     m_k = k;
     m_s = 1.f/(1.f + m_smoothSetting->valF());

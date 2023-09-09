@@ -103,7 +103,11 @@ void ConvKernelSetting::setType(SettingType type) {
     m_type = type;
 }
 
-int ConvKernelSetting::val() const {
+QVariant ConvKernelSetting::val() const {
+    return m_val;
+}
+
+int ConvKernelSetting::valInt() const {
     return m_val.toInt();
 }
 
