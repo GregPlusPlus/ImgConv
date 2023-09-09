@@ -26,7 +26,7 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
 
     QWidget *w = nullptr;
 
-    if(setting->type() == Core::Processing::ConvKernelSetting::SettingType_Int) {
+    if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_Int) {
         QSpinBox *s = new QSpinBox(this);
 
         if(setting->hasMax()) {
@@ -47,7 +47,7 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
                 QOverload<int>::of(&Core::Processing::ConvKernelSetting::setVal));
 
         w = s;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingType_Float) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_Float) {
         QDoubleSpinBox *s = new QDoubleSpinBox(this);
 
         s->setSingleStep(0.1f);
@@ -69,7 +69,7 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
                 QOverload<float>::of(&Core::Processing::ConvKernelSetting::setVal));
 
         w = s;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingsType_Bool) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_Bool) {
         QCheckBox *c = new QCheckBox(this);
         c->setChecked(setting->valB());
 
@@ -77,14 +77,14 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
                 QOverload<bool>::of(&Core::Processing::ConvKernelSetting::setVal));
 
         w = c;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingsType_String) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_String) {
         QLineEdit *l = new QLineEdit(setting->valS(), this);
 
         connect(l, &QLineEdit::textChanged, setting,
                 QOverload<QString>::of(&Core::Processing::ConvKernelSetting::setVal));
 
         w = l;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingsType_FileName) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_FileName) {
         Components::FilenamePicker *fnp = new Components::FilenamePicker(setting->fileNameTitle(), setting->fileNameFilter(),
                                                                          Components::FilenamePicker::Files, this);
         fnp->setFileName(setting->valS());

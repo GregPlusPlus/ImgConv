@@ -27,16 +27,32 @@ class ConvKernelSetting : public QObject {
     Q_OBJECT
 
 public:
-    enum SettingType {
-        SettingType_Float,
-        SettingType_Int,
-        SettingsType_Bool,
-        SettingsType_String,
-        SettingsType_FileName
+    class Data {
+    public:
+        enum SettingType {
+            SettingType_Float,
+            SettingType_Int,
+            SettingsType_Bool,
+            SettingsType_String,
+            SettingsType_FileName
+        };
+
+    public:
+        QString name;
+        bool hasMin = false;
+        bool hasMax = false;
+        SettingType type;
+        QVariant val;
+        QVariant min;
+        QVariant max;
+        QVariant defaultValue;
+
+        QString fileNameTitle;
+        QString fileNameFilter;
     };
 
 public:
-    explicit ConvKernelSetting(const QString &name, SettingType type, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &name, Data::SettingType type, QObject *parent = nullptr);
     explicit ConvKernelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
     explicit ConvKernelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
     explicit ConvKernelSetting(const QString &name, bool val, QObject *parent = nullptr);
@@ -50,8 +66,8 @@ public:
     void setHasMin(bool hasMin);
     bool hasMax() const;
     void setHasMax(bool hasMax);
-    SettingType type() const;
-    void setType(SettingType type);
+    Data::SettingType type() const;
+    void setType(Data::SettingType type);
     QVariant val() const;
     int valInt() const;
     float valF() const;
@@ -69,6 +85,9 @@ public:
     void setFileNameFilter(const QString &newFileNameFilter);
 
     const QVariant &defaultVal() const;
+
+    Data data() const;
+    void setData(const Data &data);
 
 public slots:
     void setVal(const QVariant &val);
@@ -90,17 +109,7 @@ private:
     void setDefault();
 
 private:
-    QString m_name;
-    bool m_hasMin = false;
-    bool m_hasMax = false;
-    SettingType m_type;
-    QVariant m_val;
-    QVariant m_min;
-    QVariant m_max;
-    QVariant m_default;
-
-    QString m_fileNameTitle;
-    QString m_fileNameFilter;
+    Data m_data;
 };
 }
 
