@@ -21,5 +21,6 @@
 
 #include "openimagecommand.h"
 #include "backfeedimagecommand.h"
+#include "runfiltercommand.h"
 
 #endif // UNDOREDOCOMMANDS_H

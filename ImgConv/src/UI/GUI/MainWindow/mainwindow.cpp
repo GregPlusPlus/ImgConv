@@ -142,23 +142,40 @@ void MainWindow::showProcessedImage() {
 }
 
 void MainWindow::startConv2D() {
-    QUuid pid = m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));
+    QUuid pid;
 
-    if(pid.isNull()) {
-        return;
-    }
+    UndoRedo::Commands::RunFilterCommand *command = new UndoRedo::Commands::RunFilterCommand(
+                m_coreApp, m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));
 
-    m_openFileAction->setDisabled(true);
-    m_createImageAction->setDisabled(true);
-    m_runAction->setDisabled(true);
-    m_selectDeviceAction->setDisabled(true);
+    connect(command, &UndoRedo::Commands::RunFilterCommand::restoreConvKernel, this, [=](Core::Processing::ConvKernels::ConvKernel *convKernel) {
+        for(int i = 0; i < mw_convKernelComboBox->count(); i ++) {
+            if(mw_convKernelComboBox->itemText(i) == convKernel->getName()) {
+                mw_convKernelComboBox->setCurrentIndex(i);
 
-    Dialogs::WaitDialog *dialog = m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."),
-                                                                    Dialogs::WaitDialog::Flags::ShowProgress |
-                                                                    Dialogs::WaitDialog::Flags::Cancelable);
+                return;
+            }
+        }
+    });
 
-    connect(dialog, &Dialogs::WaitDialog::cancelProcess, m_coreApp->ocl(), &Core::OCLWrapper::requestKernelCancelation);
-    connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCancelationRequested, dialog, &Dialogs::WaitDialog::cancelProgressPending);
+    connect(command, &UndoRedo::Commands::RunFilterCommand::processStarted, this, [=](const QUuid &pid){
+        if(pid.isNull()) {
+            return;
+        }
+
+        m_openFileAction->setDisabled(true);
+        m_createImageAction->setDisabled(true);
+        m_runAction->setDisabled(true);
+        m_selectDeviceAction->setDisabled(true);
+
+        Dialogs::WaitDialog *dialog = m_waitDialogMgr.createWaitDialog(pid, tr("Processing image..."),
+                                                                        Dialogs::WaitDialog::Flags::ShowProgress |
+                                                                        Dialogs::WaitDialog::Flags::Cancelable);
+
+        connect(dialog, &Dialogs::WaitDialog::cancelProcess, m_coreApp->ocl(), &Core::OCLWrapper::requestKernelCancelation);
+        connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCancelationRequested, dialog, &Dialogs::WaitDialog::cancelProgressPending);
+    });
+
+    m_undoStack->push(command);
 }
 
 void MainWindow::startComputeHistogram(const QImage &img, Panels::ImageCorrectionPanel::HistogramRole histRole) {
