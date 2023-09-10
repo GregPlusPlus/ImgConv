@@ -20,7 +20,9 @@
 
 using namespace UndoRedo::Commands;
 
-RunFilterCommand::RunFilterCommand(Core::App *coreApp, Core::Processing::ConvKernels::ConvKernel *convKernel, QUndoCommand *parent)
+RunFilterCommand::RunFilterCommand(Core::App *coreApp,
+                                   Core::Processing::ConvKernels::ConvKernel *convKernel,
+                                   QUndoCommand *parent)
     : QObject(), QUndoCommand(parent), m_coreApp(coreApp) {
 
     m_previousProcessedImage = m_coreApp->processedImage();

@@ -80,9 +80,10 @@ private slots:
     void logProcessFinished(const QUuid &pid, qint64 elapsedTime);
     void showOriginalImage();
     void showProcessedImage();
+    void startConv2DUserCode(const QString &fn);
     void startConv2D();
     void startComputeHistogram(const QImage &img, Panels::ImageCorrectionPanel::HistogramRole histRole);
-    void startImageCorrection(const QString &kernelPath);
+    void startImageCorrection(const QString &kernelPath, const QString &name);
     void openImage();
     void createImage();
     void exportProcessedImage(bool closeWhenFinished = false);
@@ -103,6 +104,7 @@ private slots:
     void buildView();
     void buildFilterSettingsView();
     void buildKernelComboBox();
+    void restoreConvKernel(Core::Processing::ConvKernels::ConvKernel *convKernel);
     void setCloseAfterKernelCanceled();
     void clearCloseAfterKernelCanceled();
     bool getCloseAfterKernelCanceled();

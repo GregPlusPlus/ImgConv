@@ -141,21 +141,17 @@ void MainWindow::showProcessedImage() {
     startComputeHistogram(m_coreApp->processedImage(), Panels::ImageCorrectionPanel::ProcessedImageHistogram);
 }
 
-void MainWindow::startConv2D() {
-    QUuid pid;
+void MainWindow::startConv2DUserCode(const QString &fn) {
+    m_coreApp->convKernels().at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
 
+    startConv2D();
+}
+
+void MainWindow::startConv2D() {
     UndoRedo::Commands::RunFilterCommand *command = new UndoRedo::Commands::RunFilterCommand(
                 m_coreApp, m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));
 
-    connect(command, &UndoRedo::Commands::RunFilterCommand::restoreConvKernel, this, [=](Core::Processing::ConvKernels::ConvKernel *convKernel) {
-        for(int i = 0; i < mw_convKernelComboBox->count(); i ++) {
-            if(mw_convKernelComboBox->itemText(i) == convKernel->getName()) {
-                mw_convKernelComboBox->setCurrentIndex(i);
-
-                return;
-            }
-        }
-    });
+    connect(command, &UndoRedo::Commands::RunFilterCommand::restoreConvKernel, this, &MainWindow::restoreConvKernel);
 
     connect(command, &UndoRedo::Commands::RunFilterCommand::processStarted, this, [=](const QUuid &pid){
         if(pid.isNull()) {
@@ -193,24 +189,29 @@ void MainWindow::startComputeHistogram(const QImage &img, Panels::ImageCorrectio
     m_waitDialogMgr.createWaitDialog(pid, tr("Computing histogram..."));
 }
 
-void MainWindow::startImageCorrection(const QString &kernelPath) {
-    QUuid pid = m_coreApp->startImageCorrection(kernelPath, m_coreApp->originalImageHistogram().getCDF());
+void MainWindow::startImageCorrection(const QString &kernelPath, const QString &name) {
+    UndoRedo::Commands::ImageCorrectionCommand *command = new UndoRedo::Commands::ImageCorrectionCommand(
+                                m_coreApp, kernelPath, name, m_coreApp->originalImageHistogram().getCDF());
 
-    if(pid.isNull()) {
-        return;
-    }
+    connect(command, &UndoRedo::Commands::ImageCorrectionCommand::processStarted, this, [=](const QUuid &pid) {
+        if(pid.isNull()) {
+            return;
+        }
 
-    m_openFileAction->setDisabled(true);
-    m_createImageAction->setDisabled(true);
-    m_runAction->setDisabled(true);
-    m_selectDeviceAction->setDisabled(true);
+        m_openFileAction->setDisabled(true);
+        m_createImageAction->setDisabled(true);
+        m_runAction->setDisabled(true);
+        m_selectDeviceAction->setDisabled(true);
 
-    Dialogs::WaitDialog *dialog = m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."),
-                                                                    Dialogs::WaitDialog::Flags::ShowProgress |
-                                                                    Dialogs::WaitDialog::Flags::Cancelable);
+        Dialogs::WaitDialog *dialog = m_waitDialogMgr.createWaitDialog(pid, tr("Correcting image..."),
+                                                                        Dialogs::WaitDialog::Flags::ShowProgress |
+                                                                        Dialogs::WaitDialog::Flags::Cancelable);
 
-    connect(dialog, &Dialogs::WaitDialog::cancelProcess, m_coreApp->ocl(), &Core::OCLWrapper::requestKernelCancelation);
-    connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCancelationRequested, dialog, &Dialogs::WaitDialog::cancelProgressPending);
+        connect(dialog, &Dialogs::WaitDialog::cancelProcess, m_coreApp->ocl(), &Core::OCLWrapper::requestKernelCancelation);
+        connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCancelationRequested, dialog, &Dialogs::WaitDialog::cancelProgressPending);
+    });
+
+    m_undoStack->push(command);
 }
 
 void MainWindow::openImage() {
@@ -376,6 +377,16 @@ void MainWindow::buildKernelComboBox() {
     }
 }
 
+void MainWindow::restoreConvKernel(Core::Processing::ConvKernels::ConvKernel *convKernel) {
+    for(int i = 0; i < mw_convKernelComboBox->count(); i ++) {
+        if(mw_convKernelComboBox->itemText(i) == convKernel->getName()) {
+            mw_convKernelComboBox->setCurrentIndex(i);
+
+            return;
+        }
+    }
+}
+
 void MainWindow::setCloseAfterKernelCanceled() {
     m_closeAfterKernelCanceled = true;
 }
@@ -528,15 +539,15 @@ void MainWindow::buildPanels() {
     addDockWidget(Qt::RightDockWidgetArea, mw_imgCorrectionPanel);
 
     connect(mw_imgCorrectionPanel, &Panels::ImageCorrectionPanel::convertToGrayscale, this, [=]() {
-        startImageCorrection(":/ocl/convertGrayscale.cl");
+        startImageCorrection(":/ocl/convertGrayscale.cl", tr("Grayscale conversion"));
     });
 
     connect(mw_imgCorrectionPanel, &Panels::ImageCorrectionPanel::invertColors, this, [=]() {
-        startImageCorrection(":/ocl/invertColors.cl");
+        startImageCorrection(":/ocl/invertColors.cl", tr("Color inversion"));
     });
 
     connect(mw_imgCorrectionPanel, &Panels::ImageCorrectionPanel::equalizeHistogram, this, [=]() {
-        startImageCorrection(":/ocl/equalizeHistogram.cl");
+        startImageCorrection(":/ocl/equalizeHistogram.cl", tr("Histogram equalization"));
     });
 }
 
@@ -558,15 +569,11 @@ void MainWindow::buildView() {
     mw_processedImgView = new Components::ImageViewer(tr("Processed image"), this);
 
     mw_codeEditor = new Components::CodeEditorView(this);
-    connect(mw_codeEditor, &Components::CodeEditorView::useFile, this, [=](const QString &fn) {
-        m_coreApp->convKernels().at(mw_convKernelComboBox->currentIndex())->setSourceFilePath(fn);
-        filterSelected(mw_convKernelComboBox->currentIndex());
-        m_coreApp->startConv2DProcess(m_coreApp->getConvKernelAt(mw_convKernelComboBox->currentIndex()));
-    });
+    connect(mw_codeEditor, &Components::CodeEditorView::useFile, this, &MainWindow::startConv2DUserCode);
 
-    mw_tabWidget->addTab(mw_origImgView, tr("Original"));
-    mw_tabWidget->addTab(mw_processedImgView, tr("Processed"));
-    mw_tabWidget->addTab(mw_codeEditor, tr("Code editor"));
+    mw_tabWidget->addTab(mw_origImgView,        tr("Original"));
+    mw_tabWidget->addTab(mw_processedImgView,   tr("Processed"));
+    mw_tabWidget->addTab(mw_codeEditor,         tr("Code editor"));
 
     m_coreApp->setOriginalImage(QImage());
     m_coreApp->setProcessedImage(QImage());
