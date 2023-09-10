@@ -31,8 +31,7 @@
 #include "UI/GUI/Components/FilenamePicker/filenamepicker.h"
 
 namespace UI::GUI {
-class FilterSettingsWidget : public QWidget
-{
+class FilterSettingsWidget : public QWidget {
     Q_OBJECT
 public:
     explicit FilterSettingsWidget(Core::Processing::ConvKernelSetting *setting, QWidget *parent = nullptr);
@@ -41,8 +40,12 @@ public:
 
 signals:
 
+private slots:
+    void settingChanged(const Core::Processing::ConvKernelSetting *setting);
+
 private:
     QFormLayout *m_layout;
+    QWidget *m_w = nullptr;
 
     Core::Processing::ConvKernelSetting  *m_setting;
 
