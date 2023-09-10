@@ -24,6 +24,7 @@
 namespace Core::Processing::ConvKernels {
 class Emboss : public ConvKernel {
     Q_OBJECT
+
 public:
     explicit Emboss(QObject *parent = nullptr);
 

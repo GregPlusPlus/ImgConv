@@ -35,12 +35,15 @@
 #include <QTabWidget>
 #include <QComboBox>
 #include <QDockWidget>
+#include <QUndoView>
 #include <QHBoxLayout>
+
 #include <QVector>
 #include <QMap>
 #include <QList>
 #include <QImageReader>
 #include <QCloseEvent>
+#include <QUndoStack>
 
 #include "UI/Translator/translator.h"
 #include "UI/GUI/Components/ImageViewer/imageviewer.h"
@@ -55,6 +58,8 @@
 
 #include "Core/App/app.h"
 #include "Core/Settings/SettingsMgr/settingsmgr.h"
+
+#include "UI/UndoRedo/Commands/undoredocommands.h"
 
 namespace UI::GUI {
 class MainWindow : public QMainWindow {
@@ -93,6 +98,7 @@ private slots:
     void displayDeviceName();
     void buildUI();
     void buildPanels();
+    void buildUndoView();
 
     void buildView();
     void buildFilterSettingsView();
@@ -114,6 +120,7 @@ private:
     QLabel *mw_labelImgInfo;
     QLabel *mw_labelElapsedTime;
     QMenu *mw_fileMenu;
+    QMenu *mw_editMenu;
     QMenu *mw_processMenu;
     QMenu *mw_helpMenu;
     QToolBar *mw_toolBar;
@@ -122,6 +129,8 @@ private:
     QAction *m_exportAction;
     QAction *m_selectDeviceAction;
     QAction *m_exitAction;
+    QAction *m_undoAction;
+    QAction *m_redoAction;
     QAction *m_processOptionsAction;
     QAction *m_reloadKernelAction;
     QAction *m_runAction;
@@ -134,6 +143,7 @@ private:
 private:
     Core::App *m_coreApp;
     Core::Settings::SettingsMgr *m_settingsMgr;
+    QUndoStack *m_undoStack;
 
     Panels::ImageCorrectionPanel::HistogramRole m_histRole;
     WaitDialogMgr m_waitDialogMgr;

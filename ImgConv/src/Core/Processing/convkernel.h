@@ -28,8 +28,7 @@
 #include "convkernelsetting.h"
 
 namespace Core::Processing::ConvKernels {
-class ConvKernel : public QObject
-{
+class ConvKernel : public QObject {
     Q_OBJECT
 
 public:

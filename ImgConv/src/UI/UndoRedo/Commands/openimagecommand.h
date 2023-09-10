@@ -16,41 +16,29 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef FILTERSETTINGSWIDGET_H
-#define FILTERSETTINGSWIDGET_H
+#ifndef OPENIMAGECOMMAND_H
+#define OPENIMAGECOMMAND_H
 
-#include <QWidget>
-#include <QSpinBox>
-#include <QDoubleSpinBox>
-#include <QCheckBox>
-#include <QLineEdit>
-#include <QFormLayout>
+#include <QUndoCommand>
 
-#include "Core/Processing/convkernel.h"
+#include <QFileInfo>
 
-#include "UI/GUI/Components/FilenamePicker/filenamepicker.h"
+#include "Core/App/app.h"
 
-namespace UI::GUI {
-class FilterSettingsWidget : public QWidget {
-    Q_OBJECT
+namespace UndoRedo::Commands {
+class OpenImageCommand : public QUndoCommand {
 
 public:
-    explicit FilterSettingsWidget(Core::Processing::ConvKernelSetting *setting, QWidget *parent = nullptr);
+    explicit OpenImageCommand(Core::App *coreApp, const QImage &newImage, const QString &fileName, QUndoCommand *parent = nullptr);
 
-    Core::Processing::ConvKernelSetting *setting() const;
-
-signals:
-
-private slots:
-    void settingChanged(const Core::Processing::ConvKernelSetting *setting);
+    void undo() override;
+    void redo() override;
 
 private:
-    QFormLayout *m_layout;
-    QWidget *m_w = nullptr;
-
-    Core::Processing::ConvKernelSetting  *m_setting;
-
+    Core::App *m_coreApp;
+    QImage m_newImage;
+    QImage m_previousImage;
 };
 }
 
-#endif // FILTERSETTINGSWIDGET_H
+#endif // OPENIMAGECOMMAND_H

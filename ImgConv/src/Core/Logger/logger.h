@@ -22,9 +22,9 @@
 #include <QObject>
 
 namespace Core {
-class Logger : public QObject
-{
+class Logger : public QObject {
     Q_OBJECT
+
 public:
     explicit Logger(QObject *parent = nullptr);
 

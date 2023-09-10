@@ -24,6 +24,7 @@
 namespace Core::Processing::ConvKernels {
 class Sobel : public ConvKernel {
     Q_OBJECT
+
 public:
     explicit Sobel(QObject *parent = nullptr);
 

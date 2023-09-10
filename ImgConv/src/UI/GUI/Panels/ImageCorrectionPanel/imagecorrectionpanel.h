@@ -29,8 +29,7 @@
 #include "UI/GUI/Components/HistogramWidget/histogramwidget.h"
 
 namespace UI::GUI::Panels {
-class ImageCorrectionPanel : public QDockWidget
-{
+class ImageCorrectionPanel : public QDockWidget {
     Q_OBJECT
 
 public:

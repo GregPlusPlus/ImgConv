@@ -26,9 +26,9 @@
 #include "Core/Utils/utils.h"
 
 namespace Core::Processing::ConvKernels {
-class MotionBlur : public ConvKernel
-{
+class MotionBlur : public ConvKernel {
     Q_OBJECT
+
 public:
     explicit MotionBlur(QObject *parent = nullptr);
 

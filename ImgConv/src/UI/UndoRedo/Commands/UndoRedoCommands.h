@@ -16,26 +16,11 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef VIRTUALTHREAD_H
-#define VIRTUALTHREAD_H
+#ifndef UNDOREDOCOMMANDS_H
+#define UNDOREDOCOMMANDS_H
 
-#include <QObject>
-#include <QRunnable>
-#include <QUuid>
+#include "openimagecommand.h"
+#include "backfeedimagecommand.h"
+#include "runfiltercommand.h"
 
-namespace Core::Threads {
-class VirtualThread : public QObject, public QRunnable {
-    Q_OBJECT
-
-public:
-    VirtualThread();
-    virtual ~VirtualThread();
-
-    QUuid getUUID();
-
-private:
-    QUuid m_uuid;
-};
-}
-
-#endif // VIRTUALTHREAD_H
+#endif // UNDOREDOCOMMANDS_H

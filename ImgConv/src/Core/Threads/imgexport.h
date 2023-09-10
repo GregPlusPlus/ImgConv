@@ -26,9 +26,9 @@
 #include "virtualthread.h"
 
 namespace Core::Threads {
-class ImgExport : public VirtualThread
-{
+class ImgExport : public VirtualThread {
     Q_OBJECT
+
 public:
     ImgExport(const QString &fn, const QImage &img);
 

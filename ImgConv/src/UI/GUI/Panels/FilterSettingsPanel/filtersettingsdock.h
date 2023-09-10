@@ -33,9 +33,9 @@
 #include "UI/GUI/FilterSettingsWidget/filtersettingswidget.h"
 
 namespace UI::GUI::Panels {
-class FilterSettingsDock : public QDockWidget
-{
+class FilterSettingsDock : public QDockWidget {
     Q_OBJECT
+
 public:
     explicit FilterSettingsDock(QWidget *parent = 0);
 

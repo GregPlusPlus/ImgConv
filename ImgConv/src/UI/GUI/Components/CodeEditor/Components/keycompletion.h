@@ -28,6 +28,7 @@ class InteractiveTextEdit;
 
 class KeyCompletion : public QObject {
     Q_OBJECT
+
 public:
     explicit KeyCompletion(InteractiveTextEdit *parent = nullptr);
 

@@ -24,6 +24,7 @@
 namespace Core::Processing::ConvKernels {
 class Sharpen : public ConvKernel {
     Q_OBJECT
+
 public:
     explicit Sharpen(QObject *parent = nullptr);
 

@@ -27,9 +27,9 @@
 #include "Core/Settings/Setting/setting.h"
 
 namespace Core::Settings {
-class AbstractSettingsMgr : public QObject
-{
+class AbstractSettingsMgr : public QObject {
     Q_OBJECT
+
 public:
     explicit AbstractSettingsMgr(const QString &filename, QObject *parent = nullptr);
     virtual ~AbstractSettingsMgr();

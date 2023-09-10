@@ -66,7 +66,7 @@ QString MotionBlur::getDescription() {
 }
 
 void MotionBlur::settingChanged() {
-    size_t kSize = m_sizeSetting->val() * 2;
+    size_t kSize = m_sizeSetting->valInt() * 2;
 
     if((kSize % 2) == 0) {
         kSize += 1;
@@ -82,7 +82,7 @@ void MotionBlur::settingChanged() {
     p.translate(kSize / 2, kSize / 2);
 
     p.setPen(QColor(255, 255, 255));
-    p.rotate(m_angleSetting->val());
+    p.rotate(m_angleSetting->valInt());
     p.drawLine(-kSize, 0, kSize, 0);
 
     Utils::imageToMatrix(k, kImg);

@@ -22,9 +22,9 @@
 #include "Core/Processing/convkernel.h"
 
 namespace Core::Processing::ConvKernels {
-class UnsharpMasking : public ConvKernel
-{
+class UnsharpMasking : public ConvKernel {
     Q_OBJECT
+
 public:
     explicit UnsharpMasking(QObject *parent = nullptr);
 

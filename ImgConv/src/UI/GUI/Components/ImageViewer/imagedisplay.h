@@ -30,9 +30,9 @@
 #include <QResizeEvent>
 
 namespace UI::GUI::Components {
-class ImageDisplay : public QWidget
-{
+class ImageDisplay : public QWidget {
     Q_OBJECT
+
 public:
     explicit ImageDisplay(const QString &title = QString(), QWidget *parent = nullptr);
 

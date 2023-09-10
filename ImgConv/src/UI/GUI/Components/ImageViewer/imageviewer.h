@@ -28,9 +28,9 @@
 #include "imagedisplay.h"
 
 namespace UI::GUI::Components {
-class ImageViewer : public QWidget
-{
+class ImageViewer : public QWidget {
     Q_OBJECT
+
 public:
     explicit ImageViewer(const QString &title = QString(), QWidget *parent = nullptr);
 

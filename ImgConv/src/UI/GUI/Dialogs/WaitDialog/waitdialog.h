@@ -29,8 +29,9 @@
 #include <QMovie>
 
 namespace UI::GUI::Dialogs {
-class WaitDialog : public QDialog
-{
+class WaitDialog : public QDialog {
+    Q_OBJECT
+
 public:
     enum Flags {
         None            = 0x00,
@@ -38,7 +39,6 @@ public:
         Cancelable      = 0x02
     };
 
-    Q_OBJECT
 public:
     WaitDialog(const QString &text, int flags = None);
 

@@ -22,11 +22,10 @@ using namespace UI::GUI;
 
 FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *setting, QWidget *parent)
     : QWidget{parent}, m_setting{setting} {
+
     m_layout = new QFormLayout;
 
-    QWidget *w = nullptr;
-
-    if(setting->type() == Core::Processing::ConvKernelSetting::SettingType_Int) {
+    if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_Int) {
         QSpinBox *s = new QSpinBox(this);
 
         if(setting->hasMax()) {
@@ -41,13 +40,13 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
             s->setMinimum(INT32_MIN);
         }
 
-        s->setValue(setting->val());
+        s->setValue(setting->valInt());
 
         connect(s, &QSpinBox::valueChanged, setting,
                 QOverload<int>::of(&Core::Processing::ConvKernelSetting::setVal));
 
-        w = s;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingType_Float) {
+        m_w = s;
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_Float) {
         QDoubleSpinBox *s = new QDoubleSpinBox(this);
 
         s->setSingleStep(0.1f);
@@ -68,23 +67,23 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
         connect(s, &QDoubleSpinBox::valueChanged, setting,
                 QOverload<float>::of(&Core::Processing::ConvKernelSetting::setVal));
 
-        w = s;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingsType_Bool) {
+        m_w = s;
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_Bool) {
         QCheckBox *c = new QCheckBox(this);
         c->setChecked(setting->valB());
 
         connect(c, &QCheckBox::stateChanged, setting,
                 QOverload<bool>::of(&Core::Processing::ConvKernelSetting::setVal));
 
-        w = c;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingsType_String) {
+        m_w = c;
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_String) {
         QLineEdit *l = new QLineEdit(setting->valS(), this);
 
         connect(l, &QLineEdit::textChanged, setting,
                 QOverload<QString>::of(&Core::Processing::ConvKernelSetting::setVal));
 
-        w = l;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::SettingsType_FileName) {
+        m_w = l;
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_FileName) {
         Components::FilenamePicker *fnp = new Components::FilenamePicker(setting->fileNameTitle(), setting->fileNameFilter(),
                                                                          Components::FilenamePicker::Files, this);
         fnp->setFileName(setting->valS());
@@ -92,16 +91,57 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
         connect(fnp, &Components::FilenamePicker::fileNameChanged, setting,
                 QOverload<QString>::of(&Core::Processing::ConvKernelSetting::setVal));
 
-        w = fnp;
+        m_w = fnp;
     }
 
-    if(w) {
-        m_layout->addRow(setting->name(), w);
+    if(m_w) {
+        m_layout->addRow(setting->name(), m_w);
     }
 
     setLayout(m_layout);
+
+    connect(setting, &Core::Processing::ConvKernelSetting::valueChanged, this, &FilterSettingsWidget::settingChanged);
 }
 
 Core::Processing::ConvKernelSetting* FilterSettingsWidget::setting() const {
     return m_setting;
+}
+
+void FilterSettingsWidget::settingChanged(const Core::Processing::ConvKernelSetting *setting) {
+    if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_Int) {
+        QSpinBox *s = static_cast<QSpinBox *>(m_w);
+        s->disconnect();
+        s->setValue(setting->valInt());
+        connect(s, &QSpinBox::valueChanged, setting,
+                QOverload<int>::of(&Core::Processing::ConvKernelSetting::setVal));
+
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_Float) {
+        QDoubleSpinBox *s = static_cast<QDoubleSpinBox *>(m_w);
+        s->disconnect();
+        s->setValue(setting->valF());
+        connect(s, &QDoubleSpinBox::valueChanged, setting,
+                QOverload<float>::of(&Core::Processing::ConvKernelSetting::setVal));
+
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_Bool) {
+        QCheckBox *c = static_cast<QCheckBox *>(m_w);
+        c->disconnect();
+        c->setChecked(setting->valB());
+        connect(c, &QCheckBox::stateChanged, setting,
+                QOverload<bool>::of(&Core::Processing::ConvKernelSetting::setVal));
+
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_String) {
+        QLineEdit *l = static_cast<QLineEdit *>(m_w);
+        l->disconnect();
+        l->setText(setting->valS());
+        connect(l, &QLineEdit::textChanged, setting,
+                QOverload<QString>::of(&Core::Processing::ConvKernelSetting::setVal));
+
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_FileName) {
+        Components::FilenamePicker *fnp = static_cast<Components::FilenamePicker *>(m_w);
+        fnp->disconnect();
+        fnp->setFileName(setting->valS());
+        connect(fnp, &Components::FilenamePicker::fileNameChanged, setting,
+                QOverload<QString>::of(&Core::Processing::ConvKernelSetting::setVal));
+
+    }
 }

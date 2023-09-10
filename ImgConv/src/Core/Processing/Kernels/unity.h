@@ -22,9 +22,9 @@
 #include "Core/Processing/convkernel.h"
 
 namespace Core::Processing::ConvKernels {
-class Unity : public ConvKernels::ConvKernel
-{
+class Unity : public ConvKernels::ConvKernel {
     Q_OBJECT
+
 public:
     explicit Unity(QObject *parent = nullptr);
 

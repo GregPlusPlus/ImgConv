@@ -16,41 +16,42 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef FILTERSETTINGSWIDGET_H
-#define FILTERSETTINGSWIDGET_H
+#ifndef RUNFILTERCOMMAND_H
+#define RUNFILTERCOMMAND_H
 
-#include <QWidget>
-#include <QSpinBox>
-#include <QDoubleSpinBox>
-#include <QCheckBox>
-#include <QLineEdit>
-#include <QFormLayout>
+#include <QUndoCommand>
 
+#include <QList>
+#include <QUuid>
+
+#include "Core/App/app.h"
 #include "Core/Processing/convkernel.h"
 
-#include "UI/GUI/Components/FilenamePicker/filenamepicker.h"
-
-namespace UI::GUI {
-class FilterSettingsWidget : public QWidget {
+namespace UndoRedo::Commands {
+class RunFilterCommand : public QObject, public QUndoCommand {
     Q_OBJECT
 
 public:
-    explicit FilterSettingsWidget(Core::Processing::ConvKernelSetting *setting, QWidget *parent = nullptr);
+    explicit RunFilterCommand(Core::App *coreApp, Core::Processing::ConvKernels::ConvKernel *convKernel, QUndoCommand *parent = nullptr);
 
-    Core::Processing::ConvKernelSetting *setting() const;
+    void undo() override;
+    void redo() override;
 
 signals:
-
-private slots:
-    void settingChanged(const Core::Processing::ConvKernelSetting *setting);
+    void processStarted(const QUuid &pid);
+    void restoreConvKernel(Core::Processing::ConvKernels::ConvKernel *convKernel);
 
 private:
-    QFormLayout *m_layout;
-    QWidget *m_w = nullptr;
+    void saveSettings();
+    void restoreSettings();
 
-    Core::Processing::ConvKernelSetting  *m_setting;
+private:
+    Core::App *m_coreApp;
+    Core::App::ConvKernelState m_previousConvKernelState;
+    Core::App::ConvKernelState m_newConvKernelState;
 
+    QImage m_previousProcessedImage;
 };
 }
 
-#endif // FILTERSETTINGSWIDGET_H
+#endif // RUNFILTERCOMMAND_H

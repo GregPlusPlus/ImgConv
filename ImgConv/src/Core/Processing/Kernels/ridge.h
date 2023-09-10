@@ -24,6 +24,7 @@
 namespace Core::Processing::ConvKernels {
 class Ridge : public ConvKernel {
     Q_OBJECT
+
 public:
     explicit Ridge(QObject *parent = nullptr);
 

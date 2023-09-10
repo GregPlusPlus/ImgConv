@@ -28,8 +28,7 @@
 #include "Core/Processing/processing.h"
 
 namespace Core::Threads {
-class Histogram : public VirtualThread
-{
+class Histogram : public VirtualThread {
     Q_OBJECT
 
 public:

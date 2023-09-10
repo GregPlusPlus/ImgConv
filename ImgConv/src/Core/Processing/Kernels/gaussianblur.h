@@ -24,6 +24,7 @@
 namespace Core::Processing::ConvKernels {
 class GaussianBlur : public ConvKernels::ConvKernel {
     Q_OBJECT
+
 public:
     explicit GaussianBlur(QObject *parent = nullptr);
 

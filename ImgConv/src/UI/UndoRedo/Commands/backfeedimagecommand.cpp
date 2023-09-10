@@ -16,41 +16,23 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef FILTERSETTINGSWIDGET_H
-#define FILTERSETTINGSWIDGET_H
+#include "backfeedimagecommand.h"
 
-#include <QWidget>
-#include <QSpinBox>
-#include <QDoubleSpinBox>
-#include <QCheckBox>
-#include <QLineEdit>
-#include <QFormLayout>
+using namespace UndoRedo::Commands;
 
-#include "Core/Processing/convkernel.h"
+BackfeedImageCommand::BackfeedImageCommand(Core::App *coreApp, QUndoCommand *parent)
+    : QUndoCommand(parent), m_coreApp(coreApp) {
 
-#include "UI/GUI/Components/FilenamePicker/filenamepicker.h"
+    m_newImage = m_coreApp->processedImage();
+    m_previousImage = m_coreApp->originalImage();
 
-namespace UI::GUI {
-class FilterSettingsWidget : public QWidget {
-    Q_OBJECT
-
-public:
-    explicit FilterSettingsWidget(Core::Processing::ConvKernelSetting *setting, QWidget *parent = nullptr);
-
-    Core::Processing::ConvKernelSetting *setting() const;
-
-signals:
-
-private slots:
-    void settingChanged(const Core::Processing::ConvKernelSetting *setting);
-
-private:
-    QFormLayout *m_layout;
-    QWidget *m_w = nullptr;
-
-    Core::Processing::ConvKernelSetting  *m_setting;
-
-};
+    setText(QObject::tr("Backfeed image"));
 }
 
-#endif // FILTERSETTINGSWIDGET_H
+void UndoRedo::Commands::BackfeedImageCommand::undo() {
+    m_coreApp->setOriginalImage(m_previousImage);
+}
+
+void UndoRedo::Commands::BackfeedImageCommand::redo() {
+    m_coreApp->setOriginalImage(m_newImage);
+}
