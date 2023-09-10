@@ -26,7 +26,6 @@
 
 #include "Core/App/app.h"
 #include "Core/Processing/convkernel.h"
-#include "Core/Processing/convkernelsetting.h"
 
 namespace UndoRedo::Commands {
 class RunFilterCommand : public QObject, public QUndoCommand {
@@ -47,8 +46,8 @@ private:
 
 private:
     Core::App *m_coreApp;
-    Core::Processing::ConvKernels::ConvKernel *m_convKernel;
-    QList<Core::Processing::ConvKernelSetting::Data> m_settings;
+    Core::App::ConvKernelState m_previousConvKernelState;
+    Core::App::ConvKernelState m_newConvKernelState;
 
     QImage m_previousProcessedImage;
 };

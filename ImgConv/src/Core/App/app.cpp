@@ -127,6 +127,9 @@ void App::loadConvKernels() {
     }
 
     Processing::registerConvKernels(&m_convKernels, this);
+
+    m_lastConvKernelState.setConvKernel(m_convKernels.first());
+    m_lastConvKernelState.saveSettings();
 }
 
 QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
@@ -194,6 +197,8 @@ QUuid App::startConv2DProcess(Processing::ConvKernels::ConvKernel *k) {
 
     logOutput(tr("%1 - Running kernel ...").arg(pid.toString(QUuid::WithBraces)));
 
+    m_lastConvKernelState.setConvKernel(k);
+    m_lastConvKernelState.saveSettings();
     QThreadPool::globalInstance()->start(process);
 
     return pid;
@@ -322,6 +327,10 @@ void App::logConvMatrix(const QVector<QVector<float> > &mat) {
     str += "\n";
 
     logOutput(str);
+}
+
+App::ConvKernelState App::lastConvKernelState() const {
+    return m_lastConvKernelState;
 }
 
 Core::Processing::Algorithms::Histogram App::originalImageHistogram() const {

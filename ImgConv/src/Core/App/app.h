@@ -25,15 +25,63 @@
 #include "Core/Threads/threads.h"
 #include "Core/Utils/utils.h"
 #include "Core/Logger/logger.h"
+#include "Core/Processing/convkernelsetting.h"
 #include "Core/Settings/SettingsMgr/settingsmgr.h"
 
 #include <QThreadPool>
 #include <QElapsedTimer>
 
 namespace Core {
-class App : public Logger
-{
+class App : public Logger {
     Q_OBJECT
+
+public:
+    class ConvKernelState {
+    public:
+        Processing::ConvKernels::ConvKernel *getConvKernel() const {
+            return m_convKernel;
+        }
+
+        void setConvKernel(Processing::ConvKernels::ConvKernel *convKernel) {
+            m_convKernel = convKernel;
+        }
+
+        QList<Processing::ConvKernelSetting::Data> settings() const {
+            return m_settings;
+        }
+
+        void saveSettings() {
+            if(m_convKernel == nullptr) {
+                return;
+            }
+
+            m_settings.clear();
+
+            QList<Processing::ConvKernelSetting*> settings = m_convKernel->settings();
+
+            for(Processing::ConvKernelSetting *s : settings) {
+                m_settings.append(s->data());
+            }
+        }
+
+        void restoreSettings() {
+            if(m_convKernel == nullptr) {
+                return;
+            }
+
+            for(const Processing::ConvKernelSetting::Data &d : m_settings) {
+                Processing::ConvKernelSetting *s = m_convKernel->getSettingByName(d.name);
+
+                if(s != nullptr) {
+                    s->setData(d);
+                }
+            }
+        }
+
+    private:
+        Processing::ConvKernels::ConvKernel *m_convKernel = nullptr;
+        QList<Processing::ConvKernelSetting::Data> m_settings;
+    };
 
 public:
     explicit App(Settings::SettingsMgr *settingsMgr, QObject *parent = nullptr);
@@ -67,6 +115,8 @@ public:
 
     Core::Processing::Algorithms::Histogram originalImageHistogram() const;
     void setOriginalImageHistogram(const Core::Processing::Algorithms::Histogram &newOriginalImageHistogram);
+
+    ConvKernelState lastConvKernelState() const;
 
 public slots:
     bool init();
@@ -102,6 +152,7 @@ private:
     Processing::Options m_processingOptions;
     Core::Processing::Algorithms::Histogram m_lastHistogramComputed;
     Core::Processing::Algorithms::Histogram m_originalImageHistogram;
+    ConvKernelState m_lastConvKernelState;
 
 };
 }
