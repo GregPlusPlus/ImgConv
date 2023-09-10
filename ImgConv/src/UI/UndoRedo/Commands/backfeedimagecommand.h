@@ -25,6 +25,7 @@
 
 namespace UndoRedo::Commands {
 class BackfeedImageCommand : public QUndoCommand {
+
 public:
     explicit BackfeedImageCommand(Core::App *coreApp, QUndoCommand *parent = nullptr);
 

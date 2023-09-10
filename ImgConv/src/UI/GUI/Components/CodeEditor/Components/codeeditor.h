@@ -12,8 +12,7 @@ class LineNumberArea;
 
 //![codeeditordefinition]
 
-class CodeEditor : public InteractiveTextEdit
-{
+class CodeEditor : public InteractiveTextEdit {
     Q_OBJECT
 
 public:

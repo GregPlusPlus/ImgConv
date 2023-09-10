@@ -27,8 +27,7 @@
 #include <QPainter>
 
 namespace UI::GUI::Components {
-class ButtonColorPicker : public QPushButton
-{
+class ButtonColorPicker : public QPushButton {
     Q_OBJECT
 
 public:

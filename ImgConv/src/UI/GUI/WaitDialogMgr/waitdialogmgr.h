@@ -26,9 +26,9 @@
 #include "UI/GUI/Dialogs/WaitDialog/waitdialog.h"
 
 namespace UI::GUI {
-class WaitDialogMgr : public QObject
-{
+class WaitDialogMgr : public QObject {
     Q_OBJECT
+
 public:
     explicit WaitDialogMgr(QObject *parent = nullptr);
     ~WaitDialogMgr();

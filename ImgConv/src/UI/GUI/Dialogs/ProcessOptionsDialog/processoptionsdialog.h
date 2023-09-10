@@ -34,9 +34,9 @@
 #include "UI/GUI/UtilsGUI/utilsgui.h"
 
 namespace UI::GUI::Dialogs {
-class ProcessOptionsDialog : public QDialog
-{
+class ProcessOptionsDialog : public QDialog {
     Q_OBJECT
+
 public:
     ProcessOptionsDialog(Core::Settings::SettingsMgr *settingsMgr, Core::Processing::Options *options, QWidget *parent = nullptr);
 

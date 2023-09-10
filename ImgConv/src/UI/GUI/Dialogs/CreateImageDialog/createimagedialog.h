@@ -30,8 +30,7 @@
 #include "UI/GUI/Components/ButtonColorPicker/buttoncolorpicker.h"
 
 namespace UI::GUI::Dialogs {
-class CreateImageDialog : public QDialog
-{
+class CreateImageDialog : public QDialog {
     Q_OBJECT
 
 public:

@@ -43,6 +43,7 @@
 namespace UI::GUI::Components {
 class CodeEditorView : public QWidget {
     Q_OBJECT
+
 public:
     CodeEditorView(QWidget *parent = nullptr);
     ~CodeEditorView();

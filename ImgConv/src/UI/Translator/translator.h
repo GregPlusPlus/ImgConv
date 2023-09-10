@@ -9,9 +9,9 @@
 
 namespace UI::Utils {
 
-class Translator : public QObject
-{
+class Translator : public QObject {
     Q_OBJECT
+
 public:
     explicit Translator(Core::Settings::SettingsMgr *settingsMgr, QObject *parent = nullptr);
 

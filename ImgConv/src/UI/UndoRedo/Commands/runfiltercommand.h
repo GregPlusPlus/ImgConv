@@ -30,6 +30,7 @@
 namespace UndoRedo::Commands {
 class RunFilterCommand : public QObject, public QUndoCommand {
     Q_OBJECT
+
 public:
     explicit RunFilterCommand(Core::App *coreApp, Core::Processing::ConvKernels::ConvKernel *convKernel, QUndoCommand *parent = nullptr);
 

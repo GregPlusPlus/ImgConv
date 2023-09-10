@@ -28,8 +28,7 @@
 #include "Core/Processing/processing.h"
 
 namespace Core::Threads {
-class Correction : public VirtualThread
-{
+class Correction : public VirtualThread {
     Q_OBJECT
 
 public:

@@ -23,9 +23,9 @@
 #include <QVariant>
 
 namespace Core::Settings {
-class Setting : public QObject
-{
+class Setting : public QObject {
     Q_OBJECT
+
 public:
     explicit Setting(const QString &key, const QVariant &defaultValue, bool liveUpdate = false);
     virtual ~Setting();

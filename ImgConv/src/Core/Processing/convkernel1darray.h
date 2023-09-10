@@ -25,9 +25,9 @@
 #include <QDebug>
 
 namespace Core::Processing {
-class ConvKernel1DArray : public QObject
-{
-Q_OBJECT
+class ConvKernel1DArray : public QObject {
+    Q_OBJECT
+
 public:
     explicit ConvKernel1DArray(const QVector<QVector<float>> &k);
     virtual ~ConvKernel1DArray();

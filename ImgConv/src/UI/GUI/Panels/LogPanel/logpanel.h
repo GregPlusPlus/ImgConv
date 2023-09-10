@@ -29,8 +29,7 @@
 #include "Core/Logger/logger.h"
 
 namespace UI::GUI::Panels {
-class LogPanel : public QDockWidget
-{
+class LogPanel : public QDockWidget {
     Q_OBJECT
 
 public:

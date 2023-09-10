@@ -23,9 +23,9 @@
 #include <QScrollBar>
 
 namespace UI::GUI {
-class LogWidget : public QTextEdit
-{
+class LogWidget : public QTextEdit {
     Q_OBJECT
+
 public:
     LogWidget(QWidget *parent = nullptr);
 

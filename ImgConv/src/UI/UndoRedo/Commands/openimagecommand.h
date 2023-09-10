@@ -27,6 +27,7 @@
 
 namespace UndoRedo::Commands {
 class OpenImageCommand : public QUndoCommand {
+
 public:
     explicit OpenImageCommand(Core::App *coreApp, const QImage &newImage, const QString &fileName, QUndoCommand *parent = nullptr);
 

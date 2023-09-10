@@ -29,9 +29,9 @@
 #include "Core/OCLWrapper/oclwrapper.h"
 
 namespace UI::GUI::Dialogs {
-class SelectDeviceDialog : public QDialog
-{
+class SelectDeviceDialog : public QDialog {
     Q_OBJECT
+
 public:
     SelectDeviceDialog(QList<Core::OCLWrapper::Device> devices);
 

@@ -33,9 +33,9 @@
 #include "src/Core/Processing/processing.h"
 
 namespace UI::GUI::Components {
-class HistogramWidget : public QWidget
-{
+class HistogramWidget : public QWidget {
     Q_OBJECT
+
 public:
     explicit HistogramWidget(const QString &title, QWidget *parent = nullptr);
 

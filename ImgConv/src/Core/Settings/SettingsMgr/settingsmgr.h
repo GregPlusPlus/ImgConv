@@ -24,9 +24,9 @@
 #include "Core/Processing/processing.h"
 
 namespace Core::Settings {
-class SettingsMgr : public AbstractSettingsMgr
-{
+class SettingsMgr : public AbstractSettingsMgr {
     Q_OBJECT
+
 public:
     explicit SettingsMgr(QObject *parent = nullptr);
 

@@ -32,6 +32,7 @@ class KeyCompletion;
 
 class InteractiveTextEdit : public QPlainTextEdit {
     Q_OBJECT
+
 public:
     InteractiveTextEdit(QWidget *parent = nullptr);
 

@@ -30,6 +30,7 @@
 namespace Core::Processing::ConvKernels {
 class Custom : public ConvKernel {
     Q_OBJECT
+
 public:
     explicit Custom(QObject *parent = nullptr);
 

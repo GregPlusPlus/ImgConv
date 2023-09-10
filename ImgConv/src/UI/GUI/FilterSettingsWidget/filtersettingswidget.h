@@ -33,6 +33,7 @@
 namespace UI::GUI {
 class FilterSettingsWidget : public QWidget {
     Q_OBJECT
+
 public:
     explicit FilterSettingsWidget(Core::Processing::ConvKernelSetting *setting, QWidget *parent = nullptr);
 
