@@ -1186,7 +1186,7 @@ Recharger maintenant ?</translation>
     <message>
         <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="546"/>
         <source>Color inversion</source>
-        <translation type="unfinished">Inversion des couleurs</translation>
+        <translation>Inversion des couleurs</translation>
     </message>
     <message>
         <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="550"/>
