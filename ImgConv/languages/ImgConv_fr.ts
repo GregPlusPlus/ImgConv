@@ -343,6 +343,11 @@ Taille de bloc : %1x%2 px.</translation>
         <translation>A propos de %1...</translation>
     </message>
     <message>
+        <location filename="../src/UI/GUI/UtilsGUI/utilsgui.cpp" line="118"/>
+        <source>OpenCL Devices</source>
+        <translation>Périphériques OpenCL</translation>
+    </message>
+    <message>
         <location filename="../src/UI/UndoRedo/Commands/backfeedimagecommand.cpp" line="29"/>
         <source>Backfeed image</source>
         <translation>Rétro-alimenter</translation>
@@ -1160,9 +1165,8 @@ Taille de bloc : %1x%2 px.</translation>
         <translation>Périphériques Open&amp;CL</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="338"/>
         <source>OpenCL Devices</source>
-        <translation>Périphériques OpenCL</translation>
+        <translation type="vanished">Périphériques OpenCL</translation>
     </message>
     <message>
         <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="445"/>
