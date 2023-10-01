@@ -629,3 +629,7 @@ void MainWindow::changeEvent(QEvent *ev) {
         }
     }
 }
+
+void MainWindow::moveEvent(QMoveEvent *ev) {
+    m_waitDialogMgr.moveAll(ev->pos() - ev->oldPos(), geometry());
+}
