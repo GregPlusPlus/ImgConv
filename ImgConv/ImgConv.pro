@@ -60,7 +60,7 @@ SOURCES += \
     src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp \
     src/UI/GUI/UtilsGUI/utilsgui.cpp \
-    src/UI/GUI/WaitDialogMgr/waitdialogmgr.cpp \
+    src/UI/GUI/WaitDialogMgr/waitdialogmanager.cpp \
     src/UI/Translator/translator.cpp \
     src/UI/UndoRedo/Commands/backfeedimagecommand.cpp \
     src/UI/UndoRedo/Commands/createimagecommand.cpp \
@@ -121,7 +121,7 @@ HEADERS += \
     src/UI/GUI/Dialogs/WaitDialog/waitdialog.h \
     src/UI/GUI/UtilsGUI/utilsgui.h \
     src/UI/GUI/UtilsGUI/app_strings.h \
-    src/UI/GUI/WaitDialogMgr/waitdialogmgr.h \
+    src/UI/GUI/WaitDialogMgr/waitdialogmanager.h \
     src/UI/Translator/translator.h \
     src/UI/UndoRedo/Commands/backfeedimagecommand.h \
     src/UI/UndoRedo/Commands/createimagecommand.h \

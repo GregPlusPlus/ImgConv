@@ -50,7 +50,7 @@
 #include "UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.h"
 #include "UI/GUI/Panels/LogPanel/logpanel.h"
 #include "UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h"
-#include "UI/GUI/WaitDialogMgr/waitdialogmgr.h"
+#include "UI/GUI/WaitDialogMgr/waitdialogmanager.h"
 #include "UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/GUI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h"
@@ -148,7 +148,7 @@ private:
     QUndoStack *m_undoStack;
 
     Panels::ImageCorrectionPanel::HistogramRole m_histRole;
-    WaitDialogMgr m_waitDialogMgr;
+    WaitDialogManager m_waitDialogMgr;
 
 private:
     bool m_closeAfterKernelCanceled = false;

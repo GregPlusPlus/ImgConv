@@ -48,7 +48,7 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed);
     connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected);
 
-    connect(m_coreApp, &Core::App::processProgress, &m_waitDialogMgr, &WaitDialogMgr::updateDialogProgress);
+    connect(m_coreApp, &Core::App::processProgress, &m_waitDialogMgr, &WaitDialogManager::updateDialogProgress);
     connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCanceled, this, [this]() {
         m_coreApp->logOutput(tr("Kernel canceled"));
 
