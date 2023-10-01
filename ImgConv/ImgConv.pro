@@ -51,8 +51,8 @@ SOURCES += \
     src/UI/GUI/Components/ImageViewer/imageviewer.cpp \
     src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.cpp \
     src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.cpp \
-    src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp \
     src/UI/GUI/FilterSettingsWidget/filtersettingswidget.cpp \
+    src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp \
     src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.cpp \
     src/UI/GUI/Panels/LogPanel/logpanel.cpp \
     src/UI/GUI/Panels/LogPanel/logwidget.cpp \
@@ -60,7 +60,7 @@ SOURCES += \
     src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp \
     src/UI/GUI/Dialogs/WaitDialog/waitdialog.cpp \
     src/UI/GUI/UtilsGUI/utilsgui.cpp \
-    src/UI/GUI/WaitDialogMgr/waitdialogmgr.cpp \
+    src/UI/GUI/WaitDialogMgr/waitdialogmanager.cpp \
     src/UI/Translator/translator.cpp \
     src/UI/UndoRedo/Commands/backfeedimagecommand.cpp \
     src/UI/UndoRedo/Commands/createimagecommand.cpp \
@@ -111,8 +111,8 @@ HEADERS += \
     src/UI/GUI/Components/ImageViewer/imageviewer.h \
     src/UI/GUI/Dialogs/CreateImageDialog/createimagedialog.h \
     src/UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h \
-    src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h \
     src/UI/GUI/FilterSettingsWidget/filtersettingswidget.h \
+    src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.h \
     src/UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h \
     src/UI/GUI/Panels/LogPanel/logpanel.h \
     src/UI/GUI/Panels/LogPanel/logwidget.h \
@@ -121,7 +121,7 @@ HEADERS += \
     src/UI/GUI/Dialogs/WaitDialog/waitdialog.h \
     src/UI/GUI/UtilsGUI/utilsgui.h \
     src/UI/GUI/UtilsGUI/app_strings.h \
-    src/UI/GUI/WaitDialogMgr/waitdialogmgr.h \
+    src/UI/GUI/WaitDialogMgr/waitdialogmanager.h \
     src/UI/Translator/translator.h \
     src/UI/UndoRedo/Commands/backfeedimagecommand.h \
     src/UI/UndoRedo/Commands/createimagecommand.h \

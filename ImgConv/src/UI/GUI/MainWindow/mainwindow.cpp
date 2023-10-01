@@ -48,7 +48,7 @@ void MainWindow::connectCoreApp() {
     connect(m_coreApp, &Core::App::histogramComputingDone, this, &MainWindow::histogramComputed);
     connect(m_coreApp, &Core::App::imageCorrectionDone, this, &MainWindow::imageCorrected);
 
-    connect(m_coreApp, &Core::App::processProgress, &m_waitDialogMgr, &WaitDialogMgr::updateDialogProgress);
+    connect(m_coreApp, &Core::App::processProgress, &m_waitDialogMgr, &WaitDialogManager::updateDialogProgress);
     connect(m_coreApp->ocl(), &Core::OCLWrapper::kernelCanceled, this, [this]() {
         m_coreApp->logOutput(tr("Kernel canceled"));
 
@@ -300,7 +300,7 @@ void MainWindow::filterSelected(int index) {
     Core::Processing::ConvKernels::ConvKernel *k = m_coreApp->getConvKernelAt(index);
     k->select();
 
-    mw_dockFilterSettings->setConvKernel(k);
+    mw_FilterSettingsPanel->setConvKernel(k);
 }
 
 void MainWindow::chooseProcessingOptions() {
@@ -335,7 +335,7 @@ void MainWindow::showAboutDialog() {
 }
 
 void MainWindow::listOpenCLDevices() {
-    QMessageBox::information(this, tr("OpenCL Devices"), Core::OCLUtils::getDevicesInfoStr());
+    Utils::showOpenCLDevicesDialog(this);
 }
 
 bool MainWindow::saveOnExit() {
@@ -577,9 +577,9 @@ void MainWindow::buildView() {
 }
 
 void MainWindow::buildFilterSettingsView() {
-    mw_dockFilterSettings = new Panels::FilterSettingsDock(this);
+    mw_FilterSettingsPanel = new Panels::FilterSettingsPanel(this);
 
-    addDockWidget(Qt::LeftDockWidgetArea, mw_dockFilterSettings);
+    addDockWidget(Qt::LeftDockWidgetArea, mw_FilterSettingsPanel);
 }
 
 void MainWindow::closeEvent(QCloseEvent *ev) {

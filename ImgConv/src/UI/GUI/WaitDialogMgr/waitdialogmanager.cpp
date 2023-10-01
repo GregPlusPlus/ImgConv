@@ -16,22 +16,22 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "waitdialogmgr.h"
+#include "waitdialogmanager.h"
 
 using namespace UI::GUI;
 
-WaitDialogMgr::WaitDialogMgr(QObject *parent)
+WaitDialogManager::WaitDialogManager(QObject *parent)
     : QObject{parent} {
 
 }
 
-WaitDialogMgr::~WaitDialogMgr() {
+WaitDialogManager::~WaitDialogManager() {
     for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
         delete dialog;
     }
 }
 
-Dialogs::WaitDialog *WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QString &msg, int flags) {
+Dialogs::WaitDialog *WaitDialogManager::createWaitDialog(const QUuid &uuid, const QString &msg, int flags) {
     Dialogs::WaitDialog *dialog = new Dialogs::WaitDialog(msg, flags);
     dialog->show();
 
@@ -40,7 +40,7 @@ Dialogs::WaitDialog *WaitDialogMgr::createWaitDialog(const QUuid &uuid, const QS
     return dialog;
 }
 
-void WaitDialogMgr::closeDialog(const QUuid &uuid) {
+void WaitDialogManager::closeDialog(const QUuid &uuid) {
     Dialogs::WaitDialog *dialog = m_waitDialogs.value(uuid, nullptr);
 
     if(dialog) {
@@ -50,7 +50,7 @@ void WaitDialogMgr::closeDialog(const QUuid &uuid) {
     }
 }
 
-void WaitDialogMgr::updateDialogProgress(const QUuid &uuid, size_t percentage) {
+void WaitDialogManager::updateDialogProgress(const QUuid &uuid, size_t percentage) {
     Dialogs::WaitDialog *dialog = m_waitDialogs.value(uuid, nullptr);
 
     if(dialog) {
@@ -58,23 +58,23 @@ void WaitDialogMgr::updateDialogProgress(const QUuid &uuid, size_t percentage) {
     }
 }
 
-void WaitDialogMgr::hideAll() {
+void WaitDialogManager::hideAll() {
     for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
         dialog->hide();
     }
 }
 
-void WaitDialogMgr::showAll() {
+void WaitDialogManager::showAll() {
     for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
         dialog->show();
     }
 }
 
-qsizetype WaitDialogMgr::getNumberOfOpenDialogs() {
+qsizetype WaitDialogManager::getNumberOfOpenDialogs() {
     return m_waitDialogs.size();
 }
 
-void WaitDialogMgr::moveAll(const QPoint &offset, const QRect &mainWindowRect) {
+void WaitDialogManager::moveAll(const QPoint &offset, const QRect &mainWindowRect) {
     for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
         if(mainWindowRect.contains(dialog->geometry())) {
             dialog->move(dialog->pos() + offset);

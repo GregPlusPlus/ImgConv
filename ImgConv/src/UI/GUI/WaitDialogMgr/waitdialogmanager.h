@@ -16,8 +16,8 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef WAITDIALOGMGR_H
-#define WAITDIALOGMGR_H
+#ifndef WAITDIALOGMANAGER_H
+#define WAITDIALOGMANAGER_H
 
 #include <QObject>
 #include <QMap>
@@ -26,12 +26,12 @@
 #include "UI/GUI/Dialogs/WaitDialog/waitdialog.h"
 
 namespace UI::GUI {
-class WaitDialogMgr : public QObject {
+class WaitDialogManager : public QObject {
     Q_OBJECT
 
 public:
-    explicit WaitDialogMgr(QObject *parent = nullptr);
-    ~WaitDialogMgr();
+    explicit WaitDialogManager(QObject *parent = nullptr);
+    ~WaitDialogManager();
 
 public slots:
     Dialogs::WaitDialog* createWaitDialog(const QUuid &uuid, const QString &msg, int flags = Dialogs::WaitDialog::Flags::None);
@@ -50,4 +50,4 @@ private:
 };
 }
 
-#endif // WAITDIALOGMGR_H
+#endif // WAITDIALOGMANAGER_H

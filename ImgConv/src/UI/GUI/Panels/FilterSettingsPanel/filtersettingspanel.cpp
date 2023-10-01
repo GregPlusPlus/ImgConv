@@ -16,11 +16,11 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "filtersettingsdock.h"
+#include "filtersettingspanel.h"
 
 using namespace UI::GUI::Panels;
 
-FilterSettingsDock::FilterSettingsDock(QWidget *parent)
+FilterSettingsPanel::FilterSettingsPanel(QWidget *parent)
     : QDockWidget(tr("Filter settings"), parent) {
     setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     setMinimumWidth(200);
@@ -37,10 +37,10 @@ FilterSettingsDock::FilterSettingsDock(QWidget *parent)
     mw_containerSettings->setLayout(m_settingsLayout);
 
     mw_resetButton = new QPushButton(tr("Reset settings"), this);
-    connect(mw_resetButton, &QPushButton::clicked, this, &FilterSettingsDock::resetSettings);
+    connect(mw_resetButton, &QPushButton::clicked, this, &FilterSettingsPanel::resetSettings);
 
     mw_exportButton = new QPushButton(tr("Export matrix"), this);
-    connect(mw_exportButton, &QPushButton::clicked, this, &FilterSettingsDock::exportMatrix);
+    connect(mw_exportButton, &QPushButton::clicked, this, &FilterSettingsPanel::exportMatrix);
 
     m_layout->addWidget(mw_containerSettings);
     m_layout->addStretch(10);
@@ -60,7 +60,7 @@ FilterSettingsDock::FilterSettingsDock(QWidget *parent)
     setWidget(mw_splitter);
 }
 
-void FilterSettingsDock::setConvKernel(Core::Processing::ConvKernels::ConvKernel *k) {
+void FilterSettingsPanel::setConvKernel(Core::Processing::ConvKernels::ConvKernel *k) {
     m_k = k;
 
     for(FilterSettingsWidget *w : m_FilterSettingsWidgets) {
@@ -82,11 +82,11 @@ void FilterSettingsDock::setConvKernel(Core::Processing::ConvKernels::ConvKernel
     updateDescription(k);
 }
 
-void FilterSettingsDock::updateDescription(Core::Processing::ConvKernels::ConvKernel *k) {
+void FilterSettingsPanel::updateDescription(Core::Processing::ConvKernels::ConvKernel *k) {
     mw_descriptionField->setText(tr("<h2>%1</h2><hr>%2").arg(k->getName(), k->getDescription()));
 }
 
-void FilterSettingsDock::resetSettings() {
+void FilterSettingsPanel::resetSettings() {
     if(m_k) {
         m_k->reset();
 
@@ -94,7 +94,7 @@ void FilterSettingsDock::resetSettings() {
     }
 }
 
-void FilterSettingsDock::exportMatrix() {
+void FilterSettingsPanel::exportMatrix() {
     QString csv = Core::Utils::matrixToCSVString(m_k->getMat());
 
     QString fn = QFileDialog::getSaveFileName(this, tr("Save Convolution matrix..."),

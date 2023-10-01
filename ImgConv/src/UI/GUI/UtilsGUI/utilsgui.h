@@ -27,12 +27,15 @@
 #include <QApplication>
 #include <QFile>
 
+#include "Core/OCLWrapper/oclutils.h"
+
 #include "app_strings.h"
 
 namespace UI::GUI::Utils {
     QString strippedActionText(QString s);
     void addShortcutToToolTip(QAction *action);
     void showAboutDialog(QWidget *parent);
+    void showOpenCLDevicesDialog(QWidget *parent);
     QFrame *createSeparator(QWidget *parent, QFrame::Shape shape = QFrame::HLine);
 }
 

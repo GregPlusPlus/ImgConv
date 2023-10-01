@@ -47,10 +47,10 @@
 
 #include "UI/Translator/translator.h"
 #include "UI/GUI/Components/ImageViewer/imageviewer.h"
-#include "UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h"
+#include "UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.h"
 #include "UI/GUI/Panels/LogPanel/logpanel.h"
 #include "UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h"
-#include "UI/GUI/WaitDialogMgr/waitdialogmgr.h"
+#include "UI/GUI/WaitDialogMgr/waitdialogmanager.h"
 #include "UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.h"
 #include "UI/GUI/Dialogs/CreateImageDialog/createimagedialog.h"
 #include "UI/GUI/Dialogs/ProcessOptionsDialog/processoptionsdialog.h"
@@ -115,7 +115,7 @@ private:
     Components::ImageViewer *mw_processedImgView;
     Components::CodeEditorView *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
-    Panels::FilterSettingsDock *mw_dockFilterSettings;
+    Panels::FilterSettingsPanel *mw_FilterSettingsPanel;
     Panels::LogPanel *mw_logPanel;
     Panels::ImageCorrectionPanel *mw_imgCorrectionPanel;
     QLabel *mw_labelDevice;
@@ -148,7 +148,7 @@ private:
     QUndoStack *m_undoStack;
 
     Panels::ImageCorrectionPanel::HistogramRole m_histRole;
-    WaitDialogMgr m_waitDialogMgr;
+    WaitDialogManager m_waitDialogMgr;
 
 private:
     bool m_closeAfterKernelCanceled = false;

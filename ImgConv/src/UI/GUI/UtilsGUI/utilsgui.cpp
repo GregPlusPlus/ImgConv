@@ -113,4 +113,16 @@ QFrame *createSeparator(QWidget *parent, QFrame::Shape shape) {
     return line;
 }
 
+void showOpenCLDevicesDialog(QWidget *parent) {
+    QMessageBox *msgBox = new QMessageBox(parent);
+    msgBox->setWindowTitle(QObject::tr("OpenCL Devices"));
+    msgBox->setIconPixmap(QPixmap(":/icons/opencl.jpg"));
+    msgBox->setText(Core::OCLUtils::getDevicesInfoStr());
+    msgBox->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+    msgBox->setStandardButtons(QMessageBox::Close);
+    msgBox->setDefaultButton(QMessageBox::Close);
+    msgBox->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    msgBox->exec();
+}
+
 }
