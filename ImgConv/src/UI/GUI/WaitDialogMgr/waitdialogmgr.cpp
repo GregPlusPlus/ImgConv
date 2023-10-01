@@ -73,3 +73,11 @@ void WaitDialogMgr::showAll() {
 qsizetype WaitDialogMgr::getNumberOfOpenDialogs() {
     return m_waitDialogs.size();
 }
+
+void WaitDialogMgr::moveAll(const QPoint &offset, const QRect &mainWindowRect) {
+    for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
+        if(mainWindowRect.contains(dialog->geometry())) {
+            dialog->move(dialog->pos() + offset);
+        }
+    }
+}

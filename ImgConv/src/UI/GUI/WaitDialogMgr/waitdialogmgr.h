@@ -40,6 +40,7 @@ public slots:
     void hideAll();
     void showAll();
     qsizetype getNumberOfOpenDialogs();
+    void moveAll(const QPoint &offset, const QRect &mainWindowRect);
 
 signals:
 
