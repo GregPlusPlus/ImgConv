@@ -63,6 +63,7 @@ SOURCES += \
     src/UI/GUI/WaitDialogMgr/waitdialogmgr.cpp \
     src/UI/Translator/translator.cpp \
     src/UI/UndoRedo/Commands/backfeedimagecommand.cpp \
+    src/UI/UndoRedo/Commands/createimagecommand.cpp \
     src/UI/UndoRedo/Commands/imagecorrectioncommand.cpp \
     src/UI/UndoRedo/Commands/openimagecommand.cpp \
     src/UI/UndoRedo/Commands/runfiltercommand.cpp \
@@ -123,6 +124,7 @@ HEADERS += \
     src/UI/GUI/WaitDialogMgr/waitdialogmgr.h \
     src/UI/Translator/translator.h \
     src/UI/UndoRedo/Commands/backfeedimagecommand.h \
+    src/UI/UndoRedo/Commands/createimagecommand.h \
     src/UI/UndoRedo/Commands/imagecorrectioncommand.h \
     src/UI/UndoRedo/Commands/runfiltercommand.h \
     src/UI/UndoRedo/Commands/undoredocommands.h \

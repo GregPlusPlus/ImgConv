@@ -16,13 +16,28 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef UNDOREDOCOMMANDS_H
-#define UNDOREDOCOMMANDS_H
+#ifndef CREATEIMAGECOMMAND_H
+#define CREATEIMAGECOMMAND_H
 
-#include "openimagecommand.h"
-#include "backfeedimagecommand.h"
-#include "runfiltercommand.h"
-#include "imagecorrectioncommand.h"
-#include "createimagecommand.h"
+#include <QUndoCommand>
 
-#endif // UNDOREDOCOMMANDS_H
+#include "Core/App/app.h"
+#include "UI/GUI/Dialogs/CreateImageDialog/createimagedialog.h"
+
+namespace UndoRedo::Commands {
+class CreateImageCommand : public QUndoCommand {
+
+public:
+    CreateImageCommand(Core::App *coreApp, UI::GUI::Dialogs::CreateImageDialog::ImageSettings_t settings, QUndoCommand *parent = nullptr);
+
+    void undo() override;
+    void redo() override;
+
+private:
+    Core::App *m_coreApp;
+    QImage m_newImage;
+    QImage m_previousImage;
+};
+}
+
+#endif // CREATEIMAGECOMMAND_H

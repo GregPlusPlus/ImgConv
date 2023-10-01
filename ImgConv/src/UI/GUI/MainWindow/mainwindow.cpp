@@ -262,12 +262,7 @@ void MainWindow::createImage() {
         return;
     }
 
-    QImage img(settings.width, settings.height, QImage::Format_RGB888);
-    img.fill(settings.fillColor);
-
-    m_coreApp->logInfo(tr("Created image of size %1x%2.").arg(settings.width).arg(settings.height));
-
-    m_coreApp->setOriginalImage(img);
+    m_undoStack->push(new UndoRedo::Commands::CreateImageCommand(m_coreApp, settings));
 }
 
 void MainWindow::exportProcessedImage(bool closeWhenFinished) {
