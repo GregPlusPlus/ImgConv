@@ -358,12 +358,12 @@ Taille de bloc : %1x%2 px.</translation>
         <translation>Exécuter le filtre %1</translation>
     </message>
     <message>
-        <location filename="../src/UI/UndoRedo/Commands/createimagecommand.cpp" line="14"/>
+        <location filename="../src/UI/UndoRedo/Commands/createimagecommand.cpp" line="32"/>
         <source>Created image of size %1x%2.</source>
         <translation>Image de taille %1x%2 créée.</translation>
     </message>
     <message>
-        <location filename="../src/UI/UndoRedo/Commands/createimagecommand.cpp" line="16"/>
+        <location filename="../src/UI/UndoRedo/Commands/createimagecommand.cpp" line="34"/>
         <source>Create %1x%2 image</source>
         <translation>Créér une image (%1x%2)</translation>
     </message>
@@ -874,8 +874,12 @@ Taille de bloc : %1x%2 px.</translation>
     </message>
     <message>
         <location filename="../src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp" line="37"/>
-        <source>See &lt;a href=&apos;listopencldevices&apos;&gt;details of OpenCL devices&lt;/a&gt;</source>
+        <source>See &lt;a href=&apos;listopencldevices&apos;&gt;OpenCL devices details&lt;/a&gt;</source>
         <translation>Voir &lt;a href=&apos;listopencldevices&apos;&gt;détail des périphériques OpenCL&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>See &lt;a href=&apos;listopencldevices&apos;&gt;details of OpenCL devices&lt;/a&gt;</source>
+        <translation type="vanished">Voir &lt;a href=&apos;listopencldevices&apos;&gt;détail des périphériques OpenCL&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/UI/GUI/Dialogs/SelectDeviceDialog/selectdevicedialog.cpp" line="44"/>
@@ -1258,37 +1262,68 @@ Voulez-vous l&apos;interrompre et fermer le programme ?</translation>
 <context>
     <name>UI::GUI::Panels::FilterSettingsDock</name>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="24"/>
+        <source>Filter settings</source>
+        <translation type="vanished">Paramètres du filtre</translation>
+    </message>
+    <message>
+        <source>Reset settings</source>
+        <translation type="vanished">Réinitialiser les paramètres</translation>
+    </message>
+    <message>
+        <source>Export matrix</source>
+        <translation type="vanished">Exporter la matrice</translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;Filter description&lt;/h2&gt;</source>
+        <translation type="vanished">&lt;h2&gt;Description du filtre&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</source>
+        <translation type="vanished">&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</translation>
+    </message>
+    <message>
+        <source>Save Convolution matrix...</source>
+        <translation type="vanished">Enregistrer la matrice de convolution...</translation>
+    </message>
+    <message>
+        <source>CSV File (*.csv);;All files (*.*)</source>
+        <translation type="vanished">Fichier CSV (*.csv);;Tous les fichiers (*.*)</translation>
+    </message>
+</context>
+<context>
+    <name>UI::GUI::Panels::FilterSettingsPanel</name>
+    <message>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="24"/>
         <source>Filter settings</source>
         <translation>Paramètres du filtre</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="39"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="39"/>
         <source>Reset settings</source>
         <translation>Réinitialiser les paramètres</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="42"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="42"/>
         <source>Export matrix</source>
         <translation>Exporter la matrice</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="51"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="51"/>
         <source>&lt;h2&gt;Filter description&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Description du filtre&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="86"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="86"/>
         <source>&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</source>
         <translation>&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="100"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="100"/>
         <source>Save Convolution matrix...</source>
         <translation>Enregistrer la matrice de convolution...</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.cpp" line="101"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="101"/>
         <source>CSV File (*.csv);;All files (*.*)</source>
         <translation>Fichier CSV (*.csv);;Tous les fichiers (*.*)</translation>
     </message>

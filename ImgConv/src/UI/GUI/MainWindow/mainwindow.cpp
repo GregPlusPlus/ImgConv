@@ -335,7 +335,15 @@ void MainWindow::showAboutDialog() {
 }
 
 void MainWindow::listOpenCLDevices() {
-    QMessageBox::information(this, tr("OpenCL Devices"), Core::OCLUtils::getDevicesInfoStr());
+    QMessageBox *msgBox = new QMessageBox(this);
+    msgBox->setWindowTitle(tr("OpenCL Devices"));
+    msgBox->setIconPixmap(QPixmap(":/icons/opencl.jpg"));
+    msgBox->setText(Core::OCLUtils::getDevicesInfoStr());
+    msgBox->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+    msgBox->setStandardButtons(QMessageBox::Close);
+    msgBox->setDefaultButton(QMessageBox::Close);
+    msgBox->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    msgBox->exec();
 }
 
 bool MainWindow::saveOnExit() {
