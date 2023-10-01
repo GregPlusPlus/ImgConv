@@ -300,7 +300,7 @@ void MainWindow::filterSelected(int index) {
     Core::Processing::ConvKernels::ConvKernel *k = m_coreApp->getConvKernelAt(index);
     k->select();
 
-    mw_dockFilterSettings->setConvKernel(k);
+    mw_FilterSettingsPanel->setConvKernel(k);
 }
 
 void MainWindow::chooseProcessingOptions() {
@@ -577,9 +577,9 @@ void MainWindow::buildView() {
 }
 
 void MainWindow::buildFilterSettingsView() {
-    mw_dockFilterSettings = new Panels::FilterSettingsDock(this);
+    mw_FilterSettingsPanel = new Panels::FilterSettingsPanel(this);
 
-    addDockWidget(Qt::LeftDockWidgetArea, mw_dockFilterSettings);
+    addDockWidget(Qt::LeftDockWidgetArea, mw_FilterSettingsPanel);
 }
 
 void MainWindow::closeEvent(QCloseEvent *ev) {

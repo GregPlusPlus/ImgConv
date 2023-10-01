@@ -47,7 +47,7 @@
 
 #include "UI/Translator/translator.h"
 #include "UI/GUI/Components/ImageViewer/imageviewer.h"
-#include "UI/GUI/Panels/FilterSettingsPanel/filtersettingsdock.h"
+#include "UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.h"
 #include "UI/GUI/Panels/LogPanel/logpanel.h"
 #include "UI/GUI/Panels/ImageCorrectionPanel/imagecorrectionpanel.h"
 #include "UI/GUI/WaitDialogMgr/waitdialogmgr.h"
@@ -115,7 +115,7 @@ private:
     Components::ImageViewer *mw_processedImgView;
     Components::CodeEditorView *mw_codeEditor;
     QComboBox *mw_convKernelComboBox;
-    Panels::FilterSettingsDock *mw_dockFilterSettings;
+    Panels::FilterSettingsPanel *mw_FilterSettingsPanel;
     Panels::LogPanel *mw_logPanel;
     Panels::ImageCorrectionPanel *mw_imgCorrectionPanel;
     QLabel *mw_labelDevice;

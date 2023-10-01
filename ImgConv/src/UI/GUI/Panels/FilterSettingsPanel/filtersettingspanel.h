@@ -16,8 +16,8 @@
  ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef FILTERSETTINGSDOCK_H
-#define FILTERSETTINGSDOCK_H
+#ifndef FILTERSETTINGSPANEL_H
+#define FILTERSETTINGSPANEL_H
 
 #include <QDockWidget>
 #include <QTextEdit>
@@ -33,11 +33,11 @@
 #include "UI/GUI/FilterSettingsWidget/filtersettingswidget.h"
 
 namespace UI::GUI::Panels {
-class FilterSettingsDock : public QDockWidget {
+class FilterSettingsPanel : public QDockWidget {
     Q_OBJECT
 
 public:
-    explicit FilterSettingsDock(QWidget *parent = 0);
+    explicit FilterSettingsPanel(QWidget *parent = 0);
 
 public slots:
     void setConvKernel(Core::Processing::ConvKernels::ConvKernel *k);
@@ -63,4 +63,4 @@ private:
 };
 }
 
-#endif // FILTERSETTINGSDOCK_H
+#endif // FILTERSETTINGSPANEL_H
