@@ -38,7 +38,7 @@ public:
         };
 
     public:
-        QString name;
+        QString key;
         bool hasMin = false;
         bool hasMax = false;
         SettingType type;
@@ -52,15 +52,15 @@ public:
     };
 
 public:
-    explicit ConvKernelSetting(const QString &name, Data::SettingType type, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, bool val, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, QString val, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, Data::SettingType type, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, bool val, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, QString val, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, QString title, QString filter, QString fileName, QObject *parent = nullptr);
 
-    QString name() const;
-    void setName(const QString &name);
+    QString key() const;
+    void setKey(const QString &key);
 
     bool hasMin() const;
     void setHasMin(bool hasMin);

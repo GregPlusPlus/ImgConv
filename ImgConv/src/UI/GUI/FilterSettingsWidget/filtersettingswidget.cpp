@@ -95,7 +95,7 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
     }
 
     if(m_w) {
-        m_layout->addRow(setting->name(), m_w);
+        m_layout->addRow(setting->key(), m_w);
     }
 
     setLayout(m_layout);

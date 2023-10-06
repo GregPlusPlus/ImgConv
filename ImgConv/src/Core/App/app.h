@@ -70,7 +70,7 @@ public:
             }
 
             for(const Processing::ConvKernelSetting::Data &d : m_settings) {
-                Processing::ConvKernelSetting *s = m_convKernel->getSettingByName(d.name);
+                Processing::ConvKernelSetting *s = m_convKernel->getSettingByKey(d.key);
 
                 if(s != nullptr) {
                     s->setData(d);

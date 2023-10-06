@@ -20,9 +20,11 @@
 
 using namespace Core::Processing::ConvKernels;
 
+#define SOURCE_FILE_SETTING_KEY "Source file"
+
 ConvKernel::ConvKernel(QObject *parent)
     : QObject{parent} {
-    ConvKernelSetting *sourcePath = new ConvKernelSetting(tr("Source file"), tr("Open source file"),
+    ConvKernelSetting *sourcePath = new ConvKernelSetting(SOURCE_FILE_SETTING_KEY, tr("Open source file"),
                                                           tr("OpenCL source (*.cl *.c);;All files (*.*)"),
                                                           QString(":/ocl/conv2D.cl"), this);
     addSetting(sourcePath);
@@ -44,9 +46,9 @@ const QList<Core::Processing::ConvKernelSetting *> &ConvKernel::settings() const
     return m_settings;
 }
 
-Core::Processing::ConvKernelSetting *ConvKernel::getSettingByName(const QString &name) const {
+Core::Processing::ConvKernelSetting *ConvKernel::getSettingByKey(const QString &key) const {
     for(ConvKernelSetting *s : settings()) {
-        if(s->name() == name) {
+        if(s->key() == key) {
             return s;
         }
     }
@@ -59,11 +61,11 @@ void ConvKernel::addSetting(ConvKernelSetting *s) {
 }
 
 QString ConvKernel::getSourceFilePath() const {
-    return getSettingByName(tr("Source file"))->valS();
+    return getSettingByKey(SOURCE_FILE_SETTING_KEY)->valS();
 }
 
 void ConvKernel::setSourceFilePath(const QString &path) {
-    getSettingByName(tr("Source file"))->setVal(path);
+    getSettingByKey(SOURCE_FILE_SETTING_KEY)->setVal(path);
 }
 
 void ConvKernel::reset() {

@@ -41,7 +41,7 @@ public:
     QSize getMatSize() const;
 
     const QList<ConvKernelSetting *> &settings() const;
-    ConvKernelSetting *getSettingByName(const QString &name) const;
+    ConvKernelSetting *getSettingByKey(const QString &key) const;
 
     void addSetting(ConvKernelSetting *s);
 
