@@ -37,6 +37,7 @@ public:
     virtual QVector<QVector<float>> getMat() const = 0;
     virtual float getScalar() const = 0;
     virtual QString getName() const = 0;
+    virtual void updateSettingsNames() = 0;
     virtual QString getDescription() {return QString();}
     QSize getMatSize() const;
 

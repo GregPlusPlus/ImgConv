@@ -39,6 +39,7 @@ public:
 
     public:
         QString key;
+        QString name;
         bool hasMin = false;
         bool hasMax = false;
         SettingType type;
@@ -61,6 +62,9 @@ public:
 
     QString key() const;
     void setKey(const QString &key);
+
+    QString name() const;
+    void setName(const QString &name);
 
     bool hasMin() const;
     void setHasMin(bool hasMin);
