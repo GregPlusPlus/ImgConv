@@ -24,10 +24,11 @@ using namespace Core::Processing::ConvKernels;
 
 ConvKernel::ConvKernel(QObject *parent)
     : QObject{parent} {
-    ConvKernelSetting *sourcePath = new ConvKernelSetting(SOURCE_FILE_SETTING_KEY, tr("Open source file"),
-                                                          tr("OpenCL source (*.cl *.c);;All files (*.*)"),
-                                                          QString(":/ocl/conv2D.cl"), this);
-    addSetting(sourcePath);
+    m_sourcePathSetting = new ConvKernelSetting(SOURCE_FILE_SETTING_KEY, tr("Open source file"),
+                                                tr("OpenCL source (*.cl *.c);;All files (*.*)"),
+                                                QString(":/ocl/conv2D.cl"), this);
+
+    addSetting(m_sourcePathSetting);
 }
 
 QSize ConvKernel::getMatSize() const {
@@ -72,4 +73,10 @@ void ConvKernel::reset() {
     for(ConvKernelSetting *s : m_settings) {
         s->reset();
     }
+}
+
+void ConvKernel::refreshSettingsNames() {
+    m_sourcePathSetting->setName(tr(SOURCE_FILE_SETTING_KEY));
+
+    updateSettingsNames();
 }

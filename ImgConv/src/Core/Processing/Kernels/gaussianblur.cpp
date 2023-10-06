@@ -22,15 +22,18 @@
 
 using namespace Core::Processing::ConvKernels;
 
+#define SIZE_SETTING_NAME       "Size"
+#define STDDEV_SETTING_NAME     "Std Dev"
+
 GaussianBlur::GaussianBlur(QObject *parent)
     : ConvKernels::ConvKernel{parent}{
-    m_sizeSetting = new ConvKernelSetting(tr("Size"),
+    m_sizeSetting = new ConvKernelSetting(SIZE_SETTING_NAME,
                         true, 1,
                         true, 128,
                         1,
                         this);
 
-    m_stddevSetting = new ConvKernelSetting(tr("Std Dev"),
+    m_stddevSetting = new ConvKernelSetting(STDDEV_SETTING_NAME,
                           true, 1.f,
                           false, 0.f,
                           10.f,
@@ -55,6 +58,11 @@ float GaussianBlur::getScalar() const {
 
 QString GaussianBlur::getName() const {
     return tr("Gaussian blur");
+}
+
+void GaussianBlur::updateSettingsNames() {
+    m_sizeSetting->setName(tr(SIZE_SETTING_NAME));
+    m_stddevSetting->setName(tr(STDDEV_SETTING_NAME));
 }
 
 QString GaussianBlur::getDescription() {
