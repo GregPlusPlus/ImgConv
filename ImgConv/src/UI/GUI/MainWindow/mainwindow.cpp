@@ -34,6 +34,8 @@ MainWindow::MainWindow(Core::App *coreApp, Core::Settings::SettingsMgr *settings
     setMinimumSize(QSize(1200, 800));
 
     setGeometry(m_settingsMgr->getWindowGeometry());
+
+    m_coreApp->logInfo(tr("%1 Rev. %2 - GUI Ready.").arg(APP_NAME, GIT_VERSION));
 }
 
 MainWindow::~MainWindow() {
