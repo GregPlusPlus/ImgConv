@@ -63,6 +63,8 @@ FilterSettingsPanel::FilterSettingsPanel(QWidget *parent)
 void FilterSettingsPanel::setConvKernel(Core::Processing::ConvKernels::ConvKernel *k) {
     m_k = k;
 
+    m_k->refreshSettingsNames();
+
     for(FilterSettingsWidget *w : m_FilterSettingsWidgets) {
         if(w) {
             m_settingsLayout->removeWidget(w);

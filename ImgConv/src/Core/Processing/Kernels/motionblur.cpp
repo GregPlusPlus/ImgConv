@@ -20,15 +20,18 @@
 
 using namespace Core::Processing::ConvKernels;
 
+#define SIZE_SETTING_NAME   "Size"
+#define ANGLE_SETTING_NAME  "Angle"
+
 MotionBlur::MotionBlur(QObject *parent)
     : ConvKernel{parent} {
-    m_sizeSetting = new ConvKernelSetting(tr("Size"),
+    m_sizeSetting = new ConvKernelSetting(SIZE_SETTING_NAME,
                         true, 1,
                         true, 128,
                         10,
                         this);
 
-    m_angleSetting = new ConvKernelSetting(tr("Angle"),
+    m_angleSetting = new ConvKernelSetting(ANGLE_SETTING_NAME,
                          true, 0,
                          true, 360,
                          0,
@@ -53,6 +56,11 @@ float MotionBlur::getScalar() const {
 
 QString MotionBlur::getName() const {
     return tr("Motion blur");
+}
+
+void MotionBlur::updateSettingsNames() {
+    m_sizeSetting->setName(tr(SIZE_SETTING_NAME));
+    m_angleSetting->setName(tr(ANGLE_SETTING_NAME));
 }
 
 QString MotionBlur::getDescription() {

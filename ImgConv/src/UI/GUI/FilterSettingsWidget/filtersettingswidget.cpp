@@ -68,7 +68,7 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
                 QOverload<float>::of(&Core::Processing::ConvKernelSetting::setVal));
 
         m_w = s;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_Bool) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_Bool) {
         QCheckBox *c = new QCheckBox(this);
         c->setChecked(setting->valB());
 
@@ -76,14 +76,14 @@ FilterSettingsWidget::FilterSettingsWidget(Core::Processing::ConvKernelSetting *
                 QOverload<bool>::of(&Core::Processing::ConvKernelSetting::setVal));
 
         m_w = c;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_String) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_String) {
         QLineEdit *l = new QLineEdit(setting->valS(), this);
 
         connect(l, &QLineEdit::textChanged, setting,
                 QOverload<QString>::of(&Core::Processing::ConvKernelSetting::setVal));
 
         m_w = l;
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_FileName) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_FileName) {
         Components::FilenamePicker *fnp = new Components::FilenamePicker(setting->fileNameTitle(), setting->fileNameFilter(),
                                                                          Components::FilenamePicker::Files, this);
         fnp->setFileName(setting->valS());
@@ -122,21 +122,21 @@ void FilterSettingsWidget::settingChanged(const Core::Processing::ConvKernelSett
         connect(s, &QDoubleSpinBox::valueChanged, setting,
                 QOverload<float>::of(&Core::Processing::ConvKernelSetting::setVal));
 
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_Bool) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_Bool) {
         QCheckBox *c = static_cast<QCheckBox *>(m_w);
         c->disconnect();
         c->setChecked(setting->valB());
         connect(c, &QCheckBox::stateChanged, setting,
                 QOverload<bool>::of(&Core::Processing::ConvKernelSetting::setVal));
 
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_String) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_String) {
         QLineEdit *l = static_cast<QLineEdit *>(m_w);
         l->disconnect();
         l->setText(setting->valS());
         connect(l, &QLineEdit::textChanged, setting,
                 QOverload<QString>::of(&Core::Processing::ConvKernelSetting::setVal));
 
-    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingsType_FileName) {
+    } else if(setting->type() == Core::Processing::ConvKernelSetting::Data::SettingType_FileName) {
         Components::FilenamePicker *fnp = static_cast<Components::FilenamePicker *>(m_w);
         fnp->disconnect();
         fnp->setFileName(setting->valS());

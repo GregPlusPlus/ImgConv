@@ -20,20 +20,20 @@
 
 using namespace Core::Processing;
 
-ConvKernelSetting::ConvKernelSetting(const QString &name, Data::SettingType type, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &key, Data::ValueType type, QObject *parent)
     : QObject{parent} {
 
-    m_data.name = name;
+    m_data.key = key;
     m_data.type = type;
 
     setVal((int)0);
     setDefault();
 }
 
-ConvKernelSetting::ConvKernelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &key, bool hasMin, int min, bool hasMax, int max, int val, QObject *parent)
     : QObject{parent} {
 
-    m_data.name = name;
+    m_data.key = key;
     m_data.hasMin = hasMin;
     m_data.hasMax = hasMax;
     m_data.type = Data::SettingType_Int;
@@ -52,10 +52,10 @@ ConvKernelSetting::ConvKernelSetting(const QString &name, bool hasMin, int min, 
     setDefault();
 }
 
-ConvKernelSetting::ConvKernelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &key, bool hasMin, float min, bool hasMax, float max, float val, QObject *parent)
     : QObject{parent} {
 
-    m_data.name = name;
+    m_data.key = key;
     m_data.hasMin = hasMin;
     m_data.hasMax = hasMax;
     m_data.type = Data::SettingType_Float;
@@ -74,31 +74,31 @@ ConvKernelSetting::ConvKernelSetting(const QString &name, bool hasMin, float min
     setDefault();
 }
 
-ConvKernelSetting::ConvKernelSetting(const QString &name, bool val, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &key, bool val, QObject *parent)
 : QObject{parent} {
 
-    m_data.name = name;
-    m_data.type = Data::SettingsType_Bool;
+    m_data.key = key;
+    m_data.type = Data::SettingType_Bool;
 
     setVal(val);
     setDefault();
 }
 
-ConvKernelSetting::ConvKernelSetting(const QString &name, QString val, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &key, QString val, QObject *parent)
     : QObject{parent} {
 
-    m_data.name = name;
-    m_data.type = Data::SettingsType_String;
+    m_data.key = key;
+    m_data.type = Data::SettingType_String;
 
     setVal(val);
     setDefault();
 }
 
-ConvKernelSetting::ConvKernelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent)
+ConvKernelSetting::ConvKernelSetting(const QString &key, QString title, QString filter, QString fileName, QObject *parent)
     : QObject{parent} {
 
-    m_data.name = name;
-    m_data.type = Data::SettingsType_FileName;
+    m_data.key = key;
+    m_data.type = Data::SettingType_FileName;
 
     setVal(fileName);
     setDefault();
@@ -107,7 +107,19 @@ ConvKernelSetting::ConvKernelSetting(const QString &name, QString title, QString
     setFileNameFilter(filter);
 }
 
+QString ConvKernelSetting::key() const {
+    return m_data.key;
+}
+
+void ConvKernelSetting::setKey(const QString &key) {
+    m_data.key = key;
+}
+
 QString ConvKernelSetting::name() const {
+    if(m_data.name.isEmpty()) {
+        return m_data.key;
+    }
+
     return m_data.name;
 }
 
@@ -133,11 +145,11 @@ void ConvKernelSetting::setHasMax(bool hasMax) {
     m_data.hasMax = hasMax;
 }
 
-ConvKernelSetting::Data::SettingType ConvKernelSetting::type() const {
+ConvKernelSetting::Data::ValueType ConvKernelSetting::type() const {
     return m_data.type;
 }
 
-void ConvKernelSetting::setType(Data::SettingType type) {
+void ConvKernelSetting::setType(Data::ValueType type) {
     m_data.type = type;
 }
 

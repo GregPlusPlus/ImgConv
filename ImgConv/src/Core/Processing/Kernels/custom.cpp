@@ -20,15 +20,18 @@
 
 using namespace Core::Processing::ConvKernels;
 
+#define KERNEL_PATH_SETTING_NAME        "Kernel"
+#define NORMALIZE_KERNEL_SETTING_NAME   "Normalize kernel"
+
 Custom::Custom(QObject *parent)
     : ConvKernel{parent} {
-    m_kernelFileSetting = new ConvKernelSetting(tr("Kernel"), tr("Open kernel as image file"),
+    m_kernelFileSetting = new ConvKernelSetting(KERNEL_PATH_SETTING_NAME, tr("Open kernel as image file"),
                                                 tr("CSV file (*.csv *.txt);;" \
                                                    "Image files (%1)")
                                                 .arg(generateSupportedImgFilesStringFilter()),
                                                 QString(), this);
 
-    m_normalizeSetting = new ConvKernelSetting(tr("Normalize kernel"),
+    m_normalizeSetting = new ConvKernelSetting(NORMALIZE_KERNEL_SETTING_NAME,
                                                true,
                                                this);
 
@@ -49,6 +52,11 @@ float Custom::getScalar() const {
 
 QString Custom::getName() const {
     return tr("Custom kernel");
+}
+
+void Custom::updateSettingsNames() {
+    m_kernelFileSetting->setName(tr(KERNEL_PATH_SETTING_NAME));
+    m_normalizeSetting->setName(tr(NORMALIZE_KERNEL_SETTING_NAME));
 }
 
 QString Custom::getDescription() {

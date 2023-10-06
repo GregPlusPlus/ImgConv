@@ -20,15 +20,18 @@
 
 using namespace Core::Processing::ConvKernels;
 
+#define CONTOUR_STRENGTH_SETTING_NAME   "Contour strength"
+#define SMOOTHING_SETTING_NAME          "Smoothing"
+
 Sharpen::Sharpen(QObject *parent)
     : ConvKernel{parent} {
-    m_strengthSetting = new ConvKernelSetting(tr("Contour strength"),
+    m_strengthSetting = new ConvKernelSetting(CONTOUR_STRENGTH_SETTING_NAME,
                         true, 1,
                         true, 128,
                         1,
                         this);
 
-    m_smoothSetting = new ConvKernelSetting(tr("Smoothing"),
+    m_smoothSetting = new ConvKernelSetting(SMOOTHING_SETTING_NAME,
                                             true, -.99f,
                                             true, 100.f,
                                             1.f,
@@ -53,6 +56,11 @@ float Sharpen::getScalar() const {
 
 QString Sharpen::getName() const {
     return tr("Sharpen");
+}
+
+void Sharpen::updateSettingsNames() {
+    m_strengthSetting->setName(tr(CONTOUR_STRENGTH_SETTING_NAME));
+    m_smoothSetting->setName(tr(SMOOTHING_SETTING_NAME));
 }
 
 QString Sharpen::getDescription() {

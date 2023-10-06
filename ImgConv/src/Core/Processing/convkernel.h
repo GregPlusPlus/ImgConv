@@ -37,11 +37,12 @@ public:
     virtual QVector<QVector<float>> getMat() const = 0;
     virtual float getScalar() const = 0;
     virtual QString getName() const = 0;
+    virtual void updateSettingsNames() = 0;
     virtual QString getDescription() {return QString();}
     QSize getMatSize() const;
 
     const QList<ConvKernelSetting *> &settings() const;
-    ConvKernelSetting *getSettingByName(const QString &name) const;
+    ConvKernelSetting *getSettingByKey(const QString &key) const;
 
     void addSetting(ConvKernelSetting *s);
 
@@ -51,10 +52,13 @@ public:
 public slots:
     void reset();
     virtual void select() {}
+    virtual void refreshSettingsNames();
 
 signals:
 
 private:
+    ConvKernelSetting *m_sourcePathSetting;
+
     QList<ConvKernelSetting *> m_settings;
 
 };

@@ -29,19 +29,20 @@ class ConvKernelSetting : public QObject {
 public:
     class Data {
     public:
-        enum SettingType {
+        enum ValueType {
             SettingType_Float,
             SettingType_Int,
-            SettingsType_Bool,
-            SettingsType_String,
-            SettingsType_FileName
+            SettingType_Bool,
+            SettingType_String,
+            SettingType_FileName
         };
 
     public:
+        QString key;
         QString name;
         bool hasMin = false;
         bool hasMax = false;
-        SettingType type;
+        ValueType type;
         QVariant val;
         QVariant min;
         QVariant max;
@@ -52,12 +53,15 @@ public:
     };
 
 public:
-    explicit ConvKernelSetting(const QString &name, Data::SettingType type, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, bool val, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, QString val, QObject *parent = nullptr);
-    explicit ConvKernelSetting(const QString &name, QString title, QString filter, QString fileName, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, Data::ValueType type, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, bool val, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, QString val, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, QString title, QString filter, QString fileName, QObject *parent = nullptr);
+
+    QString key() const;
+    void setKey(const QString &key);
 
     QString name() const;
     void setName(const QString &name);
@@ -66,8 +70,8 @@ public:
     void setHasMin(bool hasMin);
     bool hasMax() const;
     void setHasMax(bool hasMax);
-    Data::SettingType type() const;
-    void setType(Data::SettingType type);
+    Data::ValueType type() const;
+    void setType(Data::ValueType type);
     QVariant val() const;
     int valInt() const;
     float valF() const;
