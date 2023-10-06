@@ -23,6 +23,7 @@ using namespace Core;
 App::App(Settings::SettingsMgr *settingsMgr, QObject *parent)
     : Logger{parent}, m_settingsMgr{settingsMgr} {
 
+    loadConvKernels();
 }
 
 App::~App() {

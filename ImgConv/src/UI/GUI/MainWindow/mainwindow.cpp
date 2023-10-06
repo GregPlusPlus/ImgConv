@@ -362,8 +362,6 @@ bool MainWindow::saveOnExit() {
 }
 
 void MainWindow::buildKernelComboBox() {
-    m_coreApp->loadConvKernels();
-
     mw_convKernelComboBox = new QComboBox(this);
     connect(mw_convKernelComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::filterSelected);
 
