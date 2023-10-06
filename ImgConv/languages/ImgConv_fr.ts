@@ -4,23 +4,23 @@
 <context>
     <name>Core::App</name>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="50"/>
+        <location filename="../src/Core/App/app.cpp" line="51"/>
         <source>No OpenCL compatible device found !</source>
         <translation>Aucun périphérique compatible OpenCl trouvé !</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="76"/>
-        <location filename="../src/Core/App/app.cpp" line="107"/>
+        <location filename="../src/Core/App/app.cpp" line="77"/>
+        <location filename="../src/Core/App/app.cpp" line="108"/>
         <source>OCL backend error (%1)</source>
         <translation>Erreur de backend OCL(%1)</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="91"/>
+        <location filename="../src/Core/App/app.cpp" line="92"/>
         <source>File error (%1)</source>
         <translation>Erreur de fichier (%1)</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="99"/>
+        <location filename="../src/Core/App/app.cpp" line="100"/>
         <source>OCL build program error (%1)
 ______________________________
 %2</source>
@@ -29,41 +29,41 @@ ______________________________
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="137"/>
-        <location filename="../src/Core/App/app.cpp" line="211"/>
-        <location filename="../src/Core/App/app.cpp" line="254"/>
+        <location filename="../src/Core/App/app.cpp" line="138"/>
+        <location filename="../src/Core/App/app.cpp" line="212"/>
+        <location filename="../src/Core/App/app.cpp" line="255"/>
         <source>Kernel already running ! Please wait.</source>
         <translation>Un noyau est déjà en cours d&apos;exécution ! Merci d&apos;attendre.</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="155"/>
-        <location filename="../src/Core/App/app.cpp" line="271"/>
+        <location filename="../src/Core/App/app.cpp" line="156"/>
+        <location filename="../src/Core/App/app.cpp" line="272"/>
         <source>
 [%1] Creating program - opts. : `%2`</source>
         <translation>
 [%1] Création du programme - opts. : `%2`</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="158"/>
-        <location filename="../src/Core/App/app.cpp" line="274"/>
+        <location filename="../src/Core/App/app.cpp" line="159"/>
+        <location filename="../src/Core/App/app.cpp" line="275"/>
         <source>
 Chunk size : %1x%2 px.</source>
         <translation>
 Taille de bloc : %1x%2 px.</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="198"/>
-        <location filename="../src/Core/App/app.cpp" line="309"/>
+        <location filename="../src/Core/App/app.cpp" line="199"/>
+        <location filename="../src/Core/App/app.cpp" line="310"/>
         <source>%1 - Running kernel ...</source>
         <translation>%1 - Exécution du noyau ...</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="264"/>
+        <location filename="../src/Core/App/app.cpp" line="265"/>
         <source>Invalid histogram.</source>
         <translation>Histogramme invalide.</translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="319"/>
+        <location filename="../src/Core/App/app.cpp" line="320"/>
         <source>
 %1x%2 Convolution matrix :
 </source>
@@ -72,7 +72,7 @@ Taille de bloc : %1x%2 px.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/Core/App/app.cpp" line="322"/>
+        <location filename="../src/Core/App/app.cpp" line="323"/>
         <source>Matrix is too large to be printed.</source>
         <translation>La matrice est trop grande pour être affichée.</translation>
     </message>
@@ -80,19 +80,16 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::ConvKernel</name>
     <message>
-        <location filename="../src/Core/Processing/convkernel.cpp" line="25"/>
-        <location filename="../src/Core/Processing/convkernel.cpp" line="62"/>
-        <location filename="../src/Core/Processing/convkernel.cpp" line="66"/>
         <source>Source file</source>
-        <translation>Fichier source</translation>
+        <translation type="vanished">Fichier source</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/convkernel.cpp" line="25"/>
+        <location filename="../src/Core/Processing/convkernel.cpp" line="27"/>
         <source>Open source file</source>
         <translation>Ouvrir un fichier source</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/convkernel.cpp" line="26"/>
+        <location filename="../src/Core/Processing/convkernel.cpp" line="28"/>
         <source>OpenCL source (*.cl *.c);;All files (*.*)</source>
         <translation>Fichier source OpenCL (*.cl *.c);;Tous les fichiers (*.*)</translation>
     </message>
@@ -100,32 +97,30 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::Custom</name>
     <message>
-        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="25"/>
         <source>Kernel</source>
-        <translation>Noyau</translation>
+        <translation type="vanished">Noyau</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="25"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="28"/>
         <source>Open kernel as image file</source>
         <translation>Ouvrir une image comme noyau</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="26"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="29"/>
         <source>CSV file (*.csv *.txt);;Image files (%1)</source>
         <translation>Fichier CSV (*.csv *.txt);;Fichiers image (%1)</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="31"/>
         <source>Normalize kernel</source>
-        <translation>Normaliser le noyay</translation>
+        <translation type="vanished">Normaliser le noyay</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="51"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="54"/>
         <source>Custom kernel</source>
         <translation>Noyau personnalisé</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="55"/>
+        <location filename="../src/Core/Processing/Kernels/custom.cpp" line="63"/>
         <source>Allows to load a custom convolution kernel matrix from a CSV or an image file.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Kernel : &lt;/strong&gt;The file to be loaded as a kernel.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Normalize kernel : &lt;/strong&gt;Should the kernel be normalized (sum of coefs = 1).&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;When using an image as the matrix, the mapping is the following :&lt;ul&gt;&lt;li&gt;0 → -1&lt;/li&gt;&lt;li&gt;128 → 0&lt;/li&gt;&lt;li&gt;255 → +1&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Permet de charger un noyau de convolution à partir d&apos;un fichier CSV ou d&apos;une image.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Noyau : &lt;/strong&gt;Le fichier à charger comme noyau.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Normalisation du noyau : &lt;/strong&gt;Si le noyau doit être normalisé (comme des coefs = 1).&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;Lorsqu&apos;une image est utilisée, la correspondance est la suivante :&lt;ul&gt;&lt;li&gt;0 → -1&lt;/li&gt;&lt;li&gt;128 → 0&lt;/li&gt;&lt;li&gt;255 → +1&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -133,22 +128,20 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::Emboss</name>
     <message>
-        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="25"/>
         <source>Size</source>
-        <translation>Taille</translation>
+        <translation type="vanished">Taille</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="31"/>
         <source>Smoothing</source>
-        <translation>Adoucissement</translation>
+        <translation type="vanished">Adoucissement</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="55"/>
+        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="58"/>
         <source>Emboss</source>
         <translation>Embossé</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="59"/>
+        <location filename="../src/Core/Processing/Kernels/emboss.cpp" line="67"/>
         <source>Applies an &lt;i&gt;Emboss&lt;/i&gt; effect.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Size : &lt;/strong&gt;The &quot;witdh&quot; of the emboss effect along the edges. The bigger the number, the stronger the effect.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Smoothing : &lt;/strong&gt;How much the effect must be smoothed (increases the center pixel&apos;s ponderation).&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Applique un effet &lt;i&gt;Embossé&lt;/i&gt;.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Taille : &lt;/strong&gt;La &quot;largeur&quot; de l&apos;effet de relief le long des contours. Plus le nombre est grand, plus l&apos;effet est prononcé&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Lissage : &lt;/strong&gt;De combien l&apos;effet doit être lissé (augmente la pondération du pixel central).&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -156,22 +149,20 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::GaussianBlur</name>
     <message>
-        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="27"/>
         <source>Size</source>
-        <translation>Taille</translation>
+        <translation type="vanished">Taille</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="33"/>
         <source>Std Dev</source>
-        <translation>Std Dev</translation>
+        <translation type="vanished">Std Dev</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="57"/>
+        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="60"/>
         <source>Gaussian blur</source>
         <translation>Flou gaussien</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="61"/>
+        <location filename="../src/Core/Processing/Kernels/gaussianblur.cpp" line="69"/>
         <source>Applies a gaussian blur effect.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Size : &lt;/strong&gt;The size of the blur effect.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Std Dev : &lt;/strong&gt;The &lt;i&gt;Standard Deviation&lt;/i&gt; of the Gaussian curve.&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Applique un effet de flou gaussien.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Taille : &lt;/strong&gt;La taille de l&apos;effet de flou.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Std Dev : &lt;/strong&gt;La &lt;i&gt;Déviation standard&lt;/i&gt; de la Gaussienne.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -179,22 +170,20 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::MotionBlur</name>
     <message>
-        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="25"/>
         <source>Size</source>
-        <translation>Taille</translation>
+        <translation type="vanished">Taille</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="31"/>
         <source>Angle</source>
-        <translation>Angle</translation>
+        <translation type="vanished">Angle</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="55"/>
+        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="58"/>
         <source>Motion blur</source>
         <translation>Flou de mouvement</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="59"/>
+        <location filename="../src/Core/Processing/Kernels/motionblur.cpp" line="67"/>
         <source>Applies a &lt;i&gt;Motion Blur&lt;/i&gt; effect.&lt;br&gt;This effect mimics a camera&apos;s shutter exposure time on moving objects.&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Size : &lt;/strong&gt;The size of the movement effect. In reality, it is determined by the shutter speed as well as the speed of the moving object.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Angle : &lt;/strong&gt;Simulates the direction of the moving object.&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Applique un effet de &lt;i&gt;Flou de mouvement&lt;/i&gt;.&lt;br&gt;Cet effet imite le temps d&apos;exposition d&apos;un appareil photo lors de la capture d&apos;objets en mouvement.&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Taille : &lt;/strong&gt;La taille de l&apos;effet. En réalité la taille du flou est liée au temps d&apos;exposition et à la vitesse de l&apos;objet.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Angle : &lt;/strong&gt;Simule la direction de l&apos;objet en mouvement.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -215,22 +204,20 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::Sharpen</name>
     <message>
-        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="25"/>
         <source>Contour strength</source>
-        <translation>Intensité du contour</translation>
+        <translation type="vanished">Intensité du contour</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="31"/>
         <source>Smoothing</source>
-        <translation>Adoucissement</translation>
+        <translation type="vanished">Adoucissement</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="55"/>
+        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="58"/>
         <source>Sharpen</source>
         <translation>Netteté</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="59"/>
+        <location filename="../src/Core/Processing/Kernels/sharpen.cpp" line="67"/>
         <source>Applies a &lt;i&gt;Sharpen&lt;/i&gt; effect. This effect increases the edge&apos;s contrast.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Contour strength : &lt;/strong&gt;How strong the effect is. As the contrast increases, the noise does as well.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Smoothing : &lt;/strong&gt;How much the effect must be smoothed (increases the center pixel&apos;s ponderation).&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Applique un effet de &lt;i&gt;Netteté&lt;/i&gt;. Cet effet accentue le contrastes des contours.&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Intensité du contour : &lt;/strong&gt;Intensité de l&apos;effet. Plus le contraste augmente, plus le bruit est accentué.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Lissage : &lt;/strong&gt;De combien l&apos;effet doit être lissé (augmente la pondération du pixel central).&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -238,17 +225,16 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::Sobel</name>
     <message>
-        <location filename="../src/Core/Processing/Kernels/sobel.cpp" line="27"/>
         <source>Threshold</source>
-        <translation>Seuil</translation>
+        <translation type="vanished">Seuil</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/sobel.cpp" line="51"/>
+        <location filename="../src/Core/Processing/Kernels/sobel.cpp" line="53"/>
         <source>Sobel</source>
         <translation>Filtre Sobel</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/sobel.cpp" line="55"/>
+        <location filename="../src/Core/Processing/Kernels/sobel.cpp" line="61"/>
         <source>Applies an &lt;i&gt;Sobel&lt;/i&gt; effect (a kind of edge-detection effect).&lt;br&gt;&lt;br&gt;This effect doesn&apos;t have any parameters to tweak.&lt;br&gt;&lt;br&gt;&lt;strong&gt;Note :&lt;/strong&gt;The convolution matrices are harcoded in &lt;i&gt;:/ocl/sobel.cl&lt;/i&gt; The matrix generated by this effect is not used by the program.</source>
         <translation>Applique un effet &lt;i&gt;Sobel&lt;/i&gt; (un type d&apos;effet de détection de contours).&lt;br&gt;&lt;br&gt;Cet effet n&apos; pas de paramètres à ajuster.&lt;br&gt;&lt;br&gt;&lt;strong&gt;Note :&lt;/strong&gt; La matrice de convolution est codée &quot;en dur&quot; dans &lt;i&gt;:/ocl/sobel.cl&lt;/i&gt; La matrice générée par cet effet n&apos;est pas utilisée par le programme.</translation>
     </message>
@@ -256,17 +242,16 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>Core::Processing::ConvKernels::Unity</name>
     <message>
-        <location filename="../src/Core/Processing/Kernels/unity.cpp" line="25"/>
         <source>Gain</source>
-        <translation>Gain</translation>
+        <translation type="vanished">Gain</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/unity.cpp" line="47"/>
+        <location filename="../src/Core/Processing/Kernels/unity.cpp" line="49"/>
         <source>Unity kernel</source>
         <translation>Noyau unité</translation>
     </message>
     <message>
-        <location filename="../src/Core/Processing/Kernels/unity.cpp" line="51"/>
+        <location filename="../src/Core/Processing/Kernels/unity.cpp" line="57"/>
         <source>Applies a Unity convolution matrix.&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Gain : &lt;/strong&gt;Adjust the gain of the image.&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Applique une matrice Unité.&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Gain : &lt;/strong&gt;Ajuste le gain de l&apos;image.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -927,73 +912,78 @@ Taille de bloc : %1x%2 px.</translation>
 <context>
     <name>UI::GUI::MainWindow</name>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="53"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="55"/>
         <source>Kernel canceled</source>
         <translation>Noyau abandonné</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="63"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="65"/>
         <source>Critical error</source>
         <translation>Erreur critique</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="68"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="70"/>
         <source>OpenCL error</source>
         <translation>Erreur OpenCL</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="68"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="70"/>
         <source>OpenCL backend error</source>
         <translation>Erreur de backend OpenCL</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="110"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="112"/>
         <source>%1 - Processing done in %2 ms. Approx %3 px/sec.</source>
         <translation>%1 - Traitement effectué en %2 ms. Environ %3 px/sec.</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="124"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="126"/>
         <source>%1x%2 (%3 bytes)</source>
         <translation>%1x%2 (%3 octets)</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="166"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="168"/>
         <source>Processing image...</source>
         <translation>Traitement de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="189"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="191"/>
         <source>Computing histogram...</source>
         <translation>Calcul de l&apos;histogramme...</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="206"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="208"/>
         <source>Correcting image...</source>
         <translation>Correction de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="218"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="220"/>
         <source>Open image file</source>
         <translation>Ouvrir un fichier image</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="219"/>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="274"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="221"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="276"/>
         <source>Image files (*.png *.jpg *.jpeg *.bmp *.gif)</source>
         <translation>Fichiers image (*.png *.jpg *.jpeg *.bmp *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="245"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="247"/>
         <source>Opening image...</source>
         <translation>Ouverture de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="229"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="231"/>
         <source>Image loaded in %1 ms.</source>
         <translation>Image chargée en %1 ms.</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="230"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="38"/>
+        <source>%1 Rev. %2 - GUI Ready.</source>
+        <translation>%1 Rev. %2 - GUI Prête.</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="232"/>
         <source>[%1] Image loaded in %2 ms.</source>
         <translation>[%1] Image chargée en %2 ms.</translation>
     </message>
@@ -1002,17 +992,17 @@ Taille de bloc : %1x%2 px.</translation>
         <translation type="vanished">Image de taille %1x%2 créée.</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="273"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="275"/>
         <source>Save image file</source>
         <translation>Enregistrer le fichier image</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="293"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="295"/>
         <source>Exporting image...</source>
         <translation>Export de l&apos;image...</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="284"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="286"/>
         <source>[%1] Image saved in %2 ms.</source>
         <translation>[%1] Image enregistrée en %2 ms.</translation>
     </message>
@@ -1025,12 +1015,12 @@ Taille de bloc : %1x%2 px.</translation>
         <translation type="vanished">&lt;h1&gt;%1&lt;/h1&gt; [Rev. %2]&lt;br&gt;&lt;br&gt;Certaines icônes sont fournies sous license &lt;a href=&apos;https://creativecommons.org/licenses/by/3.0/&apos;&gt;Creative Commons Attribution 3.0 License&lt;/a&gt; par Yusuke Kamiyamane &lt;a href=&apos;https://p.yusukekamiyamane.com/&apos;&gt;(Fugue Icons)&lt;/a&gt;.&lt;br&gt;&lt;br&gt;%3&lt;hr&gt;%4</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="352"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="354"/>
         <source>Unsaved file</source>
         <translation>Fichier non enregistré</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="352"/>
+        <location filename="../src/UI/GUI/MainWindow/mainwindow.cpp" line="354"/>
         <source>Save processed image before closing ?</source>
         <translation>Enregistrer l&apos;image traitée avant de continuer ?</translation>
     </message>
@@ -1317,17 +1307,17 @@ Voulez-vous l&apos;interrompre et fermer le programme ?</translation>
         <translation>&lt;h2&gt;Description du filtre&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="86"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="88"/>
         <source>&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</source>
         <translation>&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="100"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="102"/>
         <source>Save Convolution matrix...</source>
         <translation>Enregistrer la matrice de convolution...</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="101"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="103"/>
         <source>CSV File (*.csv);;All files (*.*)</source>
         <translation>Fichier CSV (*.csv);;Tous les fichiers (*.*)</translation>
     </message>
