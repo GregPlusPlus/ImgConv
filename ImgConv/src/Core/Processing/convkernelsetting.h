@@ -29,12 +29,12 @@ class ConvKernelSetting : public QObject {
 public:
     class Data {
     public:
-        enum SettingType {
+        enum ValueType {
             SettingType_Float,
             SettingType_Int,
-            SettingsType_Bool,
-            SettingsType_String,
-            SettingsType_FileName
+            SettingType_Bool,
+            SettingType_String,
+            SettingType_FileName
         };
 
     public:
@@ -42,7 +42,7 @@ public:
         QString name;
         bool hasMin = false;
         bool hasMax = false;
-        SettingType type;
+        ValueType type;
         QVariant val;
         QVariant min;
         QVariant max;
@@ -53,7 +53,7 @@ public:
     };
 
 public:
-    explicit ConvKernelSetting(const QString &key, Data::SettingType type, QObject *parent = nullptr);
+    explicit ConvKernelSetting(const QString &key, Data::ValueType type, QObject *parent = nullptr);
     explicit ConvKernelSetting(const QString &key, bool hasMin, int min, bool hasMax, int max, int val = 0, QObject *parent = nullptr);
     explicit ConvKernelSetting(const QString &key, bool hasMin, float min, bool hasMax, float max, float val = 0, QObject *parent = nullptr);
     explicit ConvKernelSetting(const QString &key, bool val, QObject *parent = nullptr);
@@ -70,8 +70,8 @@ public:
     void setHasMin(bool hasMin);
     bool hasMax() const;
     void setHasMax(bool hasMax);
-    Data::SettingType type() const;
-    void setType(Data::SettingType type);
+    Data::ValueType type() const;
+    void setType(Data::ValueType type);
     QVariant val() const;
     int valInt() const;
     float valF() const;
