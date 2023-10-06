@@ -115,6 +115,18 @@ void ConvKernelSetting::setKey(const QString &key) {
     m_data.key = key;
 }
 
+QString ConvKernelSetting::name() const {
+    if(m_data.name.isEmpty()) {
+        return m_data.key;
+    }
+
+    return m_data.name;
+}
+
+void ConvKernelSetting::setName(const QString &name) {
+    m_data.name = name;
+}
+
 ConvKernelSetting::Data ConvKernelSetting::data() const {
     return m_data;
 }
