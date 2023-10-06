@@ -52,10 +52,13 @@ public:
 public slots:
     void reset();
     virtual void select() {}
+    virtual void refreshSettingsNames();
 
 signals:
 
 private:
+    ConvKernelSetting *m_sourcePathSetting;
+
     QList<ConvKernelSetting *> m_settings;
 
 };

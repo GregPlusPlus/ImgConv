@@ -20,9 +20,11 @@
 
 using namespace Core::Processing::ConvKernels;
 
+#define GAIN_SETTING_NAME "Gain"
+
 Unity::Unity(QObject *parent)
     : ConvKernels::ConvKernel{parent} {
-    m_scalar = new ConvKernelSetting(tr("Gain"),
+    m_scalar = new ConvKernelSetting(GAIN_SETTING_NAME,
                         true, 0.f,
                         false, 0.f,
                         1.f,
@@ -45,6 +47,10 @@ float Unity::getScalar() const {
 
 QString Unity::getName() const {
     return tr("Unity kernel");
+}
+
+void Unity::updateSettingsNames() {
+    m_scalar->setName(tr(GAIN_SETTING_NAME));
 }
 
 QString Unity::getDescription() {

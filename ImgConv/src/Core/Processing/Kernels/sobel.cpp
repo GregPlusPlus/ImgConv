@@ -20,11 +20,13 @@
 
 using namespace Core::Processing::ConvKernels;
 
+#define THRESHOLD_SETTING_NAME "Threshold"
+
 Sobel::Sobel(QObject *parent)
     : ConvKernel{parent} {
     setSourceFilePath(":/ocl/sobel.cl");
 
-    m_thresholdSetting = new ConvKernelSetting(tr("Threshold"),
+    m_thresholdSetting = new ConvKernelSetting(THRESHOLD_SETTING_NAME,
                                                true, 0,
                                                true, 255,
                                                0,
@@ -49,6 +51,10 @@ float Sobel::getScalar() const {
 
 QString Sobel::getName() const {
     return tr("Sobel");
+}
+
+void Sobel::updateSettingsNames() {
+    m_thresholdSetting->setName(tr(THRESHOLD_SETTING_NAME));
 }
 
 QString Sobel::getDescription() {

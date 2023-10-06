@@ -20,15 +20,18 @@
 
 using namespace Core::Processing::ConvKernels;
 
+#define SIZE_SETTING_NAME       "Size"
+#define SMOOTHING_SETTING_NAME  "Smoothing"
+
 Emboss::Emboss(QObject *parent)
     : ConvKernel{parent} {
-    m_sizeSetting = new ConvKernelSetting(tr("Size"),
+    m_sizeSetting = new ConvKernelSetting(SIZE_SETTING_NAME,
                         true, 1,
                         true, 128,
                         1,
                         this);
 
-    m_smoothSetting = new ConvKernelSetting(tr("Smoothing"),
+    m_smoothSetting = new ConvKernelSetting(SMOOTHING_SETTING_NAME,
                                             true, 1.f,
                                             true, 100.f,
                                             1.f,
@@ -53,6 +56,11 @@ float Emboss::getScalar() const {
 
 QString Emboss::getName() const {
     return tr("Emboss");
+}
+
+void Emboss::updateSettingsNames() {
+    m_sizeSetting->setName(tr(SIZE_SETTING_NAME));
+    m_smoothSetting->setName(tr(SMOOTHING_SETTING_NAME));
 }
 
 QString Emboss::getDescription() {
