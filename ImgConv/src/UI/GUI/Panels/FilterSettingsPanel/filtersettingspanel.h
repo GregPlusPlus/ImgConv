@@ -20,6 +20,7 @@
 #define FILTERSETTINGSPANEL_H
 
 #include <QDockWidget>
+#include <QTabWidget>
 #include <QTextEdit>
 #include <QPushButton>
 #include <QSplitter>
@@ -31,6 +32,7 @@
 
 #include "Core/Utils/utils.h"
 #include "UI/GUI/FilterSettingsWidget/filtersettingswidget.h"
+#include "UI/GUI/Components/ImageViewer/imageviewer.h"
 
 namespace UI::GUI::Panels {
 class FilterSettingsPanel : public QDockWidget {
@@ -46,14 +48,17 @@ private slots:
     void updateDescription(Core::Processing::ConvKernels::ConvKernel *k);
     void resetSettings();
     void exportMatrix();
+    void updateKernelPreview();
 
 private:
-    QSplitter *mw_splitter;
-    QWidget *mw_container;
-    QWidget *mw_containerSettings;
+    QSplitter   *mw_splitter;
+    QWidget     *mw_container;
+    QWidget     *mw_containerSettings;
     QPushButton *mw_resetButton;
     QPushButton *mw_exportButton;
-    QTextEdit *mw_descriptionField;
+    QTabWidget  *mw_tabWidget;
+    QTextEdit   *mw_descriptionField;
+    GUI::Components::ImageViewer *mw_kernelPreview;
     QVBoxLayout *m_layout;
     QVBoxLayout *m_settingsLayout = nullptr;
 

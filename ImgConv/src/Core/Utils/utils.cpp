@@ -212,4 +212,57 @@ QImage arrayToImage(const uint8_t *array, const QSize &size) {
 
     return img;
 }
+
+QImage matrixToImage(const QVector<QVector<float> > &mat) {
+    if(mat.size() != 0) {
+        if(mat[0].size() == 0) {
+            return QImage();
+        }
+    } else {
+        return QImage();
+    }
+
+    QImage image = QImage(mat[0].size(), mat.size(), QImage::Format_RGB888);
+    float max = matrixMax(mat);
+    float min = matrixMin(mat);
+
+    for(int i = 0; i < mat.size(); i ++) {
+        for(int j = 0; j < mat[0].size(); j ++) {
+            uint8_t val = 128 + (127 * ((mat[i][j] - min) / (max - min)));
+
+            image.setPixelColor(j, i, QColor(val, val, val));
+        }
+    }
+
+    return image;
+}
+
+float matrixMax(const QVector<QVector<float> > &mat) {
+    float max = mat[0][0];
+
+    for(int i = 0; i < mat.size(); i ++) {
+        float maxInRow = *std::max_element(mat[i].begin(), mat[i].end());
+
+        if(maxInRow > max) {
+            max = maxInRow;
+        }
+    }
+
+    return max;
+}
+
+float matrixMin(const QVector<QVector<float> > &mat) {
+    float min = mat[0][0];
+
+    for(int i = 0; i < mat.size(); i ++) {
+        float minInRow = *std::max_element(mat[i].begin(), mat[i].end());
+
+        if(minInRow < min) {
+            min = minInRow;
+        }
+    }
+
+    return min;
+}
+
 }

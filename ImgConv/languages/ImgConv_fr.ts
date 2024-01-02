@@ -1292,32 +1292,47 @@ Voulez-vous l&apos;interrompre et fermer le programme ?</translation>
         <translation>Paramètres du filtre</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="39"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="40"/>
         <source>Reset settings</source>
         <translation>Réinitialiser les paramètres</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="42"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="43"/>
         <source>Export matrix</source>
         <translation>Exporter la matrice</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="51"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="54"/>
         <source>&lt;h2&gt;Filter description&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Description du filtre&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="88"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="58"/>
+        <source>Kernel preview</source>
+        <translation>Aperçu du noyau</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="60"/>
+        <source>Description</source>
+        <translation>Description</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="61"/>
+        <source>Visualize kernel</source>
+        <translation>Visualiser le noyau</translation>
+    </message>
+    <message>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="100"/>
         <source>&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</source>
         <translation>&lt;h2&gt;%1&lt;/h2&gt;&lt;hr&gt;%2</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="102"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="114"/>
         <source>Save Convolution matrix...</source>
         <translation>Enregistrer la matrice de convolution...</translation>
     </message>
     <message>
-        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="103"/>
+        <location filename="../src/UI/GUI/Panels/FilterSettingsPanel/filtersettingspanel.cpp" line="115"/>
         <source>CSV File (*.csv);;All files (*.*)</source>
         <translation>Fichier CSV (*.csv);;Tous les fichiers (*.*)</translation>
     </message>

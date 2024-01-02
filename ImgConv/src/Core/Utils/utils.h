@@ -32,8 +32,11 @@ namespace Core::Utils {
     QImage arrayToImage(const uint8_t *array, const QSize &size);
     void scaleMatrix(QVector<QVector<float>> &v, float c);
     void imageToMatrix(QVector<QVector<float>> &m, QImage &i);
+    QImage matrixToImage(const QVector<QVector<float>> &m);
     bool CSVToMatrix(QVector<QVector<float>> &m, QString &in);
     float matrixSumCoef(const QVector<QVector<float>> &m);
+    float matrixMax(const QVector<QVector<float>> &mat);
+    float matrixMin(const QVector<QVector<float>> &mat);
     QString matrixToBoxString(const QVector<QVector<float>> &mat);
     QString matrixToCSVString(const QVector<QVector<float>> &mat);
 }

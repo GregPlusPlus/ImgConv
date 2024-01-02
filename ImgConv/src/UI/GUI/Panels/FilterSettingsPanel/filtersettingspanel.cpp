@@ -22,6 +22,7 @@ using namespace UI::GUI::Panels;
 
 FilterSettingsPanel::FilterSettingsPanel(QWidget *parent)
     : QDockWidget(tr("Filter settings"), parent) {
+
     setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     setMinimumWidth(200);
 
@@ -48,12 +49,20 @@ FilterSettingsPanel::FilterSettingsPanel(QWidget *parent)
     m_layout->addWidget(mw_exportButton);
     mw_container->setLayout(m_layout);
 
+    mw_tabWidget = new QTabWidget(this);
+
     mw_descriptionField = new QTextEdit(tr("<h2>Filter description</h2>"), this);
     mw_descriptionField->setReadOnly(true);
     mw_descriptionField->setMinimumHeight(150);
 
+    mw_kernelPreview = new GUI::Components::ImageViewer(tr("Kernel preview"), this);
+
+    mw_tabWidget->addTab(mw_descriptionField, tr("Description"));
+    mw_tabWidget->addTab(mw_kernelPreview, tr("Visualize kernel"));
+    mw_tabWidget->setCurrentWidget(mw_kernelPreview);
+
     mw_splitter->addWidget(mw_container);
-    mw_splitter->addWidget(mw_descriptionField);
+    mw_splitter->addWidget(mw_tabWidget);
     mw_splitter->setStretchFactor(0, 10);
     mw_splitter->setStretchFactor(1, 1);
 
@@ -79,9 +88,12 @@ void FilterSettingsPanel::setConvKernel(Core::Processing::ConvKernels::ConvKerne
         w->show();
         m_FilterSettingsWidgets.append(w);
         m_settingsLayout->addWidget(w);
+
+        connect(s, &Core::Processing::ConvKernelSetting::valueChanged, this, &FilterSettingsPanel::updateKernelPreview);
     }
 
     updateDescription(k);
+    updateKernelPreview();
 }
 
 void FilterSettingsPanel::updateDescription(Core::Processing::ConvKernels::ConvKernel *k) {
@@ -121,4 +133,8 @@ void FilterSettingsPanel::exportMatrix() {
     f.write(csv.toLatin1());
 
     f.close();
+}
+
+void FilterSettingsPanel::updateKernelPreview() {
+    mw_kernelPreview->setPixmap(QPixmap::fromImage(Core::Utils::matrixToImage(m_k->getMat())));
 }

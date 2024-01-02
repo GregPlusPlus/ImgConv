@@ -26,7 +26,7 @@ WaitDialogManager::WaitDialogManager(QObject *parent)
 }
 
 WaitDialogManager::~WaitDialogManager() {
-    for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
+    for(Dialogs::WaitDialog *dialog : std::as_const(m_waitDialogs)) {
         delete dialog;
     }
 }
@@ -59,13 +59,13 @@ void WaitDialogManager::updateDialogProgress(const QUuid &uuid, size_t percentag
 }
 
 void WaitDialogManager::hideAll() {
-    for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
+    for(Dialogs::WaitDialog *dialog : std::as_const(m_waitDialogs)) {
         dialog->hide();
     }
 }
 
 void WaitDialogManager::showAll() {
-    for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
+    for(Dialogs::WaitDialog *dialog : std::as_const(m_waitDialogs)) {
         dialog->show();
     }
 }
@@ -75,7 +75,7 @@ qsizetype WaitDialogManager::getNumberOfOpenDialogs() {
 }
 
 void WaitDialogManager::moveAll(const QPoint &offset, const QRect &mainWindowRect) {
-    for(Dialogs::WaitDialog *dialog : qAsConst(m_waitDialogs)) {
+    for(Dialogs::WaitDialog *dialog : std::as_const(m_waitDialogs)) {
         if(mainWindowRect.contains(dialog->geometry())) {
             dialog->move(dialog->pos() + offset);
         }
