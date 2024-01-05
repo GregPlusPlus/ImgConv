@@ -84,7 +84,8 @@ private slots:
     void startConv2D();
     void startComputeHistogram(const QImage &img, Panels::ImageCorrectionPanel::HistogramRole histRole);
     void startImageCorrection(const QString &kernelPath, const QString &name);
-    void openImage();
+    void openImageGui();
+    void loadImage(const QString &path);
     void createImage();
     void exportProcessedImage(bool closeWhenFinished = false);
     void filterSelected(int index);

@@ -40,5 +40,6 @@
         <file>licenses/COPYING.txt</file>
         <file>licenses/CC30.txt</file>
         <file>icons/opencl.jpg</file>
+        <file>media/demo_candy.png</file>
     </qresource>
 </RCC>

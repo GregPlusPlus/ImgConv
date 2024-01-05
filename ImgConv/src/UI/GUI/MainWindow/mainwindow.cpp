@@ -36,6 +36,8 @@ MainWindow::MainWindow(Core::App *coreApp, Core::Settings::SettingsMgr *settings
     setGeometry(m_settingsMgr->getWindowGeometry());
 
     m_coreApp->logInfo(tr("%1 Rev. %2 - GUI Ready.").arg(APP_NAME, GIT_VERSION));
+
+    loadImage(":/media/demo_candy.png");
 }
 
 MainWindow::~MainWindow() {
@@ -216,22 +218,26 @@ void MainWindow::startImageCorrection(const QString &kernelPath, const QString &
     m_undoStack->push(command);
 }
 
-void MainWindow::openImage() {
-    QString fn = QFileDialog::getOpenFileName(this, tr("Open image file"), QString(),
-                                              tr("Image files (*.png *.jpg *.jpeg *.bmp *.gif)"));
+void MainWindow::openImageGui() {
+    QString filename = QFileDialog::getOpenFileName(this,   tr("Open image file"), QString(),
+                                                            tr("Image files (*.png *.jpg *.jpeg *.bmp *.gif)"));
 
-    if(fn.isEmpty()) {
+    if(filename.isEmpty()) {
         return;
     }
 
-    Core::Threads::ImgLoader *imgLoader = new Core::Threads::ImgLoader(fn);
+    loadImage(filename);
+}
+
+void MainWindow::loadImage(const QString &path) {
+    Core::Threads::ImgLoader *imgLoader = new Core::Threads::ImgLoader(path);
     QUuid pid = imgLoader->getUUID();
 
-    connect(imgLoader, &Core::Threads::ImgLoader::loaded, this, [this, fn, pid](QImage img, qint64 et) {
+    connect(imgLoader, &Core::Threads::ImgLoader::loaded, this, [this, path, pid](QImage img, qint64 et) {
         mw_labelElapsedTime->setText(tr("Image loaded in %1 ms.").arg(et));
-        m_coreApp->logInfo(tr("[%1] Image loaded in %2 ms.").arg(fn).arg(et));
+        m_coreApp->logInfo(tr("[%1] Image loaded in %2 ms.").arg(path).arg(et));
 
-        m_undoStack->push(new UndoRedo::Commands::OpenImageCommand(m_coreApp, img, fn));
+        m_undoStack->push(new UndoRedo::Commands::OpenImageCommand(m_coreApp, img, path));
 
         m_openFileAction->setDisabled(false);
         m_createImageAction->setDisabled(false);
@@ -245,7 +251,7 @@ void MainWindow::openImage() {
     m_runAction->setDisabled(true);
 
     m_waitDialogMgr.createWaitDialog(pid, tr("Opening image..."),
-                                        Dialogs::WaitDialog::Flags::None);
+                                     Dialogs::WaitDialog::Flags::None);
 
     QThreadPool::globalInstance()->start(imgLoader);
 }
@@ -401,7 +407,7 @@ bool MainWindow::doReload() const {
 void MainWindow::buildMenus() {
     mw_fileMenu = menuBar()->addMenu(tr("&File"));
 
-    m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openImage);
+    m_openFileAction = mw_fileMenu->addAction(QIcon(":/icons/folder-horizontal-open.png"), tr("&Open"), tr("Ctrl+O"), this, &MainWindow::openImageGui);
     m_createImageAction = mw_fileMenu->addAction(QIcon(":/icons/image-new.png"), tr("&Create image"), tr("Ctrl+N"), this, &MainWindow::createImage);
     m_exportAction = mw_fileMenu->addAction(QIcon(":/icons/disk.png"), tr("&Export processed image"), tr("Ctrl+E"), this, &MainWindow::exportProcessedImage);
     mw_fileMenu->addSeparator();
